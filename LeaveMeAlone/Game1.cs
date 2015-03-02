@@ -37,6 +37,16 @@ namespace LeaveMeAlone
         Text victory_text;
         bool victory;
 
+        bool menu_change_in_progress = false;
+        int state_delay_counter = 0;
+        int state = 0; 
+        // 0 = non-attack
+        // 1 = targetting
+        // 2 = attack
+        // 3 = animate
+
+        int targeted_enemy = -1;
+
         public Game1()
             : base() 
         {
@@ -44,7 +54,13 @@ namespace LeaveMeAlone
             Content.RootDirectory = "Content";
         }
         
-        int battle_menu_state; //0 == main, 1 == magic, 2 == special, 3 == bribe 
+        int battle_menu_state; 
+        /* 0 == main
+         * 1 == magic,
+         * 2 == special,
+         * 3 == bribe,
+         * 4 == remove all (targeting)
+         */
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -145,30 +161,38 @@ namespace LeaveMeAlone
             }
             switch (menu) {
                 case 0:
+                    battle_menu_state = 0;
                     for (int i = 0; i < 4; i++)
                     {
-                        battle_menu_state = 0;
+                        
                         buttons[i] = main_buttons[i];
                     }
                     break;
                 case 1:
+                    battle_menu_state = 1;
                     for (int i = 0; i < 4; i++)
                     {
-                        battle_menu_state = 1;
+                        
                         buttons[i] = magic_buttons[i];
                     }
                     break;
                 case 2:
+                    battle_menu_state = 2;
                     for (int i = 0; i < 4; i++)
                     {
-                        battle_menu_state = 2;
                         buttons[i] = special_buttons[i];
                     }
                     break;
                 case 3:
-                    //bribe
+                    //Bribe
                     {
                         battle_menu_state = 3;
+                    }
+                    break;
+                case 4:
+                    //Remove buttons
+                    {
+                        battle_menu_state = 4;
                     }
                     break;
             }
@@ -179,79 +203,139 @@ namespace LeaveMeAlone
         int hero1hp = 50;
         int hero2hp = 50;
         int hero3hp = 50;
-
-        int state_delay_counter = 0;
-        int state = 0; //non-attack
         int damage;
+        /*
+         * end things to change 
+         */
 
+        /* 
+         * this is called for any attack that requires a target 
+         */
+        protected void Target()
+        {
+            int selectLocX = Mouse.GetState().X;
+            int selectLocY = Mouse.GetState().Y;
+
+            bool any_target = false;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (heroLoc[i].Contains(selectLocX, selectLocY))
+                {
+                    targeted_enemy = i;
+                    any_target = true;
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        Attack();
+                    }
+                }
+            }
+            if (!any_target)
+            {
+                targeted_enemy = -1;
+            }
+        }
+
+        /*
+         * this is called to do damage to an enemy
+         */
         protected void Attack()
         {
             if (victory)
             {
                 return;
             }
-            state = 1; //attack
+            //Check if state is in attack mode
             Random myrandom = new Random();
             damage = (10 + myrandom.Next(0, 5));
             textx = 120;
             texty = 175;
-            if (hero1hp > 0)
+            switch (targeted_enemy)
             {
+                case (0):
+                    {
 
-                hero1hp -= damage;
-                if (hero1hp <= 0)
-                {
-                    heroes[0] = null;
-                }
+                        hero1hp -= damage;
+                        if (hero1hp <= 0)
+                        {
+                            heroes[0] = null;
+                        }
+                    }
+                    break;
+                case (1):
+                    {
+                        texty -= 75;
+                        hero2hp -= damage;
+                        if (hero2hp <= 0)
+                        {
+                            heroes[1] = null;
+                        }
+                    }
+                    break;
+                case (2):
+                    {
+                        texty += 75;
+                        hero3hp -= damage;
+                        if (hero3hp <= 0)
+                        {
+                            heroes[2] = null;
+                        }
+                    }
+                    break;
             }
-            else if (hero2hp > 0) {
-                texty -= 75;
-                hero2hp -= damage;
-                if (hero2hp <= 0)
-                {
-                    heroes[1] = null;
-                }
-            }
-            else if (hero3hp > 0)
+            if (hero1hp < 0 && hero2hp < 0 && hero3hp < 0)
             {
-                texty += 75;
-                hero3hp -= damage;
-                if (hero3hp <= 0)
-                {
-                    heroes[2] = null;
-                    victory = true;
-                }
+                victory = true;
             }
             damage_text.changeMessage(damage.ToString());
-
+            state = 2;
         }
-
-
+        //Unifnished, needs to actually animate
+        //Animate will reset the state to 0
+        protected void Animate()
+        {
+            state_delay_counter++;
+            if (state_delay_counter == 15)
+            {
+                state = 0; //Non-attack
+                battle_menu_state = 0;
+                state_delay_counter = 0;
+                targeted_enemy = -1;
+            }
+        }
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if (state == 1)
+            //If we're attacking, call animate (This will eventually reset state)
+            if (state == 2)
             {
-                state_delay_counter++;
-                if (state_delay_counter == 15)
-                {
-                    state = 0; //Non-attack
-                    state_delay_counter = 0;
-                }
+                Animate();
             }
-
-            // TODO: Add your update logic here
+            // Check if we need to return to the main menu
             int selectLocX = Mouse.GetState().X;
             int selectLocY = Mouse.GetState().Y;
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && state == 0 && !victory) {
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && backLoc.Contains(selectLocX, selectLocY))
+            {
+                state = 0;
+                NewMenu(0);
+            }
+            //if we need to target, go do that
+            else if (state == 1)
+            {
+                Target();
+                return;
+            }
+            //Check if the menu needs changing
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && state == 0 && !menu_change_in_progress  && !victory) {
                 //Search through the buttons to see if any were hit
                 for (int i = 0; i < 4; i++) {
                      if (buttonLoc[i].Contains(selectLocX,selectLocY)) {
-                         state = 2; //menu change
+                        menu_change_in_progress = true; //menu change
                         switch (i) {
                             case 0:
-                                Attack();
+                                state = 1; //set state to targeting
+                                battle_menu_state = 4;
                                 break;
                             case 1:
                                 if (battle_menu_state == 0)
@@ -260,7 +344,9 @@ namespace LeaveMeAlone
                                 }
                                 else
                                 {
-                                    Attack();
+                                    state = 1; //set state to targeting
+                                    battle_menu_state = 4;
+
                                 }
                                 break;
                             case 2:
@@ -270,7 +356,8 @@ namespace LeaveMeAlone
                                 }
                                 else
                                 {
-                                    Attack();
+                                    state = 1; //set state to targeting
+                                    battle_menu_state = 4;
                                 }
                                 break;
                             case 3:
@@ -283,16 +370,13 @@ namespace LeaveMeAlone
                         break;
                     }
                 }
-                if (backLoc.Contains(selectLocX, selectLocY))
-                {
-                    NewMenu(0);
-                }
+                
                 
 
             }
-            if (Mouse.GetState().LeftButton == ButtonState.Released && state == 2)
+            if (Mouse.GetState().LeftButton == ButtonState.Released && menu_change_in_progress)
             {
-                state = 0;
+                menu_change_in_progress =false;
             }
             base.Update(gameTime);
         }
@@ -306,10 +390,13 @@ namespace LeaveMeAlone
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.Draw(boss, bossLoc, Color.White);
-            spriteBatch.Draw(buttons[0], buttonLoc[0], Color.White);
-            spriteBatch.Draw(buttons[1], buttonLoc[1], Color.White);
-            spriteBatch.Draw(buttons[2], buttonLoc[2], Color.White);
-            spriteBatch.Draw(buttons[3], buttonLoc[3], Color.White);
+            if (battle_menu_state < 3)
+            {
+                spriteBatch.Draw(buttons[0], buttonLoc[0], Color.White);
+                spriteBatch.Draw(buttons[1], buttonLoc[1], Color.White);
+                spriteBatch.Draw(buttons[2], buttonLoc[2], Color.White);
+                spriteBatch.Draw(buttons[3], buttonLoc[3], Color.White);
+            }
             if (battle_menu_state > 0) {
 
                spriteBatch.Draw(back, backLoc, Color.White);
@@ -318,8 +405,14 @@ namespace LeaveMeAlone
             {
                 try
                 {
-                    spriteBatch.Draw(heroes[i], heroLoc[i], Color.White);
-
+                    if (i == targeted_enemy)
+                    {
+                        spriteBatch.Draw(heroes[i], heroLoc[i], Color.Violet);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(heroes[i], heroLoc[i], Color.White);
+                    }
                 }
                 catch
                 {
@@ -328,10 +421,9 @@ namespace LeaveMeAlone
             }
 
 
-            if (state == 1)
+            if (state == 2)
             {
                 damage_text.draw(spriteBatch, textx, texty);
-                //spriteBatch.DrawString(font, String.Format("dmg: {0}", damage), new Vector2(200, 50), Color.White);
             }
 
             if (victory)
