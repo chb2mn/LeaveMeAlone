@@ -45,6 +45,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="SkillTree.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="UpgradeMenu.cs" />
