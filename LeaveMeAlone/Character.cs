@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
-using LeaveMeAlone.Status;
+using LeaveMeAlone;
 
 namespace LeaveMeAlone
 {
     class Character
     {
         public int id;
-        public List<> skills;
-        public List<> selected_skills;
+        public List<Skill> skills;
+        public List<Skill> selected_skills;
         public List<Status> statuses;
 
         public int health;
