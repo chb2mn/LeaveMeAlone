@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LeaveMeAlone
 {
-    class Room
+    public class Room
     {
         public int id;
         public String name;

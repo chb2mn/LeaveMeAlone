@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace LeaveMeAlone
 {
-    class BattleManager
+    public class BattleManager
     {
         public static List<Character> heroes;
         public static List<Rectangle> heroLoc;

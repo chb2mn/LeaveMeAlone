@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LeaveMeAlone
 {
-    class Status
+    public class Status
     {
         public Texture2D img;
         public int id;
