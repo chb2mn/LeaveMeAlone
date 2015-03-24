@@ -14,6 +14,7 @@ namespace LeaveMeAlone
         public List<> selected_skills;
         public List<Status> statuses;
 
+        public int max_health;
         public int health;
         public int attack;
         public int special_attack;
