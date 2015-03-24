@@ -1,5 +1,13 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.GamerServices;
+#endregion
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +19,9 @@ namespace LeaveMeAlone
 {
     public class BattleManager
     {
+        public static List<Character> Heroes;
+        public static Character Boss;
+        public static void UseSkill(Character caster, Skill skill)
         public static List<Character> heroes;
         public static List<Rectangle> heroLoc;
         public static Character boss;
@@ -113,7 +124,6 @@ namespace LeaveMeAlone
             //return no target if no target has been selected
             return -1;
         }
-
         public static void CheckVictoryDefeat()
         {
             victory = true;
@@ -129,6 +139,10 @@ namespace LeaveMeAlone
             {
                 defeat = true;
             }
+        }
+        protected static override void Update(GameTime gameTime)
+        {
+
         }
 
         private static void NewMenu(int menu)
@@ -167,8 +181,7 @@ namespace LeaveMeAlone
                     break;
             }
         }
-
-        public static void Update()
+        protected static override void Draw(SpriteBatch spritebatch, GameTime gametime)
         {
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
