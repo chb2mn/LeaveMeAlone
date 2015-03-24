@@ -211,7 +211,17 @@ namespace LeaveMeAlone
                     //Skill Selection
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
                     {
+                        int selectLocX = Mouse.GetState().X;
+                        int selectLocY = Mouse.GetState().Y;
 
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (buttonLoc[i].Contains(selectLocX, selectLocY)
+                            {
+                                selected_skill = boss.selected_skills[i];
+                                state = 5;
+                            }
+                        }
                     }
                     break;
                 case 2:
