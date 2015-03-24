@@ -7,7 +7,7 @@ using LeaveMeAlone;
 
 namespace LeaveMeAlone
 {
-    class Character
+    public class Character
     {
         public int id;
         public List<Skill> skills;

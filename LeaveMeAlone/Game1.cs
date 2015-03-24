@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using System.Diagnostics;
 #endregion
 
 namespace LeaveMeAlone
@@ -30,6 +31,7 @@ namespace LeaveMeAlone
         Texture2D[] heroes = new Texture2D[3];
         Rectangle[] heroLoc = new Rectangle[3];
 
+        Character boss_char = new Character();
         Text damage_text;
         int textx;
         int texty;
@@ -68,11 +70,19 @@ namespace LeaveMeAlone
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
+        /// 
+        public void test(Character caster)
+        {
+            Debug.Print(caster.ToString() + "woohoo!");
+        }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
             this.Window.Title = "Leave Me Alone";
+
+            Skill s = new Skill("test", 1, 100, 1, 0, 0, "My first skill", new Skill.Run(test));
+            s.runnable(boss_char);
             base.Initialize();
         }
 
