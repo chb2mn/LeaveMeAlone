@@ -25,7 +25,7 @@ namespace LeaveMeAlone
         public delegate void Run(BattleManager bm, Character caster, Character target=null);
 
         // example way to make a skill
-        //Skill s = new Skill("test", 1, 100, 1, 0, Target.Self, 0, "My first skill", new Skill.Run(function_name));
+        // Skill s = new Skill("test", 1, 100, 1, 0, Target.Self, 0, "My first skill", new Skill.Run(function_name));
         public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run)
         {
             this.id = total;
