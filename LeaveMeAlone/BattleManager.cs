@@ -152,7 +152,7 @@ namespace LeaveMeAlone
                     state = 1;
                     for (int i = 0; i < 4; i++)
                     {
-                        button_text[i].changeMessage = boss.selected_skills[i].name;
+                        button_text[i].changeMessage(boss.selected_skills[i].name);
                     }
                     break;
                 case 2:
@@ -216,7 +216,7 @@ namespace LeaveMeAlone
 
                         for (int i = 0; i < 4; i++)
                         {
-                            if (buttonLoc[i].Contains(selectLocX, selectLocY)
+                            if (buttonLoc[i].Contains(selectLocX, selectLocY))
                             {
                                 selected_skill = boss.selected_skills[i];
                                 state = 5;
