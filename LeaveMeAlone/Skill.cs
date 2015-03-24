@@ -16,21 +16,25 @@ namespace LeaveMeAlone
         public int cooldown;
         public int type;
         public string description;
+        public enum Target { Self, Single, All }
+        public Target target;
         public Run runnable;
-        public delegate void Run(Character caster);
+        public delegate void Run(Game1 game, Character caster, Character target=null);
 
         // example way to make a skill
         // Skill s = new Skill("test", 1, 100, 1, 0, 0, "My first skill", new Skill.Run(function_name));
-        public Skill(string name, int energy, int cost, int level, int cooldown, int type, string description, Skill.Run run)
+        public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run)
         {
             this.name = name;
             this.energy = energy;
             this.cost = cost;
             this.level = level;
             this.cooldown = cooldown;
+            this.target = t;
             this.type = type;
             this.description = description;
             this.runnable = run;
         }
+
     }
 }
