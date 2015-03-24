@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace LeaveMeAlone
 {
-    class BattleManager
+    public class BattleManager
     {
         public static List<Character> heroes;
         public static Character boss;

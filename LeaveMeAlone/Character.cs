@@ -38,9 +38,9 @@ namespace LeaveMeAlone
         public void levelUp(){
 
         }
-        public void cast(Skill skill, Game1 game, Character target = null)
+        public void cast(Skill skill, BattleManager bm, Character target = null)
         {
-            skill.runnable(game, this, target);
+            skill.runnable(bm, this, target);
         }
     }
 }
