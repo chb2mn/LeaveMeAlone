@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Room.cs" />
+    <Compile Include="Skill.cs" />
     <Compile Include="SkillTree.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Text.cs" />
@@ -90,7 +91,7 @@
     <Content Include="Content\Earth.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Empty.png">
+    <Content Include="Content\buttonbase.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Fire.png">
