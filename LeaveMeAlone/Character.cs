@@ -30,6 +30,22 @@ namespace LeaveMeAlone
         public int animationEnd;
         public int animationNext;
 
+        public int character_counter = 0;
+
+        public Character(int _max_health, int _attack, int _special_attack, int _defence, int _special_defence, int _energy, int _level, int _manaRechargeRate, Texture2D _sprite)
+        {
+            id = character_counter++;
+            max_health = _max_health;
+            attack = _attack;
+            special_attack = _special_attack;
+            defence = _defence;
+            special_defense = _special_defence;
+            energy = _energy;
+            level = _level;
+            manaRechargeRate = _manaRechargeRate;
+            sprite = _sprite; 
+        }
+
         public void update() {
         
         }

@@ -7,23 +7,18 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
-#endregion
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+#endregion
 
 namespace LeaveMeAlone
 {
     public class BattleManager
     {
-        public static List<Character> Heroes;
+        public static List<Character> Heroes = new List<Character>();
         public static Character Boss;
-        public static void UseSkill(Character caster, Skill skill)
-        public static List<Character> heroes;
-        public static List<Rectangle> heroLoc;
+        public static List<Character> heroes = new List<Character>();
+        public static List<Rectangle> heroLoc = new List<Rectangle>();
         public static Character boss;
         public static Rectangle bossLoc;
         public static Texture2D back;
@@ -66,6 +61,7 @@ namespace LeaveMeAlone
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             for (int i = 0; i < 4; i++)
             {
+                button_text[i] = new Text("N/A");
                 button_text[i].loadContent(Content);
             }
 
@@ -73,11 +69,13 @@ namespace LeaveMeAlone
 
             int hero_basex = 50;
             int hero_basey = 150;
-            heroLoc[0] = new Rectangle(hero_basex, hero_basey, 50, 50);
-            heroLoc[1] = new Rectangle(hero_basex, hero_basey - 60, 50, 50);
-            heroLoc[2] = new Rectangle(hero_basex, hero_basey + 60, 50, 50);
-            heroLoc[3] = new Rectangle(hero_basex, hero_basey + 120, 50, 50);
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey, 50, 50));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 50, 50));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 50, 50));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 50, 50));
 
+            back = Content.Load<Texture2D>("back");
+            backLoc = new Rectangle(675, 410, 113, 51);
         }
         public static void Attack(Character caster, Skill skill)
         {
@@ -140,10 +138,6 @@ namespace LeaveMeAlone
                 defeat = true;
             }
         }
-        protected static override void Update(GameTime gameTime)
-        {
-
-        }
 
         private static void NewMenu(int menu)
         {
@@ -158,7 +152,7 @@ namespace LeaveMeAlone
                     state = 0;
                     button_text[0].changeMessage("Attack");
                     button_text[1].changeMessage("Skills");
-                    button_text[2].changeMessage("Taunt");
+                    button_text[2].changeMessage("Defend");
                     button_text[3].changeMessage("Bribe");
                     break;
                 case 1:
@@ -166,7 +160,14 @@ namespace LeaveMeAlone
                     state = 1;
                     for (int i = 0; i < 4; i++)
                     {
-                        button_text[i].changeMessage(boss.selected_skills[i].name);
+                        try
+                        {
+                            button_text[i].changeMessage(boss.selected_skills[i].name);
+                        }
+                        catch
+                        {
+                            button_text[i].changeMessage("NONE");
+                        }
                     }
                     break;
                 case 2:
@@ -181,7 +182,7 @@ namespace LeaveMeAlone
                     break;
             }
         }
-        protected static override void Draw(SpriteBatch spritebatch, GameTime gametime)
+        public static void Update(GameTime gametime)
         {
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -234,11 +235,16 @@ namespace LeaveMeAlone
                                 selected_skill = boss.selected_skills[i];
                                 state = 5;
                             }
+                            if (backLoc.Contains(selectLocX, selectLocY))
+                            {
+                                NewMenu(0);
+                            }
                         }
                     }
                     break;
                 case 2:
                     //Bribe Stuff
+                    
                     break;
                 case 5:
                     //Targetting
@@ -249,6 +255,17 @@ namespace LeaveMeAlone
                     {
                         state = 6;
                     }
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        int selectLocX = Mouse.GetState().X;
+                        int selectLocY = Mouse.GetState().Y;
+
+                        if (backLoc.Contains(selectLocX, selectLocY))
+                        {
+                            NewMenu(0);
+                        }
+                    }
+                    
                     break;
                 case 6:
                     //Attacking
@@ -294,6 +311,11 @@ namespace LeaveMeAlone
                     spriteBatch.Draw(buttonLocPic, buttonLoc[i], Color.White);
                     button_text[i].draw(spriteBatch, textx, texty);
                 }
+            }
+
+            if (state > 0 && state < 5)
+            {
+                spriteBatch.Draw(back);
             }
         }
     }

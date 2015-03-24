@@ -19,7 +19,7 @@ namespace LeaveMeAlone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D boss;
+        Character boss;
         Rectangle bossLoc;
         Texture2D[] buttons = new Texture2D[4];
         Texture2D[] main_buttons = new Texture2D[4];
@@ -27,11 +27,10 @@ namespace LeaveMeAlone
         Texture2D[] special_buttons = new Texture2D[4];
         Texture2D back;
         Rectangle backLoc;
-        Rectangle[] buttonLoc = new Rectangle[4]; 
-        Texture2D[] heroes = new Texture2D[3];
+        Rectangle[] buttonLoc = new Rectangle[4];
+        public static List<Character> heroes = new List<Character>();
         Rectangle[] heroLoc = new Rectangle[3];
 
-        Character boss_char = new Character();
         Text damage_text;
         int textx;
         int texty;
@@ -80,6 +79,7 @@ namespace LeaveMeAlone
 
             //Skill s = new Skill("test", 1, 100, 1, 0, 0, "My first skill", new Skill.Run(test));
             //s.runnable(boss_char);
+            
             base.Initialize();
         }
 
@@ -95,19 +95,24 @@ namespace LeaveMeAlone
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
-            boss = Content.Load<Texture2D>("Machamp_Boss");
+            boss = new Character(100, 10, 10, 10, 10, 25, 1, 1, Content.Load<Texture2D>("Machamp_Boss"));
             bossLoc = new Rectangle(650,120,100,100);
             int button_basex = 100;
             int button_basey = 350;
+
+            BattleManager.Init(Content);
 
             buttonLoc[0] = new Rectangle(button_basex, button_basey, 250, 50);
             buttonLoc[1] = new Rectangle(button_basex + 300, button_basey, 250, 50);
             buttonLoc[2] = new Rectangle(button_basex, button_basey +60, 250, 50);
             buttonLoc[3] = new Rectangle(button_basex + 300, button_basey + 60, 250, 50);
 
-            heroes[0] = Content.Load<Texture2D>("DummyHero");
-            heroes[1] = Content.Load<Texture2D>("DummyHero");
-            heroes[2] = Content.Load<Texture2D>("DummyHero");
+            heroes.Add(PartyManager.CreateHero(Content));
+            heroes.Add(PartyManager.CreateHero(Content));
+            heroes.Add(PartyManager.CreateHero(Content));
+
+            BattleManager.heroes=heroes;
+            BattleManager.boss = boss;
 
             int hero_basex = 50;
             int hero_basey = 150;
@@ -314,7 +319,9 @@ namespace LeaveMeAlone
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            BattleManager.Update(gameTime);
             //If we're attacking, call animate (This will eventually reset state)
+            /*
             if (state == 2)
             {
                 Animate();
@@ -385,6 +392,7 @@ namespace LeaveMeAlone
             {
                 menu_change_in_progress =false;
             }
+            */
             base.Update(gameTime);
         }
 
@@ -396,48 +404,7 @@ namespace LeaveMeAlone
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            spriteBatch.Draw(boss, bossLoc, Color.White);
-            if (battle_menu_state < 3)
-            {
-                spriteBatch.Draw(buttons[0], buttonLoc[0], Color.White);
-                spriteBatch.Draw(buttons[1], buttonLoc[1], Color.White);
-                spriteBatch.Draw(buttons[2], buttonLoc[2], Color.White);
-                spriteBatch.Draw(buttons[3], buttonLoc[3], Color.White);
-            }
-            if (battle_menu_state > 0) {
-
-               spriteBatch.Draw(back, backLoc, Color.White);
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    if (i == targeted_enemy)
-                    {
-                        spriteBatch.Draw(heroes[i], heroLoc[i], Color.Violet);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(heroes[i], heroLoc[i], Color.White);
-                    }
-                }
-                catch
-                {
-
-                }
-            }
-
-
-            if (state == 2)
-            {
-                damage_text.draw(spriteBatch, textx, texty);
-            }
-
-            if (victory)
-            {
-                victory_text.draw(spriteBatch, 200, 200);
-            }
-
+            BattleManager.Draw(spriteBatch);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
