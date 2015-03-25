@@ -18,7 +18,7 @@ namespace LeaveMeAlone
         public int health;
         public int attack;
         public int special_attack;
-        public int defence;
+        public int defense;
         public int special_defense;
         public int energy;
         public int level;
