@@ -31,7 +31,7 @@ namespace LeaveMeAlone
         Texture2D[] heroes = new Texture2D[3];
         Rectangle[] heroLoc = new Rectangle[3];
 
-        Character boss_char = new Character();
+        Character boss_char = new Character(Character.Type.Brute, 1);
         Text damage_text;
         int textx;
         int texty;

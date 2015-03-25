@@ -40,6 +40,50 @@ namespace LeaveMeAlone
             this.description = description;
             this.runnable = run;
         }
+        
+        public static int damage(Character caster, Character target, int type_attack, int type_defense, int power, int modifier=1)
+        {
+            //figure out what stats we are using
+            int attack;
+            if(type_attack==0)
+            {
+                attack = caster.attack;
+            }
+            else
+            {
+                attack = caster.special_attack;
+            }
+            int defense;
+            if(type_defense==0)
+            {
+                defense = caster.defense;
+            }
+            else
+            {
+                defense = caster.special_defense;
+            }
+
+
+            int val = ((2 * caster.level + 10)/250 * (attack/defense)*power+2) * modifier;
+            return 0;
+        }
+        public class TargetRequiredException: Exception
+        {
+            public TargetRequiredException()
+            { }
+        }
+        // Basic attack
+        // single target
+        // no energy
+        // no cooldown
+        public void Basic(BattleManager bm, Character caster, Character target=null)
+        {
+            if(target==null)
+            {
+                ;
+            }
+            Skill.damage(caster, target, 0,0,80);
+        }
 
     }
 }

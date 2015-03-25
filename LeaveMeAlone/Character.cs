@@ -30,6 +30,38 @@ namespace LeaveMeAlone
         public int animationEnd;
         public int animationNext;
 
+        public Type charType;
+
+        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative};
+        public Character(Type t, int level)
+        {
+            this.level = level;
+            this.charType = t;
+
+            switch(t)
+            {
+                case Type.Ranger:
+                    initRanger();
+                    break;
+                case Type.Mage:
+                    initMage();
+                    break;
+                default:
+                    ;
+                    break;
+            }
+
+
+        }
+
+        private void initRanger()
+        {
+            ;
+        }
+        private void initMage()
+        {
+            ;
+        }
         public void update() {
         
         }

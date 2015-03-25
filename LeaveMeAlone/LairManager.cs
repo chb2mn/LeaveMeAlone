@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,7 @@ namespace LeaveMeAlone
     {
         public static int TowerLevel;
         public static int MaxLevel;
-        public static List<Rooms> LairRooms;
+        public static List<Room> LairRooms;
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void LairAttack()
@@ -20,11 +22,11 @@ namespace LeaveMeAlone
         {
 
         }
-        protected static override void Update(GameTime gameTime)
+        protected static void Update(GameTime gameTime)
         {
 
         }
-        protected static override void Draw(SpriteBatch spritebatch, GameTime gametime)
+        protected static void Draw(SpriteBatch spritebatch, GameTime gametime)
         {
 
         }
