@@ -128,6 +128,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LeaveMeAloneContent\LeaveMeAloneContent\LeaveMeAloneContent.csproj">
+      <Project>{a20cd417-796d-4031-9173-82237baeb465}</Project>
+      <Name>LeaveMeAloneContent</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

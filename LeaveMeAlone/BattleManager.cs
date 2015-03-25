@@ -57,6 +57,8 @@ namespace LeaveMeAlone
             buttonLoc[1] = new Rectangle(button_basex + 300, button_basey, 250, 50);
             buttonLoc[2] = new Rectangle(button_basex, button_basey + 60, 250, 50);
             buttonLoc[3] = new Rectangle(button_basex + 300, button_basey + 60, 250, 50);
+            textx = button_basex + 300;
+            texty = button_basey + 60;
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             for (int i = 0; i < 4; i++)
