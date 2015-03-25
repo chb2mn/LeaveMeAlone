@@ -57,13 +57,16 @@ namespace LeaveMeAlone
             buttonLoc[1] = new Rectangle(button_basex + 300, button_basey, 250, 50);
             buttonLoc[2] = new Rectangle(button_basex, button_basey + 60, 250, 50);
             buttonLoc[3] = new Rectangle(button_basex + 300, button_basey + 60, 250, 50);
-            textx = button_basex + 300;
-            texty = button_basey + 60;
+            textx = button_basex + 60;
+            texty = button_basey;
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
+            button_text[0] = new Text("Attack");
+            button_text[1] = new Text("Skills");
+            button_text[2] = new Text("Defend");
+            button_text[3] = new Text("Bribe");
             for (int i = 0; i < 4; i++)
             {
-                button_text[i] = new Text("N/A");
                 button_text[i].loadContent(Content);
             }
 
@@ -311,8 +314,13 @@ namespace LeaveMeAlone
                 for (int i = 0; i < 4; i++)
                 {
                     spriteBatch.Draw(buttonLocPic, buttonLoc[i], Color.White);
-                    button_text[i].draw(spriteBatch, textx, texty);
                 }
+                button_text[0].draw(spriteBatch, textx, texty);
+                button_text[1].draw(spriteBatch, textx + 300, texty);
+                button_text[2].draw(spriteBatch, textx, texty+60);
+                button_text[3].draw(spriteBatch, textx + 300, texty+60);
+
+
             }
 
             if (state > 0 && state < 5)
