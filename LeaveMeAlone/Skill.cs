@@ -22,7 +22,7 @@ namespace LeaveMeAlone
         public Run runnable;
 
         public enum Target { Self, Single, All }
-        public delegate void Run(BattleManager bm, Character caster, Character target=null);
+        public delegate void Run(Character caster, Character target=null);
 
         // example way to make a skill
         //Skill s = new Skill("test", 1, 100, 1, 0, Target.Self, 0, "My first skill", new Skill.Run(function_name));

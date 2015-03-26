@@ -57,7 +57,7 @@ namespace LeaveMeAlone
         }
         public void cast(Skill skill, BattleManager bm, Character target = null)
         {
-            skill.runnable(bm, this, target);
+            skill.runnable(this, target);
         }
     }
 }

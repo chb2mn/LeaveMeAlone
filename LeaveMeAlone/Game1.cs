@@ -20,7 +20,7 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
-        int game_state = 0;
+        int game_state = 3;
 
         public Game1()
             : base() 
@@ -89,7 +89,22 @@ namespace LeaveMeAlone
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            BattleManager.Update(gameTime);
+            if (game_state == 0)
+            {
+                //main menu
+            }
+            else if (game_state == 1)
+            {
+                //Upgrade_menu
+            }
+            else if (game_state == 2)
+            {
+                //Lair_screen
+            }
+            else if (game_state == 3)
+            {
+                game_state = BattleManager.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -101,7 +116,22 @@ namespace LeaveMeAlone
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            BattleManager.Draw(spriteBatch);
+            if (game_state == 0)
+            {
+                //main menu
+            }
+            else if (game_state == 1)
+            {
+                //Upgrade_menu
+            }
+            else if (game_state == 2)
+            {
+                //Lair_screen
+            }
+            else if (game_state == 3)
+            {
+                BattleManager.Draw(spriteBatch);
+            }
             spriteBatch.End();
             // TODO: Add your drawing code here
 
