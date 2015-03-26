@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BattleManager.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="LairManager.cs" />
@@ -141,10 +142,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LeaveMeAloneContent\LeaveMeAloneContent\LeaveMeAloneContent.csproj">
-      <Project>{a20cd417-796d-4031-9173-82237baeb465}</Project>
-      <Name>LeaveMeAloneContent</Name>
-    </ProjectReference>
+    <Folder Include="Content\bin\" />
+    <Folder Include="Content\obj\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

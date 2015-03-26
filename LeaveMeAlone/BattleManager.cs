@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 using System.Linq;
 using System.Text;
 #endregion
@@ -15,22 +14,28 @@ namespace LeaveMeAlone
 {
     public class BattleManager
     {
+
         public static Text boss_hp;
         public static Text boss_energy;
+
         public static List<Character> heroes = new List<Character>();
         public static List<Text> hero_hp = new List<Text>();
         public static List<Rectangle> heroLoc = new List<Rectangle>();
+
         public static Character boss;
         public static Rectangle bossLoc;
         public static Texture2D back;
         public static Rectangle backLoc;
 
+
+        //TODO change to class
+        private static Button[] buttons = new Button[4];
         private static Texture2D buttonLocPic;
         private static Rectangle[] buttonLoc = new Rectangle[4];
         private static Rectangle[] skillLoc = new Rectangle[6];
         private static Text[] button_text = new Text[6];
-        
         private static Text damage_text;
+        //this is awful
         private static int textx;
         private static int texty;
 
@@ -41,19 +46,20 @@ namespace LeaveMeAlone
         private static Texture2D next_button;
         private static Rectangle nextRect;
 
+        //debug string
+        private static Text message = new Text("");
+
         private static bool menu_change_in_progress = false;
         private static int animation_counter = 0;
+
+        
         private static int enemy_attack_delay = 120;
         private static int enemy_turn = 0;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
-        //0 == Basic Menu
-        //1 == Skills Menu
-        //2 == Bribe Menu
-        //5 == targeting
-        //6 == attacking
-        //7 == endgame
-        //10 == Enemy turn
+
+
+        //TODO figure out if this stuff needs to be numbers or can be Characters
         private static int hovered_enemy = -1;
         private static int targeted_enemy = -1;
         private static int current_enemy = 0;
@@ -86,16 +92,12 @@ namespace LeaveMeAlone
             button_text[3] = new Text("Bribe");
             button_text[4] = new Text("");
             button_text[5] = new Text("");
-            for (int i = 0; i < 6; i++)
-            {
-                button_text[i].loadContent(Content);
-            }
+
 
             bossLoc = new Rectangle(650, 120, 100, 100);
             boss_hp = new Text("");
-            boss_hp.loadContent(Content);
             boss_energy = new Text("");
-            boss_energy.loadContent(Content);
+
 
             int hero_basex = 50;
             int hero_basey = 150;
@@ -106,7 +108,6 @@ namespace LeaveMeAlone
             for (int i = 0; i < 4; i++)
             {
                     Text hptext = new Text("");
-                    hptext.loadContent(Content);
                     hero_hp.Add(hptext);
             }
 
@@ -114,29 +115,33 @@ namespace LeaveMeAlone
             back = Content.Load<Texture2D>("back");
             backLoc = new Rectangle(675, 410, 113, 51);
 
+            Skill s = new Skill("Basic attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic attack", Character.BasicAttack);
+            boss.addSkill(s);
+
             victory_text = new Text("Victory!\nWe will survive another day!");
-            victory_text.loadContent(Content);
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
-            defeat_text.loadContent(Content);
             next_button = Content.Load<Texture2D>("Next");
             nextRect = new Rectangle(325, 300, 113, 32);
         }
         public static void Attack(Character caster)
         {
+            //message.changeMessage(""+(heroes[target].health));
+
             //targeted_enemy is our target
             //selected_skill is our skill
             if (targeted_enemy >= 0)
             {
-                selected_skill.runnable(caster, heroes[targeted_enemy]);
+                
+                caster.cast(selected_skill, heroes[targeted_enemy]);
             }
             else if (targeted_enemy == -1)
             {
-                selected_skill.runnable(caster);
+                caster.cast(selected_skill);
             }
             //For enemy turns
             else if (targeted_enemy == -2)
             {
-                selected_skill.runnable(heroes[current_enemy], boss);
+                heroes[current_enemy].cast(selected_skill, boss);
             }
             //Do damage and send state to enemy turn
             //Update texts
@@ -253,7 +258,9 @@ namespace LeaveMeAlone
                     break;
             }
         }
+
         public static Game1.GameState Update(GameTime gametime)
+
         {
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -300,6 +307,7 @@ namespace LeaveMeAlone
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
 
+                        message.changeMessage(selectLocX + ", " + selectLocY);
                         for (int i = 0; i < 4; i++)
                         {
                             if (buttonLoc[i].Contains(selectLocX, selectLocY))
@@ -314,11 +322,13 @@ namespace LeaveMeAlone
                                     state = State.Attack;
                                 }
                             }
-                            if (backLoc.Contains(selectLocX, selectLocY))
-                            {
-                                NewMenu(0);
-                            }
                         }
+                        if (backLoc.Contains(selectLocX, selectLocY))
+                        {
+                                    NewMenu(0);
+                                    state = 0;
+                        }
+                            
                     }
                     break;
                 case State.Bribe:
@@ -332,6 +342,7 @@ namespace LeaveMeAlone
                     targeted_enemy = Target();
                     if (targeted_enemy != -1)
                     {
+
                         state = State.Attack;
                         hovered_enemy = -1;
                     }
@@ -480,6 +491,9 @@ namespace LeaveMeAlone
             {
                 spriteBatch.Draw(back, backLoc, Color.White);
             }
+
+
+            message.draw(spriteBatch, 0, 0);
         }
     }
 }

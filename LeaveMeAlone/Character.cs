@@ -9,18 +9,21 @@ namespace LeaveMeAlone
 {
     public class Character
     {
+        //TODO make static sprites and instance currentsprite
         public int id;
-        public List<Skill> skills;
-        public List<Skill> selected_skills;
+        public static int character_counter = 0;
+        public List<Skill> skills = new List<Skill>();
+        public List<Skill> selected_skills = new List<Skill>();
         public List<Status> statuses;
 
         public int max_health;
         public int health;
         public int attack;
         public int special_attack;
-        public int defence;
+        public int defense;
         public int special_defense;
         public int energy;
+        public int max_energy;
         public int level;
         public int manaRechargeRate;
 
@@ -29,23 +32,64 @@ namespace LeaveMeAlone
         public int animationStart;
         public int animationEnd;
         public int animationNext;
+        public Type charType;
 
-        public int character_counter = 0;
+        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative};
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defence, int _special_defence, int _energy, int _level, int _manaRechargeRate, Texture2D _sprite)
+        public const int MAX_SKILLS = 6;
+
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, Texture2D _sprite)
         {
             id = character_counter++;
             max_health = _max_health;
+            health = max_health;
             attack = _attack;
             special_attack = _special_attack;
-            defence = _defence;
-            special_defense = _special_defence;
-            energy = _energy;
+            defense = _defense;
+            special_defense = _special_defense;
+            max_energy = _max_energy;
+            energy = max_energy;
             level = _level;
             manaRechargeRate = _manaRechargeRate;
             sprite = _sprite; 
         }
 
+        public Character(Type t, int level)
+        {
+            this.level = level;
+            this.charType = t;
+
+            switch(t)
+            {
+                case Type.Ranger:
+                    initRanger();
+                    break;
+                case Type.Mage:
+                    initMage();
+                    break;
+                default:
+                    ;
+                    break;
+            }
+
+
+        }
+        public void addSkill(Skill s)
+        {
+            skills.Add(s);
+            if(selected_skills.Count < MAX_SKILLS)
+            {
+                selected_skills.Add(s);
+            }
+        }
+        private void initRanger()
+        {
+            ;
+        }
+        private void initMage()
+        {
+            ;
+        }
         public void update() {
         
         }
@@ -55,9 +99,15 @@ namespace LeaveMeAlone
         public void levelUp(){
 
         }
-        public void cast(Skill skill, BattleManager bm, Character target = null)
+        public void cast(Skill skill, Character target = null)
         {
             skill.runnable(this, target);
+        }
+
+        public static void BasicAttack(Character caster, Character target=null)
+        {
+            int damage = Skill.damage(caster, target, 0, 1, 10);
+            target.health -= damage;
         }
     }
 }
