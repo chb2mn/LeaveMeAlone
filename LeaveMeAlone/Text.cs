@@ -26,7 +26,7 @@ namespace LeaveMeAlone
         public void loadContent(ContentManager content)
         {
             //loads font
-            font = content.Load<SpriteFont>("BattleMenuText");
+            font = content.Load<SpriteFont>("Arial");
         }
 
         public void draw(SpriteBatch sb, int x, int y)

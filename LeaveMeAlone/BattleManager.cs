@@ -214,7 +214,7 @@ namespace LeaveMeAlone
                         else if (buttonLoc[0].Contains(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select basic attack
-                            selected_skill = boss.skills[0];
+                            //selected_skill = boss.skills[0];
                             state = 5;
                         }
                         else if (buttonLoc[2].Contains(selectLocX, selectLocY))
@@ -238,7 +238,11 @@ namespace LeaveMeAlone
                             if (buttonLoc[i].Contains(selectLocX, selectLocY))
                             {
                                 selected_skill = boss.selected_skills[i];
-                                state = 5;
+                                if (selected_skill.target == Skill.Target.Single)
+                                {
+                                    state = 5;
+                                }
+                                state = 6;
                             }
                             if (backLoc.Contains(selectLocX, selectLocY))
                             {
@@ -323,9 +327,9 @@ namespace LeaveMeAlone
 
             }
 
-            if (state > 0 && state < 5)
+            if (state > 0 && state <= 5)
             {
-                spriteBatch.Draw(back);
+                spriteBatch.Draw(back, backLoc, Color.White);
             }
         }
     }

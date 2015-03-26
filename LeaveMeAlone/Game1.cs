@@ -65,9 +65,7 @@ namespace LeaveMeAlone
 
             BattleManager.Init(Content);
 
-            BattleManager.heroes.Add(PartyManager.CreateHero(Content));
-            BattleManager.heroes.Add(PartyManager.CreateHero(Content));
-            BattleManager.heroes.Add(PartyManager.CreateHero(Content));
+            BattleManager.heroes = PartyManager.CreateParty(Content);
 
         }
 
