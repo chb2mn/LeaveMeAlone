@@ -19,6 +19,8 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
+        public enum GameState { Main, Upgrade, Lair, Battle };
+        GameState gamestate = GameState.Battle;
 
         public Game1()
             : base() 
@@ -64,11 +66,8 @@ namespace LeaveMeAlone
 
             BattleManager.Init(Content);
 
-            BattleManager.heroes.Add(PartyManager.CreateHero(Content));
-            BattleManager.heroes.Add(PartyManager.CreateHero(Content));
-            BattleManager.heroes.Add(PartyManager.CreateHero(Content));
             Text.loadContent(Content);
-
+            BattleManager.heroes = PartyManager.CreateParty(Content);
         }
 
         /// <summary>
@@ -90,7 +89,22 @@ namespace LeaveMeAlone
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            BattleManager.Update(gameTime);
+            switch (gamestate)
+            {
+                case GameState.Main:
+                    //main menu
+                    break;
+                case GameState.Upgrade:
+                    //upgrade_menu
+                    break;
+                case GameState.Lair:
+                    //Lair menu
+                    break;
+                case GameState.Battle:
+                    gamestate = BattleManager.Update(gameTime);
+                    break;
+            }
+            
             base.Update(gameTime);
         }
 
@@ -102,7 +116,21 @@ namespace LeaveMeAlone
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            BattleManager.Draw(spriteBatch);
+            switch (gamestate)
+            {
+                case GameState.Main:
+                    //main menu
+                    break;
+                case GameState.Upgrade:
+                    //upgrade_menu
+                    break;
+                case GameState.Lair:
+                    //Lair menu
+                    break;
+                case GameState.Battle:
+                    BattleManager.Draw(spriteBatch);
+                    break;
+            }
             spriteBatch.End();
             // TODO: Add your drawing code here
 

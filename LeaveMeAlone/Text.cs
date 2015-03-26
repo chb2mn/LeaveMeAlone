@@ -25,7 +25,7 @@ namespace LeaveMeAlone
 
         public static void loadContent(ContentManager content)
         {
-
+            //loads font
             font = content.Load<SpriteFont>("Arial");
         }
 
