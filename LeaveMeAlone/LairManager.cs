@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,11 +28,11 @@ namespace LeaveMeAlone
         {
 
         }
-        public static void Update()
+        protected static void Update(GameTime gameTime)
         {
 
         }
-        public static void Draw(SpriteBatch spritebatch)
+        protected static void Draw(SpriteBatch spritebatch, GameTime gametime)
         {
 
         }

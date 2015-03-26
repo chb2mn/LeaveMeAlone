@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +20,17 @@ namespace LeaveMeAlone
         public static Character CreateHero(ContentManager Content)
         {
             return new Character(25, 5, 5, 5, 5, 5, 1, 1, Content.Load<Texture2D>("DummyHero"));
+
+            // Character c = new Character(Character.Type.Ranger, 1);
+            // return c;
+
         }
         protected static void Update(GameTime gameTime)
         {
 
         }
         protected static void Draw(SpriteBatch spritebatch, GameTime gametime)
+
         {
 
         }

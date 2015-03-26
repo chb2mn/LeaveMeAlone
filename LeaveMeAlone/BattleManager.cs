@@ -19,6 +19,7 @@ namespace LeaveMeAlone
         public static Character Boss;
         public static List<Character> heroes = new List<Character>();
         public static List<Rectangle> heroLoc = new List<Rectangle>();
+
         public static Character boss;
         public static Rectangle bossLoc;
         public static Texture2D back;
@@ -182,6 +183,7 @@ namespace LeaveMeAlone
                     break;
             }
         }
+
         public static void Update(GameTime gametime)
         {
             //If the mouse is released we can continue taking new input
