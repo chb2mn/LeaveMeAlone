@@ -22,8 +22,12 @@ namespace LeaveMeAlone
         public Run runnable;
 
         public enum Target { Self, Single, All }
-        public delegate void Run(BattleManager bm, Character caster, Character target=null);
+        public delegate void Run(Character caster, Character target=null);
 
+        public const int ATTACK = 0;
+        public const int DEFENSE = 1;
+        public const int SPECIAL_ATTACK = 2;
+        public const int SPECIAL_DEFENSE = 3;
         // example way to make a skill
         // Skill s = new Skill("test", 1, 100, 1, 0, Target.Self, 0, "My first skill", new Skill.Run(function_name));
         public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run)
@@ -45,7 +49,7 @@ namespace LeaveMeAlone
         {
             //figure out what stats we are using
             int attack;
-            if(type_attack==0)
+            if(type_attack==ATTACK)
             {
                 attack = caster.attack;
             }
@@ -54,7 +58,7 @@ namespace LeaveMeAlone
                 attack = caster.special_attack;
             }
             int defense;
-            if(type_defense==0)
+            if(type_defense==DEFENSE)
             {
                 defense = caster.defense;
             }
@@ -64,8 +68,8 @@ namespace LeaveMeAlone
             }
 
 
-            int val = ((2 * caster.level + 10)/250 * (attack/defense)*power+2) * modifier;
-            return 0;
+            int val = (int)(((2.0 * (double)caster.level + 10.0)/250.0 * ((double)attack/(double)defense)*(double)power+2.0) * (double)modifier);
+            return val;
         }
         public class TargetRequiredException: Exception
         {
@@ -76,14 +80,7 @@ namespace LeaveMeAlone
         // single target
         // no energy
         // no cooldown
-        public void Basic(BattleManager bm, Character caster, Character target=null)
-        {
-            if(target==null)
-            {
-                ;
-            }
-            Skill.damage(caster, target, 0,0,80);
-        }
+
 
     }
 }

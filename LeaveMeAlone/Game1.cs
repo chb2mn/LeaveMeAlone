@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 using System.Diagnostics;
 #endregion
 
@@ -68,6 +67,7 @@ namespace LeaveMeAlone
             BattleManager.heroes.Add(PartyManager.CreateHero(Content));
             BattleManager.heroes.Add(PartyManager.CreateHero(Content));
             BattleManager.heroes.Add(PartyManager.CreateHero(Content));
+            Text.loadContent(Content);
 
         }
 

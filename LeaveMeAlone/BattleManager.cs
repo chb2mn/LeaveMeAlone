@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 using System.Linq;
 using System.Text;
 #endregion
@@ -15,7 +14,6 @@ namespace LeaveMeAlone
 {
     public class BattleManager
     {
-        public static List<Character> Heroes = new List<Character>();
         public static Character Boss;
         public static List<Character> heroes = new List<Character>();
         public static List<Rectangle> heroLoc = new List<Rectangle>();
@@ -37,11 +35,13 @@ namespace LeaveMeAlone
         private static bool victory;
         private static bool defeat;
 
+        private static Text message = new Text("ASDF");
+
         private static bool menu_change_in_progress = false;
         private static int animation_counter = 0;
         private static int state = 0;
         private static int hovered_enemy = -1;
-        private static int targeted_enemy = -1;
+        private static int target = -1;
         private static Skill selected_skill;
         //0 == Basic Menu
         //1 == Skills Menu
@@ -66,10 +66,6 @@ namespace LeaveMeAlone
             button_text[1] = new Text("Skills");
             button_text[2] = new Text("Defend");
             button_text[3] = new Text("Bribe");
-            for (int i = 0; i < 4; i++)
-            {
-                button_text[i].loadContent(Content);
-            }
 
             bossLoc = new Rectangle(650, 120, 100, 100);
 
@@ -82,9 +78,18 @@ namespace LeaveMeAlone
 
             back = Content.Load<Texture2D>("back");
             backLoc = new Rectangle(675, 410, 113, 51);
+            Skill s = new Skill("Basic attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic attack", Character.BasicAttack);
+            Console.WriteLine(s.ToString());
+            boss.addSkill(s);
+
         }
         public static void Attack(Character caster, Skill skill)
         {
+
+            caster.cast(skill, heroes[target]);
+            message.changeMessage(""+(heroes[target].health));
+            
+
             //Do damage and send state to enemy turn
             //Do enemy turn here?
         }
@@ -223,7 +228,7 @@ namespace LeaveMeAlone
                         {
                             //TODO: need a way to select taunt
                             selected_skill = boss.skills[1];
-                            targeted_enemy = -2;
+                            target = -2;
                             state = 6;
                         }
                     }
@@ -257,9 +262,10 @@ namespace LeaveMeAlone
                     //Targetting
 
                     //highlighted needs to be separate from targeted enemy because target ensure that we have clicked on something
-                    targeted_enemy = Target();
-                    if (targeted_enemy != -1)
+                    target = Target();
+                    if (target != -1)
                     {
+                        Console.WriteLine("targeting: " + target);
                         state = 6;
                     }
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -277,6 +283,7 @@ namespace LeaveMeAlone
                 case 6:
                     //Attacking
                     Attack(boss, selected_skill);
+                    state = 0;
                     break;
                 case 10:
                     //Enemy Turn
@@ -327,8 +334,11 @@ namespace LeaveMeAlone
 
             if (state > 0 && state < 5)
             {
-                spriteBatch.Draw(back);
+                spriteBatch.Draw(back, new Vector2(0,0), Color.White);
             }
+
+
+            message.draw(spriteBatch, 200, 200);
         }
     }
 }

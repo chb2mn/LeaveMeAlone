@@ -10,7 +10,7 @@ namespace LeaveMeAlone
 {
     class Text
     {
-        protected SpriteFont font;
+        protected static SpriteFont font;
         private string message;
 
         public Text(string msg)
@@ -23,16 +23,19 @@ namespace LeaveMeAlone
             message = msg;
         }
 
-        public void loadContent(ContentManager content)
+        public static void loadContent(ContentManager content)
         {
-            //loads font
-            font = content.Load<SpriteFont>("BattleMenuText");
+
+            font = content.Load<SpriteFont>("Arial");
         }
 
         public void draw(SpriteBatch sb, int x, int y)
         {
             //draws a string, params are your font, your message, position, and color
-            sb.DrawString(font, message, new Vector2(x, y), Color.Black);
+            if (font != null)
+            {
+                sb.DrawString(font, message, new Vector2(x, y), Color.Black);
+            }
         }
         
     }

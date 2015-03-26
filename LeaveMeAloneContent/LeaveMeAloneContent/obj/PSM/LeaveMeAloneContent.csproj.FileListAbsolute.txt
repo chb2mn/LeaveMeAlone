@@ -1,5 +1,0 @@
-C:\Users\Student\documents\visual studio 2013\Projects\LeaveMeAlone\LeaveMeAloneContent\LeaveMeAloneContent\bin\PSM\Content\BattleMenuText.xnb
-C:\Users\Student\documents\visual studio 2013\Projects\LeaveMeAlone\LeaveMeAloneContent\LeaveMeAloneContent\bin\PSM\IgnoreMe.dll
-C:\Users\Student\documents\visual studio 2013\Projects\LeaveMeAlone\LeaveMeAloneContent\LeaveMeAloneContent\obj\PSM\LeaveMeAloneContent.csprojResolveAssemblyReference.cache
-C:\Users\Student\documents\visual studio 2013\Projects\LeaveMeAlone\LeaveMeAloneContent\LeaveMeAloneContent\obj\PSM\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\Student\documents\visual studio 2013\Projects\LeaveMeAlone\LeaveMeAloneContent\LeaveMeAloneContent\obj\PSM\IgnoreMe.dll
