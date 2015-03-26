@@ -14,6 +14,8 @@ namespace LeaveMeAlone
 {
     public class BattleManager
     {
+
+        //TODO figure out how to make this less about the boss
         public static Character Boss;
         public static List<Character> heroes = new List<Character>();
         public static List<Rectangle> heroLoc = new List<Rectangle>();
@@ -23,11 +25,15 @@ namespace LeaveMeAlone
         public static Texture2D back;
         public static Rectangle backLoc;
 
+
+        //TODO change to class
+        private static Button[] buttons = new Button[4];
         private static Texture2D buttonLocPic;
         private static Rectangle[] buttonLoc = new Rectangle[4];
         private static Text[] button_text = new Text[4];
         
         private static Text damage_text;
+        //this is awful
         private static int textx;
         private static int texty;
 
@@ -35,14 +41,19 @@ namespace LeaveMeAlone
         private static bool victory;
         private static bool defeat;
 
-        private static Text message = new Text("ASDF");
+        //debug string
+        private static Text message = new Text("");
 
         private static bool menu_change_in_progress = false;
         private static int animation_counter = 0;
+        //TODO Change state to an enum for easier understanding
         private static int state = 0;
+        //TODO figure out if this stuff needs to be numbers or can be Characters
         private static int hovered_enemy = -1;
         private static int target = -1;
         private static Skill selected_skill;
+
+        public enum State { BasicMenu, SkillsMenu, BribeMenu, Targeting, Attacking, EnemyTurn }
         //0 == Basic Menu
         //1 == Skills Menu
         //2 == Bribe Menu
@@ -79,7 +90,6 @@ namespace LeaveMeAlone
             back = Content.Load<Texture2D>("back");
             backLoc = new Rectangle(675, 410, 113, 51);
             Skill s = new Skill("Basic attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic attack", Character.BasicAttack);
-            Console.WriteLine(s.ToString());
             boss.addSkill(s);
 
         }
@@ -240,6 +250,7 @@ namespace LeaveMeAlone
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
 
+                        message.changeMessage(selectLocX + ", " + selectLocY);
                         for (int i = 0; i < 4; i++)
                         {
                             if (buttonLoc[i].Contains(selectLocX, selectLocY))
@@ -247,11 +258,13 @@ namespace LeaveMeAlone
                                 selected_skill = boss.selected_skills[i];
                                 state = 5;
                             }
-                            if (backLoc.Contains(selectLocX, selectLocY))
-                            {
-                                NewMenu(0);
-                            }
                         }
+                        if (backLoc.Contains(selectLocX, selectLocY))
+                        {
+                                    NewMenu(0);
+                                    state = 0;
+                        }
+                            
                     }
                     break;
                 case 2:
@@ -284,6 +297,7 @@ namespace LeaveMeAlone
                     //Attacking
                     Attack(boss, selected_skill);
                     state = 0;
+                    NewMenu(0);
                     break;
                 case 10:
                     //Enemy Turn
@@ -334,11 +348,11 @@ namespace LeaveMeAlone
 
             if (state > 0 && state < 5)
             {
-                spriteBatch.Draw(back, new Vector2(0,0), Color.White);
+                spriteBatch.Draw(back, backLoc, Color.White);
             }
 
 
-            message.draw(spriteBatch, 200, 200);
+            message.draw(spriteBatch, 0, 0);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace LeaveMeAlone
 {
     public class Character
     {
+        //TODO make static sprites and instance currentsprite
         public int id;
         public static int character_counter = 0;
         public List<Skill> skills = new List<Skill>();

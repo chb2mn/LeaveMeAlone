@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LeaveMeAlone
 {
-    class Text
+    public class Text
     {
         protected static SpriteFont font;
         private string message;

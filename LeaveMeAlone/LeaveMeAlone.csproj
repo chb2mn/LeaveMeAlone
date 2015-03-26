@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BattleManager.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="LairManager.cs" />
@@ -127,12 +128,6 @@
     <None Include="Content\Arial.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LeaveMeAloneContent\LeaveMeAloneContent\LeaveMeAloneContent.csproj">
-      <Project>{a20cd417-796d-4031-9173-82237baeb465}</Project>
-      <Name>LeaveMeAloneContent</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\bin\" />
