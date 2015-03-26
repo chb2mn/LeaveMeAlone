@@ -45,5 +45,6 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, 0, 1, 10);
             target.health -= damage;
         }
+
     }
 }

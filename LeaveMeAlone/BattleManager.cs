@@ -53,7 +53,7 @@ namespace LeaveMeAlone
         private static int animation_counter = 0;
 
         
-        private static int enemy_attack_delay = 120;
+        private static int enemy_attack_delay = 30;
         private static int enemy_turn = 0;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
@@ -309,14 +309,21 @@ namespace LeaveMeAlone
                         {
                             if (buttonLoc[i].Contains(selectLocX, selectLocY))
                             {
-                                selected_skill = boss.selected_skills[i];
-                                if (selected_skill.target == Skill.Target.Single)
+                                try
                                 {
-                                    state = State.Target;
+                                    selected_skill = boss.selected_skills[i];
+                                    if (selected_skill.target == Skill.Target.Single)
+                                    {
+                                        state = State.Target;
+                                    }
+                                    else
+                                    {
+                                        state = State.Attack;
+                                    }
                                 }
-                                else
+                                catch
                                 {
-                                    state = State.Attack;
+
                                 }
                             }
                         }
@@ -389,7 +396,7 @@ namespace LeaveMeAlone
                         break;
                     }
 
-                    enemy_attack_delay = 120;
+                    enemy_attack_delay = 30;
                     Console.Write("Attacking!");
                     Character enemy = heroes[enemy_turn];
                     //AI occurs
