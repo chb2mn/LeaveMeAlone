@@ -20,6 +20,7 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
+        int game_state = 0;
 
         public Game1()
             : base() 

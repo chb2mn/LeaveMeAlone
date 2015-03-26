@@ -16,7 +16,10 @@ namespace LeaveMeAlone
     public class BattleManager
     {
         public static Character Boss;
+        public static Text boss_hp;
+        public static Text boss_energy;
         public static List<Character> heroes = new List<Character>();
+        public static List<Text> hero_hp = new List<Text>();
         public static List<Rectangle> heroLoc = new List<Rectangle>();
         public static Character boss;
         public static Rectangle bossLoc;
@@ -70,6 +73,10 @@ namespace LeaveMeAlone
             }
 
             bossLoc = new Rectangle(650, 120, 100, 100);
+            boss_hp = new Text("");
+            boss_hp.loadContent(Content);
+            boss_energy = new Text("");
+            boss_energy.loadContent(Content);
 
             int hero_basex = 50;
             int hero_basey = 150;
@@ -77,6 +84,13 @@ namespace LeaveMeAlone
             heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 50, 50));
             heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 50, 50));
             heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 50, 50));
+            for (int i = 0; i < 4; i++)
+            {
+                    Text hptext = new Text("");
+                    hptext.loadContent(Content);
+                    hero_hp.Add(hptext);
+            }
+
 
             back = Content.Load<Texture2D>("back");
             backLoc = new Rectangle(675, 410, 113, 51);
@@ -97,7 +111,7 @@ namespace LeaveMeAlone
 
             bool any_target = false;
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 if (heroLoc[i].Contains(selectLocX, selectLocY))
                 {
@@ -300,21 +314,23 @@ namespace LeaveMeAlone
                     }
                     else
                     {
-                        spriteBatch.Draw(heroes[i].sprite, heroLoc[i], Color.White);
                         
+                        spriteBatch.Draw(heroes[i].sprite, heroLoc[i], Color.White);
                         //status too
                     }
-                    Text HPtext = new Text(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
-                    HPtext.draw(spriteBatch, 50, 50);
+                    hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X + 50, heroLoc[i].Location.Y + 30);
                 }
                 catch
                 {
-                    
                     //dead/KO animation
                 }
                 spriteBatch.Draw(boss.sprite, bossLoc, Color.White);
+                boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y+100);
+                boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
+
                 //status too
             }
+
             //Draw Buttons
             if (state < 2)
             {

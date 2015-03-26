@@ -43,6 +43,8 @@ namespace LeaveMeAlone
                 
                 int type = RNG.Next(3);
                 new_party.Add(CreateHero(Content, type));
+                BattleManager.hero_hp[0].changeMessage(new_party[0].max_health.ToString() + "/" + new_party[0].max_health.ToString());
+
             }
             else if (partysize <= 5) //1-5 means 2 heroes
             {
@@ -51,6 +53,8 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
+
                 }
             }
             else if (partysize <= 11) // 6-11 means 3 heroes
@@ -59,6 +63,8 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
+
                 }
                 //A classic trio of heroes
             }
@@ -69,9 +75,13 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
                 }
             }
-
+            //Changing the boss's health and energy text fields 
+            //--This could/should probably move--
+            BattleManager.boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
+            BattleManager.boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
             return new_party;
         }
         protected static void Update(GameTime gameTime)
