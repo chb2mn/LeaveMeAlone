@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 using System.Diagnostics;
 #endregion
 
@@ -21,6 +20,8 @@ namespace LeaveMeAlone
         SpriteBatch spriteBatch;
         Character boss;
         MainMenu mainMenu = new MainMenu();
+        public enum GameState { Main, Upgrade, Lair, Battle };
+        GameState gamestate = GameState.Main;
 
         public Game1()
             : base() 
@@ -66,8 +67,8 @@ namespace LeaveMeAlone
 
             BattleManager.Init(Content);
 
+            Text.loadContent(Content);
             BattleManager.heroes = PartyManager.CreateParty(Content);
-
         }
 
         /// <summary>
@@ -89,8 +90,22 @@ namespace LeaveMeAlone
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            mainMenu.Update(gameTime);
-            BattleManager.Update(gameTime);
+            switch (gamestate)
+            {
+                case GameState.Main:
+                    gamestate = mainMenu.Update(gameTime);
+                    break;
+                case GameState.Upgrade:
+                    //upgrade_menu
+                    break;
+                case GameState.Lair:
+                    //Lair menu
+                    break;
+                case GameState.Battle:
+                    gamestate = BattleManager.Update(gameTime);
+                    break;
+            }
+            
             base.Update(gameTime);
         }
 
@@ -102,8 +117,21 @@ namespace LeaveMeAlone
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            BattleManager.Draw(spriteBatch);
-            mainMenu.Draw(spriteBatch);
+            switch (gamestate)
+            {
+                case GameState.Main:
+                    mainMenu.Draw(spriteBatch);
+                    break;
+                case GameState.Upgrade:
+                    //upgrade_menu
+                    break;
+                case GameState.Lair:
+                    //Lair menu
+                    break;
+                case GameState.Battle:
+                    BattleManager.Draw(spriteBatch);
+                    break;
+            }
             spriteBatch.End();
             // TODO: Add your drawing code here
 

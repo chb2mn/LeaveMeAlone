@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +9,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 
 namespace LeaveMeAlone
 {
@@ -18,10 +19,11 @@ namespace LeaveMeAlone
         private static Random RNG = new Random();
         public static Character CreateHero(ContentManager Content, int type)
         {
+            Character c;
             switch (type)
             {
                 case 0:
-                    //Brute
+                    //Knight
                     return new Character(25, 25, 5, 25, 5, 5, 1, 1, Content.Load<Texture2D>("Knight"));
                 case 1:
                     //Mage;
@@ -31,6 +33,10 @@ namespace LeaveMeAlone
                     return new Character(25, 10, 10, 10, 10, 35, 1, 1, Content.Load<Texture2D>("Archer"));
             }
             return new Character(25, 5, 5, 5, 5, 5, 1, 1, Content.Load<Texture2D>("DummyHero"));
+
+            // Character c = new Character(Character.Type.Ranger, 1);
+            // return c;
+
         }
 
         public static List<Character> CreateParty(ContentManager Content)
@@ -43,6 +49,8 @@ namespace LeaveMeAlone
                 
                 int type = RNG.Next(3);
                 new_party.Add(CreateHero(Content, type));
+                BattleManager.hero_hp[0].changeMessage(new_party[0].max_health.ToString() + "/" + new_party[0].max_health.ToString());
+
             }
             else if (partysize <= 5) //1-5 means 2 heroes
             {
@@ -51,6 +59,8 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
+
                 }
             }
             else if (partysize <= 11) // 6-11 means 3 heroes
@@ -59,6 +69,8 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
+
                 }
                 //A classic trio of heroes
             }
@@ -69,9 +81,13 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
                 }
             }
-
+            //Changing the boss's health and energy text fields 
+            //--This could/should probably move--
+            BattleManager.boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
+            BattleManager.boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
             return new_party;
         }
         protected static void Update(GameTime gameTime)
@@ -79,6 +95,7 @@ namespace LeaveMeAlone
 
         }
         protected static void Draw(SpriteBatch spritebatch, GameTime gametime)
+
         {
 
         }

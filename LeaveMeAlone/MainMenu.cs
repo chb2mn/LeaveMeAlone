@@ -64,7 +64,7 @@ namespace LeaveMeAlone
             mastermind.idle();
             operative.idle();
         }
-        public void Update(GameTime gameTime)
+        public Game1.GameState Update(GameTime gameTime)
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
@@ -114,9 +114,11 @@ namespace LeaveMeAlone
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released && canFinish)
                 {
                     bossMenuOpen = false;
+                    return Game1.GameState.Battle;
                 }
                 canFinish = true;
             }
+            return Game1.GameState.Main;
         }
         public void Draw(SpriteBatch Spritebatch)
         {
