@@ -150,8 +150,8 @@ namespace LeaveMeAlone
                 hero_hp[i].changeMessage(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
             }
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
-            boss_hp.changeMessage(boss.energy.ToString() + "/" + boss.energy.ToString());
-
+            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.energy.ToString());
+            Console.WriteLine(boss.max_health.ToString());
 
             //update the state to pass the turn to enemies
             state = State.EnemyTurn;
@@ -393,7 +393,7 @@ namespace LeaveMeAlone
                     }
 
                     enemy_attack_delay = 120;
-                    
+                    Console.Write("Attacking!");
                     Character enemy = heroes[enemy_turn];
                     //AI occurs
                     targeted_enemy = -2;
@@ -438,12 +438,11 @@ namespace LeaveMeAlone
                 {
                     //dead/KO animation
                 }
-                spriteBatch.Draw(boss.sprite, bossLoc, Color.White);
-                boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y+100);
-                boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
-
-                //status too
             }
+            spriteBatch.Draw(boss.sprite, bossLoc, Color.White);
+            boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 100);
+            boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
+            //status too
 
             //Check if we have victory
             if (victory)

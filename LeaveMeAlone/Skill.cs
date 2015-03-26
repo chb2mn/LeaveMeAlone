@@ -69,6 +69,7 @@ namespace LeaveMeAlone
 
 
             int val = (int)(((2.0 * (double)caster.level + 10.0)/250.0 * ((double)attack/(double)defense)*(double)power+2.0) * (double)modifier);
+            Console.WriteLine("Damage: " + val);
             return val;
         }
         public class TargetRequiredException: Exception
