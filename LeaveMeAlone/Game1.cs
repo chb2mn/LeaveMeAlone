@@ -20,6 +20,7 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
+        MainMenu mainMenu = new MainMenu();
 
         public Game1()
             : base() 
@@ -57,7 +58,7 @@ namespace LeaveMeAlone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            mainMenu.loadContent(Content);
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
@@ -88,6 +89,7 @@ namespace LeaveMeAlone
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            mainMenu.Update(gameTime);
             BattleManager.Update(gameTime);
             base.Update(gameTime);
         }
@@ -101,6 +103,7 @@ namespace LeaveMeAlone
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             BattleManager.Draw(spriteBatch);
+            mainMenu.Draw(spriteBatch);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
