@@ -35,5 +35,15 @@ namespace LeaveMeAlone
             // dictionary, one way or another.
             existing.Add(value);
         }
+        //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
+        public static Skill basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack); 
+
+
+        //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
+        public static void BasicAttack(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, 0, 1, 10);
+            target.health -= damage;
+        }
     }
 }

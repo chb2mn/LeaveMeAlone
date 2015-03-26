@@ -26,6 +26,8 @@ namespace LeaveMeAlone
         public int max_energy;
         public int level;
         public int manaRechargeRate;
+        public Skill basic_attack;
+        //public Skill defend;
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -51,7 +53,8 @@ namespace LeaveMeAlone
             energy = max_energy;
             level = _level;
             manaRechargeRate = _manaRechargeRate;
-            sprite = _sprite; 
+            sprite = _sprite;
+            basic_attack = SkillTree.basic_attack;
         }
 
         public Character(Type t, int level)
@@ -104,10 +107,6 @@ namespace LeaveMeAlone
             skill.runnable(this, target);
         }
 
-        public static void BasicAttack(Character caster, Character target = null)
-        {
-            int damage = Skill.damage(caster, target, 0, 1, 10);
-            target.health -= damage;
-        }
+        
     }
 }

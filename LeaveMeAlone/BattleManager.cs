@@ -115,9 +115,6 @@ namespace LeaveMeAlone
             back = Content.Load<Texture2D>("back");
             backLoc = new Rectangle(675, 410, 113, 51);
 
-            Skill s = new Skill("Basic attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic attack", Character.BasicAttack);
-            boss.addSkill(s);
-
             victory_text = new Text("Victory!\nWe will survive another day!");
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
             next_button = Content.Load<Texture2D>("Next");
@@ -287,7 +284,7 @@ namespace LeaveMeAlone
                         else if (buttonLoc[0].Contains(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select basic attack
-                            selected_skill = boss.skills[0];
+                            selected_skill = boss.basic_attack;
                             
                             state = State.Target;
                         }
@@ -397,7 +394,7 @@ namespace LeaveMeAlone
                     Character enemy = heroes[enemy_turn];
                     //AI occurs
                     targeted_enemy = -2;
-                    //selected_skill = enemy.Attack;
+                    selected_skill = enemy.basic_attack;
                     Attack(enemy);
 
                     enemy_turn++;
