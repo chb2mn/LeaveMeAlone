@@ -45,7 +45,8 @@ namespace LeaveMeAlone
         private static int animation_counter = 0;
         private static int enemy_attack_delay = 120;
         private static int enemy_turn = 0;
-        private static int state = 0;
+        private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
+        private static State state;
         //0 == Basic Menu
         //1 == Skills Menu
         //2 == Bribe Menu
@@ -148,7 +149,7 @@ namespace LeaveMeAlone
 
 
             //update the state to pass the turn to enemies
-            state = 10;
+            state = State.EnemyTurn;
             //Check after the Boss goes
             CheckVictoryDefeat();
         }
@@ -227,7 +228,7 @@ namespace LeaveMeAlone
                     break;
                 case 1:
                     //Skills Menu
-                    state = 1;
+                    state = State.Skills;
                     for (int i = 0; i < 6; i++)
                     {
                         try
@@ -242,17 +243,17 @@ namespace LeaveMeAlone
                     break;
                 case 2:
                     //Bribe Menu
-                    state = 2;
+                    state = State.Bribe;
                     break;
                 default:
                     //When will we need this?
                     {
-                        state = 0;
+                        state = State.Basic;
                     }
                     break;
             }
         }
-        public static int Update(GameTime gametime)
+        public static Game1.GameState Update(GameTime gametime)
         {
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -261,7 +262,7 @@ namespace LeaveMeAlone
             }
             switch (state)
             {
-                case 0:
+                case State.Basic:
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
                     {
                         int selectLocX = Mouse.GetState().X;
@@ -281,18 +282,18 @@ namespace LeaveMeAlone
                             //TODO: need a way to select basic attack
                             //selected_skill = Skill.Attack;
                             
-                            state = 5;
+                            state = State.Target;
                         }
                         else if (buttonLoc[2].Contains(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select taunt
                             selected_skill = boss.skills[1];
                             targeted_enemy = -2; //Don't need this
-                            state = 6;
+                            state = State.Attack;
                         }
                     }
                     break;
-                case 1:
+                case State.Skills:
                     //Skill Selection
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
                     {
@@ -306,9 +307,12 @@ namespace LeaveMeAlone
                                 selected_skill = boss.selected_skills[i];
                                 if (selected_skill.target == Skill.Target.Single)
                                 {
-                                    state = 5;
+                                    state = State.Target;
                                 }
-                                state = 6;
+                                else
+                                {
+                                    state = State.Attack;
+                                }
                             }
                             if (backLoc.Contains(selectLocX, selectLocY))
                             {
@@ -317,18 +321,18 @@ namespace LeaveMeAlone
                         }
                     }
                     break;
-                case 2:
+                case State.Bribe:
                     //Bribe Stuff
                     
                     break;
-                case 5:
+                case State.Target:
                     //Targetting
 
                     //highlighted needs to be separate from targeted enemy because target ensure that we have clicked on something
                     targeted_enemy = Target();
                     if (targeted_enemy != -1)
                     {
-                        state = 6;
+                        state = State.Attack;
                         hovered_enemy = -1;
                     }
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -343,11 +347,11 @@ namespace LeaveMeAlone
                     }
                     
                     break;
-                case 6:
+                case State.Attack:
                     //Attacking
                     Attack(boss);
                     break;
-                case 7:
+                case State.Endgame:
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
                     {
                         int selectLocX = Mouse.GetState().X;
@@ -358,7 +362,7 @@ namespace LeaveMeAlone
                                 //Do next battle
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
-                                return 1;
+                                return Game1.GameState.Upgrade;
                             }
                             else if (defeat)
                             {
@@ -368,7 +372,7 @@ namespace LeaveMeAlone
                         }
                     }
                     break;
-                case 10:
+                case State.EnemyTurn:
                     //Enemy Turn
                     //Wait to allow the user to see what's happening
                     if (enemy_attack_delay > 0)
@@ -395,7 +399,7 @@ namespace LeaveMeAlone
                     CheckVictoryDefeat();
                     break;
             }
-            return 3;
+            return Game1.GameState.Battle;
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -445,7 +449,7 @@ namespace LeaveMeAlone
             }
 
             //Draw Buttons
-            if (state == 0)
+            if (state == State.Basic)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -458,7 +462,7 @@ namespace LeaveMeAlone
 
 
             }
-            if (state == 1)
+            if (state == State.Skills)
             {
                 for (int i = 0; i < 6; i++)
                 {
@@ -472,7 +476,7 @@ namespace LeaveMeAlone
                 button_text[5].draw(spriteBatch, textx + 350, texty + 60);
             }
 
-            if (state > 0 && state <= 5)
+            if (state == State.Skills || state == State.Bribe || state == State.Target)
             {
                 spriteBatch.Draw(back, backLoc, Color.White);
             }
