@@ -10,10 +10,15 @@ namespace LeaveMeAlone
     {
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;
+        public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
+        }
+        public static void Init(Character.Type type)
+        {
+            ;
         }
         public void addSkill(int level, Skill skill)
         {
