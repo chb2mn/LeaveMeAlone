@@ -15,7 +15,6 @@ namespace LeaveMeAlone
 {
     public class BattleManager
     {
-        public static List<Character> Heroes = new List<Character>();
         public static Character Boss;
         public static List<Character> heroes = new List<Character>();
         public static List<Rectangle> heroLoc = new List<Rectangle>();
@@ -302,11 +301,15 @@ namespace LeaveMeAlone
                     else
                     {
                         spriteBatch.Draw(heroes[i].sprite, heroLoc[i], Color.White);
+                        
                         //status too
                     }
+                    Text HPtext = new Text(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
+                    HPtext.draw(spriteBatch, 50, 50);
                 }
                 catch
                 {
+                    
                     //dead/KO animation
                 }
                 spriteBatch.Draw(boss.sprite, bossLoc, Color.White);
