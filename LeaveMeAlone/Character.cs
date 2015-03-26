@@ -104,7 +104,7 @@ namespace LeaveMeAlone
             skill.runnable(this, target);
         }
 
-        public static void BasicAttack(Character caster, Character target=null)
+        public static void BasicAttack(Character caster, Character target = null)
         {
             int damage = Skill.damage(caster, target, 0, 1, 10);
             target.health -= damage;
