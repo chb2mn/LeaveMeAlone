@@ -19,8 +19,9 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
+        MainMenu mainMenu = new MainMenu();
         public enum GameState { Main, Upgrade, Lair, Battle };
-        GameState gamestate = GameState.Battle;
+        GameState gamestate = GameState.Main;
 
         public Game1()
             : base() 
@@ -58,7 +59,7 @@ namespace LeaveMeAlone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            mainMenu.loadContent(Content);
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
@@ -92,7 +93,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    //main menu
+                    gamestate = mainMenu.Update(gameTime);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
@@ -119,7 +120,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    //main menu
+                    mainMenu.Draw(spriteBatch);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
