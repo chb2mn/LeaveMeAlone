@@ -53,7 +53,7 @@ namespace LeaveMeAlone
         private static int target = -1;
         private static Skill selected_skill;
 
-        public enum State { BasicMenu, SkillsMenu, BribeMenu, Targeting, Attacking, EnemyTurn }
+        
         //0 == Basic Menu
         //1 == Skills Menu
         //2 == Bribe Menu
