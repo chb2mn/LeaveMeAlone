@@ -287,7 +287,7 @@ namespace LeaveMeAlone
                         else if (buttonLoc[0].Contains(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select basic attack
-                            //selected_skill = Skill.Attack;
+                            selected_skill = boss.skills[0];
                             
                             state = State.Target;
                         }
