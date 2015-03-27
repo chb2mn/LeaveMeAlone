@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace LeaveMeAlone
 {
-    abstract class AnimatedSprite
+    public abstract class AnimatedSprite
     {
         #region Fields
 
         protected Texture2D sTexture;
-        protected Vector2 sPosition;
+        public Vector2 sPosition;
         protected bool facingRight;
         protected float aWidth;
         protected float aHeight;
@@ -104,16 +104,16 @@ namespace LeaveMeAlone
             }
             lastState = currentState;
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Color color)
         {
             if (facingRight)
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
-                spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
             }
             else
             {
-                spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], Color.White);
+                spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
             }
         }
     }

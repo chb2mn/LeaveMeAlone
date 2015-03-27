@@ -19,7 +19,7 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
-        //public static MainMenu mainMenu = new MainMenu();
+        MainMenu mainMenu = new MainMenu();
         public enum GameState { Main, Upgrade, Lair, Battle };
         GameState gamestate = GameState.Main;
 
@@ -59,19 +59,23 @@ namespace LeaveMeAlone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            MainMenu.loadContent(Content);
-            MainMenu.init();
+            mainMenu.loadContent(Content);
             SkillTree.Init();
-            PartyManager.Init(Content);
             
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
-            BattleManager.boss = new Character(100, 20, 10, 10, 10, 25, 1, 1, Content.Load<Texture2D>("Machamp_Boss"), new Text(""));
-
+            BattleManager.boss = new Character(100, 10, 10, 10, 10, 25, 1, 1);
+            BattleManager.boss.charType = Character.Type.Mastermind;
+            BattleManager.boss.loadContent(Content);
             BattleManager.Init(Content);
-
+            BattleManager.heroes = PartyManager.CreateParty(Content);
+            for (int i = 0; i < BattleManager.heroes.Count; i++)
+            {
+                BattleManager.heroes[i].loadContent(Content);
+            }
             Text.loadContent(Content);
+
         }
 
         /// <summary>
@@ -96,7 +100,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    gamestate = MainMenu.Update(gameTime);
+                    gamestate = mainMenu.Update(gameTime);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
@@ -106,6 +110,7 @@ namespace LeaveMeAlone
                     break;
                 case GameState.Battle:
                     gamestate = BattleManager.Update(gameTime);
+                    BattleManager.boss.Update(gameTime);
                     break;
             }
             
@@ -123,7 +128,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    MainMenu.Draw(spriteBatch);
+                    mainMenu.Draw(spriteBatch);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu

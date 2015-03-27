@@ -18,8 +18,8 @@ namespace LeaveMeAlone
         public static Text boss_hp;
         public static Text boss_energy;
 
-        public static List<Character> heroes = new List<Character>();
-        public static List<Text> hero_hp = new List<Text>();
+        public static List<Character> heroes = new List<Character>(4);
+        public static List<Text> hero_hp = new List<Text>(4);
         public static List<Rectangle> heroLoc = new List<Rectangle>();
 
         public static Character boss;
@@ -34,6 +34,7 @@ namespace LeaveMeAlone
         private static Rectangle[] buttonLoc = new Rectangle[4];
         private static Rectangle[] skillLoc = new Rectangle[6];
         private static Text[] button_text = new Text[6];
+        private static Text damage_text;
         //this is awful
         private static int textx;
         private static int texty;
@@ -49,7 +50,7 @@ namespace LeaveMeAlone
         private static Text message = new Text("");
 
         private static bool menu_change_in_progress = false;
-        private static int animation_counter = 30;
+        private static int animation_counter = 0;
 
         
         private static int enemy_attack_delay = 30;
@@ -100,14 +101,14 @@ namespace LeaveMeAlone
 
             int hero_basex = 50;
             int hero_basey = 150;
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey, 50, 50));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 50, 50));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 50, 50));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 50, 50));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 100, 60));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 100, 60));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 100, 60));
             for (int i = 0; i < 4; i++)
             {
-                    Text hptext = new Text("");
-                    hero_hp.Add(hptext);
+                Text hptext = new Text("");
+                hero_hp.Add(hptext);
             }
 
 
@@ -121,27 +122,14 @@ namespace LeaveMeAlone
         }
         public static void Attack(Character caster)
         {
-            //prep the animation
-            animation_counter = 30;
+            //message.changeMessage(""+(heroes[target].health));
 
             //targeted_enemy is our target
             //selected_skill is our skill
             if (targeted_enemy >= 0)
             {
-                try
-                {
-                    caster.cast(selected_skill, heroes[targeted_enemy]);
-                }
-                catch (NullReferenceException)
-                {
-                    state = State.Target;
-                    return;
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    state = State.Target;
-                    return;
-                }
+                
+                caster.cast(selected_skill, heroes[targeted_enemy]);
             }
             else if (targeted_enemy == -1)
             {
@@ -160,6 +148,7 @@ namespace LeaveMeAlone
             }
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
             boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.energy.ToString());
+            Console.WriteLine(boss.max_health.ToString());
 
             //update the state to pass the turn to enemies
             state = State.EnemyTurn;
@@ -228,7 +217,6 @@ namespace LeaveMeAlone
                 }
                 else
                 {
-                    Console.WriteLine("Removing: " + i);
                     heroes.Remove(hero);
                 }
             }
@@ -407,14 +395,12 @@ namespace LeaveMeAlone
                                 //Do next battle
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
-                                MainMenu.mainMenuOpen = true;
-                                return Game1.GameState.Main;
+                                return Game1.GameState.Upgrade;
                             }
                             else if (defeat)
                             {
                                 //Restart battle
-                                MainMenu.mainMenuOpen = true;
-                                return Game1.GameState.Main;
+
                             }
                         }
                     }
@@ -445,6 +431,11 @@ namespace LeaveMeAlone
                     CheckVictoryDefeat();
                     break;
             }
+
+            for (int i = 0; i < heroes.Count; i++){
+                heroes[i].Update(gametime);
+            }
+            boss.Update(gametime);
             return Game1.GameState.Battle;
         }
 
@@ -458,42 +449,30 @@ namespace LeaveMeAlone
                 {
                     if (i == hovered_enemy)
                     {
-                        spriteBatch.Draw(heroes[i].sprite, heroLoc[i], Color.Violet);
+                        heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+                        heroes[i].Draw(spriteBatch, Color.Violet);
                         //status too
                     }
                     else
                     {
-                        
-                        spriteBatch.Draw(heroes[i].sprite, heroLoc[i], Color.White);
+                        heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+                        heroes[i].Draw(spriteBatch, Color.White);
                         //status too
                     }
-                    hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X + 50, heroLoc[i].Location.Y + 30);
-                    if (!heroes[i].damage_text.message.Equals(""))
-                    {
-                        heroes[i].damage_text.draw(spriteBatch, heroLoc[i].Location.X+50, heroLoc[i].Location.Y - 15 - animation_counter/3);
-                        if (animation_counter-- <= 0)
-                        {
-                            heroes[i].damage_text.changeMessage("");
-                        }
-                    }
+                    hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y + 30);
                 }
                 catch
                 {
                     //dead/KO animation
                 }
+
+
             }
-            spriteBatch.Draw(boss.sprite, bossLoc, Color.White);
+
+            boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
+            boss.Draw(spriteBatch, Color.White);
             boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 100);
             boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
-            if (!boss.damage_text.message.Equals(""))
-            {
-                boss.damage_text.draw(spriteBatch, bossLoc.Location.X + 50, bossLoc.Location.Y - 15 - animation_counter / 3);
-                if (animation_counter-- <= 0)
-                {
-                    boss.damage_text.changeMessage("");
-                }
-            }
-            //status too
 
             //Check if we have victory
             if (victory)

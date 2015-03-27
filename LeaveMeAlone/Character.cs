@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using LeaveMeAlone;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.GamerServices;
+using System.Diagnostics;
 
 namespace LeaveMeAlone
 {
-    public class Character
+    public class Character : AnimatedSprite
     {
         //TODO make static sprites and instance currentsprite
         public int id;
@@ -15,7 +20,6 @@ namespace LeaveMeAlone
         public List<Skill> skills = new List<Skill>();
         public List<Skill> selected_skills = new List<Skill>();
         public List<Status> statuses;
-        public Text damage_text;
 
         public int max_health;
         public int health;
@@ -41,7 +45,7 @@ namespace LeaveMeAlone
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, Texture2D _sprite, Text _damage_text)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -54,9 +58,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             level = _level;
             manaRechargeRate = _manaRechargeRate;
-            sprite = _sprite;
             basic_attack = SkillTree.basic_attack;
-            damage_text = _damage_text;
         }
 
         public Character(Type t, int level)
@@ -99,11 +101,46 @@ namespace LeaveMeAlone
         {
             ;
         }
-        public void update() {
-        
+        public void loadContent(ContentManager content)
+        {
+            idleStartFrame = 0;
+            idleEndFrame = 1;
+            walkStartFrame = 3;
+            walkEndFrame = 11;
+            facingRight = false;
+            if (charType == Type.Mage)
+            {
+                sTexture = content.Load<Texture2D>("hood2");
+                facingRight = true;
+            }
+            if (charType == Type.Ranger)
+            {
+                sTexture = content.Load<Texture2D>("hood2");
+                facingRight = true;
+            }
+            if (charType == Type.Knight)
+            {
+                sTexture = content.Load<Texture2D>("hood1");
+                facingRight = true;
+            }
+            if (charType == Type.Brute)
+            {
+                sTexture = content.Load<Texture2D>("mastermind70");
+            }
+            if (charType == Type.Mastermind)
+            {
+                sTexture = content.Load<Texture2D>("mastermind70");
+            }
+            if (charType == Type.Operative)
+            {
+                sTexture = content.Load<Texture2D>("mastermind70");
+            }
+            idle();
+            AddAnimation(12);
         }
-        public void draw(SpriteBatch Spritebatch){
 
+        public void Update(GameTime gameTime) {
+            FrameUpdate(gameTime);
         }
         public void levelUp(){
 

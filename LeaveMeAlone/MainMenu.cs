@@ -137,9 +137,9 @@ namespace LeaveMeAlone
             {
                 Spritebatch.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
                 Spritebatch.Draw(titleCard, new Rectangle(200, 0, 400, 200), Color.White);
-                brute.Draw(Spritebatch);
-                mastermind.Draw(Spritebatch);
-                operative.Draw(Spritebatch);
+                brute.Draw(Spritebatch, Color.White);
+                mastermind.Draw(Spritebatch, Color.White);
+                operative.Draw(Spritebatch, Color.White);
                 if (bruteHover)
                 {
                     Spritebatch.Draw(bruteTitle, new Rectangle(110, 330, 150, 50), Color.White);
