@@ -31,6 +31,7 @@ namespace LeaveMeAlone
         //TODO change to class
         private static Button[] buttons = new Button[4];
         private static Texture2D buttonLocPic;
+        private static Texture2D bkgd;
         private static Rectangle[] buttonLoc = new Rectangle[4];
         private static Rectangle[] skillLoc = new Rectangle[6];
         private static Text[] button_text = new Text[6];
@@ -67,6 +68,7 @@ namespace LeaveMeAlone
        
         public static void Init(ContentManager Content)
         {
+            bkgd = Content.Load<Texture2D>("skyscraperBkgd");
             int button_basex = 100;
             int button_basey = 350;
 
@@ -442,6 +444,8 @@ namespace LeaveMeAlone
         public static void Draw(SpriteBatch spriteBatch)
         {
             //Do Background drawing
+
+            spriteBatch.Draw(bkgd, new Rectangle(0, -25, 1000, 600), Color.White);
             //Draw Heroes
             for (int i = 0; i < 4; i++)
             {
