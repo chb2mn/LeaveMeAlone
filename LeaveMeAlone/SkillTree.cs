@@ -16,11 +16,18 @@ namespace LeaveMeAlone
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
         }
-        public static void Init(Character.Type type)
+        //Instantiates all classes
+        public static void Init()
         {
-            ;
+            initBrute();
+            initMastermind();
+            initOperative();
+            initRanger();
+            initMage();
+            initKnight();
+
         }
-                public void addSkill(int level, Skill skill)
+        public void addSkill(int level, Skill skill)
         {
             addToDict(skill_tiers, ref level, ref skill);
         }
@@ -41,39 +48,39 @@ namespace LeaveMeAlone
             existing.Add(value);
         }
 
-
+        //The thing with all the trees
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
-        public void initBrute()
+        public static void initBrute()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Brute] = st;
         }
-        public void initMastermind()
+        public static void initMastermind()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Mastermind] = st;
         }
-        public void initOperative()
+        public static void initOperative()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Operative] = st;
         }
-        public void initRanger()
+        public static void initRanger()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Ranger] = st;
         }
-        public void initMage()
+        public static void initMage()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Mage] = st;
         }
-        public void initKnight()
+        public static void initKnight()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)

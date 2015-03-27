@@ -60,6 +60,8 @@ namespace LeaveMeAlone
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             mainMenu.loadContent(Content);
+            SkillTree.Init();
+            
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
