@@ -53,7 +53,7 @@ namespace LeaveMeAlone
         private static int animation_counter = 0;
 
         
-        private static int enemy_attack_delay = 120;
+        private static int enemy_attack_delay = 30;
         private static int enemy_turn = 0;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
@@ -115,9 +115,6 @@ namespace LeaveMeAlone
             back = Content.Load<Texture2D>("back");
             backLoc = new Rectangle(675, 410, 113, 51);
 
-            Skill s = new Skill("Basic attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic attack", Character.BasicAttack);
-            boss.addSkill(s);
-
             victory_text = new Text("Victory!\nWe will survive another day!");
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
             next_button = Content.Load<Texture2D>("Next");
@@ -150,8 +147,8 @@ namespace LeaveMeAlone
                 hero_hp[i].changeMessage(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
             }
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
-            boss_hp.changeMessage(boss.energy.ToString() + "/" + boss.energy.ToString());
-
+            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.energy.ToString());
+            Console.WriteLine(boss.max_health.ToString());
 
             //update the state to pass the turn to enemies
             state = State.EnemyTurn;
@@ -202,16 +199,34 @@ namespace LeaveMeAlone
         {
             victory = true;
             defeat = false;
-            foreach (Character hero in heroes)
+            Character hero;
+            for (int i = 0; i < 4; i++)
             {
+                try
+                {
+                    hero = heroes[i];
+                    
+                }
+                catch
+                {
+                    continue;
+                }
                 if (hero.health > 0)
                 {
                     victory = false;
+                }
+                else
+                {
+                    heroes.Remove(hero);
                 }
             }
             if (boss.health <= 0)
             {
                 defeat = true;
+            }
+            if (victory || defeat)
+            {
+                state = State.Endgame;
             }
         }
 
@@ -287,7 +302,7 @@ namespace LeaveMeAlone
                         else if (buttonLoc[0].Contains(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select basic attack
-                            //selected_skill = Skill.Attack;
+                            selected_skill = boss.basic_attack;
                             
                             state = State.Target;
                         }
@@ -312,14 +327,21 @@ namespace LeaveMeAlone
                         {
                             if (buttonLoc[i].Contains(selectLocX, selectLocY))
                             {
-                                selected_skill = boss.selected_skills[i];
-                                if (selected_skill.target == Skill.Target.Single)
+                                try
                                 {
-                                    state = State.Target;
+                                    selected_skill = boss.selected_skills[i];
+                                    if (selected_skill.target == Skill.Target.Single)
+                                    {
+                                        state = State.Target;
+                                    }
+                                    else
+                                    {
+                                        state = State.Attack;
+                                    }
                                 }
-                                else
+                                catch
                                 {
-                                    state = State.Attack;
+
                                 }
                             }
                         }
@@ -392,12 +414,11 @@ namespace LeaveMeAlone
                         break;
                     }
 
-                    enemy_attack_delay = 120;
-                    
+                    enemy_attack_delay = 30;
                     Character enemy = heroes[enemy_turn];
                     //AI occurs
                     targeted_enemy = -2;
-                    //selected_skill = enemy.Attack;
+                    selected_skill = enemy.basic_attack;
                     Attack(enemy);
 
                     enemy_turn++;
@@ -444,13 +465,14 @@ namespace LeaveMeAlone
                 {
                     //dead/KO animation
                 }
-                boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
-                boss.Draw(spriteBatch, Color.White);
-                boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y+100);
-                boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
 
-                //status too
+
             }
+
+            boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
+            boss.Draw(spriteBatch, Color.White);
+            boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 100);
+            boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
 
             //Check if we have victory
             if (victory)
