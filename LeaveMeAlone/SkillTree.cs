@@ -10,7 +10,7 @@ namespace LeaveMeAlone
     {
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;
-        public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
+        
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
@@ -20,7 +20,7 @@ namespace LeaveMeAlone
         {
             ;
         }
-        public void addSkill(int level, Skill skill)
+                public void addSkill(int level, Skill skill)
         {
             addToDict(skill_tiers, ref level, ref skill);
         }
@@ -40,5 +40,45 @@ namespace LeaveMeAlone
             // dictionary, one way or another.
             existing.Add(value);
         }
+
+
+        public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
+        public void initBrute()
+        {
+            SkillTree st = new SkillTree();
+            //addSkill(level, skill)
+            skilltrees[Character.Type.Brute] = st;
+        }
+        public void initMastermind()
+        {
+            SkillTree st = new SkillTree();
+            //addSkill(level, skill)
+            skilltrees[Character.Type.Mastermind] = st;
+        }
+        public void initOperative()
+        {
+            SkillTree st = new SkillTree();
+            //addSkill(level, skill)
+            skilltrees[Character.Type.Operative] = st;
+        }
+        public void initRanger()
+        {
+            SkillTree st = new SkillTree();
+            //addSkill(level, skill)
+            skilltrees[Character.Type.Ranger] = st;
+        }
+        public void initMage()
+        {
+            SkillTree st = new SkillTree();
+            //addSkill(level, skill)
+            skilltrees[Character.Type.Mage] = st;
+        }
+        public void initKnight()
+        {
+            SkillTree st = new SkillTree();
+            //addSkill(level, skill)
+            skilltrees[Character.Type.Knight] = st;
+        }
+
     }
 }
