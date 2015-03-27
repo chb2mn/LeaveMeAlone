@@ -90,6 +90,10 @@ namespace LeaveMeAlone
         {
             ;
         }
+        private void initBrute()
+        {
+            ;
+        }
         public void update() {
         
         }
