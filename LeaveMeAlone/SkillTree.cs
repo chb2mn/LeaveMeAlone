@@ -97,6 +97,8 @@ namespace LeaveMeAlone
         {
             int damage = Skill.damage(caster, target, 0, 1, 100);
             target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
         }
 
     }

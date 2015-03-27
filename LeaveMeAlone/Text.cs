@@ -11,7 +11,7 @@ namespace LeaveMeAlone
     public class Text
     {
         protected static SpriteFont font;
-        private string message;
+        public string message;
 
         public Text(string msg)
         {

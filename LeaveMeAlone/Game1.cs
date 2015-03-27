@@ -19,7 +19,7 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
-        MainMenu mainMenu = new MainMenu();
+        //public static MainMenu mainMenu = new MainMenu();
         public enum GameState { Main, Upgrade, Lair, Battle };
         GameState gamestate = GameState.Main;
 
@@ -59,18 +59,19 @@ namespace LeaveMeAlone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            mainMenu.loadContent(Content);
+            MainMenu.loadContent(Content);
+            MainMenu.init();
             SkillTree.Init();
+            PartyManager.Init(Content);
             
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
-            BattleManager.boss = new Character(100, 20, 10, 10, 10, 25, 1, 1, Content.Load<Texture2D>("Machamp_Boss"));
+            BattleManager.boss = new Character(100, 20, 10, 10, 10, 25, 1, 1, Content.Load<Texture2D>("Machamp_Boss"), new Text(""));
 
             BattleManager.Init(Content);
 
             Text.loadContent(Content);
-            BattleManager.heroes = PartyManager.CreateParty(Content);
         }
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    gamestate = mainMenu.Update(gameTime);
+                    gamestate = MainMenu.Update(gameTime);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
@@ -122,7 +123,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    mainMenu.Draw(spriteBatch);
+                    MainMenu.Draw(spriteBatch);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
