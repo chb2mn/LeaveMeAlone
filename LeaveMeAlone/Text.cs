@@ -11,7 +11,7 @@ namespace LeaveMeAlone
     public class Text
     {
         protected static SpriteFont font;
-        private string message;
+        public string message;
 
         public Text(string msg)
         {
@@ -34,7 +34,7 @@ namespace LeaveMeAlone
             //draws a string, params are your font, your message, position, and color
             if (font != null)
             {
-                sb.DrawString(font, message, new Vector2(x, y), Color.Black);
+                sb.DrawString(font, message, new Vector2(x, y), Color.Coral);
             }
         }
         

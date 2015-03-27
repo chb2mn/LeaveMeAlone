@@ -32,6 +32,8 @@ namespace LeaveMeAlone
         public int level;
         public int manaRechargeRate;
         public Skill basic_attack;
+        public Skill defend;
+        public Text damage_text;
         //public Skill defend;
 
         public Texture2D sprite;
@@ -41,11 +43,15 @@ namespace LeaveMeAlone
         public int animationNext;
         public Type charType;
 
+        private static Texture2D hood2;
+        private static Texture2D hood1;
+        private static Texture2D mastermind70;
+
         public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative};
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, Text _damage_text)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -59,6 +65,8 @@ namespace LeaveMeAlone
             level = _level;
             manaRechargeRate = _manaRechargeRate;
             basic_attack = SkillTree.basic_attack;
+            defend = SkillTree.defend;
+            damage_text = _damage_text;
         }
 
         public Character(Type t, int level)
@@ -101,7 +109,14 @@ namespace LeaveMeAlone
         {
             ;
         }
-        public void loadContent(ContentManager content)
+
+        public static void load_content(ContentManager content)
+        {
+            hood2 = content.Load<Texture2D>("hood2");
+            hood1 = content.Load<Texture2D>("hood1");
+            mastermind70 = content.Load<Texture2D>("mastermind70");
+        }
+        public void Init()
         {
             idleStartFrame = 0;
             idleEndFrame = 1;
@@ -110,30 +125,30 @@ namespace LeaveMeAlone
             facingRight = false;
             if (charType == Type.Mage)
             {
-                sTexture = content.Load<Texture2D>("hood2");
+                sTexture = hood2;
                 facingRight = true;
             }
             if (charType == Type.Ranger)
             {
-                sTexture = content.Load<Texture2D>("hood2");
+                sTexture = hood2;
                 facingRight = true;
             }
             if (charType == Type.Knight)
             {
-                sTexture = content.Load<Texture2D>("hood1");
+                sTexture = hood1;
                 facingRight = true;
             }
             if (charType == Type.Brute)
             {
-                sTexture = content.Load<Texture2D>("mastermind70");
+                sTexture = mastermind70;
             }
             if (charType == Type.Mastermind)
             {
-                sTexture = content.Load<Texture2D>("mastermind70");
+                sTexture = mastermind70;
             }
             if (charType == Type.Operative)
             {
-                sTexture = content.Load<Texture2D>("mastermind70");
+                sTexture = mastermind70;
             }
             idle();
             AddAnimation(12);
@@ -147,6 +162,13 @@ namespace LeaveMeAlone
         }
         public void cast(Skill skill, Character target = null)
         {
+            if (skill.energy > this.energy)
+            {
+                Console.WriteLine("Character doesn't have enough energy");
+                
+                return;
+            }
+            this.energy -= skill.energy;
             skill.runnable(this, target);
         }
 

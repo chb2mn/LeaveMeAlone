@@ -89,15 +89,52 @@ namespace LeaveMeAlone
         }
 
         //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
-        public static Skill basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack); 
-
+        public static Skill basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
+        public static Skill defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
+        public static Skill portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+        public static Skill flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
 
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)
         {
             int damage = Skill.damage(caster, target, 0, 1, 100);
             target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
         }
+        public static void Defend(Character caster, Character target = null)
+        {
+            caster.health += (int)(((double)caster.max_health) * .2);
+            if (caster.health > caster.max_health)
+            {
+                caster.health = caster.max_health;
+            }
+        }
+        public static void PortalPunch(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, 2, 3, 100);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+        }
+        public static void FlameThrower(Character caster, Character target = null)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    target = BattleManager.heroes[i];
+                    if (target == null) { continue; }
+                    int damage = Skill.damage(caster, target, 2, 3, 40);
+                    target.health -= damage;
+                    String str_damage = (-damage).ToString();
+                    target.damage_text.changeMessage(str_damage);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
 
+                }
+            }          
+        }
     }
 }
