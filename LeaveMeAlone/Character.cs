@@ -32,6 +32,7 @@ namespace LeaveMeAlone
         public int level;
         public int manaRechargeRate;
         public Skill basic_attack;
+        public Text damage_text;
         //public Skill defend;
 
         public Texture2D sprite;
@@ -45,7 +46,7 @@ namespace LeaveMeAlone
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, Text _damage_text)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -59,6 +60,7 @@ namespace LeaveMeAlone
             level = _level;
             manaRechargeRate = _manaRechargeRate;
             basic_attack = SkillTree.basic_attack;
+            damage_text = _damage_text;
         }
 
         public Character(Type t, int level)

@@ -449,8 +449,9 @@ namespace LeaveMeAlone
             //Draw Heroes
             for (int i = 0; i < 4; i++)
             {
-                try
+                //try
                 {
+                    Console.WriteLine("Drawing a guy");
                     if (i == hovered_enemy)
                     {
                         heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
@@ -465,11 +466,13 @@ namespace LeaveMeAlone
                     }
                     hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y + 30);
                 }
+                    /*
                 catch
                 {
+                    Console.WriteLine("Drawing Failed");
                     //dead/KO animation
                 }
-
+                */
 
             }
 

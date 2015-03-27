@@ -19,7 +19,6 @@ namespace LeaveMeAlone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Character boss;
-        MainMenu mainMenu = new MainMenu();
         public enum GameState { Main, Upgrade, Lair, Battle };
         GameState gamestate = GameState.Main;
 
@@ -59,17 +58,19 @@ namespace LeaveMeAlone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            mainMenu.loadContent(Content);
+            MainMenu.loadContent(Content);
+            MainMenu.init();
             SkillTree.Init();
-            
+            PartyManager.Init();
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
-            
-            BattleManager.boss = new Character(100, 10, 10, 10, 10, 25, 1, 1);
+
+            Text text = new Text("");
+            BattleManager.boss = new Character(100, 10, 10, 10, 10, 25, 1, 1, text);
             BattleManager.boss.charType = Character.Type.Mastermind;
             BattleManager.boss.loadContent(Content);
             BattleManager.Init(Content);
-            BattleManager.heroes = PartyManager.CreateParty(Content);
+            BattleManager.heroes = PartyManager.CreateParty();
             for (int i = 0; i < BattleManager.heroes.Count; i++)
             {
                 BattleManager.heroes[i].loadContent(Content);
@@ -100,7 +101,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    gamestate = mainMenu.Update(gameTime);
+                    gamestate = MainMenu.Update(gameTime);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
@@ -128,7 +129,7 @@ namespace LeaveMeAlone
             switch (gamestate)
             {
                 case GameState.Main:
-                    mainMenu.Draw(spriteBatch);
+                    MainMenu.Draw(spriteBatch);
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu

@@ -17,35 +17,45 @@ namespace LeaveMeAlone
         public static int PartyNum;
         public static int ArmyNum;
         private static Random RNG = new Random();
-        public static Character CreateHero(ContentManager Content, int type)
+        private static Text[] damage_texts = new Text[4];
+
+        public static void Init()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                damage_texts[i] = new Text("");
+            }
+        }
+
+        public static Character CreateHero(int type, Text damage_text)
         {
             Character c;
             switch (type)
             {
                 case 0:
                     //Knight
-                    c = new Character(25, 25, 5, 25, 5, 5, 1, 1);
+                    c = new Character(25, 25, 5, 25, 5, 5, 1, 1, damage_text);
                     c.charType = Character.Type.Knight;
                     return c;
                 case 1:
                     //Mage;
-                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1);
+                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, damage_text);
                     c.charType = Character.Type.Mage;
                     return c;
                 case 2:
                     //Ranger
-                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1);
+                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1, damage_text);
                     c.charType = Character.Type.Ranger;
                     return c;
             }
-            return new Character(25, 5, 5, 5, 5, 5, 1, 1);
+            return new Character(25, 5, 5, 5, 5, 5, 1, 1, damage_text);
 
             // Character c = new Character(Character.Type.Ranger, 1);
             // return c;
 
         }
 
-        public static List<Character> CreateParty(ContentManager Content)
+        public static List<Character> CreateParty()
         {
             List<Character> new_party = new List<Character>();
             int partysize = RNG.Next(20); //Roll a d20
@@ -54,7 +64,7 @@ namespace LeaveMeAlone
                 //Just one buff hero
                 
                 int type = RNG.Next(3);
-                new_party.Add(CreateHero(Content, type));
+                new_party.Add(CreateHero(type, damage_texts[0]));
                 Text text = new Text("msg");
                 BattleManager.hero_hp.Add(text);
                 BattleManager.hero_hp[0].changeMessage(new_party[0].max_health.ToString() + "/" + new_party[0].max_health.ToString());
@@ -66,7 +76,7 @@ namespace LeaveMeAlone
                 for (int i = 0; i < 2; i++)
                 {
                     int type = RNG.Next(3);
-                    new_party.Add(CreateHero(Content, type));
+                    new_party.Add(CreateHero(type, damage_texts[i]));
                     Text text = new Text("msg");
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
@@ -78,7 +88,7 @@ namespace LeaveMeAlone
                 for (int i = 0; i < 3; i++)
                 {
                     int type = RNG.Next(3);
-                    new_party.Add(CreateHero(Content, type));
+                    new_party.Add(CreateHero(type, damage_texts[i]));
                     Text text = new Text("msg");
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
@@ -92,7 +102,7 @@ namespace LeaveMeAlone
                 for (int i = 0; i < 4; i++)
                 {
                     int type = RNG.Next(3);
-                    new_party.Add(CreateHero(Content, type));
+                    new_party.Add(CreateHero(type, damage_texts[i]));
                     Text text = new Text("msg");
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
@@ -102,6 +112,7 @@ namespace LeaveMeAlone
             //--This could/should probably move--
             BattleManager.boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
             BattleManager.boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
+            Console.WriteLine("returning party of size: " + new_party.Count());
             return new_party;
         }
         protected static void Update(GameTime gameTime)
