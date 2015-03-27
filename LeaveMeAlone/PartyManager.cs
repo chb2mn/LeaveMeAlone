@@ -34,7 +34,7 @@ namespace LeaveMeAlone
             {
                 case 0:
                     //Knight
-                    c = new Character(25, 25, 5, 25, 5, 5, 1, 1, damage_text);
+                    c = new Character(50, 25, 5, 500, 0, 5, 1, 1, damage_text);
                     c.charType = Character.Type.Knight;
                     return c;
                 case 1:
@@ -65,7 +65,7 @@ namespace LeaveMeAlone
                 
                 int type = RNG.Next(3);
                 new_party.Add(CreateHero(type, damage_texts[0]));
-                Text text = new Text("msg");
+                Text text = new Text("");
                 BattleManager.hero_hp.Add(text);
                 BattleManager.hero_hp[0].changeMessage(new_party[0].max_health.ToString() + "/" + new_party[0].max_health.ToString());
 
@@ -77,7 +77,7 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(type, damage_texts[i]));
-                    Text text = new Text("msg");
+                    Text text = new Text("");
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
 
@@ -89,7 +89,7 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(type, damage_texts[i]));
-                    Text text = new Text("msg");
+                    Text text = new Text("");
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
 
@@ -103,7 +103,7 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(type, damage_texts[i]));
-                    Text text = new Text("msg");
+                    Text text = new Text("");
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
                 }
@@ -112,7 +112,6 @@ namespace LeaveMeAlone
             //--This could/should probably move--
             BattleManager.boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
             BattleManager.boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
-            Console.WriteLine("returning party of size: " + new_party.Count());
             return new_party;
         }
         protected static void Update(GameTime gameTime)

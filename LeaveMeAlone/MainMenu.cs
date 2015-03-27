@@ -16,8 +16,10 @@ namespace LeaveMeAlone
         private static Texture2D menuBackground;
         private static Texture2D titleCard;
         private static Texture2D newGame;
+        private static Rectangle newGameRect;
         private static Texture2D loadGame;
         private static Texture2D quit;
+        private static Rectangle quitRect;
         private static Texture2D bruteTitle;
         private static Texture2D mastermindTitle;
         private static Texture2D operativeTitle;
@@ -48,8 +50,10 @@ namespace LeaveMeAlone
             menuBackground = content.Load<Texture2D>("DummyHero");
             titleCard = content.Load<Texture2D>("TitleCard");
             newGame = content.Load<Texture2D>("NewGame");
+            newGameRect = new Rectangle(300, 200, 200, 75);
             loadGame = content.Load<Texture2D>("LoadGame");
             quit = content.Load<Texture2D>("Quit");
+            quitRect = new Rectangle(300, 350, 200, 75);
 
             bruteTitle = content.Load<Texture2D>("bruteTitle");
             mastermindTitle = content.Load<Texture2D>("mastermindTitle");
@@ -73,10 +77,14 @@ namespace LeaveMeAlone
             {
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
                 {
-                    if ((300 < currentMouseState.X) && (currentMouseState.X < 500))
+                    if (newGameRect.Contains(currentMouseState.X, currentMouseState.Y))
                     {
                         mainMenuOpen = false;
                         bossMenuOpen = true;
+                    }
+                    else if (quitRect.Contains(currentMouseState.X, currentMouseState.Y))
+                    {
+                        return Game1.GameState.Quit;
                     }
                 }
             }
@@ -117,6 +125,11 @@ namespace LeaveMeAlone
                     bossMenuOpen = false;
                     Console.WriteLine("Here we go!");
                     BattleManager.heroes = PartyManager.CreateParty();
+                    foreach (Character hero in BattleManager.heroes)
+                    {
+                        hero.Init();
+                    }
+                    BattleManager.Init();
                     return Game1.GameState.Battle;
                 }
                 canFinish = true;
@@ -129,9 +142,9 @@ namespace LeaveMeAlone
             {
                 Spritebatch.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
                 Spritebatch.Draw(titleCard, new Rectangle(200, 0, 400, 200), Color.White);
-                Spritebatch.Draw(newGame, new Rectangle(300, 200, 200, 75), Color.White);
+                Spritebatch.Draw(newGame, newGameRect, Color.White);
                 Spritebatch.Draw(loadGame, new Rectangle(300, 275, 200, 75), Color.White);
-                Spritebatch.Draw(quit, new Rectangle(300, 350, 200, 75), Color.White);
+                Spritebatch.Draw(quit, quitRect, Color.White);
             }
             if (bossMenuOpen)
             {

@@ -51,20 +51,26 @@ namespace LeaveMeAlone
             int attack;
             if(type_attack==ATTACK)
             {
+                Console.WriteLine("using attack");
+
                 attack = caster.attack;
             }
             else
             {
+                Console.WriteLine("using sp_attack");
+
                 attack = caster.special_attack;
             }
             int defense;
             if(type_defense==DEFENSE)
             {
-                defense = caster.defense;
+                Console.WriteLine("using defense");
+                defense = target.defense;
             }
             else
             {
-                defense = caster.special_defense;
+                Console.WriteLine("using sp_def");
+                defense = target.special_defense;
             }
 
 
