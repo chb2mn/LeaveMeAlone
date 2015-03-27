@@ -445,7 +445,7 @@ namespace LeaveMeAlone
         {
             //Do Background drawing
 
-            spriteBatch.Draw(bkgd, new Rectangle(0, -25, 1000, 600), Color.White);
+            spriteBatch.Draw(bkgd, new Rectangle(-100, -25, 1000, 543), Color.White);
             //Draw Heroes
             for (int i = 0; i < 4; i++)
             {
