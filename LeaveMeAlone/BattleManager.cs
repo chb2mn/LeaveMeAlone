@@ -139,7 +139,7 @@ namespace LeaveMeAlone
             //targeted_enemy is our target
             //selected_skill is our skill
             //Check if targeted_enemy is within the party size
-            if (targeted_enemy > heroes.Count())
+            if (targeted_enemy >= heroes.Count())
             {
                 state = State.Target;
                 return;
@@ -521,7 +521,7 @@ namespace LeaveMeAlone
                         }
                         else
                         {
-                            animation_counter = 25;
+                            animation_counter = 50;
                             heroes[i].damage_text.changeMessage("");
                         }
                     }

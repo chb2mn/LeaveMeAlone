@@ -34,7 +34,7 @@ namespace LeaveMeAlone
             //draws a string, params are your font, your message, position, and color
             if (font != null)
             {
-                sb.DrawString(font, message, new Vector2(x, y), Color.Yellow);
+                sb.DrawString(font, message, new Vector2(x, y), Color.Coral);
             }
         }
         
