@@ -18,8 +18,8 @@ namespace LeaveMeAlone
         public static Text boss_hp;
         public static Text boss_energy;
 
-        public static List<Character> heroes = new List<Character>();
-        public static List<Text> hero_hp = new List<Text>();
+        public static List<Character> heroes = new List<Character>(4);
+        public static List<Text> hero_hp = new List<Text>(4);
         public static List<Rectangle> heroLoc = new List<Rectangle>();
 
         public static Character boss;
@@ -101,14 +101,14 @@ namespace LeaveMeAlone
 
             int hero_basex = 50;
             int hero_basey = 150;
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey, 50, 50));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 50, 50));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 50, 50));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 50, 50));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 100, 60));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 100, 60));
+            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 100, 60));
             for (int i = 0; i < 4; i++)
             {
-                    Text hptext = new Text("");
-                    hero_hp.Add(hptext);
+                Text hptext = new Text("");
+                hero_hp.Add(hptext);
             }
 
 
@@ -431,6 +431,11 @@ namespace LeaveMeAlone
                     CheckVictoryDefeat();
                     break;
             }
+
+            for (int i = 0; i < heroes.Count; i++){
+                heroes[i].Update(gametime);
+            }
+            boss.Update(gametime);
             return Game1.GameState.Battle;
         }
 
@@ -444,26 +449,30 @@ namespace LeaveMeAlone
                 {
                     if (i == hovered_enemy)
                     {
-                        spriteBatch.Draw(heroes[i].sprite, heroLoc[i], Color.Violet);
+                        heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+                        heroes[i].Draw(spriteBatch, Color.Violet);
                         //status too
                     }
                     else
                     {
-                        
-                        spriteBatch.Draw(heroes[i].sprite, heroLoc[i], Color.White);
+                        heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+                        heroes[i].Draw(spriteBatch, Color.White);
                         //status too
                     }
-                    hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X + 50, heroLoc[i].Location.Y + 30);
+                    hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y + 30);
                 }
                 catch
                 {
                     //dead/KO animation
                 }
+
+
             }
-            spriteBatch.Draw(boss.sprite, bossLoc, Color.White);
+
+            boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
+            boss.Draw(spriteBatch, Color.White);
             boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 100);
             boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
-            //status too
 
             //Check if we have victory
             if (victory)

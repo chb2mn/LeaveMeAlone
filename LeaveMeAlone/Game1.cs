@@ -65,12 +65,17 @@ namespace LeaveMeAlone
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
-            BattleManager.boss = new Character(100, 20, 10, 10, 10, 25, 1, 1, Content.Load<Texture2D>("Machamp_Boss"));
-
+            BattleManager.boss = new Character(100, 10, 10, 10, 10, 25, 1, 1);
+            BattleManager.boss.charType = Character.Type.Mastermind;
+            BattleManager.boss.loadContent(Content);
             BattleManager.Init(Content);
-
-            Text.loadContent(Content);
             BattleManager.heroes = PartyManager.CreateParty(Content);
+            for (int i = 0; i < BattleManager.heroes.Count; i++)
+            {
+                BattleManager.heroes[i].loadContent(Content);
+            }
+            Text.loadContent(Content);
+
         }
 
         /// <summary>
@@ -105,6 +110,7 @@ namespace LeaveMeAlone
                     break;
                 case GameState.Battle:
                     gamestate = BattleManager.Update(gameTime);
+                    BattleManager.boss.Update(gameTime);
                     break;
             }
             
