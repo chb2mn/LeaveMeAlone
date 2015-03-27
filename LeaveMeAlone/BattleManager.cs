@@ -138,6 +138,12 @@ namespace LeaveMeAlone
 
             //targeted_enemy is our target
             //selected_skill is our skill
+            //Check if targeted_enemy is within the party size
+            if (targeted_enemy > heroes.Count())
+            {
+                state = State.Target;
+                return;
+            }
             if (targeted_enemy >= 0)
             {
                 if (heroes[targeted_enemy] == null)
@@ -368,8 +374,17 @@ namespace LeaveMeAlone
                     break;
                 case State.Bribe:
                     //Bribe Stuff
-                    
-                    break;
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
+                    {
+                        int selectLocX = Mouse.GetState().X;
+                        int selectLocY = Mouse.GetState().Y;
+                        if (backLoc.Contains(selectLocX, selectLocY))
+                        {
+                            NewMenu(0);
+                            state = 0;
+                        }
+                    }
+                        break;
                 case State.Target:
                     //Targetting
 

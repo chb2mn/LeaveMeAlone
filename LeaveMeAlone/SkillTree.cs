@@ -124,6 +124,7 @@ namespace LeaveMeAlone
                 try
                 {
                     target = BattleManager.heroes[i];
+                    if (target == null) { continue; }
                     int damage = Skill.damage(caster, target, 2, 3, 40);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
