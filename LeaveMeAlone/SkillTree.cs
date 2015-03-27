@@ -42,7 +42,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, 0, 1, 10);
+            int damage = Skill.damage(caster, target, 0, 1, 100);
             target.health -= damage;
         }
 

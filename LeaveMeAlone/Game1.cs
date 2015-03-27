@@ -63,7 +63,7 @@ namespace LeaveMeAlone
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
             
-            BattleManager.boss = new Character(100, 10, 10, 10, 10, 25, 1, 1, Content.Load<Texture2D>("Machamp_Boss"));
+            BattleManager.boss = new Character(100, 20, 10, 10, 10, 25, 1, 1, Content.Load<Texture2D>("Machamp_Boss"));
 
             BattleManager.Init(Content);
 

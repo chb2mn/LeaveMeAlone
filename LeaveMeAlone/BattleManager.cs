@@ -199,16 +199,34 @@ namespace LeaveMeAlone
         {
             victory = true;
             defeat = false;
-            foreach (Character hero in heroes)
+            Character hero;
+            for (int i = 0; i < 4; i++)
             {
+                try
+                {
+                    hero = heroes[i];
+                    
+                }
+                catch
+                {
+                    continue;
+                }
                 if (hero.health > 0)
                 {
                     victory = false;
+                }
+                else
+                {
+                    heroes.Remove(hero);
                 }
             }
             if (boss.health <= 0)
             {
                 defeat = true;
+            }
+            if (victory || defeat)
+            {
+                state = State.Endgame;
             }
         }
 
@@ -397,7 +415,6 @@ namespace LeaveMeAlone
                     }
 
                     enemy_attack_delay = 30;
-                    Console.Write("Attacking!");
                     Character enemy = heroes[enemy_turn];
                     //AI occurs
                     targeted_enemy = -2;
