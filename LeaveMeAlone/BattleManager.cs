@@ -53,7 +53,7 @@ namespace LeaveMeAlone
         private static int animation_counter = 0;
 
         
-        private static int enemy_attack_delay = 120;
+        private static int enemy_attack_delay = 30;
         private static int enemy_turn = 0;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
@@ -114,9 +114,6 @@ namespace LeaveMeAlone
 
             back = Content.Load<Texture2D>("back");
             backLoc = new Rectangle(675, 410, 113, 51);
-
-            Skill s = new Skill("Basic attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic attack", Character.BasicAttack);
-            boss.addSkill(s);
 
             victory_text = new Text("Victory!\nWe will survive another day!");
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
@@ -287,7 +284,7 @@ namespace LeaveMeAlone
                         else if (buttonLoc[0].Contains(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select basic attack
-                            selected_skill = boss.skills[0];
+                            selected_skill = boss.basic_attack;
                             
                             state = State.Target;
                         }
@@ -312,14 +309,21 @@ namespace LeaveMeAlone
                         {
                             if (buttonLoc[i].Contains(selectLocX, selectLocY))
                             {
-                                selected_skill = boss.selected_skills[i];
-                                if (selected_skill.target == Skill.Target.Single)
+                                try
                                 {
-                                    state = State.Target;
+                                    selected_skill = boss.selected_skills[i];
+                                    if (selected_skill.target == Skill.Target.Single)
+                                    {
+                                        state = State.Target;
+                                    }
+                                    else
+                                    {
+                                        state = State.Attack;
+                                    }
                                 }
-                                else
+                                catch
                                 {
-                                    state = State.Attack;
+
                                 }
                             }
                         }
@@ -392,12 +396,12 @@ namespace LeaveMeAlone
                         break;
                     }
 
-                    enemy_attack_delay = 120;
+                    enemy_attack_delay = 30;
                     Console.Write("Attacking!");
                     Character enemy = heroes[enemy_turn];
                     //AI occurs
                     targeted_enemy = -2;
-                    //selected_skill = enemy.Attack;
+                    selected_skill = enemy.basic_attack;
                     Attack(enemy);
 
                     enemy_turn++;

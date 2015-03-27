@@ -48,6 +48,7 @@ namespace LeaveMeAlone
             existing.Add(value);
         }
 
+
         //The thing with all the trees
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
         public static void initBrute()
@@ -85,6 +86,17 @@ namespace LeaveMeAlone
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Knight] = st;
+        }
+
+        //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
+        public static Skill basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack); 
+
+
+        //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
+        public static void BasicAttack(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, 0, 1, 10);
+            target.health -= damage;
         }
 
     }
