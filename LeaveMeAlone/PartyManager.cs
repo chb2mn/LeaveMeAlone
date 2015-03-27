@@ -24,15 +24,21 @@ namespace LeaveMeAlone
             {
                 case 0:
                     //Knight
-                    return new Character(25, 25, 5, 25, 5, 5, 1, 1, Content.Load<Texture2D>("Knight"));
+                    c = new Character(25, 25, 5, 25, 5, 5, 1, 1);
+                    c.charType = Character.Type.Knight;
+                    return c;
                 case 1:
                     //Mage;
-                    return new Character(25, 5, 25, 5, 25, 15, 1, 1, Content.Load<Texture2D>("BlackMage"));
+                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1);
+                    c.charType = Character.Type.Mage;
+                    return c;
                 case 2:
                     //Ranger
-                    return new Character(25, 10, 10, 10, 10, 35, 1, 1, Content.Load<Texture2D>("Archer"));
+                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1);
+                    c.charType = Character.Type.Ranger;
+                    return c;
             }
-            return new Character(25, 5, 5, 5, 5, 5, 1, 1, Content.Load<Texture2D>("DummyHero"));
+            return new Character(25, 5, 5, 5, 5, 5, 1, 1);
 
             // Character c = new Character(Character.Type.Ranger, 1);
             // return c;
@@ -49,6 +55,8 @@ namespace LeaveMeAlone
                 
                 int type = RNG.Next(3);
                 new_party.Add(CreateHero(Content, type));
+                Text text = new Text("msg");
+                BattleManager.hero_hp.Add(text);
                 BattleManager.hero_hp[0].changeMessage(new_party[0].max_health.ToString() + "/" + new_party[0].max_health.ToString());
 
             }
@@ -59,6 +67,8 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    Text text = new Text("msg");
+                    BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
 
                 }
@@ -69,6 +79,8 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    Text text = new Text("msg");
+                    BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
 
                 }
@@ -81,6 +93,8 @@ namespace LeaveMeAlone
                 {
                     int type = RNG.Next(3);
                     new_party.Add(CreateHero(Content, type));
+                    Text text = new Text("msg");
+                    BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
                 }
             }
