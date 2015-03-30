@@ -280,7 +280,11 @@ namespace LeaveMeAlone
                 else
                 {
                     Console.WriteLine("Removing Enemy: " + i + " At health: " + hero.health);
+                    Resources.gold += heroes[i].gold;
+                    Resources.exp += heroes[i].exp;
                     heroes[i] = null;
+
+                    //Reward the boss
                 }
             }
             if (boss.health <= 0)

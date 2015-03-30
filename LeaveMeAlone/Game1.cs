@@ -67,8 +67,10 @@ namespace LeaveMeAlone
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
-            Text text = new Text("");
-            BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, text);
+
+
+            Text boss_dmg_text = new Text("");
+            BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, boss_dmg_text);
             BattleManager.boss.charType = Character.Type.Mastermind;
             BattleManager.boss.Init();
             BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);

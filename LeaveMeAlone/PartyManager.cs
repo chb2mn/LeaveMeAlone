@@ -34,21 +34,21 @@ namespace LeaveMeAlone
             {
                 case 0:
                     //Knight
-                    c = new Character(50, 25, 5, 500, 0, 5, 1, 1, damage_text);
+                    c = new Character(50, 25, 5, 500, 0, 5, 1, 1, 100, 100, damage_text);
                     c.charType = Character.Type.Knight;
                     return c;
                 case 1:
                     //Mage;
-                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, damage_text);
+                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, 100, 100, damage_text);
                     c.charType = Character.Type.Mage;
                     return c;
                 case 2:
                     //Ranger
-                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1, damage_text);
+                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1, 100, 100, damage_text);
                     c.charType = Character.Type.Ranger;
                     return c;
             }
-            return new Character(25, 5, 5, 5, 5, 5, 1, 1, damage_text);
+            return new Character(25, 5, 5, 5, 5, 5, 1, 1, 100, 100, damage_text);
 
             // Character c = new Character(Character.Type.Ranger, 1);
             // return c;
