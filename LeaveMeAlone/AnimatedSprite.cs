@@ -17,8 +17,8 @@ namespace LeaveMeAlone
         protected bool facingRight;
         protected float aWidth;
         protected float aHeight;
-        private Rectangle[] sRectangles;
-        private int frameIndex;
+        protected Rectangle[] sRectangles;
+        protected int frameIndex;
         private double timeElapsed;
         private double timeToUpdate;
         private int startFrame;
@@ -104,6 +104,7 @@ namespace LeaveMeAlone
             }
             lastState = currentState;
         }
+        /*
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
             if (facingRight)
@@ -116,5 +117,6 @@ namespace LeaveMeAlone
                 spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
             }
         }
+         * */
     }
 }
