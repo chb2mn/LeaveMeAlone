@@ -18,7 +18,7 @@ namespace LeaveMeAlone
         public static int character_counter = 0;
         public List<Skill> skills = new List<Skill>();
         public List<Skill> selected_skills = new List<Skill>();
-        public List<Status> statuses;
+        public List<Status> statuses = new List<Status>();
 
         public int max_health;
         public int health;
@@ -153,10 +153,8 @@ namespace LeaveMeAlone
             AddAnimation(12);
         }
 
-        public void Update(GameTime gameTime) {
-            FrameUpdate(gameTime);
-        }
-        public void levelUp(){
+        public void levelUp()
+        {
 
         }
         public void cast(Skill skill, Character target = null)
@@ -164,12 +162,38 @@ namespace LeaveMeAlone
             if (skill.energy > this.energy)
             {
                 Console.WriteLine("Character doesn't have enough energy");
-                
+
                 return;
             }
             this.energy -= skill.energy;
             skill.runnable(this, target);
         }
+
+        public void Update(GameTime gameTime) {
+            FrameUpdate(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Color color)
+        {
+            if (facingRight)
+            {
+                Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
+                spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                foreach (Status status in this.statuses)
+                {
+                    spriteBatch.Draw(status.img, oPosition, Color.White);
+                }
+            }
+            else
+            {
+                spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+                foreach (Status status in this.statuses)
+                {
+                    spriteBatch.Draw(status.img, sPosition, Color.White);
+                }
+            }
+        }
+        
 
         
     }

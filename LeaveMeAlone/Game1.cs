@@ -63,6 +63,7 @@ namespace LeaveMeAlone
             SkillTree.Init();
             PartyManager.Init();
             Character.load_content(Content);
+            Status.LoadContent(Content);
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
@@ -72,6 +73,7 @@ namespace LeaveMeAlone
             BattleManager.boss.Init();
             BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
             BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
+            BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
             BattleManager.LoadContent(Content);
             BattleManager.heroes = PartyManager.CreateParty();
             for (int i = 0; i < BattleManager.heroes.Count; i++)

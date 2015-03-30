@@ -93,7 +93,7 @@ namespace LeaveMeAlone
         public static Skill defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
         public static Skill portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
         public static Skill flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-
+        public static Skill nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)
         {
@@ -136,5 +136,13 @@ namespace LeaveMeAlone
                 }
             }          
         }
+        public static void NuclearWaste(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, 2, 3, 40);
+            target.health -= damage;
+            target.statuses.Add(Status.poison);
+            target.damage_text.changeMessage((-damage).ToString());
+        }
+
     }
 }
