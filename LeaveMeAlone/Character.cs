@@ -193,8 +193,5 @@ namespace LeaveMeAlone
                 }
             }
         }
-        
-
-        
     }
 }

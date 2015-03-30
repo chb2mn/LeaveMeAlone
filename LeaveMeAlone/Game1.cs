@@ -14,15 +14,16 @@ namespace LeaveMeAlone
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game
+    public class LeaveMeAlone : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         //Character boss;
         public enum GameState { Main, Upgrade, Lair, Battle, Quit };
         GameState gamestate = GameState.Main;
-
-        public Game1()
+        int seed = 1000;
+        public static Random random = new Random(1000);
+        public LeaveMeAlone()
             : base() 
         {
             graphics = new GraphicsDeviceManager(this);

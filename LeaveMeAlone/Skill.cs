@@ -45,7 +45,7 @@ namespace LeaveMeAlone
             this.runnable = run;
         }
         
-        public static int damage(Character caster, Character target, int type_attack, int type_defense, int power, int modifier=1)
+        public static int damage(Character caster, Character target, int type_attack, int type_defense, int power, double modifier=1)
         {
             //figure out what stats we are using
             int attack;
@@ -72,8 +72,8 @@ namespace LeaveMeAlone
                 Console.WriteLine("using sp_def");
                 defense = target.special_defense;
             }
-
-
+            //from .85 to 1.0
+            //modifier *= (100 -(LeaveMeAlone.random.Next(16))) / 100;
             int val = (int)(((2.0 * (double)caster.level + 10.0)/250.0 * ((double)attack/(double)defense)*(double)power+2.0) * (double)modifier);
             return val;
         }

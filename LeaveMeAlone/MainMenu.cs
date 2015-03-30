@@ -69,7 +69,7 @@ namespace LeaveMeAlone
             mastermind.idle();
             operative.idle();
         }
-        public static Game1.GameState Update(GameTime gameTime)
+        public static LeaveMeAlone.GameState Update(GameTime gameTime)
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
@@ -84,7 +84,7 @@ namespace LeaveMeAlone
                     }
                     else if (quitRect.Contains(currentMouseState.X, currentMouseState.Y))
                     {
-                        return Game1.GameState.Quit;
+                        return LeaveMeAlone.GameState.Quit;
                     }
                 }
             }
@@ -130,11 +130,11 @@ namespace LeaveMeAlone
                         hero.Init();
                     }
                     BattleManager.Init();
-                    return Game1.GameState.Battle;
+                    return LeaveMeAlone.GameState.Battle;
                 }
                 canFinish = true;
             }
-            return Game1.GameState.Main;
+            return LeaveMeAlone.GameState.Main;
         }
         public static void Draw(SpriteBatch Spritebatch)
         {

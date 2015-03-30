@@ -337,7 +337,7 @@ namespace LeaveMeAlone
             }
         }
 
-        public static Game1.GameState Update(GameTime gametime)
+        public static LeaveMeAlone.GameState Update(GameTime gametime)
 
         {
             //If the mouse is released we can continue taking new input
@@ -468,13 +468,13 @@ namespace LeaveMeAlone
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
                                 MainMenu.init();
-                                return Game1.GameState.Main;
+                                return LeaveMeAlone.GameState.Main;
                             }
                             else if (defeat)
                             {
                                 //Restart battle
                                 MainMenu.init();
-                                return Game1.GameState.Main;
+                                return LeaveMeAlone.GameState.Main;
 
                             }
                         }
@@ -530,7 +530,7 @@ namespace LeaveMeAlone
                 heroes[i].Update(gametime);
             }
             boss.Update(gametime);
-            return Game1.GameState.Battle;
+            return LeaveMeAlone.GameState.Battle;
         }
 
         public static void Draw(SpriteBatch spriteBatch)
