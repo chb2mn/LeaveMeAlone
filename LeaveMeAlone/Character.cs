@@ -30,10 +30,14 @@ namespace LeaveMeAlone
         public int max_energy;
         public int level;
         public int manaRechargeRate;
+        //Rewards
+        public int gold;
+        public int exp;
+        //The basic skills everybody has
         public Skill basic_attack;
         public Skill defend;
+        //The text that will display the damage done
         public Text damage_text;
-        //public Skill defend;
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -50,7 +54,7 @@ namespace LeaveMeAlone
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, Text _damage_text)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int gold, int exp, Text _damage_text)
         {
             id = character_counter++;
             max_health = _max_health;

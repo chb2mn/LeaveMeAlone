@@ -14,11 +14,11 @@ namespace LeaveMeAlone
         public Texture2D sprite;
         public Rectangle rectangle;
         public Text text;
-        public Button(Texture2D pic, Rectangle rec, Text text)
+        public Button(Texture2D pic, int x, int y, int width, int height)
         {
             this.sprite = pic;
-            this.rectangle = rec;
-            this.text = text;
+            this.rectangle= new Rectangle(x, y, width, height);
+            this.text = new Text("");
         }
         public void Draw(SpriteBatch sb)
         {

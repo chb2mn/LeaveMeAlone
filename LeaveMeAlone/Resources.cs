@@ -7,5 +7,13 @@ namespace LeaveMeAlone
 {
     class Resources
     {
+        public static int gold;
+        public static int exp;
+
+        public void Init()
+        {
+            gold = 0;
+            exp = 0;
+        }
     }
 }

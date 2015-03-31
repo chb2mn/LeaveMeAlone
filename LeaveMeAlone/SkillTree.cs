@@ -140,8 +140,19 @@ namespace LeaveMeAlone
         {
             int damage = Skill.damage(caster, target, 2, 3, 40);
             target.health -= damage;
-            target.statuses.Add(Status.poison);
             target.damage_text.changeMessage((-damage).ToString());
+
+            //If the status already exists, increase its duration
+            if (target.statuses.Contains(Status.poison))
+            {
+                int status_index = target.statuses.IndexOf(Status.poison);
+                target.statuses[status_index].duration_left += Status.poison.duration;
+            }
+            //Otherwise add it
+            else
+            {
+                target.statuses.Add(Status.poison);
+            }
         }
 
     }
