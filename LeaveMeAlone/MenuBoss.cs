@@ -50,5 +50,19 @@ namespace LeaveMeAlone
         {
             FrameUpdate(gameTime);
         }
+        public void Draw(SpriteBatch spriteBatch, Color color)
+        {
+            if (facingRight)
+            {
+                Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
+                spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+
+            }
+            else
+            {
+                spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+
+            }
+        }
     }
 }

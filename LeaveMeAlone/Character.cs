@@ -19,7 +19,7 @@ namespace LeaveMeAlone
         public static int character_counter = 0;
         public List<Skill> skills = new List<Skill>();
         public List<Skill> selected_skills = new List<Skill>();
-        public List<Status> statuses;
+        public List<Status> statuses = new List<Status>();
 
         public int max_health;
         public int health;
@@ -31,10 +31,14 @@ namespace LeaveMeAlone
         public int max_energy;
         public int level;
         public int manaRechargeRate;
+        //Rewards
+        public int gold;
+        public int exp;
+        //The basic skills everybody has
         public Skill basic_attack;
         public Skill defend;
+        //The text that will display the damage done
         public Text damage_text;
-        //public Skill defend;
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -51,7 +55,7 @@ namespace LeaveMeAlone
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, Text _damage_text)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int gold, int exp, Text _damage_text)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -154,10 +158,8 @@ namespace LeaveMeAlone
             AddAnimation(12);
         }
 
-        public void Update(GameTime gameTime) {
-            FrameUpdate(gameTime);
-        }
-        public void levelUp(){
+        public void levelUp()
+        {
 
         }
         public void cast(Skill skill, Character target = null)
@@ -165,12 +167,38 @@ namespace LeaveMeAlone
             if (skill.energy > this.energy)
             {
                 Console.WriteLine("Character doesn't have enough energy");
-                
+
                 return;
             }
             this.energy -= skill.energy;
             skill.runnable(this, target);
         }
+
+        public void Update(GameTime gameTime) {
+            FrameUpdate(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Color color)
+        {
+            if (facingRight)
+            {
+                Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
+                spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                foreach (Status status in this.statuses)
+                {
+                    spriteBatch.Draw(status.img, oPosition, Color.White);
+                }
+            }
+            else
+            {
+                spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+                foreach (Status status in this.statuses)
+                {
+                    spriteBatch.Draw(status.img, sPosition, Color.White);
+                }
+            }
+        }
+        
 
         
     }

@@ -130,14 +130,48 @@ namespace LeaveMeAlone
             state = State.Basic;
             boss.health = boss.max_health;
             boss.energy = boss.max_energy;
+            boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
+            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString()); 
             NewMenu(0);
         }
+
+        public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
+        {
+            //iterating through the list backwards allows us to properly remove them from the list (it auto-concatenates after every removal)
+            for (int i = affected.statuses.Count()-1; i >= 0; i--)
+            {
+                Status status = affected.statuses[i];
+                //If the effect is a one time, increment the counter and move on
+                if (effect_time == Status.Effect_Time.Once)
+                {
+                    status.duration_left--;
+                    if (status.duration_left == 0)
+                    {
+                        //reverse the affect and remove the status
+                        status.reverse_affect(affected);
+                        affected.statuses.Remove(status);
+                    }
+                }
+                //If the effect is not one time, do the effect and increment counter
+                else if (effect_time == status.effect_time)
+                {
+                    status.affect(affected);
+                    //Whenever the status is triggered, check if the status should be removed
+                    if (status.duration_left-- == 0)
+                    {
+                        affected.statuses.Remove(status);
+                    }
+                }
+                
+            }
+        }
+
+
         public static void Attack(Character caster)
         {
-            //message.changeMessage(""+(heroes[target].health));
-
             //targeted_enemy is our target
             //selected_skill is our skill
+            
             //Check if targeted_enemy is within the party size
             if (targeted_enemy >= heroes.Count())
             {
@@ -146,22 +180,32 @@ namespace LeaveMeAlone
             }
             if (targeted_enemy >= 0)
             {
+                //if hero is dead, ignore
                 if (heroes[targeted_enemy] == null)
                 {
                     state = State.Target;
                     return;
                 }
+                Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
             else if (targeted_enemy == -1)
             {
+                Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill);
             }
             //For enemy turns
             else if (targeted_enemy == -2)
             {
+                Apply_Status(caster, Status.Effect_Time.Before);
                 heroes[enemy_turn].cast(selected_skill, boss);
             }
+            //apply affects for after the attack
+            Apply_Status(caster, Status.Effect_Time.After);
+
+            //check the duration remaining on once effects
+            Apply_Status(caster, Status.Effect_Time.Once);
+            
             //Do damage and send state to enemy turn
             //Update texts
             for (int i = 0; i < heroes.Count(); i++)
@@ -236,7 +280,11 @@ namespace LeaveMeAlone
                 else
                 {
                     Console.WriteLine("Removing Enemy: " + i + " At health: " + hero.health);
+                    Resources.gold += heroes[i].gold;
+                    Resources.exp += heroes[i].exp;
                     heroes[i] = null;
+
+                    //Reward the boss
                 }
             }
             if (boss.health <= 0)
