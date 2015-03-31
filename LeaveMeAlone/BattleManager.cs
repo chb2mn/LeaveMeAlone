@@ -24,27 +24,20 @@ namespace LeaveMeAlone
 
         public static Character boss;
         public static Rectangle bossLoc;
-        public static Texture2D back;
-        public static Rectangle backLoc;
-
 
         private static Button[] basic_buttons = new Button[4];
         private static Button[] skill_buttons = new Button[6];
         private static Texture2D buttonLocPic;
         private static Texture2D bkgd;
         private static Text[] button_text = new Text[6];
-        //this is awful
-        private static int textx;
-        private static int texty;
 
         private static Text victory_text;
         private static bool victory;
         private static bool defeat;
         private static Text defeat_text;
 
-        private static Button nxt_button;
-        private static Texture2D next_button;
-        private static Rectangle nextRect;
+        private static Button next_button;
+        private static Button back_button;
 
         //debug string
         private static Text message = new Text("");
@@ -86,9 +79,6 @@ namespace LeaveMeAlone
             skill_buttons[4] = new Button(buttonLocPic, button_basex +350, button_basey, 200, 50);
             skill_buttons[5] = new Button(buttonLocPic, button_basex +350, button_basey + 60, 200, 50);
 
-            textx = button_basex + 60;
-            texty = button_basey;
-
             basic_buttons[0].UpdateText("Attack");
             basic_buttons[1].UpdateText("Skills");
             basic_buttons[2].UpdateText("Defend");
@@ -113,13 +103,12 @@ namespace LeaveMeAlone
             }
 
 
-            back = Content.Load<Texture2D>("back");
-            backLoc = new Rectangle(675, 410, 113, 51);
+            back_button = new Button(Content.Load<Texture2D>("Back"), 675, 410, 113, 51);
 
             victory_text = new Text("Victory!\nWe will survive another day!");
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
-            next_button = Content.Load<Texture2D>("Next");
-            nextRect = new Rectangle(325, 100, 113, 32);
+
+            next_button = new Button(Content.Load<Texture2D>("Next"), 325, 100, 113, 32);
         }
 
         public static void Init()
@@ -407,7 +396,7 @@ namespace LeaveMeAlone
                                 }
                             }
                         }
-                        if (backLoc.Contains(selectLocX, selectLocY))
+                        if (back_button.Intersects(selectLocX, selectLocY))
                         {
                                     NewMenu(0);
                                     state = 0;
@@ -421,7 +410,7 @@ namespace LeaveMeAlone
                     {
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
-                        if (backLoc.Contains(selectLocX, selectLocY))
+                        if (back_button.Intersects(selectLocX, selectLocY))
                         {
                             NewMenu(0);
                             state = 0;
@@ -444,7 +433,7 @@ namespace LeaveMeAlone
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
 
-                        if (backLoc.Contains(selectLocX, selectLocY))
+                        if (back_button.Intersects(selectLocX, selectLocY))
                         {
                             NewMenu(0);
                         }
@@ -460,7 +449,7 @@ namespace LeaveMeAlone
                     {
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
-                        if (nextRect.Contains(selectLocX, selectLocY))
+                        if (next_button.Intersects(selectLocX, selectLocY))
                         {
                             if (victory) {
                                 //Do next battle
@@ -601,13 +590,13 @@ namespace LeaveMeAlone
             if (victory)
             {
                 victory_text.draw(spriteBatch, 300, 50);
-                spriteBatch.Draw(next_button, nextRect, Color.White);
+                next_button.Draw(spriteBatch);
                 return;
             }
             else if (defeat)
             {
                 defeat_text.draw(spriteBatch, 300, 50);
-                spriteBatch.Draw(next_button, nextRect, Color.White);
+                next_button.Draw(spriteBatch);
                 return;
             }
 
@@ -631,7 +620,7 @@ namespace LeaveMeAlone
 
             if (state == State.Skills || state == State.Bribe || state == State.Target)
             {
-                spriteBatch.Draw(back, backLoc, Color.White);
+                back_button.Draw(spriteBatch);
             }
 
 
