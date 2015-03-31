@@ -28,12 +28,10 @@ namespace LeaveMeAlone
         public static Rectangle backLoc;
 
 
-        //TODO change to class
-        private static Button[] buttons = new Button[4];
+        private static Button[] basic_buttons = new Button[4];
+        private static Button[] skill_buttons = new Button[6];
         private static Texture2D buttonLocPic;
         private static Texture2D bkgd;
-        private static Rectangle[] buttonLoc = new Rectangle[4];
-        private static Rectangle[] skillLoc = new Rectangle[6];
         private static Text[] button_text = new Text[6];
         //this is awful
         private static int textx;
@@ -43,6 +41,8 @@ namespace LeaveMeAlone
         private static bool victory;
         private static bool defeat;
         private static Text defeat_text;
+
+        private static Button nxt_button;
         private static Texture2D next_button;
         private static Rectangle nextRect;
 
@@ -72,28 +72,27 @@ namespace LeaveMeAlone
             int button_basex = 100;
             int button_basey = 350;
 
-            buttonLoc[0] = new Rectangle(button_basex, button_basey, 250, 50);
-            buttonLoc[1] = new Rectangle(button_basex + 300, button_basey, 250, 50);
-            buttonLoc[2] = new Rectangle(button_basex, button_basey + 60, 250, 50);
-            buttonLoc[3] = new Rectangle(button_basex + 300, button_basey + 60, 250, 50);
-            skillLoc[0] = new Rectangle(button_basex - 75, button_basey, 200, 50);
-            skillLoc[1] = new Rectangle(button_basex - 75, button_basey + 60, 200, 50);
-            skillLoc[2] = new Rectangle(button_basex + 140, button_basey, 200, 50);
-            skillLoc[3] = new Rectangle(button_basex + 140, button_basey + 60, 200, 50);
-            skillLoc[4] = new Rectangle(button_basex + 350, button_basey, 200, 50);
-            skillLoc[5] = new Rectangle(button_basex + 350, button_basey + 60, 200, 50);
+
+            buttonLocPic = Content.Load<Texture2D>("buttonbase");
+
+            basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
+            basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
+            basic_buttons[2] = new Button(buttonLocPic, button_basex, button_basey + 60, 250, 50);
+            basic_buttons[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
+            skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 200, 50);
+            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey +60, 200, 50);
+            skill_buttons[2] = new Button(buttonLocPic, button_basex +140, button_basey, 200, 50);
+            skill_buttons[3] = new Button(buttonLocPic, button_basex +140, button_basey +60, 200, 50);
+            skill_buttons[4] = new Button(buttonLocPic, button_basex +350, button_basey, 200, 50);
+            skill_buttons[5] = new Button(buttonLocPic, button_basex +350, button_basey + 60, 200, 50);
 
             textx = button_basex + 60;
             texty = button_basey;
 
-
-            buttonLocPic = Content.Load<Texture2D>("buttonbase");
-            button_text[0] = new Text("Attack");
-            button_text[1] = new Text("Skills");
-            button_text[2] = new Text("Defend");
-            button_text[3] = new Text("Bribe");
-            button_text[4] = new Text("");
-            button_text[5] = new Text("");
+            basic_buttons[0].UpdateText("Attack");
+            basic_buttons[1].UpdateText("Skills");
+            basic_buttons[2].UpdateText("Defend");
+            basic_buttons[3].UpdateText("Bribe");
 
 
             bossLoc = new Rectangle(650, 120, 100, 100);
@@ -308,10 +307,6 @@ namespace LeaveMeAlone
             {
                 case 0:
                     state = 0;
-                    button_text[0].changeMessage("Attack");
-                    button_text[1].changeMessage("Skills");
-                    button_text[2].changeMessage("Defend");
-                    button_text[3].changeMessage("Bribe");
                     break;
                 case 1:
                     //Skills Menu
@@ -320,11 +315,11 @@ namespace LeaveMeAlone
                     {
                         try
                         {
-                            button_text[i].changeMessage(boss.selected_skills[i].name);
+                            skill_buttons[i].UpdateText(boss.selected_skills[i].name);
                         }
                         catch
                         {
-                            button_text[i].changeMessage("NONE");
+                            skill_buttons[i].UpdateText("NONE");
                         }
                     }
                     break;
@@ -356,24 +351,24 @@ namespace LeaveMeAlone
                     {
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
-                        if (buttonLoc[1].Contains(selectLocX, selectLocY))
+                        if (basic_buttons[1].Intersects(selectLocX, selectLocY))
                         {
                             //Go toSkill menu
                             NewMenu(1);
                         }
-                        else if (buttonLoc[3].Contains(selectLocX, selectLocY))
+                        else if (basic_buttons[3].Intersects(selectLocX, selectLocY))
                         {
                             //Go to Bribe menu
                             NewMenu(2);
                         }
-                        else if (buttonLoc[0].Contains(selectLocX, selectLocY))
+                        else if (basic_buttons[0].Intersects(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select basic attack
                             selected_skill = boss.basic_attack;
                             
                             state = State.Target;
                         }
-                        else if (buttonLoc[2].Contains(selectLocX, selectLocY))
+                        else if (basic_buttons[2].Intersects(selectLocX, selectLocY))
                         {
                             //TODO: need a way to select taunt
                             selected_skill = boss.defend;
@@ -392,7 +387,7 @@ namespace LeaveMeAlone
                         message.changeMessage(selectLocX + ", " + selectLocY);
                         for (int i = 0; i < 6; i++)
                         {
-                            if (skillLoc[i].Contains(selectLocX, selectLocY))
+                            if (skill_buttons[i].Intersects(selectLocX, selectLocY))
                             {
                                 try
                                 {
@@ -621,27 +616,17 @@ namespace LeaveMeAlone
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    spriteBatch.Draw(buttonLocPic, buttonLoc[i], Color.White);
+                    basic_buttons[i].Draw(spriteBatch);
                 }
-                button_text[0].draw(spriteBatch, textx, texty);
-                button_text[1].draw(spriteBatch, textx + 300, texty);
-                button_text[2].draw(spriteBatch, textx, texty+60);
-                button_text[3].draw(spriteBatch, textx + 300, texty+60);
 
 
             }
-            if (state == State.Skills)
+            else if (state == State.Skills)
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    spriteBatch.Draw(buttonLocPic, skillLoc[i], Color.White);
+                    skill_buttons[i].Draw(spriteBatch);
                 }
-                button_text[0].draw(spriteBatch, textx - 75, texty);
-                button_text[1].draw(spriteBatch, textx - 75, texty + 60);
-                button_text[2].draw(spriteBatch, textx + 140, texty);
-                button_text[3].draw(spriteBatch, textx + 140, texty + 60 );
-                button_text[4].draw(spriteBatch, textx + 350, texty);
-                button_text[5].draw(spriteBatch, textx + 350, texty + 60);
             }
 
             if (state == State.Skills || state == State.Bribe || state == State.Target)
