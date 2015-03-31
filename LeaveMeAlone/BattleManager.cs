@@ -30,7 +30,9 @@ namespace LeaveMeAlone
         private static Texture2D buttonLocPic;
         private static Texture2D bkgd;
         private static Texture2D targeter;
-        private static Text[] button_text = new Text[6];
+        private static Text target_text;
+
+        //private static Text[] button_text = new Text[6];
 
         private static Text victory_text;
         private static bool victory;
@@ -69,6 +71,7 @@ namespace LeaveMeAlone
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
+            target_text = new Text("Select Target");
 
             basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
             basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
@@ -539,6 +542,7 @@ namespace LeaveMeAlone
                         heroes[i].Draw(spriteBatch, Color.Violet);
                         if (state == State.Target)
                         {
+                            target_text.draw(spriteBatch, 200, 180);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Red);
                         }
                         //status too
@@ -549,6 +553,7 @@ namespace LeaveMeAlone
                         heroes[i].Draw(spriteBatch, Color.White);
                         if (state == State.Target)
                         {
+                            target_text.draw(spriteBatch, 200, 180);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Black);
                         }
                         //status too
