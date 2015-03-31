@@ -123,7 +123,7 @@ namespace LeaveMeAlone
                         hero.Init();
                     }
                     BattleManager.Init();
-                    return Game1.GameState.Battle;
+                    return Game1.GameState.Upgrade;
                 }
                 canFinish = true;
             }

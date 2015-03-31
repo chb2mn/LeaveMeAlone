@@ -60,6 +60,7 @@ namespace LeaveMeAlone
             spriteBatch = new SpriteBatch(GraphicsDevice);
             MainMenu.loadContent(Content);
             MainMenu.init();
+            UpgradeMenu.loadContent(Content);
             SkillTree.Init();
             PartyManager.Init();
             Character.load_content(Content);
@@ -112,6 +113,7 @@ namespace LeaveMeAlone
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
+                    gamestate = UpgradeMenu.Update();
                     break;
                 case GameState.Lair:
                     //Lair menu
@@ -143,6 +145,7 @@ namespace LeaveMeAlone
                     break;
                 case GameState.Upgrade:
                     //upgrade_menu
+                    UpgradeMenu.Draw(spriteBatch);
                     break;
                 case GameState.Lair:
                     //Lair menu
