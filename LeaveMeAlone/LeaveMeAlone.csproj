@@ -41,7 +41,7 @@
     <Compile Include="BattleManager.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Character.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="LeaveMeAlone.cs" />
     <Compile Include="LairManager.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuBoss.cs" />

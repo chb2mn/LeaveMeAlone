@@ -23,18 +23,19 @@ namespace LeaveMeAlone
             next = new Button(content.Load<Texture2D>("next"), 250, 250, 113, 32);
         }
 
-        public static Game1.GameState Update()
+        public static LeaveMeAlone.GameState Update(GameTime g)
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
+
                 if (next.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
-                    return Game1.GameState.Battle;
+                    return LeaveMeAlone.GameState.Battle;
                 }
             }
-            return Game1.GameState.Upgrade;
+            return LeaveMeAlone.GameState.Upgrade;
         }
 
         public static void Draw(SpriteBatch sb)
