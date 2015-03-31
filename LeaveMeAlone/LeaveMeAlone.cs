@@ -20,7 +20,7 @@ namespace LeaveMeAlone
         SpriteBatch spriteBatch;
         //Character boss;
         public enum GameState { Main, Upgrade, Lair, Battle, Quit };
-        GameState gamestate = GameState.Main;
+        public static GameState gamestate = GameState.Main;
         int seed = 1000;
         public static Random random = new Random(1000);
         public LeaveMeAlone()
@@ -121,7 +121,6 @@ namespace LeaveMeAlone
                     break;
                 case GameState.Battle:
                     gamestate = BattleManager.Update(gameTime);
-                    BattleManager.boss.Update(gameTime);
                     break;
                 case GameState.Quit:
                     Exit();

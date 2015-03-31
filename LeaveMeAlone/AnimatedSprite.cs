@@ -15,6 +15,8 @@ namespace LeaveMeAlone
         protected Texture2D sTexture;
         public Vector2 sPosition;
         protected bool facingRight;
+        private bool midAttack;
+        private int offset = 0;
         protected float aWidth;
         protected float aHeight;
         protected Rectangle[] sRectangles;
@@ -62,7 +64,25 @@ namespace LeaveMeAlone
 
             //Adds time that has elapsed since our last draw
             timeElapsed += gameTime.ElapsedGameTime.TotalSeconds;
-
+            if (midAttack && offset <= 50)
+            {
+                walk();
+                offset += 1;
+                sPosition.X++;
+            }
+            else if (midAttack && offset > 50)
+            {
+                midAttack = false;
+            }
+            if (!midAttack && offset != 0)
+            {
+                offset -= 1;
+                sPosition.X--;
+            }
+            else if (!midAttack && offset == 0 && LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Battle)
+            {
+                idle();
+            }
             //We need to change our image if our timeElapsed is greater than our timeToUpdate(calculated by our framerate)
             if (timeElapsed > timeToUpdate)
             {
@@ -103,6 +123,10 @@ namespace LeaveMeAlone
                 FramesPerSecond = 10;
             }
             lastState = currentState;
+        }
+        public void attackAnimation()
+        {
+            midAttack = true;
         }
         /*
         public void Draw(SpriteBatch spriteBatch, Color color)
