@@ -118,7 +118,6 @@ namespace LeaveMeAlone
                     break;
                 case GameState.Battle:
                     gamestate = BattleManager.Update(gameTime);
-                    BattleManager.boss.Update(gameTime);
                     break;
                 case GameState.Quit:
                     Exit();

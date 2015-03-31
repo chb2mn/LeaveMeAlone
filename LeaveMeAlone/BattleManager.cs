@@ -125,7 +125,12 @@ namespace LeaveMeAlone
 
         public static void Init()
         {
-            victory = false;
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+            }
+            boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
+                victory = false;
             defeat = false;
             state = State.Basic;
             boss.health = boss.max_health;
@@ -171,7 +176,7 @@ namespace LeaveMeAlone
         {
             //targeted_enemy is our target
             //selected_skill is our skill
-            
+            caster.attackAnimation();
             //Check if targeted_enemy is within the party size
             if (targeted_enemy >= heroes.Count())
             {
@@ -549,13 +554,11 @@ namespace LeaveMeAlone
                 {
                     if (i == hovered_enemy)
                     {
-                        heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
                         heroes[i].Draw(spriteBatch, Color.Violet);
                         //status too
                     }
                     else
                     {
-                        heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
                         heroes[i].Draw(spriteBatch, Color.White);
                         //status too
                     }
@@ -585,7 +588,6 @@ namespace LeaveMeAlone
 
             }
 
-            boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             boss.Draw(spriteBatch, Color.White);
             boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 100);
             boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
