@@ -15,11 +15,9 @@ namespace LeaveMeAlone
     {
         private static Texture2D menuBackground;
         private static Texture2D titleCard;
-        private static Texture2D newGame;
-        private static Rectangle newGameRect;
-        private static Texture2D loadGame;
-        private static Texture2D quit;
-        private static Rectangle quitRect;
+        private static Button newGame;
+        private static Button loadGame;
+        private static Button quit;
         private static Texture2D bruteTitle;
         private static Texture2D mastermindTitle;
         private static Texture2D operativeTitle;
@@ -33,12 +31,9 @@ namespace LeaveMeAlone
         public static MenuBoss brute;
         public static MenuBoss mastermind;
         public static MenuBoss operative;
-        /*
-        public MainMenu()
-        {
-            init();
-        }
-        */
+        
+
+
         public static void init()
         {
             currentMouseState = Mouse.GetState();
@@ -49,11 +44,9 @@ namespace LeaveMeAlone
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
             titleCard = content.Load<Texture2D>("TitleCard");
-            newGame = content.Load<Texture2D>("NewGame");
-            newGameRect = new Rectangle(300, 200, 200, 75);
-            loadGame = content.Load<Texture2D>("LoadGame");
-            quit = content.Load<Texture2D>("Quit");
-            quitRect = new Rectangle(300, 350, 200, 75);
+            newGame = new Button(content.Load<Texture2D>("NewGame"), 300, 200, 200, 75);
+            loadGame = new Button(content.Load<Texture2D>("LoadGame"), 300, 275, 200, 75);
+            quit = new Button(content.Load<Texture2D>("Quit"), 300, 350, 200, 75);
 
             bruteTitle = content.Load<Texture2D>("bruteTitle");
             mastermindTitle = content.Load<Texture2D>("mastermindTitle");
@@ -69,7 +62,7 @@ namespace LeaveMeAlone
             mastermind.idle();
             operative.idle();
         }
-        public static Game1.GameState Update(GameTime gameTime)
+        public static LeaveMeAlone.GameState Update(GameTime gameTime)
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
@@ -77,14 +70,14 @@ namespace LeaveMeAlone
             {
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
                 {
-                    if (newGameRect.Contains(currentMouseState.X, currentMouseState.Y))
+                    if (newGame.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
                         mainMenuOpen = false;
                         bossMenuOpen = true;
                     }
-                    else if (quitRect.Contains(currentMouseState.X, currentMouseState.Y))
+                    else if (quit.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
-                        return Game1.GameState.Quit;
+                        return LeaveMeAlone.GameState.Quit;
                     }
                 }
             }
@@ -130,11 +123,11 @@ namespace LeaveMeAlone
                         hero.Init();
                     }
                     BattleManager.Init();
-                    return Game1.GameState.Battle;
+                    return LeaveMeAlone.GameState.Upgrade;
                 }
                 canFinish = true;
             }
-            return Game1.GameState.Main;
+            return LeaveMeAlone.GameState.Main;
         }
         public static void Draw(SpriteBatch Spritebatch)
         {
@@ -142,9 +135,9 @@ namespace LeaveMeAlone
             {
                 Spritebatch.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
                 Spritebatch.Draw(titleCard, new Rectangle(200, 0, 400, 200), Color.White);
-                Spritebatch.Draw(newGame, newGameRect, Color.White);
-                Spritebatch.Draw(loadGame, new Rectangle(300, 275, 200, 75), Color.White);
-                Spritebatch.Draw(quit, quitRect, Color.White);
+                newGame.Draw(Spritebatch);
+                loadGame.Draw(Spritebatch);
+                quit.Draw(Spritebatch);
             }
             if (bossMenuOpen)
             {
