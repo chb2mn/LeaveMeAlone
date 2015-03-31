@@ -79,11 +79,10 @@ namespace LeaveMeAlone
                 offset -= 1;
                 sPosition.X--;
             }
-            else if (!midAttack && offset == 0)
+            else if (!midAttack && offset == 0 && LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Battle)
             {
                 idle();
             }
-            Console.WriteLine(offset);
             //We need to change our image if our timeElapsed is greater than our timeToUpdate(calculated by our framerate)
             if (timeElapsed > timeToUpdate)
             {
