@@ -135,8 +135,8 @@ namespace LeaveMeAlone
             {
                 bribe_amounts[i].UpdateText((Math.Pow(10,i+1)).ToString());
             }
-            total_amount = new Button(buttonLocPic, button_basex + 100, button_basey - 60, 150, 50);
-            total_amount.UpdateText("0");
+            total_amount = new Button(buttonLocPic, button_basex + 175, button_basey - 60, 200, 50);
+            total_amount.UpdateText("How Much?: 0");
         }
 
         public static void Init()
@@ -448,7 +448,7 @@ namespace LeaveMeAlone
                             if (bribe_amounts[i].Intersects(selectLocX, selectLocY))
                             {
                                 bribe_gold += (int) Math.Pow(10, i+1);
-                                total_amount.UpdateText(bribe_gold.ToString());
+                                total_amount.UpdateText("How Much?: " + bribe_gold.ToString());
                                 menu_change_in_progress = true;
                             }
                         }
@@ -457,23 +457,22 @@ namespace LeaveMeAlone
                             NewMenu(0);
                             state = 0;
                             bribe_gold = 0;
-                            total_amount.UpdateText("0");
+                            total_amount.UpdateText("How Much?: 0");
                         }
                         //Send bribe target at enemy
                         targeted_enemy = Target();
                         if (targeted_enemy >= 0)
                         {
-                            if (heroes[targeted_enemy].gold < bribe_gold)
+                            if (heroes[targeted_enemy].gold < bribe_gold && Resources.gold >= bribe_gold)
                             {
                                 //remove hero
                                 heroes[targeted_enemy] = null;
                                 Resources.gold -= bribe_gold;
-
                             }
                             NewMenu(0);
                             state = 0;
                             bribe_gold = 0;
-                            total_amount.UpdateText("0");
+                            total_amount.UpdateText("How Much?: 0");
                         }
                     }
                         break;
