@@ -64,6 +64,7 @@ namespace LeaveMeAlone
         //------------Bribe Stuff------------//
         private static Button[] bribe_amounts = new Button[4];
         private static Button total_amount;
+        private static Button my_amount;
         private static int bribe_gold;
 
 
@@ -135,8 +136,10 @@ namespace LeaveMeAlone
             {
                 bribe_amounts[i].UpdateText((Math.Pow(10,i+1)).ToString());
             }
-            total_amount = new Button(buttonLocPic, button_basex + 175, button_basey - 60, 200, 50);
+            total_amount = new Button(buttonLocPic, button_basex + 50, button_basey - 60, 200, 50);
             total_amount.UpdateText("How Much?: 0");
+            my_amount = new Button(buttonLocPic, button_basex + 300, button_basey - 60, 200, 50);
+            my_amount.UpdateText("Total: " + Resources.gold.ToString());
         }
 
         public static void Init()
@@ -691,6 +694,7 @@ namespace LeaveMeAlone
                     bribe_amounts[i].Draw(spriteBatch);
                 }
                 total_amount.Draw(spriteBatch);
+                my_amount.Draw(spriteBatch);
             }
 
             if (state == State.Skills || state == State.Bribe || state == State.Target)
