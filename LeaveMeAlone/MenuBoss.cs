@@ -13,38 +13,25 @@ namespace LeaveMeAlone
 {
     class MenuBoss : AnimatedSprite
     {
-        private String bossType;
-        public MenuBoss(String type)
+        private Character.Type bossType;
+        public static Dictionary<Character.Type, Texture2D> textures = new Dictionary<Character.Type,Texture2D>();
+        public MenuBoss(Character.Type type, Vector2 pos)
         {
             bossType = type;
-        }
-        public void LoadContent(ContentManager content)
-        {
+            sPosition = pos;
+            sTexture = textures[bossType];
             idleStartFrame = 0;
             idleEndFrame = 1;
             walkStartFrame = 3;
             walkEndFrame = 11;
-            if (bossType == "brute")
-            {
-                sTexture = content.Load<Texture2D>("bruteMenu");
-                sPosition = new Vector2(75, 200);
-                AddAnimation(12);
-                facingRight = true;
-            }
-            if (bossType == "mastermind")
-            {
-                sTexture = content.Load<Texture2D>("bruteMenu");
-                sPosition = new Vector2(275, 200);
-                AddAnimation(12);
-                facingRight = true;
-            }
-            if (bossType == "operative")
-            {
-                sTexture = content.Load<Texture2D>("bruteMenu");
-                sPosition = new Vector2(475, 200);
-                AddAnimation(12);
-                facingRight = true;
-            }
+            AddAnimation(12);
+            facingRight = true;
+        }
+        public static void LoadContent(ContentManager content)
+        {
+            textures[Character.Type.Brute] = content.Load<Texture2D>("bruteMenu");
+            textures[Character.Type.Operative] = content.Load<Texture2D>("bruteMenu");
+            textures[Character.Type.Mastermind] = content.Load<Texture2D>("bruteMenu");
         }
         public void Update(GameTime gameTime)
         {
@@ -56,13 +43,13 @@ namespace LeaveMeAlone
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
                 spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-
             }
             else
             {
                 spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
-
             }
         }
+
+
     }
 }

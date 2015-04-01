@@ -39,6 +39,14 @@ namespace LeaveMeAlone
             currentMouseState = Mouse.GetState();
             mainMenuOpen = true;
             bossMenuOpen = false;
+            brute = new MenuBoss(Character.Type.Brute, new Vector2(75, 200));
+            mastermind = new MenuBoss(Character.Type.Mastermind, new Vector2(275, 200));
+            operative = new MenuBoss(Character.Type.Operative, new Vector2(475, 200));
+            
+
+            brute.idle();
+            mastermind.idle();
+            operative.idle();
         }
         public static void loadContent(ContentManager content)
         {
@@ -52,15 +60,7 @@ namespace LeaveMeAlone
             mastermindTitle = content.Load<Texture2D>("mastermindTitle");
             operativeTitle = content.Load<Texture2D>("operativeTitle");
 
-            brute = new MenuBoss("brute");
-            mastermind = new MenuBoss("mastermind");
-            operative = new MenuBoss("operative");
-            brute.LoadContent(content);
-            mastermind.LoadContent(content);
-            operative.LoadContent(content);
-            brute.idle();
-            mastermind.idle();
-            operative.idle();
+
         }
         public static LeaveMeAlone.GameState Update(GameTime gameTime)
         {

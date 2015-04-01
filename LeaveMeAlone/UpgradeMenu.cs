@@ -41,6 +41,7 @@ namespace LeaveMeAlone
         public static void Draw(SpriteBatch sb)
         {
             sb.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
+            
             BattleManager.boss.sPosition = new Vector2( 50, 50);
             BattleManager.boss.Draw(sb, Color.White);
 
