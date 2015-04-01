@@ -28,11 +28,8 @@ namespace LeaveMeAlone
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Console.WriteLine("" + graphics.PreferredBackBufferWidth);
-            Console.WriteLine("" + graphics.PreferredBackBufferHeight);
-            //Exit();
-            //graphics.PreferredBackBufferWidth = 1600;  // set this value to the desired width of your window
-            //graphics.PreferredBackBufferHeight = 900;   // set this value to the desired height of your window
+            //graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
+            //graphics.PreferredBackBufferHeight = 480;   // set this value to the desired height of your window
 
         }
         
@@ -50,7 +47,7 @@ namespace LeaveMeAlone
             base.Initialize();
             //graphics.ToggleFullScreen();
             //graphics.ApplyChanges();
-            // TODO: Add your initialization logic here
+
             IsMouseVisible = true;
             this.Window.Title = "Leave Me Alone";
 
@@ -148,11 +145,10 @@ namespace LeaveMeAlone
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            //spriteBatch.Begin();
-            RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
-            GraphicsDevice.SetRenderTarget(target);
-
             spriteBatch.Begin();
+            //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
+            //GraphicsDevice.SetRenderTarget(target);
+
             switch (gamestate)
             {
                 case GameState.Main:
@@ -169,12 +165,11 @@ namespace LeaveMeAlone
                     BattleManager.Draw(spriteBatch);
                     break;
             }
-            spriteBatch.End();
-            GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin();
-            spriteBatch.Draw(target, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
-            spriteBatch.End();
             //spriteBatch.End();
+            //GraphicsDevice.SetRenderTarget(null);
+            //spriteBatch.Begin();
+            //spriteBatch.Draw(target, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
