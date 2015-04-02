@@ -97,7 +97,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, 0, 1, 100);
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);
@@ -112,7 +112,7 @@ namespace LeaveMeAlone
         }
         public static void PortalPunch(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, 2, 3, 100);
+            int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);
@@ -125,7 +125,7 @@ namespace LeaveMeAlone
                 {
                     target = BattleManager.heroes[i];
                     if (target == null) { continue; }
-                    int damage = Skill.damage(caster, target, 2, 3, 40);
+                    int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
                     target.damage_text.changeMessage(str_damage);
@@ -138,7 +138,7 @@ namespace LeaveMeAlone
         }
         public static void NuclearWaste(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, 2, 3, 40);
+            int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
             target.health -= damage;
             target.damage_text.changeMessage((-damage).ToString());
 
