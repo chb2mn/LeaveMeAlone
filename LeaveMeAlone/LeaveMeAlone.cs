@@ -28,6 +28,9 @@ namespace LeaveMeAlone
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            //graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
+            //graphics.PreferredBackBufferHeight = 480;   // set this value to the desired height of your window
+
         }
         
 
@@ -41,14 +44,28 @@ namespace LeaveMeAlone
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            base.Initialize();
+            //graphics.ToggleFullScreen();
+            //graphics.ApplyChanges();
+
             IsMouseVisible = true;
             this.Window.Title = "Leave Me Alone";
 
             //Skill s = new Skill("test", 1, 100, 1, 0, 0, "My first skill", new Skill.Run(test));
             //s.runnable(boss_char);
+                        MainMenu.init();
+            SkillTree.Init();
+            PartyManager.Init();
+            Resources.Init();
+
+            BattleManager.heroes = PartyManager.CreateParty();
+            for (int i = 0; i < BattleManager.heroes.Count; i++)
+            {
+                BattleManager.heroes[i].Init();
+            }
+
+
             
-            base.Initialize();
         }
 
         /// <summary>
@@ -59,28 +76,31 @@ namespace LeaveMeAlone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
+            //GraphicsDevice.SetRenderTarget(target);
+
             MainMenu.loadContent(Content);
-            MainMenu.init();
+            MenuBoss.LoadContent(Content);
             UpgradeMenu.loadContent(Content);
-            SkillTree.Init();
-            PartyManager.Init();
-            Resources.Init();
+
             Character.load_content(Content);
             Status.LoadContent(Content);
+            BattleManager.LoadContent(Content);
+            SkillTree.LoadContent(Content);
             LairManager.loadContent(Content);
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
 
 
-            Text boss_dmg_text = new Text("");
-            BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, boss_dmg_text);
-            BattleManager.boss.charType = Character.Type.Mastermind;
-            BattleManager.boss.Init();
-            BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
-            BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
-            BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
-            BattleManager.LoadContent(Content);
+            //Text boss_dmg_text = new Text("");
+            //BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, boss_dmg_text);
+            //BattleManager.boss.charType = Character.Type.Mastermind;
+            //BattleManager.boss.Init();
+            //BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
+            //BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
+            //BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
+            //BattleManager.LoadContent(Content);
             Text.loadContent(Content);
 
         }
@@ -135,6 +155,9 @@ namespace LeaveMeAlone
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
+            //GraphicsDevice.SetRenderTarget(target);
+
             switch (gamestate)
             {
                 case GameState.Main:
@@ -151,6 +174,10 @@ namespace LeaveMeAlone
                     BattleManager.Draw(spriteBatch);
                     break;
             }
+            //spriteBatch.End();
+            //GraphicsDevice.SetRenderTarget(null);
+            //spriteBatch.Begin();
+            //spriteBatch.Draw(target, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             spriteBatch.End();
             // TODO: Add your drawing code here
 

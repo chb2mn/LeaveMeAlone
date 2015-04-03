@@ -23,10 +23,12 @@ namespace LeaveMeAlone
         public static void Init()
         {
             partyQueue = new List<List<Character>>();
+            partyQueue.Add(null);
             for (int i = 0; i < 4; i++)
             {
                 damage_texts[i] = new Text("");
             }
+
         }
 
         public static Character CreateHero(int type, Text damage_text)
@@ -112,8 +114,7 @@ namespace LeaveMeAlone
             }
             //Changing the boss's health and energy text fields 
             //--This could/should probably move--
-            BattleManager.boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
-            BattleManager.boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
+
             return new_party;
         }
         public static bool popParty()

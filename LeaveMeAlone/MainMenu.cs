@@ -31,6 +31,7 @@ namespace LeaveMeAlone
         public static MenuBoss brute;
         public static MenuBoss mastermind;
         public static MenuBoss operative;
+        private static MenuBoss current;
         
 
 
@@ -39,6 +40,14 @@ namespace LeaveMeAlone
             currentMouseState = Mouse.GetState();
             mainMenuOpen = true;
             bossMenuOpen = false;
+            brute = new MenuBoss(Character.Type.Brute, new Vector2(75, 200));
+            mastermind = new MenuBoss(Character.Type.Mastermind, new Vector2(275, 200));
+            operative = new MenuBoss(Character.Type.Operative, new Vector2(475, 200));
+            
+
+            brute.idle();
+            mastermind.idle();
+            operative.idle();
         }
         public static void loadContent(ContentManager content)
         {
@@ -52,15 +61,7 @@ namespace LeaveMeAlone
             mastermindTitle = content.Load<Texture2D>("mastermindTitle");
             operativeTitle = content.Load<Texture2D>("operativeTitle");
 
-            brute = new MenuBoss("brute");
-            mastermind = new MenuBoss("mastermind");
-            operative = new MenuBoss("operative");
-            brute.LoadContent(content);
-            mastermind.LoadContent(content);
-            operative.LoadContent(content);
-            brute.idle();
-            mastermind.idle();
-            operative.idle();
+
         }
         public static LeaveMeAlone.GameState Update(GameTime gameTime)
         {
@@ -83,7 +84,7 @@ namespace LeaveMeAlone
             }
             if (bossMenuOpen)
             {
-                if ((100 < currentMouseState.X) && (currentMouseState.X < 250))
+                if (brute.Contains(new Vector2(currentMouseState.X, currentMouseState.Y)))
                 {
                     bruteHover = true;
                     mastermindHover = false;
@@ -91,8 +92,9 @@ namespace LeaveMeAlone
                     brute.walk();
                     mastermind.idle();
                     operative.idle();
+                    current = brute;
                 }
-                if ((325 < currentMouseState.X) && (currentMouseState.X < 425))
+                else if (mastermind.Contains(new Vector2(currentMouseState.X, currentMouseState.Y)))
                 {
                     bruteHover = false;
                     mastermindHover = true;
@@ -100,8 +102,9 @@ namespace LeaveMeAlone
                     brute.idle();
                     mastermind.walk();
                     operative.idle();
+                    current = mastermind;
                 }
-                if ((500 < currentMouseState.X) && (currentMouseState.X < 600))
+                else if (operative.Contains(new Vector2(currentMouseState.X, currentMouseState.Y)))
                 {
                     bruteHover = false;
                     mastermindHover = false;
@@ -109,12 +112,31 @@ namespace LeaveMeAlone
                     brute.idle();
                     mastermind.idle();
                     operative.walk();
+                    current = operative;
+                }
+                else
+                {
+                    current = null;
+                    bruteHover = false;
+                    mastermindHover = false;
+                    operativeHover = false;
+                    brute.idle();
+                    mastermind.idle();
+                    operative.idle();
                 }
                 brute.Update(gameTime);
                 mastermind.Update(gameTime);
                 operative.Update(gameTime);
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released && canFinish)
                 {
+                    BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, new Text(""));
+                    BattleManager.boss.charType = current.bossType;
+                    BattleManager.boss.Init();
+
+                    //TODO remove this method of adding skills
+                    BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
+                    BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
+                    BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
                     bossMenuOpen = false;
                     Console.WriteLine("Here we go!");
                     BattleManager.heroes = PartyManager.CreateParty();
@@ -122,7 +144,12 @@ namespace LeaveMeAlone
                     {
                         hero.Init();
                     }
-                    BattleManager.Init();
+                    //required because the UpgradeMenu needs some info
+                    BattleManager.Init(current.bossType);
+                    UpgradeMenu.Init(current);
+                    
+                    //return LeaveMeAlone.GameState.Upgrade;
+
                     return LeaveMeAlone.GameState.Lair;
                 }
                 canFinish = true;

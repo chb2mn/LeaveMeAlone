@@ -50,7 +50,7 @@ namespace LeaveMeAlone
         private static bool right_click = false;
         private static int animation_counter = 30;
 
-        
+
         private static int enemy_attack_delay = 30;
         private static int enemy_turn = 0;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
@@ -61,6 +61,7 @@ namespace LeaveMeAlone
         private static int hovered_enemy = -1;
         private static int targeted_enemy = -1;
         private static Skill selected_skill;
+
        
         //------------Bribe Stuff------------//
         private static Button[] bribe_amounts = new Button[4];
@@ -71,8 +72,8 @@ namespace LeaveMeAlone
 
         public static void LoadContent(ContentManager Content)
         {
-            
-            
+
+
             bkgd = Content.Load<Texture2D>("skyscraperBkgd");
             int button_basex = 100;
             int button_basey = 350;
@@ -90,11 +91,11 @@ namespace LeaveMeAlone
             basic_buttons[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
 
             skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 200, 50);
-            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey +60, 200, 50);
-            skill_buttons[2] = new Button(buttonLocPic, button_basex +140, button_basey, 200, 50);
-            skill_buttons[3] = new Button(buttonLocPic, button_basex +140, button_basey +60, 200, 50);
-            skill_buttons[4] = new Button(buttonLocPic, button_basex +350, button_basey, 200, 50);
-            skill_buttons[5] = new Button(buttonLocPic, button_basex +350, button_basey + 60, 200, 50);
+            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey + 60, 200, 50);
+            skill_buttons[2] = new Button(buttonLocPic, button_basex + 140, button_basey, 200, 50);
+            skill_buttons[3] = new Button(buttonLocPic, button_basex + 140, button_basey + 60, 200, 50);
+            skill_buttons[4] = new Button(buttonLocPic, button_basex + 350, button_basey, 200, 50);
+            skill_buttons[5] = new Button(buttonLocPic, button_basex + 350, button_basey + 60, 200, 50);
 
             basic_buttons[0].UpdateText("Attack");
             basic_buttons[1].UpdateText("Skills");
@@ -136,16 +137,16 @@ namespace LeaveMeAlone
 
         }
 
-        public static void Init()
+        public static void Init(Character.Type t)
         {
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
-                victory = false;
+            victory = false;
             defeat = false;
             state = State.Basic;
             boss.health = boss.max_health;
             boss.energy = boss.max_energy;
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
-            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString()); 
+            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
             NewMenu(0);
 
             total_amount.UpdateText("How Much?: 0");
@@ -155,7 +156,7 @@ namespace LeaveMeAlone
         public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
         {
             //iterating through the list backwards allows us to properly remove them from the list (it auto-concatenates after every removal)
-            for (int i = affected.statuses.Count()-1; i >= 0; i--)
+            for (int i = affected.statuses.Count() - 1; i >= 0; i--)
             {
                 Status status = affected.statuses[i];
                 //If the effect is a one time, increment the counter and move on
@@ -179,7 +180,7 @@ namespace LeaveMeAlone
                         affected.statuses.Remove(status);
                     }
                 }
-                
+
             }
         }
 
@@ -229,7 +230,7 @@ namespace LeaveMeAlone
 
             //check the duration remaining on once effects
             Apply_Status(caster, Status.Effect_Time.Once);
-            
+
             //Do damage and send state to enemy turn
             //Update texts
             for (int i = 0; i < heroes.Count(); i++)
@@ -363,7 +364,6 @@ namespace LeaveMeAlone
         }
 
         public static LeaveMeAlone.GameState Update(GameTime gametime)
-
         {
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -395,7 +395,7 @@ namespace LeaveMeAlone
                         {
                             //TODO: need a way to select basic attack
                             selected_skill = boss.basic_attack;
-                            
+
                             state = State.Target;
                         }
                         else if (basic_buttons[2].Intersects(selectLocX, selectLocY))
@@ -439,10 +439,10 @@ namespace LeaveMeAlone
                         }
                         if (back_button.Intersects(selectLocX, selectLocY))
                         {
-                                    NewMenu(0);
-                                    state = 0;
+                            NewMenu(0);
+                            state = 0;
                         }
-                            
+
                     }
                     break;
                 case State.Bribe:
@@ -505,7 +505,7 @@ namespace LeaveMeAlone
                         bribe_gold = 0;
                         total_amount.UpdateText("How Much?: 0");
                     }
-                        break;
+                    break;
                 case State.Target:
                     //Targetting
 
@@ -527,7 +527,7 @@ namespace LeaveMeAlone
                             NewMenu(0);
                         }
                     }
-                    
+
                     break;
                 case State.Attack:
                     //Attacking
@@ -540,13 +540,14 @@ namespace LeaveMeAlone
                         int selectLocY = Mouse.GetState().Y;
                         if (next_button.Intersects(selectLocX, selectLocY))
                         {
-                            if (victory) {
+                            if (victory)
+                            {
                                 //Do next battle
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
                                 MainMenu.init();
                                 victory = false;
-                                BattleManager.Init();
+                                BattleManager.Init(boss.charType);
                                 return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)
@@ -572,7 +573,7 @@ namespace LeaveMeAlone
                         state = State.Basic;
                         NewMenu(0);
                         enemy_turn = 0;
-                        targeted_enemy = -1; 
+                        targeted_enemy = -1;
                         CheckVictoryDefeat();
                         break;
                     }
@@ -585,7 +586,7 @@ namespace LeaveMeAlone
                         break;
                     }
                     enemy_attack_delay = 31;
-                    
+
                     //AI occurs
                     targeted_enemy = -2;
                     selected_skill = enemy.basic_attack;
@@ -593,7 +594,8 @@ namespace LeaveMeAlone
 
                     enemy_turn++;
                     //Check if end of enemy turn;
-                    if (enemy_turn >= heroes.Count()){
+                    if (enemy_turn >= heroes.Count())
+                    {
                         state = State.Basic;
                         NewMenu(0);
                         enemy_turn = 0;
@@ -604,11 +606,14 @@ namespace LeaveMeAlone
                     break;
             }
 
-            for (int i = 0; i < heroes.Count(); i++){
+            for (int i = 0; i < heroes.Count(); i++)
+            {
                 if (heroes[i] == null) { continue; }
                 heroes[i].Update(gametime);
             }
             boss.Update(gametime);
+            boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
+            boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
             return LeaveMeAlone.GameState.Battle;
         }
 

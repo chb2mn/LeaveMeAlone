@@ -22,12 +22,10 @@ namespace LeaveMeAlone
         public Run runnable;
 
         public enum Target { Self, Single, All }
+        public enum Attack { Attack,  SpecialAttack }
+        public enum Defense { Defense, SpecialDefense }
         public delegate void Run(Character caster, Character target=null);
 
-        public const int ATTACK = 0;
-        public const int DEFENSE = 1;
-        public const int SPECIAL_ATTACK = 2;
-        public const int SPECIAL_DEFENSE = 3;
         // example way to make a skill
         // Skill s = new Skill("test", 1, 100, 1, 0, Target.Self, 0, "My first skill", new Skill.Run(function_name));
         public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run)
@@ -45,11 +43,11 @@ namespace LeaveMeAlone
             this.runnable = run;
         }
         
-        public static int damage(Character caster, Character target, int type_attack, int type_defense, int power, double modifier=1)
+        public static int damage(Character caster, Character target, Attack type_attack, Defense type_defense, int power, double modifier=1)
         {
             //figure out what stats we are using
             int attack;
-            if(type_attack==ATTACK)
+            if(type_attack==Attack.Attack)
             {
                 Console.WriteLine("using attack");
 
@@ -62,7 +60,7 @@ namespace LeaveMeAlone
                 attack = caster.special_attack;
             }
             int defense;
-            if(type_defense==DEFENSE)
+            if(type_defense==Defense.Defense)
             {
                 Console.WriteLine("using defense");
                 defense = target.defense;
@@ -82,11 +80,5 @@ namespace LeaveMeAlone
             public TargetRequiredException()
             { }
         }
-        // Basic attack
-        // single target
-        // no energy
-        // no cooldown
-        
-
     }
 }

@@ -34,7 +34,7 @@ namespace LeaveMeAlone
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
             spikeRoom = content.Load<Texture2D>("spikeRoom2");
-            PartyManager.partyQueue.Add(null);
+            
         }
         public static void LairAttack()
         {
@@ -104,6 +104,7 @@ namespace LeaveMeAlone
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
+                
                 if (PartyManager.partyQueue[j] != null)
                 {
                     Character.Type placeholder = Character.Type.Ranger;

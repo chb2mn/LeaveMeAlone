@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LeaveMeAlone;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content;
 
 namespace LeaveMeAlone
 {
@@ -10,11 +13,41 @@ namespace LeaveMeAlone
     {
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;
-        
+        public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
+        public Dictionary<Skill, Button> buttons = new Dictionary<Skill,Button>();
+        public static Texture2D buttonPic;
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
+        }
+        public void updateTree()
+        {
+            List<int> keys = skill_tiers.Keys.ToList();
+            keys.Sort();
+            //int boss_level = BattleManager.boss.level;
+            int kindex = 0;
+            foreach (int key in keys)
+            {
+                Console.WriteLine(key);
+                List<Skill> tier = skill_tiers[key];
+                int slength = tier.Count;
+                int sindex = 0;
+                foreach (Skill skill in tier)
+                {
+                    Console.WriteLine(skill.name);
+                    Button b = new Button(buttonPic, 200 + sindex*175, 50 + 75*kindex, 150, 50);
+                    b.UpdateText(skill.name);
+                    buttons[skill] = b;
+                    sindex++;
+                }
+                Console.WriteLine();
+                kindex++;
+            }
+        }
+        public static void LoadContent(ContentManager content)
+        {
+            buttonPic = content.Load<Texture2D>("buttonbase");
         }
         //Instantiates all classes
         public static void Init()
@@ -25,6 +58,14 @@ namespace LeaveMeAlone
             initRanger();
             initMage();
             initKnight();
+
+        }
+        public void Draw(SpriteBatch s)
+        {
+            foreach(Button button in buttons.Values)
+            {
+                button.Draw(s);
+            }
 
         }
         public void addSkill(int level, Skill skill)
@@ -50,24 +91,35 @@ namespace LeaveMeAlone
 
 
         //The thing with all the trees
-        public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
+        
         public static void initBrute()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Brute] = st;
+            st.updateTree();
         }
         public static void initMastermind()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Mastermind] = st;
+            st.updateTree();
+
         }
         public static void initOperative()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Operative] = st;
+            st.updateTree();
+
         }
         public static void initRanger()
         {
@@ -78,14 +130,19 @@ namespace LeaveMeAlone
         public static void initMage()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Mage] = st;
+            st.updateTree();
+
         }
         public static void initKnight()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Knight] = st;
+            st.updateTree();
         }
 
         //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
@@ -97,7 +154,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, 0, 1, 100);
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);
@@ -112,7 +169,7 @@ namespace LeaveMeAlone
         }
         public static void PortalPunch(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, 2, 3, 100);
+            int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);
@@ -125,7 +182,7 @@ namespace LeaveMeAlone
                 {
                     target = BattleManager.heroes[i];
                     if (target == null) { continue; }
-                    int damage = Skill.damage(caster, target, 2, 3, 40);
+                    int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
                     target.damage_text.changeMessage(str_damage);
@@ -138,7 +195,7 @@ namespace LeaveMeAlone
         }
         public static void NuclearWaste(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, 2, 3, 40);
+            int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
             target.health -= damage;
             target.damage_text.changeMessage((-damage).ToString());
 
