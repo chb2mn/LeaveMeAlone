@@ -56,14 +56,8 @@ namespace LeaveMeAlone
                         MainMenu.init();
             SkillTree.Init();
             PartyManager.Init();
-            Text boss_dmg_text = new Text("");
             
-            BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, boss_dmg_text);
-            BattleManager.boss.charType = Character.Type.Mastermind;
-            BattleManager.boss.Init();
-            //BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
-            //BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
-            //BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
+
             BattleManager.heroes = PartyManager.CreateParty();
             for (int i = 0; i < BattleManager.heroes.Count; i++)
             {
@@ -91,7 +85,7 @@ namespace LeaveMeAlone
             Character.load_content(Content);
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);
- 
+            SkillTree.LoadContent(Content);
             Text.loadContent(Content);
 
         }

@@ -110,8 +110,7 @@ namespace LeaveMeAlone
             }
             //Changing the boss's health and energy text fields 
             //--This could/should probably move--
-            BattleManager.boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
-            BattleManager.boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
+
             return new_party;
         }
         protected static void Update(GameTime gameTime)

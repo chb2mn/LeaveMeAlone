@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using LeaveMeAlone;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content;
 
 namespace LeaveMeAlone
 {
@@ -12,11 +14,40 @@ namespace LeaveMeAlone
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
-
+        public Dictionary<Skill, Button> buttons = new Dictionary<Skill,Button>();
+        public static Texture2D buttonPic;
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
+        }
+        public void updateTree()
+        {
+            List<int> keys = skill_tiers.Keys.ToList();
+            keys.Sort();
+            //int boss_level = BattleManager.boss.level;
+            int kindex = 0;
+            foreach (int key in keys)
+            {
+                Console.WriteLine(key);
+                List<Skill> tier = skill_tiers[key];
+                int slength = tier.Count;
+                int sindex = 0;
+                foreach (Skill skill in tier)
+                {
+                    Console.WriteLine(skill.name);
+                    Button b = new Button(buttonPic, 200 + sindex*175, 50 + 75*kindex, 150, 50);
+                    b.UpdateText(skill.name);
+                    buttons[skill] = b;
+                    sindex++;
+                }
+                Console.WriteLine();
+                kindex++;
+            }
+        }
+        public static void LoadContent(ContentManager content)
+        {
+            buttonPic = content.Load<Texture2D>("buttonbase");
         }
         //Instantiates all classes
         public static void Init()
@@ -31,19 +62,11 @@ namespace LeaveMeAlone
         }
         public void Draw(SpriteBatch s)
         {
-            List<int> keys = skill_tiers.Keys.ToList();
-            keys.Sort();
-            int boss_level = BattleManager.boss.level;
-            foreach(int key in keys)
+            foreach(Button button in buttons.Values)
             {
-                Console.WriteLine(key);
-                List<Skill> tier = skill_tiers[key];
-                foreach(Skill skill in tier)
-                {
-                    Console.WriteLine(skill.name);
-                }
-                Console.WriteLine();
+                button.Draw(s);
             }
+
         }
         public void addSkill(int level, Skill skill)
         {
@@ -76,6 +99,7 @@ namespace LeaveMeAlone
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Brute] = st;
+            st.updateTree();
         }
         public static void initMastermind()
         {
@@ -84,6 +108,8 @@ namespace LeaveMeAlone
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Mastermind] = st;
+            st.updateTree();
+
         }
         public static void initOperative()
         {
@@ -92,6 +118,8 @@ namespace LeaveMeAlone
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Operative] = st;
+            st.updateTree();
+
         }
         public static void initRanger()
         {
@@ -106,12 +134,15 @@ namespace LeaveMeAlone
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Mage] = st;
+            st.updateTree();
+
         }
         public static void initKnight()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Knight] = st;
+            st.updateTree();
         }
 
         //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
