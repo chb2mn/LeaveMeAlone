@@ -103,17 +103,10 @@ namespace LeaveMeAlone
             basic_buttons[3].UpdateText("Bribe");
 
 
-            bossLoc = new Rectangle(650, 120, 100, 100);
+            bossLoc = new Rectangle(650, 120, 100, 100); 
             boss_hp = new Text("");
             boss_energy = new Text("");
 
-
-            int hero_basex = 50;
-            int hero_basey = 150;
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 100, 60));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 100, 60));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 100, 60));
             for (int i = 0; i < 4; i++)
             {
                 Text hptext = new Text("");
@@ -146,19 +139,6 @@ namespace LeaveMeAlone
 
         public static void Init(Character.Type t)
         {
-            BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, new Text(""));
-            BattleManager.boss.charType = t;
-            BattleManager.boss.Init();
-
-            //TODO remove this method of adding skills
-            BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
-            BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
-            BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
-
-            for (int i = 0; i < heroes.Count(); i++)
-            {
-                heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
-            }
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             victory = false;
             defeat = false;
@@ -566,7 +546,9 @@ namespace LeaveMeAlone
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
                                 MainMenu.init();
-                                return LeaveMeAlone.GameState.Main;
+                                victory = false;
+                                BattleManager.Init(boss.charType);
+                                return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)
                             {
@@ -755,6 +737,18 @@ namespace LeaveMeAlone
 
 
             message.draw(spriteBatch, 0, 0);
+        }
+
+        public static void bossDefaultPosition()
+        {
+            boss.sPosition = new Vector2(640, 140);
+        }
+        public static void setHeroesPosition()
+        {
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+            }
         }
     }
 }

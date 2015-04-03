@@ -41,7 +41,8 @@ namespace LeaveMeAlone
 
                 if (next.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
-                    return LeaveMeAlone.GameState.Battle;
+                    BattleManager.bossDefaultPosition();
+                    return LeaveMeAlone.GameState.Lair;
                 }
             }
             return LeaveMeAlone.GameState.Upgrade;
@@ -49,11 +50,14 @@ namespace LeaveMeAlone
 
         public static void Draw(SpriteBatch sb)
         {
-            sb.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
 
-            selectedBoss.Draw(sb, Color.White);
-            SkillTree.skilltrees[selectedBoss.bossType].Draw(sb);
-            next.Draw(sb);
+            if (LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Upgrade)
+            {
+                sb.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
+                selectedBoss.Draw(sb, Color.White);
+                SkillTree.skilltrees[selectedBoss.bossType].Draw(sb);
+                next.Draw(sb);
+            }
         }
     }
 }

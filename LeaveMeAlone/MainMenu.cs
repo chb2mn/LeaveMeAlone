@@ -129,6 +129,14 @@ namespace LeaveMeAlone
                 operative.Update(gameTime);
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released && canFinish)
                 {
+                    BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, new Text(""));
+                    BattleManager.boss.charType = current.bossType;
+                    BattleManager.boss.Init();
+
+                    //TODO remove this method of adding skills
+                    BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
+                    BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
+                    BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
                     bossMenuOpen = false;
                     Console.WriteLine("Here we go!");
                     BattleManager.heroes = PartyManager.CreateParty();
@@ -139,7 +147,10 @@ namespace LeaveMeAlone
                     //required because the UpgradeMenu needs some info
                     BattleManager.Init(current.bossType);
                     UpgradeMenu.Init(current);
-                    return LeaveMeAlone.GameState.Upgrade;
+                    
+                    //return LeaveMeAlone.GameState.Upgrade;
+
+                    return LeaveMeAlone.GameState.Lair;
                 }
                 canFinish = true;
             }

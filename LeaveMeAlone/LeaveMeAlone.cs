@@ -56,7 +56,7 @@ namespace LeaveMeAlone
                         MainMenu.init();
             SkillTree.Init();
             PartyManager.Init();
-            
+            Resources.Init();
 
             BattleManager.heroes = PartyManager.CreateParty();
             for (int i = 0; i < BattleManager.heroes.Count; i++)
@@ -83,13 +83,24 @@ namespace LeaveMeAlone
             MenuBoss.LoadContent(Content);
             UpgradeMenu.loadContent(Content);
 
-            PartyManager.Init();
-            Resources.Init();
-
             Character.load_content(Content);
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);
             SkillTree.LoadContent(Content);
+            LairManager.loadContent(Content);
+            //font = Content.Load<SpriteFont>("coure.fon");
+            // TODO: use this.Content to load your game content here
+
+
+
+            //Text boss_dmg_text = new Text("");
+            //BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, boss_dmg_text);
+            //BattleManager.boss.charType = Character.Type.Mastermind;
+            //BattleManager.boss.Init();
+            //BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
+            //BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
+            //BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
+            //BattleManager.LoadContent(Content);
             Text.loadContent(Content);
 
         }
@@ -123,7 +134,7 @@ namespace LeaveMeAlone
                     gamestate = UpgradeMenu.Update(gameTime);
                     break;
                 case GameState.Lair:
-                    //Lair menu
+                    gamestate = LairManager.Update(gameTime);
                     break;
                 case GameState.Battle:
                     gamestate = BattleManager.Update(gameTime);
@@ -157,7 +168,7 @@ namespace LeaveMeAlone
                     UpgradeMenu.Draw(spriteBatch);
                     break;
                 case GameState.Lair:
-                    //Lair menu
+                    LairManager.Draw(spriteBatch);
                     break;
                 case GameState.Battle:
                     BattleManager.Draw(spriteBatch);
