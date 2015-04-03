@@ -67,6 +67,7 @@ namespace LeaveMeAlone
             Resources.Init();
             Character.load_content(Content);
             Status.LoadContent(Content);
+            LairManager.loadContent(Content);
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
@@ -80,11 +81,6 @@ namespace LeaveMeAlone
             BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
             BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
             BattleManager.LoadContent(Content);
-            BattleManager.heroes = PartyManager.CreateParty();
-            for (int i = 0; i < BattleManager.heroes.Count; i++)
-            {
-                BattleManager.heroes[i].Init();
-            }
             Text.loadContent(Content);
 
         }
@@ -118,7 +114,7 @@ namespace LeaveMeAlone
                     gamestate = UpgradeMenu.Update(gameTime);
                     break;
                 case GameState.Lair:
-                    //Lair menu
+                    gamestate = LairManager.Update(gameTime);
                     break;
                 case GameState.Battle:
                     gamestate = BattleManager.Update(gameTime);
@@ -149,7 +145,7 @@ namespace LeaveMeAlone
                     UpgradeMenu.Draw(spriteBatch);
                     break;
                 case GameState.Lair:
-                    //Lair menu
+                    LairManager.Draw(spriteBatch);
                     break;
                 case GameState.Battle:
                     BattleManager.Draw(spriteBatch);

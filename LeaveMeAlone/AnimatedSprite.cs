@@ -68,7 +68,14 @@ namespace LeaveMeAlone
             {
                 walk();
                 offset += 1;
-                sPosition.X++;
+                if (facingRight)
+                {
+                    sPosition.X++;
+                }
+                if (!facingRight)
+                {
+                    sPosition.X--;
+                }
             }
             else if (midAttack && offset > 50)
             {
@@ -77,7 +84,14 @@ namespace LeaveMeAlone
             if (!midAttack && offset != 0)
             {
                 offset -= 1;
-                sPosition.X--;
+                if (facingRight)
+                {
+                    sPosition.X--;
+                }
+                if (!facingRight)
+                {
+                    sPosition.X++;
+                }
             }
             else if (!midAttack && offset == 0 && LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Battle)
             {
