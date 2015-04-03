@@ -82,6 +82,10 @@ namespace LeaveMeAlone
             MainMenu.loadContent(Content);
             MenuBoss.LoadContent(Content);
             UpgradeMenu.loadContent(Content);
+
+            PartyManager.Init();
+            Resources.Init();
+
             Character.load_content(Content);
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);

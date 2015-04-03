@@ -20,6 +20,8 @@ namespace LeaveMeAlone
         public List<Skill> selected_skills = new List<Skill>();
         public List<Status> statuses = new List<Status>();
 
+        public enum Knowledge {Weak_Def, Weak_SDef, Str_Atk, Str_SAtk};
+
         public int max_health;
         public int health;
         public int attack;
@@ -54,7 +56,7 @@ namespace LeaveMeAlone
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int gold, int exp, Text _damage_text)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int _gold, int _exp, Text _damage_text)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -67,6 +69,8 @@ namespace LeaveMeAlone
             energy = max_energy;
             level = _level;
             manaRechargeRate = _manaRechargeRate;
+            gold = _gold;
+            exp = _exp;
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
             damage_text = _damage_text;
@@ -196,6 +200,83 @@ namespace LeaveMeAlone
                     spriteBatch.Draw(status.img, sPosition, Color.White);
                 }
             }
+        }
+
+        public Skill Think()
+        {
+            // Get the health remaining if normalized to 100
+            // Essentially, this is a percentage times 100
+            Random random = new Random();
+
+            int thought = random.Next(100);
+
+            int normal_health = this.health*100/this.max_health;
+            if (normal_health < 20)
+            {
+                //I need health!
+                if (thought > 20)
+                {
+                    //cure
+                }
+            }
+
+            //We will use our battlemanager.Knowledge to detemine what we know about boss
+            //If the key exists we know whether it does or doesn't work
+            //If it doesn't exist, fuck it and try anything
+            if (this.energy > 10)
+            {
+                //I can use abilities!
+
+                //Consider exploiting a weakness?
+                if (BattleManager.Knowledge.ContainsKey(Knowledge.Weak_Def))
+                {
+                    //If we know there is a weakness and we are smart enough to make the move
+                    if (BattleManager.Knowledge[Knowledge.Weak_Def] && thought > 100-(40+5*level))
+                    {
+                        //Use strong physical skill
+                    }
+                    thought = random.Next(100);
+                }
+                else if (BattleManager.Knowledge.ContainsKey(Knowledge.Weak_SDef) && thought > 100 - (40 + 5 * level))
+                {
+                    if (BattleManager.Knowledge[Knowledge.Weak_SDef])
+                    {
+                        //Use strong special skill
+                    }
+                    thought = random.Next(100);
+
+                }
+                else if (BattleManager.Knowledge.ContainsKey(Knowledge.Str_Atk) && thought > 100 - (40 + 5 * level))
+                {
+                    if (BattleManager.Knowledge[Knowledge.Str_Atk])
+                    {
+                        //Use status effect lowering skill
+                    }
+                    thought = random.Next(100);
+
+                }
+                else if (BattleManager.Knowledge.ContainsKey(Knowledge.Str_SAtk) && thought > 100 - (40 + 5 * level))
+                {
+                    if (BattleManager.Knowledge[Knowledge.Str_SAtk])
+                    {
+                        //Use status effect lowering skill
+                    }
+                    thought = random.Next(100);
+                }
+                //Let's take another thought
+                thought = random.Next(100);
+
+                //Consider adding a status effect?
+                if (!BattleManager.boss.statuses.Contains(Status.poison) //If the boss doesn't have poison
+                    && (BattleManager.boss.health*100)/BattleManager.boss.max_health > 75 //and it has high health
+                    && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
+                {
+                    //Use status inflicting skill
+                }
+            }
+
+            
+            return basic_attack;
         }
     }
 }
