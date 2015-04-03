@@ -33,7 +33,7 @@ namespace LeaveMeAlone
                 if (next.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     BattleManager.bossDefaultPosition();
-                    return LeaveMeAlone.GameState.Battle;
+                    return LeaveMeAlone.GameState.Lair;
                 }
             }
             return LeaveMeAlone.GameState.Upgrade;

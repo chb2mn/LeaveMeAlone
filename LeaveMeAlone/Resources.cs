@@ -5,14 +5,14 @@ using System.Text;
 
 namespace LeaveMeAlone
 {
-    class Resources
+    public class Resources
     {
         public static int gold;
         public static int exp;
 
-        public void Init()
+        public static void Init()
         {
-            gold = 0;
+            gold = 500;
             exp = 0;
         }
     }

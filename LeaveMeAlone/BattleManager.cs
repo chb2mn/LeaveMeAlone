@@ -22,6 +22,9 @@ namespace LeaveMeAlone
         public static List<Text> hero_hp = new List<Text>(4);
         public static List<Rectangle> heroLoc = new List<Rectangle>();
 
+        public static Dictionary<Character.Knowledge, bool> Knowledge = new Dictionary<Character.Knowledge,bool>();
+
+
         public static Character boss;
         public static Rectangle bossLoc;
 
@@ -31,8 +34,6 @@ namespace LeaveMeAlone
         private static Texture2D bkgd;
         private static Texture2D targeter;
         private static Text target_text;
-
-        //private static Text[] button_text = new Text[6];
 
         private static Text victory_text;
         private static bool victory;
@@ -45,7 +46,8 @@ namespace LeaveMeAlone
         //debug string
         private static Text message = new Text("");
 
-        private static bool menu_change_in_progress = false;
+        private static bool left_click = false;
+        private static bool right_click = false;
         private static int animation_counter = 30;
 
         
@@ -60,6 +62,13 @@ namespace LeaveMeAlone
         private static int targeted_enemy = -1;
         private static Skill selected_skill;
        
+        //------------Bribe Stuff------------//
+        private static Button[] bribe_amounts = new Button[4];
+        private static Button total_amount;
+        private static Button my_amount;
+        private static int bribe_gold;
+
+
         public static void LoadContent(ContentManager Content)
         {
             
@@ -68,6 +77,8 @@ namespace LeaveMeAlone
             int button_basex = 100;
             int button_basey = 350;
 
+            //remove all knowledge that the enemy heroes have
+            Knowledge.Clear();
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
@@ -77,6 +88,7 @@ namespace LeaveMeAlone
             basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
             basic_buttons[2] = new Button(buttonLocPic, button_basex, button_basey + 60, 250, 50);
             basic_buttons[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
+
             skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 200, 50);
             skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey +60, 200, 50);
             skill_buttons[2] = new Button(buttonLocPic, button_basex +140, button_basey, 200, 50);
@@ -94,13 +106,6 @@ namespace LeaveMeAlone
             boss_hp = new Text("");
             boss_energy = new Text("");
 
-
-            int hero_basex = 50;
-            int hero_basey = 150;
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey - 60, 100, 60));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 60, 100, 60));
-            heroLoc.Add(new Rectangle(hero_basex, hero_basey + 120, 100, 60));
             for (int i = 0; i < 4; i++)
             {
                 Text hptext = new Text("");
@@ -114,14 +119,25 @@ namespace LeaveMeAlone
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
 
             next_button = new Button(Content.Load<Texture2D>("Next"), 325, 100, 113, 32);
+
+            //---Bribe Stuff---//
+            bribe_gold = 0;
+            bribe_amounts[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
+            bribe_amounts[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
+            bribe_amounts[2] = new Button(buttonLocPic, button_basex, button_basey + 60, 250, 50);
+            bribe_amounts[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
+            for (int i = 0; i < 4; i += 1)
+            {
+                bribe_amounts[i].UpdateText((Math.Pow(10,i+1)).ToString());
+            }
+
+            total_amount = new Button(buttonLocPic, button_basex + 300, button_basey - 60, 200, 50);
+            my_amount = new Button(buttonLocPic, button_basex + 50, button_basey - 60, 200, 50);
+
         }
 
         public static void Init()
         {
-            for (int i = 0; i < heroes.Count(); i++)
-            {
-                heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
-            }
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
                 victory = false;
             defeat = false;
@@ -131,6 +147,9 @@ namespace LeaveMeAlone
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
             boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString()); 
             NewMenu(0);
+
+            total_amount.UpdateText("How Much?: 0");
+            my_amount.UpdateText("My Total: " + Resources.gold.ToString());
         }
 
         public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
@@ -169,13 +188,17 @@ namespace LeaveMeAlone
         {
             //targeted_enemy is our target
             //selected_skill is our skill
+
+            //Initiate animation
             caster.attackAnimation();
+
             //Check if targeted_enemy is within the party size
             if (targeted_enemy >= heroes.Count())
             {
                 state = State.Target;
                 return;
             }
+
             if (targeted_enemy >= 0)
             {
                 //if hero is dead, ignore
@@ -187,6 +210,9 @@ namespace LeaveMeAlone
                 Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
+
+            
+
             else if (targeted_enemy == -1)
             {
                 Apply_Status(caster, Status.Effect_Time.Before);
@@ -230,9 +256,9 @@ namespace LeaveMeAlone
 
             bool any_target = false;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < heroes.Count(); i++)
             {
-                if (heroLoc[i].Contains(selectLocX, selectLocY))
+                if (heroLoc[i].Contains(selectLocX, selectLocY) && heroes[i] != null)
                 {
                     hovered_enemy = i;
                     any_target = true;
@@ -254,6 +280,7 @@ namespace LeaveMeAlone
             }
             if (!any_target)
             {
+                Console.WriteLine("None found");
                 hovered_enemy = -1;
             }
             //return no target if no target has been selected
@@ -297,7 +324,7 @@ namespace LeaveMeAlone
 
         private static void NewMenu(int menu)
         {
-            menu_change_in_progress = true;
+            left_click = true;
             if (victory)
             {
                 return;
@@ -341,12 +368,16 @@ namespace LeaveMeAlone
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
             {
-                menu_change_in_progress = false;
+                left_click = false;
+            }
+            if (Mouse.GetState().RightButton == ButtonState.Released)
+            {
+                right_click = false;
             }
             switch (state)
             {
                 case State.Basic:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
                     {
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
@@ -378,7 +409,7 @@ namespace LeaveMeAlone
                     break;
                 case State.Skills:
                     //Skill Selection
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
                     {
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
@@ -416,15 +447,63 @@ namespace LeaveMeAlone
                     break;
                 case State.Bribe:
                     //Bribe Stuff
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
+                    
+                    if (Mouse.GetState().RightButton == ButtonState.Pressed && !right_click)
                     {
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (bribe_amounts[i].Intersects(selectLocX, selectLocY))
+                            {
+                                bribe_gold -= (int)Math.Pow(10, i + 1);
+                                total_amount.UpdateText("How Much?: " + bribe_gold.ToString());
+                                right_click = true;
+                            }
+                        }
+                    }
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    {
+                        int selectLocX = Mouse.GetState().X;
+                        int selectLocY = Mouse.GetState().Y;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (bribe_amounts[i].Intersects(selectLocX, selectLocY))
+                            {
+                                bribe_gold += (int) Math.Pow(10, i+1);
+                                total_amount.UpdateText("How Much?: " + bribe_gold.ToString());
+                                left_click = true;
+                            }
+                        }
                         if (back_button.Intersects(selectLocX, selectLocY))
                         {
                             NewMenu(0);
                             state = 0;
+                            bribe_gold = 0;
+                            total_amount.UpdateText("How Much?: 0");
                         }
+                    }
+                        //Send bribe target at enemy
+                    targeted_enemy = Target();
+                    if (targeted_enemy >= 0)
+                    {
+                        if (heroes[targeted_enemy].gold <= bribe_gold && Resources.gold >= bribe_gold)
+                        {
+                            //remove hero
+                            heroes[targeted_enemy] = null;
+                            Resources.gold -= bribe_gold;
+                            my_amount.UpdateText("My Total: " + Resources.gold);
+                            CheckVictoryDefeat();
+                        }
+                        else
+                        {
+                            NewMenu(0);
+                            state = 0;
+                            hovered_enemy = -1;
+
+                        }
+                        bribe_gold = 0;
+                        total_amount.UpdateText("How Much?: 0");
                     }
                         break;
                 case State.Target:
@@ -455,7 +534,7 @@ namespace LeaveMeAlone
                     Attack(boss);
                     break;
                 case State.Endgame:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !menu_change_in_progress)
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
                     {
                         int selectLocX = Mouse.GetState().X;
                         int selectLocY = Mouse.GetState().Y;
@@ -466,7 +545,9 @@ namespace LeaveMeAlone
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
                                 MainMenu.init();
-                                return LeaveMeAlone.GameState.Main;
+                                victory = false;
+                                BattleManager.Init();
+                                return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)
                             {
@@ -537,6 +618,7 @@ namespace LeaveMeAlone
 
             spriteBatch.Draw(bkgd, new Rectangle(-100, -25, 1000, 543), Color.White);
             //Draw Heroes
+            Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
             for (int i = 0; i < heroes.Count(); i++)
             {
                 try
@@ -544,22 +626,20 @@ namespace LeaveMeAlone
                     if (i == hovered_enemy)
                     {
                         heroes[i].Draw(spriteBatch, Color.Violet);
-                        if (state == State.Target)
+                        if (state == State.Target || state == State.Bribe)
                         {
                             target_text.draw(spriteBatch, 200, 180);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Red);
                         }
-                        //status too
                     }
                     else
                     {
                         heroes[i].Draw(spriteBatch, Color.White);
-                        if (state == State.Target)
+                        if (state == State.Target || state == State.Bribe)
                         {
                             target_text.draw(spriteBatch, 200, 180);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Black);
                         }
-                        //status too
                     }
                     hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y + 30);
 
@@ -635,6 +715,16 @@ namespace LeaveMeAlone
                 }
             }
 
+            else if (state == State.Bribe)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    bribe_amounts[i].Draw(spriteBatch);
+                }
+                total_amount.Draw(spriteBatch);
+                my_amount.Draw(spriteBatch);
+            }
+
             if (state == State.Skills || state == State.Bribe || state == State.Target)
             {
                 back_button.Draw(spriteBatch);
@@ -647,6 +737,13 @@ namespace LeaveMeAlone
         public static void bossDefaultPosition()
         {
             boss.sPosition = new Vector2(640, 140);
+        }
+        public static void setHeroesPosition()
+        {
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+            }
         }
     }
 }

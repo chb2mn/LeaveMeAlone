@@ -64,6 +64,7 @@ namespace LeaveMeAlone
             UpgradeMenu.loadContent(Content);
             SkillTree.Init();
             PartyManager.Init();
+            Resources.Init();
             Character.load_content(Content);
             Status.LoadContent(Content);
             LairManager.loadContent(Content);
@@ -80,11 +81,6 @@ namespace LeaveMeAlone
             BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
             BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
             BattleManager.LoadContent(Content);
-            BattleManager.heroes = PartyManager.CreateParty();
-            for (int i = 0; i < BattleManager.heroes.Count; i++)
-            {
-                BattleManager.heroes[i].Init();
-            }
             Text.loadContent(Content);
 
         }
