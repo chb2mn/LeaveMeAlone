@@ -90,7 +90,7 @@ namespace LeaveMeAlone
             basic_buttons[3].UpdateText("Bribe");
 
 
-            bossLoc = new Rectangle(650, 120, 100, 100);
+            bossLoc = new Rectangle(650, 120, 100, 100); 
             boss_hp = new Text("");
             boss_energy = new Text("");
 
@@ -642,6 +642,11 @@ namespace LeaveMeAlone
 
 
             message.draw(spriteBatch, 0, 0);
+        }
+
+        public static void bossDefaultPosition()
+        {
+            boss.sPosition = new Vector2(640, 140);
         }
     }
 }

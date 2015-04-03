@@ -66,6 +66,7 @@ namespace LeaveMeAlone
             PartyManager.Init();
             Character.load_content(Content);
             Status.LoadContent(Content);
+            LairManager.loadContent(Content);
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
@@ -117,7 +118,7 @@ namespace LeaveMeAlone
                     gamestate = UpgradeMenu.Update(gameTime);
                     break;
                 case GameState.Lair:
-                    //Lair menu
+                    gamestate = LairManager.Update(gameTime);
                     break;
                 case GameState.Battle:
                     gamestate = BattleManager.Update(gameTime);
@@ -148,7 +149,7 @@ namespace LeaveMeAlone
                     UpgradeMenu.Draw(spriteBatch);
                     break;
                 case GameState.Lair:
-                    //Lair menu
+                    LairManager.Draw(spriteBatch);
                     break;
                 case GameState.Battle:
                     BattleManager.Draw(spriteBatch);
