@@ -64,6 +64,7 @@ namespace LeaveMeAlone
             UpgradeMenu.loadContent(Content);
             SkillTree.Init();
             PartyManager.Init();
+            Resources.Init();
             Character.load_content(Content);
             Status.LoadContent(Content);
             //font = Content.Load<SpriteFont>("coure.fon");
