@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LeaveMeAlone;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace LeaveMeAlone
 {
@@ -10,7 +11,8 @@ namespace LeaveMeAlone
     {
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;
-        
+        public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
+
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
@@ -26,6 +28,22 @@ namespace LeaveMeAlone
             initMage();
             initKnight();
 
+        }
+        public void Draw(SpriteBatch s)
+        {
+            List<int> keys = skill_tiers.Keys.ToList();
+            keys.Sort();
+            int boss_level = BattleManager.boss.level;
+            foreach(int key in keys)
+            {
+                Console.WriteLine(key);
+                List<Skill> tier = skill_tiers[key];
+                foreach(Skill skill in tier)
+                {
+                    Console.WriteLine(skill.name);
+                }
+                Console.WriteLine();
+            }
         }
         public void addSkill(int level, Skill skill)
         {
@@ -50,23 +68,29 @@ namespace LeaveMeAlone
 
 
         //The thing with all the trees
-        public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
+        
         public static void initBrute()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Brute] = st;
         }
         public static void initMastermind()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Mastermind] = st;
         }
         public static void initOperative()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Operative] = st;
         }
         public static void initRanger()
@@ -78,7 +102,9 @@ namespace LeaveMeAlone
         public static void initMage()
         {
             SkillTree st = new SkillTree();
-            //addSkill(level, skill)
+            st.addSkill(1, portal_punch);
+            st.addSkill(1, flamethrower);
+            st.addSkill(2, nuclear_waste);
             skilltrees[Character.Type.Mage] = st;
         }
         public static void initKnight()

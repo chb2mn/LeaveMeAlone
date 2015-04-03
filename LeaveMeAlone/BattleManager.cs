@@ -116,8 +116,9 @@ namespace LeaveMeAlone
             next_button = new Button(Content.Load<Texture2D>("Next"), 325, 100, 113, 32);
         }
 
-        public static void Init()
+        public static void Init(Character.Type t)
         {
+
             for (int i = 0; i < heroes.Count(); i++)
             {
                 heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);

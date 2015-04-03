@@ -31,6 +31,7 @@ namespace LeaveMeAlone
         public static MenuBoss brute;
         public static MenuBoss mastermind;
         public static MenuBoss operative;
+        private static MenuBoss current;
         
 
 
@@ -83,7 +84,7 @@ namespace LeaveMeAlone
             }
             if (bossMenuOpen)
             {
-                if ((100 < currentMouseState.X) && (currentMouseState.X < 250))
+                if (brute.Contains(new Vector2(currentMouseState.X, currentMouseState.Y)))
                 {
                     bruteHover = true;
                     mastermindHover = false;
@@ -91,8 +92,9 @@ namespace LeaveMeAlone
                     brute.walk();
                     mastermind.idle();
                     operative.idle();
+                    current = brute;
                 }
-                if ((325 < currentMouseState.X) && (currentMouseState.X < 425))
+                else if (mastermind.Contains(new Vector2(currentMouseState.X, currentMouseState.Y)))
                 {
                     bruteHover = false;
                     mastermindHover = true;
@@ -100,8 +102,9 @@ namespace LeaveMeAlone
                     brute.idle();
                     mastermind.walk();
                     operative.idle();
+                    current = mastermind;
                 }
-                if ((500 < currentMouseState.X) && (currentMouseState.X < 600))
+                else if (operative.Contains(new Vector2(currentMouseState.X, currentMouseState.Y)))
                 {
                     bruteHover = false;
                     mastermindHover = false;
@@ -109,6 +112,17 @@ namespace LeaveMeAlone
                     brute.idle();
                     mastermind.idle();
                     operative.walk();
+                    current = operative;
+                }
+                else
+                {
+                    current = null;
+                    bruteHover = false;
+                    mastermindHover = false;
+                    operativeHover = false;
+                    brute.idle();
+                    mastermind.idle();
+                    operative.idle();
                 }
                 brute.Update(gameTime);
                 mastermind.Update(gameTime);
@@ -122,7 +136,9 @@ namespace LeaveMeAlone
                     {
                         hero.Init();
                     }
-                    BattleManager.Init();
+                    //required because the UpgradeMenu needs some info
+                    BattleManager.Init(current.bossType);
+                    UpgradeMenu.Init(current);
                     return LeaveMeAlone.GameState.Upgrade;
                 }
                 canFinish = true;

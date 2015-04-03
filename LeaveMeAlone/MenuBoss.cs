@@ -11,15 +11,18 @@ using System.Diagnostics;
 
 namespace LeaveMeAlone
 {
-    class MenuBoss : AnimatedSprite
+    public class MenuBoss : AnimatedSprite
     {
-        private Character.Type bossType;
+        public Character.Type bossType;
+        private Rectangle bounding;
         public static Dictionary<Character.Type, Texture2D> textures = new Dictionary<Character.Type,Texture2D>();
         public MenuBoss(Character.Type type, Vector2 pos)
         {
             bossType = type;
             sPosition = pos;
             sTexture = textures[bossType];
+            //funky stuff accounting for sprites
+            bounding = new Rectangle((int)sPosition.X+50, (int)sPosition.Y, 125, sTexture.Height);
             idleStartFrame = 0;
             idleEndFrame = 1;
             walkStartFrame = 3;
@@ -27,12 +30,27 @@ namespace LeaveMeAlone
             AddAnimation(12);
             facingRight = true;
         }
+        public bool Contains(Vector2 v)
+        {
+            if(bounding.Contains(v))
+            {
+                return true;
+            }
+            return false;
+        }
+        public void MoveTo(Vector2 v)
+        {
+            bounding.X = (int)v.X;
+            bounding.Y = (int)v.Y;
+            sPosition = v;
+        }
         public static void LoadContent(ContentManager content)
         {
             textures[Character.Type.Brute] = content.Load<Texture2D>("bruteMenu");
             textures[Character.Type.Operative] = content.Load<Texture2D>("bruteMenu");
             textures[Character.Type.Mastermind] = content.Load<Texture2D>("bruteMenu");
         }
+
         public void Update(GameTime gameTime)
         {
             FrameUpdate(gameTime);
@@ -49,7 +67,5 @@ namespace LeaveMeAlone
                 spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
             }
         }
-
-
     }
 }
