@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace LeaveMeAlone
 {
-    class SkillTree
+    public class SkillTree
     {
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;

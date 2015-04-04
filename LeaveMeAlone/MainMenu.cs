@@ -134,9 +134,9 @@ namespace LeaveMeAlone
                     BattleManager.boss.Init();
 
                     //TODO remove this method of adding skills
-                    BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
-                    BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
-                    BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
+                    //BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
+                    //BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
+                    //BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
                     bossMenuOpen = false;
                     Console.WriteLine("Here we go!");
                     BattleManager.heroes = PartyManager.CreateParty();

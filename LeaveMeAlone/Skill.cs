@@ -80,5 +80,9 @@ namespace LeaveMeAlone
             public TargetRequiredException()
             { }
         }
+        public override string ToString()
+        {
+            return String.Format("Skill {0}", name);
+        }
     }
 }

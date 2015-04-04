@@ -16,10 +16,13 @@ namespace LeaveMeAlone
         private static Button next;
         private static MouseState currentMouseState, lastMouseState;
         public static MenuBoss selectedBoss;
+        public static List<Skill> boughtSkills = new List<Skill>();
+        public static SkillTree skilltree;
         public static void Init(MenuBoss boss)
         {
             SkillTree.Init();
             selectedBoss = boss;
+            skilltree = SkillTree.skilltrees[selectedBoss.bossType];
             selectedBoss.MoveTo(new Vector2( 0, 0));
             selectedBoss.idle();
         }
@@ -43,6 +46,18 @@ namespace LeaveMeAlone
                 {
                     BattleManager.bossDefaultPosition();
                     return LeaveMeAlone.GameState.Lair;
+                }
+                foreach(Skill s in skilltree.buttons.Keys)
+                {
+                    if(skilltree.buttons[s].Intersects(currentMouseState.X, currentMouseState.Y))
+                    {
+                        if(BattleManager.boss.skills.Contains(s) == false)
+                        {
+                            BattleManager.boss.addSkill(s);
+                            Console.WriteLine(BattleManager.boss.skills.Count);
+                        }
+                        //Console.WriteLine(s+" pressed");
+                    }
                 }
             }
             return LeaveMeAlone.GameState.Upgrade;
