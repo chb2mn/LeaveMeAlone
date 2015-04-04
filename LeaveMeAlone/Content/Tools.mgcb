@@ -420,18 +420,6 @@
 /processorParam:TextureFormat=Color
 /build:TitleCard.png
 
-#begin Arial-24.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Arial-24.spritefont
-
-#begin BattleMenuText.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:BattleMenuText.spritefont
-
 #begin spikeRoom.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
