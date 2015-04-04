@@ -44,7 +44,7 @@ namespace LeaveMeAlone
         private static Button back_button;
 
         //debug string
-        private static Text message = new Text("");
+        private static Text message; 
 
         private static bool left_click = false;
         private static bool right_click = false;
@@ -139,6 +139,7 @@ namespace LeaveMeAlone
 
         public static void Init(Character.Type t)
         {
+            message = new Text(Text.fonts["Arial-12"], Color.Black, "");
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             victory = false;
             defeat = false;
