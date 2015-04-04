@@ -65,6 +65,7 @@ namespace LeaveMeAlone
             SkillTree.Init();
             PartyManager.Init();
             Resources.Init();
+            SkillTree.LoadContent(Content);
             Character.load_content(Content);
             Status.LoadContent(Content);
             LairManager.loadContent(Content);

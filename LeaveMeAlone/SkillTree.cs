@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using LeaveMeAlone;
 
 namespace LeaveMeAlone
@@ -10,13 +12,20 @@ namespace LeaveMeAlone
     {
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;
-        
+
+        public static Texture2D spikeroom;
+
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
         }
-        //Instantiates all classes
+        public static void LoadContent(ContentManager content)
+        {
+            spikeroom = content.Load<Texture2D>("spikeRoom2");
+        }
+
+        //Instantiates all classes     
         public static void Init()
         {
             initBrute();
@@ -94,6 +103,10 @@ namespace LeaveMeAlone
         public static Skill portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
         public static Skill flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
         public static Skill nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
+
+        //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
+        public static Room spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spikeroom);
+
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)
         {
@@ -154,6 +167,14 @@ namespace LeaveMeAlone
                 target.statuses.Add(Status.poison);
             }
         }
-
+        //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
+        public static void SpikeTrap(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                int damage = (int)(hero.defense * .5);
+                hero.health -= damage;
+            }
+        }
     }
 }

@@ -145,8 +145,15 @@ namespace LeaveMeAlone
             boss.health = boss.max_health;
             boss.energy = boss.max_energy;
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
-            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString()); 
-            NewMenu(0);
+            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
+
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                hero_hp[i].changeMessage(heroes[i].health + "/" + heroes[i].max_health);
+            }
+
+
+                NewMenu(0);
 
             total_amount.UpdateText("How Much?: 0");
             my_amount.UpdateText("My Total: " + Resources.gold.ToString());
@@ -546,7 +553,6 @@ namespace LeaveMeAlone
                                 PartyManager.PartyNum++;
                                 MainMenu.init();
                                 victory = false;
-                                BattleManager.Init();
                                 return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)

@@ -26,7 +26,9 @@ namespace LeaveMeAlone
         public static void loadContent(ContentManager content)
         {
             TowerLevel = 0;
+            MaxLevel = 3;
             towerPosition = new Vector2(0, 0);
+            LairRooms = new List<Room>();
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), 600, 100, 200, 75);
             nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), -50, 350, 200, 75);
             constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), 600, 175, 200, 75);
@@ -36,9 +38,12 @@ namespace LeaveMeAlone
             spikeRoom = content.Load<Texture2D>("spikeRoom2");
             PartyManager.partyQueue.Add(null);
         }
-        public static void LairAttack()
+        public static void LairAttack(Room room, List<Character> party)
         {
-
+            if (party != null)
+            {
+                room.activate(party);
+            }
         }
         public static void AdvanceLevel()
         {
@@ -53,6 +58,10 @@ namespace LeaveMeAlone
             {
                 if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
+                    for (int i = 0; i < TowerLevel; i++)
+                    {
+                        LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
+                    }
                     Random random = new Random();
                     int makeParty = random.Next(100) % 2;
                     if (makeParty == 1)
@@ -66,10 +75,12 @@ namespace LeaveMeAlone
                     }
                     if (PartyManager.popParty())
                     {
+                        BattleManager.Init();
                         return LeaveMeAlone.GameState.Battle;
                     }
                     else
                     {
+                        //Should have some sort of interface on screen
                         Console.Write("No party! Take a breather.");
                         return LeaveMeAlone.GameState.Lair;
                     }
@@ -80,13 +91,21 @@ namespace LeaveMeAlone
                 }
                 if (constructionBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
-                    TowerLevel++;
-                    PartyManager.partyQueue.Add(null);
-                    for (int j = PartyManager.partyQueue.Count() - 1; j > 0; j--)
+                    if (TowerLevel < MaxLevel)
                     {
-                        PartyManager.partyQueue[j] = PartyManager.partyQueue[j - 1];
+                        TowerLevel++;
+                        LairRooms.Add(SkillTree.spike_trap);
+                        PartyManager.partyQueue.Add(null);
+                        for (int j = PartyManager.partyQueue.Count() - 1; j > 0; j--)
+                        {
+                            PartyManager.partyQueue[j] = PartyManager.partyQueue[j - 1];
+                        }
+                        PartyManager.partyQueue[0] = null;
                     }
-                    PartyManager.partyQueue[0] = null;
+                    else
+                    {
+                        Console.WriteLine("MaxLevel Reached");
+                    }
                     return LeaveMeAlone.GameState.Lair;
                 }
             }
@@ -100,7 +119,7 @@ namespace LeaveMeAlone
             Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + 200), (int)(towerPosition.X + 400 - 100*(TowerLevel+1)), 400, 100), Color.White);
             for (int i = 0; i < TowerLevel; i++)
             {
-                Spritebatch.Draw(spikeRoom, new Rectangle((int)(towerPosition.X + 200), (int)(towerPosition.X + 400 - 100 * (i + 1)), 400, 100), Color.White);
+                Spritebatch.Draw(LairRooms[i].img, new Rectangle((int)(towerPosition.X + 200), (int)(towerPosition.X + 400 - 100 * (i + 1)), 400, 100), Color.White);
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
