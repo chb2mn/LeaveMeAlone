@@ -13,7 +13,7 @@ namespace LeaveMeAlone
         protected static SpriteFont font;
         public string message;
 
-        public Text(string msg)
+        public Text(SpriteFont f, Color c, string msg="")
         {
             message = msg;
         }

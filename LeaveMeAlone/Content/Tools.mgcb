@@ -432,3 +432,20 @@
 /processorParam:TextureFormat=Compressed
 /build:BattleMenuText.spritefont
 
+#begin spikeRoom.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:spikeRoom.jpg
+
+#begin RetroComputer-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:RetroComputer-12.spritefont
+

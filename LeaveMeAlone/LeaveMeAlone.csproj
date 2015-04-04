@@ -84,10 +84,10 @@
     <None Include="Content\Archer.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Arial-24.xnb">
+    <None Include="Content\Fonts\Arial-24.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Arial.xnb">
+    <None Include="Content\Fonts\Arial.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Attack.xnb">
@@ -96,7 +96,7 @@
     <None Include="Content\back.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\BattleMenuText.xnb">
+    <None Include="Content\Fonts\BattleMenuText.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Content\bossRoom.png">
@@ -141,6 +141,7 @@
     <None Include="Content\Fire.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Fonts\RetroComputer-12.xnb" />
     <None Include="Content\Gust.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
