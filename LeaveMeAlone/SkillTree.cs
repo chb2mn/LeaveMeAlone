@@ -22,6 +22,16 @@ namespace LeaveMeAlone
         public Dictionary<Skill, Button> buttons = new Dictionary<Skill,Button>();
         public static Texture2D buttonPic;
 
+        //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
+        public static Skill basic_attack;
+        public static Skill defend;
+        public static Skill portal_punch;
+        public static Skill flamethrower;
+        public static Skill nuclear_waste;
+
+        //>>>>>>>>>>>>>>>>Room Declarations<<<<<<<<<<<//
+        public static Room spike_trap;
+
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
@@ -31,6 +41,16 @@ namespace LeaveMeAlone
         {
             spikeroom = content.Load<Texture2D>("spikeRoom2");
             buttonPic = content.Load<Texture2D>("buttonbase");
+
+            //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
+            basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
+            defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
+            portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+            nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
+
+            //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
+            spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spikeroom);
 
         }
 
@@ -157,15 +177,7 @@ namespace LeaveMeAlone
             st.updateTree();
         }
 
-        //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
-        public static Skill basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
-        public static Skill defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
-        public static Skill portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-        public static Skill flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-        public static Skill nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
-
-        //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
-        public static Room spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spikeroom);
+        
 
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)

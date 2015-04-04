@@ -27,6 +27,7 @@ namespace LeaveMeAlone
             this.description = _description;
             this.activate = _run;
             this.img = _img;
+
         }
     }
 
