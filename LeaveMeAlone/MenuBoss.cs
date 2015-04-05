@@ -32,7 +32,7 @@ namespace LeaveMeAlone
         }
         public bool Contains(Vector2 v)
         {
-            if(bounding.Contains(v))
+            if(bounding.Contains((int)v.X, (int)v.Y))
             {
                 return true;
             }

@@ -190,10 +190,36 @@ namespace LeaveMeAlone
         public static void Defend(Character caster, Character target = null)
         {
             caster.health += (int)(((double)caster.max_health) * .2);
+            caster.energy += 10;
             if (caster.health > caster.max_health)
             {
                 caster.health = caster.max_health;
             }
+            if (caster.energy > caster.max_energy)
+            {
+                caster.energy = caster.max_energy;
+            }
+            /*
+             * Old Form; kept here in case of revision
+             */
+            /*
+            //If the status already exists, increase its duration
+            if (caster.statuses.Contains(Status.defend))
+            {
+                int status_index = caster.statuses.IndexOf(Status.defend);
+                caster.statuses[status_index].duration_left += Status.defend.duration;
+            }
+            //Otherwise add it
+            else
+            {
+                caster.statuses.Add(Status.defend);
+            }
+             */
+            caster.defense += 5 * 1 + (caster.level / 3);
+            caster.statuses.Add(Status.defend);
+            caster.special_defense += 5 * 1 + (caster.level / 3);
+            caster.statuses.Add(Status.specdefend);
+
         }
         public static void PortalPunch(Character caster, Character target = null)
         {

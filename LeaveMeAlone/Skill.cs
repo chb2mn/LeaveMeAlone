@@ -49,25 +49,25 @@ namespace LeaveMeAlone
             int attack;
             if(type_attack==Attack.Attack)
             {
-                Console.WriteLine("using attack");
+                //Console.WriteLine("using attack");
 
                 attack = caster.attack;
             }
             else
             {
-                Console.WriteLine("using sp_attack");
+                //Console.WriteLine("using sp_attack");
 
                 attack = caster.special_attack;
             }
             int defense;
             if(type_defense==Defense.Defense)
             {
-                Console.WriteLine("using defense");
+                //Console.WriteLine("using defense");
                 defense = target.defense;
             }
             else
             {
-                Console.WriteLine("using sp_def");
+                //Console.WriteLine("using sp_def");
                 defense = target.special_defense;
             }
             //from .85 to 1.0

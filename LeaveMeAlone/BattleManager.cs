@@ -170,12 +170,19 @@ namespace LeaveMeAlone
         public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
         {
             //iterating through the list backwards allows us to properly remove them from the list (it auto-concatenates after every removal)
+            Console.WriteLine("Applying statuses on Character: " + affected.health);
             for (int i = affected.statuses.Count() - 1; i >= 0; i--)
             {
                 Status status = affected.statuses[i];
                 //If the effect is a one time, increment the counter and move on
                 if (effect_time == Status.Effect_Time.Once)
                 {
+                    Console.WriteLine(status.ToString() + " : " + status.duration_left);
+                    //If it's the first time, apply the status affect
+                    if (status.duration_left == status.duration)
+                    {
+                        status.affect(affected);
+                    }
                     status.duration_left--;
                     if (status.duration_left == 0)
                     {
@@ -184,6 +191,7 @@ namespace LeaveMeAlone
                         affected.statuses.Remove(status);
                     }
                 }
+                
                 //If the effect is not one time, do the effect and increment counter
                 else if (effect_time == status.effect_time)
                 {
@@ -295,7 +303,7 @@ namespace LeaveMeAlone
             }
             if (!any_target)
             {
-                Console.WriteLine("None found");
+                //Console.WriteLine("None found");
                 hovered_enemy = -1;
             }
             //return no target if no target has been selected
@@ -554,6 +562,15 @@ namespace LeaveMeAlone
                         int selectLocY = Mouse.GetState().Y;
                         if (next_button.Intersects(selectLocX, selectLocY))
                         {
+                            //Clear the boss's stats
+                            foreach (Status status in boss.statuses)
+                            {
+                                if (status.effect_time == Status.Effect_Time.Once && status.reverse_affect != null)
+                                {
+                                    status.reverse_affect(boss);
+                                }
+                            }
+                            boss.statuses.Clear();
                             if (victory)
                             {
                                 //Do next battle
