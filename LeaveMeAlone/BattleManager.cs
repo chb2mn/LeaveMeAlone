@@ -150,9 +150,16 @@ namespace LeaveMeAlone
 
             for (int i = 0; i < heroes.Count(); i++)
             {
-                hero_hp[i].changeMessage(heroes[i].health + "/" + heroes[i].max_health);
+                if (heroes[i] != null)
+                {
+                    hero_hp[i].changeMessage(heroes[i].health + "/" + heroes[i].max_health);
+                }
             }
 
+            foreach (Character hero in heroes)
+            {
+                Console.WriteLine(hero);
+            }
 
             NewMenu(0);
 
@@ -629,7 +636,7 @@ namespace LeaveMeAlone
 
             spriteBatch.Draw(bkgd, new Rectangle(-100, -25, 1000, 543), Color.White);
             //Draw Heroes
-            Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
+            //Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
             for (int i = 0; i < heroes.Count(); i++)
             {
                 try
@@ -753,7 +760,11 @@ namespace LeaveMeAlone
         {
             for (int i = 0; i < heroes.Count(); i++)
             {
-                heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+                if (heroes[i] != null)
+                {
+                    heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+
+                }
             }
         }
     }

@@ -27,21 +27,58 @@ namespace LeaveMeAlone
 
         public static Status poison;
         public static Status beserk;
+        public static Status attackplus;
+        public static Status attackminus;
+        public static Status defenseplus;
+        public static Status defenseminus;
+        public static Status specialattackplus;
+        public static Status specialattackminus;
+        public static Status specialdefenseplus;
+        public static Status specialdefenseminus;
+
         public static Texture2D poison_image;
         public static Texture2D beserk_image;
+        public static Texture2D atkplus_image;
+        public static Texture2D atkminus_image;
+        public static Texture2D defplus_image;
+        public static Texture2D defminus_image;
+        public static Texture2D specplus_image;
+        public static Texture2D specminus_image;
+        public static Texture2D specdefplus_image;
+        public static Texture2D specdefminus_image;
 
         public static void LoadContent(ContentManager content)
         {
             
             poison_image = content.Load<Texture2D>("Poison");
             beserk_image = content.Load<Texture2D>("Beserk");
+            atkplus_image = content.Load<Texture2D>("AttackPlus");
+            atkplus_image = content.Load<Texture2D>("AttackMinus");
+            atkplus_image = content.Load<Texture2D>("DefensePlus");
+            atkplus_image = content.Load<Texture2D>("DefenseMinus");
+            atkplus_image = content.Load<Texture2D>("SpecPlus");
+            atkplus_image = content.Load<Texture2D>("SpecMinus");
+            atkplus_image = content.Load<Texture2D>("SpecDefPlus");
+            atkplus_image = content.Load<Texture2D>("SpecDefMinus");
 
             if (poison_image == null)
             {
                 Console.WriteLine("Poison didn't load");
             }
+
             poison = new Status("poison", 3, Effect_Time.After, Type.Debuff, poison_image, Poison);
             beserk = new Status("beserk", 3, Effect_Time.Once, Type.Debuff, beserk_image, Beserk, rev_Beserk);
+
+            attackplus = new Status("atk+", 3, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
+            attackminus = new Status("atk-", 3, Effect_Time.Once, Type.Debuff, atkminus_image, ReduceAttack, RaiseAttack);
+            defenseplus = new Status("def+", 3, Effect_Time.Once, Type.Buff, defplus_image, RaiseDefense, ReduceDefense);
+            defenseminus = new Status("def-", 3, Effect_Time.Once, Type.Debuff, defminus_image, ReduceDefense, RaiseDefense);
+            specialattackplus = new Status("spec+", 3, Effect_Time.Once, Type.Buff, specplus_image, RaiseSAttack, ReduceSAttack);
+            specialattackminus = new Status("spec-", 3, Effect_Time.Once, Type.Debuff, specminus_image, ReduceSAttack, RaiseSAttack);
+            specialdefenseplus = new Status("specdef+", 3, Effect_Time.Once, Type.Buff, specdefplus_image, RaiseSDefense, ReduceSDefense);
+            specialdefenseminus = new Status("specdef-", 3, Effect_Time.Once, Type.Debuff, specdefminus_image, ReduceSDefense, RaiseSDefense);
+
+
         }
 
         public Status (String _name, int _duration, Effect_Time _effect_time, Type _type, Texture2D _img, Affect _Effect, Affect _Reverse = null)
@@ -73,6 +110,64 @@ namespace LeaveMeAlone
         private static void rev_Beserk(Character carrier)
         {
             carrier.attack /= 2;
+        }
+
+        
+        private static void RaiseAttack(Character carrier)
+        {
+            int reduction = (int)(carrier.attack * .2);
+            carrier.attack += reduction;
+        }
+        private static void ReduceAttack(Character carrier)
+        {
+            int reduction = (int)(carrier.attack * .2);
+            carrier.attack -= reduction;
+            if (carrier.attack <= 0)
+            {
+                carrier.attack = 0;
+            }
+        }
+        private static void RaiseDefense(Character carrier)
+        {
+            int reduction = (int)(carrier.defense * .2);
+            carrier.defense += reduction;
+        }
+        private static void ReduceDefense(Character carrier)
+        {
+            int reduction = (int)(carrier.defense * .2);
+            carrier.defense -= reduction;
+            if (carrier.defense <= 0)
+            {
+                carrier.defense = 0;
+            }
+        }
+        private static void RaiseSAttack(Character carrier)
+        {
+            int reduction = (int)(carrier.special_attack * .2);
+            carrier.special_attack += reduction;
+        }
+        private static void ReduceSAttack(Character carrier)
+        {
+            int reduction = (int)(carrier.special_attack * .2);
+            carrier.special_attack -= reduction;
+            if (carrier.special_attack <= 0)
+            {
+                carrier.special_attack = 0;
+            }
+        }
+        private static void RaiseSDefense(Character carrier)
+        {
+            int reduction = (int)(carrier.special_defense * .2);
+            carrier.special_defense += reduction;
+        }
+        private static void ReduceSDefense(Character carrier)
+        {
+            int reduction = (int)(carrier.special_defense * .2);
+            carrier.special_defense -= reduction;
+            if (carrier.special_defense <= 0)
+            {
+                carrier.special_defense = 0;
+            }
         }
     }
 }

@@ -124,7 +124,11 @@ namespace LeaveMeAlone
                 BattleManager.heroes = topParty;
                 for (int i = 0; i < BattleManager.heroes.Count; i++)
                 {
-                    BattleManager.heroes[i].Init();
+                    if (BattleManager.heroes[i] != null)
+                    {
+                        BattleManager.heroes[i].Init();
+
+                    }
                 }
                 int hero_basex = 50;
                 int hero_basey = 150;

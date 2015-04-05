@@ -242,10 +242,20 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void SpikeTrap(List<Character> heroes)
         {
-            foreach (Character hero in heroes)
+            for (int i = 0; i < heroes.Count(); i++)
             {
-                int damage = (int)(hero.defense * .5);
-                hero.health -= damage;
+                Character hero = heroes[i];
+                if (hero != null)
+                {
+                    Console.WriteLine("Applying damage");
+                    int damage = (int)(hero.defense * .1);
+                    hero.health -= damage;
+                    if (hero.health <= 0)
+                    {
+                        hero.health = 1;
+                        Console.WriteLine("Destroying enemy");
+                    }
+                }
             }
         }
     }
