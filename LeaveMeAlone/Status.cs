@@ -99,7 +99,7 @@ namespace LeaveMeAlone
             this.reverse_affect = _Reverse;
         }
 
-        public String ToString()
+        public override String ToString()
         {
             return this.name;
         }

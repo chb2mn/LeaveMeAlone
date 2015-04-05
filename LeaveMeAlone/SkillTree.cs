@@ -199,10 +199,7 @@ namespace LeaveMeAlone
             {
                 caster.energy = caster.max_energy;
             }
-            /*
-             * Old Form; kept here in case of revision
-             */
-            /*
+            
             //If the status already exists, increase its duration
             if (caster.statuses.Contains(Status.defend))
             {
@@ -212,14 +209,23 @@ namespace LeaveMeAlone
             //Otherwise add it
             else
             {
+                Status.defend.duration = 2;
                 caster.statuses.Add(Status.defend);
+                caster.defense += (5 * 1 + (caster.level / 3));
             }
-             */
-            caster.defense += 5 * 1 + (caster.level / 3);
-            caster.statuses.Add(Status.defend);
-            caster.special_defense += 5 * 1 + (caster.level / 3);
-            caster.statuses.Add(Status.specdefend);
-
+            //If the status already exists, increase its duration
+            if (caster.statuses.Contains(Status.specdefend))
+            {
+                int status_index = caster.statuses.IndexOf(Status.specdefend);
+                caster.statuses[status_index].duration_left += Status.specdefend.duration;
+            }
+            //Otherwise add it
+            else
+            {
+                Status.specdefend.duration = 2;
+                caster.statuses.Add(Status.specdefend); 
+                caster.special_defense += (5 * 1 + (caster.level / 3));
+            }
         }
         public static void PortalPunch(Character caster, Character target = null)
         {
