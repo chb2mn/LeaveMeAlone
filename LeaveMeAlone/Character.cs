@@ -335,7 +335,7 @@ namespace LeaveMeAlone
                 thought = random.Next(100);
 
                 //Consider adding a status effect?
-                if (!BattleManager.boss.statuses.Contains(Status.poison) //If the boss doesn't have poison
+                if (!BattleManager.boss.statuses.Contains(Status.check_poison) //If the boss doesn't have poison
                     && (BattleManager.boss.health*100)/BattleManager.boss.max_health > 75 //and it has high health
                     && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
                 {

@@ -25,8 +25,8 @@ namespace LeaveMeAlone
         public Affect reverse_affect;
         public delegate void Affect(Character carrier);
 
-        public static Status poison;
-        public static Status beserk;
+        public static Status check_poison;
+        public static Status check_beserk;
         public static Status defend;
         public static Status specdefend;
 
@@ -72,8 +72,8 @@ namespace LeaveMeAlone
             /*
              * These are used to check if a status is present in person
              */
-            poison = new Status("poison", 3, Effect_Time.After, Type.Debuff, poison_image, Poison);
-            beserk = new Status("beserk", 3, Effect_Time.Once, Type.Debuff, beserk_image, Beserk, rev_Beserk);
+            check_poison = new Status("poison", 3, Effect_Time.After, Type.Debuff, poison_image, Poison);
+            check_beserk = new Status("beserk", 3, Effect_Time.Once, Type.Debuff, beserk_image, Beserk, rev_Beserk);
             defend = new Status("defend", 2, Effect_Time.Once, Type.Buff, defplus_image, DoNothing, ReduceDefense);
             specdefend = new Status("specdefend", 2, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
 

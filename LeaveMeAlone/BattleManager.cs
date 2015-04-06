@@ -175,9 +175,9 @@ namespace LeaveMeAlone
             {
                 Status status = affected.statuses[i];
                 //If the effect is a one time, increment the counter and move on
-                if (effect_time == Status.Effect_Time.Once)
+                if (effect_time == Status.Effect_Time.Once && status.effect_time == Status.Effect_Time.Once)
                 {
-                    Console.WriteLine(status.ToString() + " : " + status.duration_left);
+                    Console.WriteLine("Once: "+ status.ToString() + " : " + status.duration_left);
                     //If it's the first time, apply the status affect
                     if (status.duration_left == status.duration)
                     {
@@ -187,20 +187,25 @@ namespace LeaveMeAlone
                     if (status.duration_left == 0)
                     {
                         //reverse the affect and remove the status
-                        status.reverse_affect(affected);
+                        if (status.reverse_affect != null)
+                        {
+                            status.reverse_affect(affected);
+                        }
                         affected.statuses.Remove(status);
                     }
                 }
                 
                 //If the effect is not one time, do the effect and increment counter
-                else if (effect_time == status.effect_time)
+                else if (effect_time == status.effect_time && status.effect_time == Status.Effect_Time.After)
                 {
+                    Console.WriteLine("After: " + status.ToString() + " : " + status.duration_left);
                     status.affect(affected);
-                    //Whenever the status is triggered, check if the status should be removed
+                    //Whenever the status is triggered, check if the status should be removed                    
                     if (status.duration_left-- == 0)
                     {
                         affected.statuses.Remove(status);
                     }
+
                 }
 
             }
