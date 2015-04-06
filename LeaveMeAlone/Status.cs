@@ -69,10 +69,13 @@ namespace LeaveMeAlone
                 Console.WriteLine("Poison didn't load");
             }
 
+            /*
+             * These are used to check if a status is present in person
+             */
             poison = new Status("poison", 3, Effect_Time.After, Type.Debuff, poison_image, Poison);
             beserk = new Status("beserk", 3, Effect_Time.Once, Type.Debuff, beserk_image, Beserk, rev_Beserk);
-            defend = new Status("def+", 2, Effect_Time.Once, Type.Buff, defplus_image, DoNothing, ReduceDefense);
-            specdefend = new Status("specdef+", 2, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
+            defend = new Status("defend", 2, Effect_Time.Once, Type.Buff, defplus_image, DoNothing, ReduceDefense);
+            specdefend = new Status("specdefend", 2, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
 
 
             attackplus = new Status("atk+", 3, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
@@ -83,7 +86,7 @@ namespace LeaveMeAlone
             specialattackminus = new Status("spec-", 3, Effect_Time.Once, Type.Debuff, specminus_image, ReduceSAttack, RaiseSAttack);
             specialdefenseplus = new Status("specdef+", 3, Effect_Time.Once, Type.Buff, specdefplus_image, RaiseSDefense, ReduceSDefense);
             specialdefenseminus = new Status("specdef-", 3, Effect_Time.Once, Type.Debuff, specdefminus_image, ReduceSDefense, RaiseSDefense);
-
+            
 
         }
 
@@ -103,37 +106,51 @@ namespace LeaveMeAlone
         {
             return this.name;
         }
+
+        public override bool Equals(object obj)
+        {
+            Status candidate;
+            try
+            {
+                candidate = (Status)obj;
+            }
+            catch
+            {
+                return false;
+            }
+            return this.name.Equals(candidate.name);
+        }
         //>>>>>>>>>>>>>>>>>>>>accessor<<<<<<<<<<<<<<<<<<<//
 
 
         //>>>>>>>>>>>>>>>>>>>>methods<<<<<<<<<<<<<<<<<<<<//
-        private static void DoNothing(Character carrier)
+        public static void DoNothing(Character carrier)
         {
             //This method is used for statuses that activate after a number of turns 
             return;
         }
-        private static void Poison(Character carrier)
+        public static void Poison(Character carrier)
         {
             int damage = (int)(carrier.max_health * .1);
             carrier.health -= damage;
             carrier.damage_text.changeMessage((-damage).ToString());
         }
-        private static void Beserk(Character carrier)
+        public static void Beserk(Character carrier)
         {
             carrier.attack *= 2;
         }
-        private static void rev_Beserk(Character carrier)
+        public static void rev_Beserk(Character carrier)
         {
             carrier.attack /= 2;
         }
 
         
-        private static void RaiseAttack(Character carrier)
+        public static void RaiseAttack(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             carrier.attack += reduction;
         }
-        private static void ReduceAttack(Character carrier)
+        public static void ReduceAttack(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             carrier.attack -= reduction;
@@ -142,13 +159,13 @@ namespace LeaveMeAlone
                 carrier.attack = 0;
             }
         }
-        private static void RaiseDefense(Character carrier)
+        public static void RaiseDefense(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             Console.WriteLine(reduction);
             carrier.defense += reduction;
         }
-        private static void ReduceDefense(Character carrier)
+        public static void ReduceDefense(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             carrier.defense -= reduction;
@@ -157,12 +174,12 @@ namespace LeaveMeAlone
                 carrier.defense = 0;
             }
         }
-        private static void RaiseSAttack(Character carrier)
+        public static void RaiseSAttack(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             carrier.special_attack += reduction;
         }
-        private static void ReduceSAttack(Character carrier)
+        public static void ReduceSAttack(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             carrier.special_attack -= reduction;
@@ -171,12 +188,12 @@ namespace LeaveMeAlone
                 carrier.special_attack = 0;
             }
         }
-        private static void RaiseSDefense(Character carrier)
+        public static void RaiseSDefense(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             carrier.special_defense += reduction;
         }
-        private static void ReduceSDefense(Character carrier)
+        public static void ReduceSDefense(Character carrier)
         {
             int reduction = (int)(5 * (1 + carrier.level / 3));
             carrier.special_defense -= reduction;

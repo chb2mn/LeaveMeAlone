@@ -201,29 +201,31 @@ namespace LeaveMeAlone
             }
             
             //If the status already exists, increase its duration
-            if (caster.statuses.Contains(Status.defend))
+            Status this_defend = new Status("defend", 2, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense);
+            //We use DoNothing here^ because we raise defense here, and it is lowered in 2 turns
+
+            if (caster.statuses.Contains(this_defend))
             {
-                int status_index = caster.statuses.IndexOf(Status.defend);
-                caster.statuses[status_index].duration_left += Status.defend.duration;
+                int status_index = caster.statuses.IndexOf(this_defend);
+                caster.statuses[status_index].duration_left += this_defend.duration;
             }
             //Otherwise add it
             else
             {
-                Status.defend.duration = 2;
-                caster.statuses.Add(Status.defend);
+                caster.statuses.Add(this_defend);
                 caster.defense += (5 * 1 + (caster.level / 3));
             }
+            Status this_sdefend = new Status("specdefend", 2, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceSDefense);
             //If the status already exists, increase its duration
-            if (caster.statuses.Contains(Status.specdefend))
+            if (caster.statuses.Contains(this_sdefend))
             {
-                int status_index = caster.statuses.IndexOf(Status.specdefend);
-                caster.statuses[status_index].duration_left += Status.specdefend.duration;
+                int status_index = caster.statuses.IndexOf(this_sdefend);
+                caster.statuses[status_index].duration_left += this_sdefend.duration;
             }
             //Otherwise add it
             else
             {
-                Status.specdefend.duration = 2;
-                caster.statuses.Add(Status.specdefend); 
+                caster.statuses.Add(this_sdefend); 
                 caster.special_defense += (5 * 1 + (caster.level / 3));
             }
         }
@@ -259,16 +261,17 @@ namespace LeaveMeAlone
             target.health -= damage;
             target.damage_text.changeMessage((-damage).ToString());
 
+            Status this_poison = new Status("poison", 3, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison);
             //If the status already exists, increase its duration
-            if (target.statuses.Contains(Status.poison))
+            if (target.statuses.Contains(this_poison))
             {
-                int status_index = target.statuses.IndexOf(Status.poison);
-                target.statuses[status_index].duration_left += Status.poison.duration;
+                int status_index = target.statuses.IndexOf(this_poison);
+                target.statuses[status_index].duration_left += this_poison.duration;
             }
             //Otherwise add it
             else
             {
-                target.statuses.Add(Status.poison);
+                target.statuses.Add(this_poison);
             }
         }
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
