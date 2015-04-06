@@ -33,6 +33,9 @@ namespace LeaveMeAlone
         private static Texture2D buttonLocPic;
         private static Texture2D bkgd;
         private static Texture2D targeter;
+        private static int[] check_cooldown = new int[6];
+
+        private static Text info_text;
         private static Text target_text;
 
         private static Text victory_text;
@@ -449,6 +452,16 @@ namespace LeaveMeAlone
                                 try
                                 {
                                     selected_skill = boss.selected_skills[i];
+                                    //check cooldown
+                                    if (cooldown_check[i] > 0)
+                                    {
+                                        continue;
+                                    }
+                                    //check mana_cost
+                                    if (selected_skill.energy > boss.energy)
+                                    {
+                                        continue;
+                                    }
                                     if (selected_skill.target == Skill.Target.Single)
                                     {
                                         state = State.Target;

@@ -28,6 +28,7 @@ namespace LeaveMeAlone
         public static Skill portal_punch;
         public static Skill flamethrower;
         public static Skill nuclear_waste;
+        public static Skill abomination_form;
 
         //>>>>>>>>>>>>>>>>Room Declarations<<<<<<<<<<<//
         public static Room spike_trap;
@@ -48,6 +49,7 @@ namespace LeaveMeAlone
             portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
             nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
+            abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
 
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spikeroom);
@@ -273,6 +275,13 @@ namespace LeaveMeAlone
             {
                 target.statuses.Add(new Status("poison", 3, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
             }
+        }
+        public static void AbominationForm(Character caster, Character target = null)
+        {
+            //Change Sprite! or Something!
+            int temp = caster.attack;
+            caster.attack = caster.special_attack;
+            caster.special_attack = temp;
         }
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void SpikeTrap(List<Character> heroes)
