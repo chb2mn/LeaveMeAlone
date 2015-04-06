@@ -27,17 +27,17 @@ namespace LeaveMeAlone
 
         public static Status check_poison;
         public static Status check_beserk;
-        public static Status defend;
-        public static Status specdefend;
+        public static Status check_defend;
+        public static Status check_specdefend;
 
-        public static Status attackplus;
-        public static Status attackminus;
-        public static Status defenseplus;
-        public static Status defenseminus;
-        public static Status specialattackplus;
-        public static Status specialattackminus;
-        public static Status specialdefenseplus;
-        public static Status specialdefenseminus;
+        public static Status check_attackplus;
+        public static Status check_attackminus;
+        public static Status check_defenseplus;
+        public static Status check_defenseminus;
+        public static Status check_specialattackplus;
+        public static Status check_specialattackminus;
+        public static Status check_specialdefenseplus;
+        public static Status check_specialdefenseminus;
 
         public static Texture2D poison_image;
         public static Texture2D beserk_image;
@@ -74,18 +74,18 @@ namespace LeaveMeAlone
              */
             check_poison = new Status("poison", 3, Effect_Time.After, Type.Debuff, poison_image, Poison);
             check_beserk = new Status("beserk", 3, Effect_Time.Once, Type.Debuff, beserk_image, Beserk, rev_Beserk);
-            defend = new Status("defend", 2, Effect_Time.Once, Type.Buff, defplus_image, DoNothing, ReduceDefense);
-            specdefend = new Status("specdefend", 2, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
+            check_defend = new Status("defend", 2, Effect_Time.Once, Type.Buff, defplus_image, DoNothing, ReduceDefense);
+            check_specdefend = new Status("specdefend", 2, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
 
 
-            attackplus = new Status("atk+", 3, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
-            attackminus = new Status("atk-", 3, Effect_Time.Once, Type.Debuff, atkminus_image, ReduceAttack, RaiseAttack);
-            defenseplus = new Status("def+", 3, Effect_Time.Once, Type.Buff, defplus_image, RaiseDefense, ReduceDefense);
-            defenseminus = new Status("def-", 3, Effect_Time.Once, Type.Debuff, defminus_image, ReduceDefense, RaiseDefense);
-            specialattackplus = new Status("spec+", 3, Effect_Time.Once, Type.Buff, specplus_image, RaiseSAttack, ReduceSAttack);
-            specialattackminus = new Status("spec-", 3, Effect_Time.Once, Type.Debuff, specminus_image, ReduceSAttack, RaiseSAttack);
-            specialdefenseplus = new Status("specdef+", 3, Effect_Time.Once, Type.Buff, specdefplus_image, RaiseSDefense, ReduceSDefense);
-            specialdefenseminus = new Status("specdef-", 3, Effect_Time.Once, Type.Debuff, specdefminus_image, ReduceSDefense, RaiseSDefense);
+            check_attackplus = new Status("atk+", 3, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
+            check_attackminus = new Status("atk-", 3, Effect_Time.Once, Type.Debuff, atkminus_image, ReduceAttack, RaiseAttack);
+            check_defenseplus = new Status("def+", 3, Effect_Time.Once, Type.Buff, defplus_image, RaiseDefense, ReduceDefense);
+            check_defenseminus = new Status("def-", 3, Effect_Time.Once, Type.Debuff, defminus_image, ReduceDefense, RaiseDefense);
+            check_specialattackplus = new Status("spec+", 3, Effect_Time.Once, Type.Buff, specplus_image, RaiseSAttack, ReduceSAttack);
+            check_specialattackminus = new Status("spec-", 3, Effect_Time.Once, Type.Debuff, specminus_image, ReduceSAttack, RaiseSAttack);
+            check_specialdefenseplus = new Status("specdef+", 3, Effect_Time.Once, Type.Buff, specdefplus_image, RaiseSDefense, ReduceSDefense);
+            check_specialdefenseminus = new Status("specdef-", 3, Effect_Time.Once, Type.Debuff, specdefminus_image, ReduceSDefense, RaiseSDefense);
             
 
         }
