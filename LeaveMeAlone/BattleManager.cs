@@ -491,6 +491,7 @@ namespace LeaveMeAlone
                                     //check mana_cost
                                     if (selected_skill.energy > boss.energy)
                                     {
+                                        info_text.changeMessage("Not Enough Energy!");
                                         continue;
                                     }
                                     if (selected_skill.target == Skill.Target.Single)
@@ -656,7 +657,6 @@ namespace LeaveMeAlone
                         CheckVictoryDefeat();
                         break;
                     }
-                    Console.WriteLine(enemy_turn);
 
                     Character enemy = heroes[enemy_turn];
                     if (enemy == null)
@@ -672,7 +672,6 @@ namespace LeaveMeAlone
                     Attack(enemy);
 
                     enemy_turn++;
-                    Console.WriteLine("Next"+enemy_turn);
                     //Check if end of enemy turn;
                     if (enemy_turn >= heroes.Count())
                     {

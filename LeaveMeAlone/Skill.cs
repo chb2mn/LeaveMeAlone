@@ -75,6 +75,14 @@ namespace LeaveMeAlone
             int val = (int)(((2.0 * (double)caster.level + 10.0)/250.0 * ((double)attack/(double)defense)*(double)power+2.0) * (double)modifier);
             return val;
         }
+
+        public static int damage(int attack, int defense, int level, int power, int modifier = 1)
+        {
+            //from .85 to 1.0
+            //modifier *= (100 -(LeaveMeAlone.random.Next(16))) / 100;
+            int val = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / (double)defense) * (double)power + 2.0) * (double)modifier);
+            return val;
+        }
         public class TargetRequiredException: Exception
         {
             public TargetRequiredException()

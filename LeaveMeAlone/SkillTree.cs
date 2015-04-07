@@ -29,7 +29,7 @@ namespace LeaveMeAlone
         public static Skill flamethrower;
         public static Skill nuclear_waste;
         public static Skill abomination_form;
-
+        public static Skill summon_igor;
         //>>>>>>>>>>>>>>>>Room Declarations<<<<<<<<<<<//
         public static Room spike_trap;
 
@@ -50,6 +50,7 @@ namespace LeaveMeAlone
             flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
             nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
+            summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
 
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spikeroom);
@@ -214,7 +215,7 @@ namespace LeaveMeAlone
             //Otherwise add it
             else
             {
-                caster.statuses.Add( new Status("defend", 2, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense));
+                caster.statuses.Add(new Status("defend", 2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense));
                 caster.defense += (5 * 1 + (caster.level / 3));
             }
             //Status this_sdefend = new Status("specdefend", 2, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceSDefense);
@@ -227,7 +228,7 @@ namespace LeaveMeAlone
             //Otherwise add it
             else
             {
-                caster.statuses.Add(new Status("specdefend", 2, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceSDefense)); 
+                caster.statuses.Add(new Status("specdefend", 2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceSDefense)); 
                 caster.special_defense += (5 * 1 + (caster.level / 3));
             }
         }
@@ -273,7 +274,7 @@ namespace LeaveMeAlone
             //Otherwise add it
             else
             {
-                target.statuses.Add(new Status("poison", 3, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
+                target.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
             }
         }
         public static void AbominationForm(Character caster, Character target = null)
@@ -290,8 +291,16 @@ namespace LeaveMeAlone
             //Otherwise add it
             else
             {
-                caster.statuses.Add(new Status("abom", 999, Status.Effect_Time.Once, Status.Type.Other, Status.no_image, Status.DoNothing, Status.rev_Abom));
+                caster.statuses.Add(new Status("abom", 999, 0, Status.Effect_Time.Once, Status.Type.Other, null, Status.DoNothing, Status.rev_Abom));
             }
+        }
+        public static void SummonIgor(Character caster, Character target = null)
+        {
+            //No need to check if it's already there based on the nature of the skill
+            //There is a hack here where I use an already instantiated Status to get the delegate function for Summoning Igor
+            Status igor_target = new Status("Igor", 1, caster.special_attack, Status.Effect_Time.Once, Status.Type.Other, Status.target_status_image, Status.DoNothing, null);
+            igor_target.reverse_affect = igor_target.rev_Igor;
+            target.statuses.Add(igor_target);
         }
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void SpikeTrap(List<Character> heroes)
