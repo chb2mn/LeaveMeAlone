@@ -35,6 +35,8 @@ namespace LeaveMeAlone
         private static Texture2D targeter;
         private static int[] check_cooldown = new int[6];
 
+        private static bool haste_check;
+
         private static Text info_text;
         private static int info_counter;
         private static Text target_text;
@@ -55,7 +57,7 @@ namespace LeaveMeAlone
         private static int animation_counter = 30;
 
 
-        private static int enemy_attack_delay = 30;
+        private static int enemy_attack_delay = 60;
         private static int enemy_turn = -1;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
@@ -148,6 +150,7 @@ namespace LeaveMeAlone
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             victory = false;
             defeat = false;
+            haste_check = false;
             state = State.Basic;
             boss.health = boss.max_health;
             boss.energy = boss.max_energy;
@@ -673,14 +676,25 @@ namespace LeaveMeAlone
                         enemy_turn++;
                         break;
                     }
-                    enemy_attack_delay = 31;
+                    enemy_attack_delay = 60;
 
                     //AI occurs
                     targeted_enemy = -2;
                     selected_skill = enemy.basic_attack;
                     Attack(enemy);
 
-                    enemy_turn++;
+                    //Check if this enemy has haste, and check if a hasted enemy has already attacked
+                    if (enemy.statuses.Contains(Status.check_haste) && !haste_check)
+                    {
+                        haste_check = true;
+                        CheckVictoryDefeat();
+                        break;
+                    }
+                    else //pass the turn to the next character
+                    {
+                        haste_check = false;
+                        enemy_turn++;
+                    }
                     //Check if end of enemy turn;
                     if (enemy_turn >= heroes.Count())
                     {

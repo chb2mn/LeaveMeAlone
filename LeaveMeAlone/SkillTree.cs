@@ -68,7 +68,13 @@ namespace LeaveMeAlone
             freeze_ray = new Skill("FreezeRay", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay);
             
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
-            
+
+            cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 1, "Heals and ally or self", Cure);
+            fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
+            bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 1, "Hit an enemy using physical attack", Bash);
+            haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 1, "Speed an ally up so he can hit twice in a row", Haste);
+            panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 1, "Cure Self or Ally of all Status effects", Panacea);
+            poison_dagger = new Skill("poison_dagger", 5, 0, 1, 1, Skill.Target.Single, 1, "Do physical damage and give poison", PoisonDagger);
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
             poison_pit = new Room("Poison Pit", 100, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
@@ -315,7 +321,7 @@ namespace LeaveMeAlone
         {
             //No need to check if it's already there based on the nature of the skill
             //There is a hack here where I use an already instantiated Status to get the delegate function for Summoning Igor
-            Status igor_target = new Status("Igor", 1, caster.special_attack, Status.Effect_Time.Once, Status.Type.Other, Status.target_status_image, Status.DoNothing, null);
+            Status igor_target = new Status("Igor", 2, caster.special_attack, Status.Effect_Time.Once, Status.Type.Other, Status.target_status_image, Status.DoNothing, null);
             igor_target.reverse_affect = igor_target.rev_Igor;
             target.statuses.Add(igor_target);
         }
@@ -351,7 +357,47 @@ namespace LeaveMeAlone
                 target.damage_text.changeMessage(str_damage);
             }
         }
+        public static void PoisonDagger(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
+            target.health -= damage;
+            target.damage_text.changeMessage((-damage).ToString());
 
+            //Status this_poison = new Status("poison", 3, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison);
+            //If the status already exists, increase its duration
+            if (target.statuses.Contains(Status.check_poison))
+            {
+                int status_index = target.statuses.IndexOf(Status.check_poison);
+                target.statuses[status_index].duration_left += 3;
+            }
+            //Otherwise add it
+            else
+            {
+                target.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
+            }
+        }
+        public static void Haste(Character caster, Character target = null) 
+        {
+            if (target.statuses.Contains(Status.check_haste))
+            {
+                //Do Nothing
+            }
+            //Otherwise add it
+            else
+            {
+                target.statuses.Add(new Status("haste", 3, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.haste_image, Status.DoNothing));
+            }
+        }
+        public static void Panacea(Character caster, Character target = null)
+        {
+            for (int i = target.statuses.Count() - 1; i >= 0; i--)
+            {
+                if (target.statuses[i].type == Status.Type.Debuff)
+                {
+                    target.statuses.Remove(target.statuses[i]);
+                }
+            }
+        }
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void SpikeTrap(List<Character> heroes)
         {

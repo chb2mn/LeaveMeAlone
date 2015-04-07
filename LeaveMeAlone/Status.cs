@@ -32,6 +32,7 @@ namespace LeaveMeAlone
         public static Status check_specdefend;
         public static Status check_abom;
         public static Status check_stun;
+        public static Status check_haste;
 
         public static Status check_attackplus;
         public static Status check_attackminus;
@@ -55,6 +56,7 @@ namespace LeaveMeAlone
         public static Texture2D target_status_image;
         public static Texture2D no_image;
         public static Texture2D stun_image;
+        public static Texture2D haste_image;
 
         public static void LoadContent(ContentManager content)
         {
@@ -72,6 +74,7 @@ namespace LeaveMeAlone
             no_image = content.Load<Texture2D>("Blank");
             target_status_image = content.Load<Texture2D>("Target_Status");
             stun_image = content.Load<Texture2D>("Stun_Image");
+            haste_image = content.Load<Texture2D>("Haste_Image");
 
             if (poison_image == null)
             {
@@ -87,6 +90,7 @@ namespace LeaveMeAlone
             check_specdefend = new Status("specdefend", 2, 0, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
             check_abom = new Status("abom", 3, 0, Effect_Time.Once, Type.Other, null, DoNothing, null);
             check_stun = new Status("stun", 3, 0, Effect_Time.Once, Type.Debuff, stun_image, DoNothing, DoNothing);
+            check_haste = new Status("haste", 3, 0, Effect_Time.Once, Type.Debuff, haste_image, DoNothing, DoNothing);
 
             check_attackplus = new Status("atk+", 3, 0, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
             check_attackminus = new Status("atk-", 3, 0, Effect_Time.Once, Type.Debuff, atkminus_image, ReduceAttack, RaiseAttack);

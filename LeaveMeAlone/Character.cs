@@ -268,7 +268,10 @@ namespace LeaveMeAlone
                     {
                         continue;
                     }
-                    spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
+                    if (status.img != null)
+                    {
+                        spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20 * i, sPosition.Y), Color.White);
+                    }
                     i++;
                 }
                 debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
