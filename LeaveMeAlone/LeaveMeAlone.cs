@@ -18,6 +18,7 @@ namespace LeaveMeAlone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static int WindowX, WindowY;
         //Character boss;
         public enum GameState { Main, Upgrade, Lair, Battle, Quit };
         public static GameState gamestate = GameState.Main;
@@ -27,6 +28,13 @@ namespace LeaveMeAlone
             : base() 
         {
             graphics = new GraphicsDeviceManager(this);
+            WindowX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            WindowY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.PreferredBackBufferWidth = WindowX;
+            graphics.PreferredBackBufferHeight = WindowY;
+
+
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             //graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
             //graphics.PreferredBackBufferHeight = 480;   // set this value to the desired height of your window
@@ -149,7 +157,6 @@ namespace LeaveMeAlone
                     Exit();
                     break;
             }
-            
             base.Update(gameTime);
         }
 

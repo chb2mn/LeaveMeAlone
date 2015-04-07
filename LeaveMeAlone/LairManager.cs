@@ -29,9 +29,9 @@ namespace LeaveMeAlone
             MaxLevel = 3;
             towerPosition = new Vector2(0, 0);
             LairRooms = new List<Room>();
-            skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), 600, 100, 200, 75);
-            nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), -50, 350, 200, 75);
-            constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), 600, 175, 200, 75);
+            skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX-200, 100, 200, 75);
+            constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 175, 200, 75);
+            nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), -50, LeaveMeAlone.WindowY - 200, 200, 75);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
@@ -114,12 +114,12 @@ namespace LeaveMeAlone
         }
         public static void Draw(SpriteBatch Spritebatch)
         {
-            Spritebatch.Draw(lairBkgd, new Rectangle(-1000, -600, 2308, 1200), Color.White);
-            Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X+200), (int)(towerPosition.X+400), 400, 100), Color.White);
-            Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + 200), (int)(towerPosition.X + 400 - 100*(TowerLevel+1)), 400, 100), Color.White);
+            Spritebatch.Draw(lairBkgd, new Rectangle(-300, -200, 2308, 1200), Color.White);
+            Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X+LeaveMeAlone.WindowX/3), (int)(towerPosition.Y+LeaveMeAlone.WindowY-100), 400, 100), Color.White);
+            Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (TowerLevel + 1)), 400, 100), Color.White);
             for (int i = 0; i < TowerLevel; i++)
             {
-                Spritebatch.Draw(LairRooms[i].img, new Rectangle((int)(towerPosition.X + 200), (int)(towerPosition.X + 400 - 100 * (i + 1)), 400, 100), Color.White);
+                Spritebatch.Draw(LairRooms[i].img, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100), Color.White);
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
@@ -128,7 +128,7 @@ namespace LeaveMeAlone
                 {
                     Character.Type placeholder = Character.Type.Ranger;
                     Character newChar = new Character(placeholder, 1);
-                    newChar.sPosition = new Vector2((int)(towerPosition.X + 200), (int)(towerPosition.Y + 500 - 100 * (TowerLevel - j + 1)));
+                    newChar.sPosition = new Vector2((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY + 20 - 100 * (TowerLevel - j + 1)));
                     newChar.Init();
                     newChar.Draw(Spritebatch, Color.White);
                 }

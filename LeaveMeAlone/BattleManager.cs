@@ -82,7 +82,7 @@ namespace LeaveMeAlone
 
             bkgd = Content.Load<Texture2D>("skyscraperBkgd");
             int button_basex = 100;
-            int button_basey = 350;
+            int button_basey = LeaveMeAlone.WindowY - 200;
 
             //remove all knowledge that the enemy heroes have
             Knowledge.Clear();
@@ -109,7 +109,7 @@ namespace LeaveMeAlone
             basic_buttons[3].UpdateText("Bribe");
 
 
-            bossLoc = new Rectangle(650, 120, 100, 100); 
+            bossLoc = new Rectangle(LeaveMeAlone.WindowX-150, LeaveMeAlone.WindowY/2 - 100, 200, 200); 
             boss_hp = new Text("");
             boss_energy = new Text("");
 
@@ -723,7 +723,7 @@ namespace LeaveMeAlone
         {
             //Do Background drawing
 
-            spriteBatch.Draw(bkgd, new Rectangle(-100, -25, 1000, 543), Color.White);
+            spriteBatch.Draw(bkgd, new Rectangle(-300, -25, 2000, 1086), Color.White);
             //Draw Heroes
             //Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
             for (int i = 0; i < heroes.Count(); i++)
@@ -855,7 +855,7 @@ namespace LeaveMeAlone
 
         public static void bossDefaultPosition()
         {
-            boss.sPosition = new Vector2(640, 140);
+            boss.sPosition = new Vector2(LeaveMeAlone.WindowX-160, LeaveMeAlone.WindowY/2);
         }
         public static void setHeroesPosition()
         {
@@ -863,6 +863,7 @@ namespace LeaveMeAlone
             {
                 if (heroes[i] != null)
                 {
+                    heroLoc[i] = new Rectangle(heroLoc[i].X, heroLoc[i].Y + 200, 100, 100);
                     heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
 
                 }
