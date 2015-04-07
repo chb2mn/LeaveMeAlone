@@ -16,7 +16,8 @@ namespace LeaveMeAlone
         public Dictionary<int, List<Skill>> skill_tiers;
         public Dictionary<int, List<Room>> room_tiers;
 
-        public static Texture2D spikeroom;
+        public static Texture2D spike_room_image;
+        public static Texture2D poison_pit_image;
         
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
         public Dictionary<Skill, Button> buttons = new Dictionary<Skill,Button>();
@@ -31,8 +32,17 @@ namespace LeaveMeAlone
         public static Skill abomination_form;
         public static Skill summon_igor;
         public static Skill freeze_ray;
+
+        public static Skill cure;
+        public static Skill panacea;
+        public static Skill fire;
+        public static Skill bash;
+        public static Skill poison_dagger;
+        public static Skill haste;
+
         //>>>>>>>>>>>>>>>>Room Declarations<<<<<<<<<<<//
         public static Room spike_trap;
+        public static Room poison_pit;
 
         public SkillTree()
         {
@@ -41,22 +51,27 @@ namespace LeaveMeAlone
         }
         public static void LoadContent(ContentManager content)
         {
-            spikeroom = content.Load<Texture2D>("spikeRoom2");
+            spike_room_image = content.Load<Texture2D>("spikeRoom2");
+            poison_pit_image = content.Load<Texture2D>("PoisonPit");
             buttonPic = content.Load<Texture2D>("buttonbase");
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
             basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
             defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
+            
+            //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
             nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
             freeze_ray = new Skill("FreezeRay", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay);
-
+            
+            //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
+            
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
-            spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spikeroom);
-
+            spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
+            poison_pit = new Room("Poison Pit", 100, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
         }
 
         //Instantiates all classes     
@@ -311,6 +326,32 @@ namespace LeaveMeAlone
                 a_target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(1,4), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
             }
         }
+
+        //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
+        public static void Cure(Character caster, Character target = null)
+        {
+            int heal_pts = caster.special_attack;
+            target.health += heal_pts;
+        }
+        public static void Fire(Character caster, Character target = null)
+        {
+            {
+                int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 100);
+                target.health -= damage;
+                String str_damage = (-damage).ToString();
+                target.damage_text.changeMessage(str_damage);
+            }
+        }
+        public static void Bash(Character caster, Character target = null)
+        {
+            {
+                int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
+                target.health -= damage;
+                String str_damage = (-damage).ToString();
+                target.damage_text.changeMessage(str_damage);
+            }
+        }
+
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void SpikeTrap(List<Character> heroes)
         {
@@ -319,13 +360,25 @@ namespace LeaveMeAlone
                 Character hero = heroes[i];
                 if (hero != null)
                 {
-                    Console.WriteLine("Applying damage");
-                    int damage = (int)(hero.defense * .1);
+                    int damage = (int)(hero.max_health * .1);
                     hero.health -= damage;
                     if (hero.health <= 0)
                     {
                         hero.health = 1;
-                        Console.WriteLine("Destroying enemy");
+                    }
+                }
+            }
+        }
+        public static void PoisonPit(List<Character> heroes)
+        {
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                Character hero = heroes[i];
+                if (hero != null)
+                {
+                    if (LeaveMeAlone.random.Next(100) < 50)
+                    {
+                        hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
                     }
                 }
             }
