@@ -247,6 +247,10 @@ namespace LeaveMeAlone
                 int i = 0;
                 foreach (Status status in this.statuses)
                 {
+                    if (status == null) 
+                    {
+                        continue;
+                    }
                     spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
                     i++;
                 }
@@ -260,7 +264,14 @@ namespace LeaveMeAlone
                 int i = 0;
                 foreach (Status status in this.statuses)
                 {
-                    spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
+                    if (status == null)
+                    {
+                        continue;
+                    }
+                    if (status.img != null)
+                    {
+                        spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20 * i, sPosition.Y), Color.White);
+                    }
                     i++;
                 }
                 debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
