@@ -83,7 +83,7 @@ namespace LeaveMeAlone
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
-            target_text = new Text("Select Target");
+            target_text = new Text(msg:"Select Target");
 
             basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
             basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
@@ -104,20 +104,20 @@ namespace LeaveMeAlone
 
 
             bossLoc = new Rectangle(650, 120, 100, 100); 
-            boss_hp = new Text("");
-            boss_energy = new Text("");
+            boss_hp = new Text(msg:"");
+            boss_energy = new Text(msg:"");
 
             for (int i = 0; i < 4; i++)
             {
-                Text hptext = new Text("");
+                Text hptext = new Text(msg:"");
                 hero_hp.Add(hptext);
             }
 
 
             back_button = new Button(Content.Load<Texture2D>("Back"), 675, 410, 113, 51);
 
-            victory_text = new Text("Victory!\nWe will survive another day!");
-            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
+            victory_text = new Text(msg:"Victory!\nWe will survive another day!", position:new Vector2(300, 50));
+            defeat_text = new Text(msg:"Defeat\nYour friends will be so embarrased with you", position:new Vector2(300, 50));
 
             next_button = new Button(Content.Load<Texture2D>("Next"), 325, 100, 113, 32);
 

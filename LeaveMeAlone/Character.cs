@@ -56,7 +56,7 @@ namespace LeaveMeAlone
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int _gold, int _exp, Text _damage_text)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int _gold, int _exp)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -73,7 +73,7 @@ namespace LeaveMeAlone
             exp = _exp;
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
-            damage_text = _damage_text;
+            damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
         }
 
         public Character(Type t, int level)

@@ -129,7 +129,7 @@ namespace LeaveMeAlone
                 operative.Update(gameTime);
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released && canFinish)
                 {
-                    BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, new Text(""));
+                    BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0);
                     BattleManager.boss.charType = current.bossType;
                     BattleManager.boss.Init();
 

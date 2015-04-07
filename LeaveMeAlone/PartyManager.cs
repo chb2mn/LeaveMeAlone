@@ -18,45 +18,36 @@ namespace LeaveMeAlone
         public static int ArmyNum;
         public static List<List<Character>> partyQueue;
         private static Random RNG = new Random();
-        private static Text[] damage_texts = new Text[4];
+        //private static Text[] damage_texts = new Text[4];
 
         public static void Init()
         {
             partyQueue = new List<List<Character>>();
             partyQueue.Add(null);
-            for (int i = 0; i < 4; i++)
-            {
-                damage_texts[i] = new Text("");
-            }
-
         }
 
-        public static Character CreateHero(int type, Text damage_text)
+        public static Character CreateHero(int type)
         {
             Character c;
             switch (type)
             {
                 case 0:
                     //Knight
-                    c = new Character(50, 25, 5, 500, 0, 5, 1, 1, 100, 100, damage_text);
+                    c = new Character(50, 25, 5, 500, 0, 5, 1, 1, 100, 100);
                     c.charType = Character.Type.Knight;
                     return c;
                 case 1:
                     //Mage;
-                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, 100, 100, damage_text);
+                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, 100, 100);
                     c.charType = Character.Type.Mage;
                     return c;
                 case 2:
                     //Ranger
-                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1, 100, 100, damage_text);
+                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1, 100, 100);
                     c.charType = Character.Type.Ranger;
                     return c;
             }
-            return new Character(25, 5, 5, 5, 5, 5, 1, 1, 100, 100, damage_text);
-
-            // Character c = new Character(Character.Type.Ranger, 1);
-            // return c;
-
+            return new Character(25, 5, 5, 5, 5, 5, 1, 1, 100, 100);
         }
 
         public static List<Character> CreateParty()
@@ -68,8 +59,8 @@ namespace LeaveMeAlone
                 //Just one buff hero
                 
                 int type = RNG.Next(3);
-                new_party.Add(CreateHero(type, damage_texts[0]));
-                Text text = new Text("");
+                new_party.Add(CreateHero(type));
+                Text text = new Text();
                 BattleManager.hero_hp.Add(text);
                 BattleManager.hero_hp[0].changeMessage(new_party[0].max_health.ToString() + "/" + new_party[0].max_health.ToString());
 
@@ -80,8 +71,8 @@ namespace LeaveMeAlone
                 for (int i = 0; i < 2; i++)
                 {
                     int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type, damage_texts[i]));
-                    Text text = new Text("");
+                    new_party.Add(CreateHero(type));
+                    Text text = new Text();
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
 
@@ -92,8 +83,8 @@ namespace LeaveMeAlone
                 for (int i = 0; i < 3; i++)
                 {
                     int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type, damage_texts[i]));
-                    Text text = new Text("");
+                    new_party.Add(CreateHero(type));
+                    Text text = new Text();
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
 
@@ -106,8 +97,8 @@ namespace LeaveMeAlone
                 for (int i = 0; i < 4; i++)
                 {
                     int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type, damage_texts[i]));
-                    Text text = new Text("");
+                    new_party.Add(CreateHero(type));
+                    Text text = new Text();
                     BattleManager.hero_hp.Add(text);
                     BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
                 }

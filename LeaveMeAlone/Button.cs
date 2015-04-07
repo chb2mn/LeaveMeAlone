@@ -18,7 +18,7 @@ namespace LeaveMeAlone
         {
             this.sprite = pic;
             this.rectangle= new Rectangle(x, y, width, height);
-            this.text = new Text("");
+            this.text = new Text(position:new Vector2(x+10, y+10));
         }
         public void Draw(SpriteBatch sb)
         {

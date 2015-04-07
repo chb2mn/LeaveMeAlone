@@ -13,22 +13,31 @@ namespace LeaveMeAlone
         public static Dictionary<string, SpriteFont> fonts = new Dictionary<string,SpriteFont>();
         public SpriteFont font;
         public Color color;
+        public Vector2 position;
         public string message;
 
         public static Color DEFAULT_COLOR = Color.Black;
 
-        public Text(SpriteFont f, Color c, string msg="")
+        public Text(SpriteFont f = default(SpriteFont), Color c = default(Color), string msg = "", Vector2 position = default(Vector2))
         {
             message = msg;
+            if(f == default(SpriteFont))
+            {
+                f = fonts["Arial-12"];
+            }
             font = f;
+            if(c == default(Color))
+            {
+                c = DEFAULT_COLOR;
+            }
             color = c;
+            if(position == default(Vector2))
+            {
+                position = new Vector2(0, 0);
+            }
+            this.position = position;
         }
-        public Text(string msg = "")
-        {
-            message = msg;
-            font = fonts["Arial-12"];
-            color = DEFAULT_COLOR;
-        }
+
 
         public void changeMessage(string msg) 
         {
