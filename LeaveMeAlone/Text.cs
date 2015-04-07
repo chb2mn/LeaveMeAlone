@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,11 +47,23 @@ namespace LeaveMeAlone
 
         public static void loadContent(ContentManager content)
         {
+            DirectoryInfo dir = new DirectoryInfo(content.RootDirectory + "/Fonts");
+            if (!dir.Exists)
+                throw new DirectoryNotFoundException();
+
+            FileInfo[] files = dir.GetFiles("*.xnb");
+            foreach (FileInfo file in files)
+            {
+                string key = Path.GetFileNameWithoutExtension(file.Name);
+                fonts[key] = content.Load<SpriteFont>("Fonts/" + key);
+            }
+
             //loads font
-            fonts["Arial-12"] = content.Load<SpriteFont>("Fonts/Arial-12");
+            /*fonts["Arial-12"] = content.Load<SpriteFont>("Fonts/Arial-12");
             fonts["Arial-24"] = content.Load<SpriteFont>("Fonts/Arial-24");
             fonts["BattleMenuText-12"] = content.Load<SpriteFont>("Fonts/BattleMenuText-12");
             fonts["RetroComputer-12"] = content.Load<SpriteFont>("Fonts/RetroComputer-12");
+             */
         }
 
         public void draw(SpriteBatch sb, int x, int y)

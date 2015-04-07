@@ -431,9 +431,3 @@
 /processorParam:TextureFormat=Color
 /build:spikeRoom.jpg
 
-#begin RetroComputer-12.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:RetroComputer-12.spritefont
-
