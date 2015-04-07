@@ -139,6 +139,7 @@ namespace LeaveMeAlone
                     BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
                     BattleManager.boss.selected_skills.Add(SkillTree.abomination_form);
                     BattleManager.boss.selected_skills.Add(SkillTree.summon_igor);
+                    BattleManager.boss.selected_skills.Add(SkillTree.freeze_ray);
                     bossMenuOpen = false;
                     Console.WriteLine("Here we go!");
                     BattleManager.heroes = PartyManager.CreateParty();

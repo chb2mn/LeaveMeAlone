@@ -158,13 +158,14 @@ namespace LeaveMeAlone
             {
                 check_cooldown[i] = 0;
             }
-                for (int i = 0; i < heroes.Count(); i++)
+
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                if (heroes[i] != null)
                 {
-                    if (heroes[i] != null)
-                    {
-                        hero_hp[i].changeMessage(heroes[i].health + "/" + heroes[i].max_health);
-                    }
+                    hero_hp[i].changeMessage(heroes[i].health + "/" + heroes[i].max_health);
                 }
+            }
 
             foreach (Character hero in heroes)
             {
@@ -226,6 +227,13 @@ namespace LeaveMeAlone
         {
             //targeted_enemy is our target
             //selected_skill is our skill
+            if (caster.statuses.Contains(Status.check_stun))
+            {
+                Apply_Status(caster, Status.Effect_Time.Before);
+                Apply_Status(caster, Status.Effect_Time.After);
+                Apply_Status(caster, Status.Effect_Time.Once);
+                return;
+            }
 
             //Initiate animation
             caster.attackAnimation();
@@ -236,6 +244,7 @@ namespace LeaveMeAlone
                 state = State.Target;
                 return;
             }
+
 
             if (targeted_enemy >= 0)
             {

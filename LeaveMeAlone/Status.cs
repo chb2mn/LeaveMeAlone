@@ -31,6 +31,7 @@ namespace LeaveMeAlone
         public static Status check_defend;
         public static Status check_specdefend;
         public static Status check_abom;
+        public static Status check_stun;
 
         public static Status check_attackplus;
         public static Status check_attackminus;
@@ -53,6 +54,7 @@ namespace LeaveMeAlone
         public static Texture2D specdefminus_image;
         public static Texture2D target_status_image;
         public static Texture2D no_image;
+        public static Texture2D stun_image;
 
         public static void LoadContent(ContentManager content)
         {
@@ -69,6 +71,7 @@ namespace LeaveMeAlone
             specdefminus_image = content.Load<Texture2D>("SpecDefMinus");
             no_image = content.Load<Texture2D>("Blank");
             target_status_image = content.Load<Texture2D>("Target_Status");
+            stun_image = content.Load<Texture2D>("Stun_Image");
 
             if (poison_image == null)
             {
@@ -83,6 +86,7 @@ namespace LeaveMeAlone
             check_defend = new Status("defend", 2, 0, Effect_Time.Once, Type.Buff, defplus_image, DoNothing, ReduceDefense);
             check_specdefend = new Status("specdefend", 2, 0, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
             check_abom = new Status("abom", 3, 0, Effect_Time.Once, Type.Other, null, DoNothing, null);
+            check_stun = new Status("stun", 3, 0, Effect_Time.Once, Type.Debuff, stun_image, DoNothing, DoNothing);
 
             check_attackplus = new Status("atk+", 3, 0, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
             check_attackminus = new Status("atk-", 3, 0, Effect_Time.Once, Type.Debuff, atkminus_image, ReduceAttack, RaiseAttack);
@@ -164,6 +168,13 @@ namespace LeaveMeAlone
             carrier.health -= damage;
             carrier.damage_text.changeMessage((-damage).ToString());
         }
+
+        public void Stun(Character carrier)
+        {
+            //This isn't really needed
+        }
+
+
 
         /*
          * Basic Status Changes

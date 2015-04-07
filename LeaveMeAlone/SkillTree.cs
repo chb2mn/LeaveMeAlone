@@ -30,6 +30,7 @@ namespace LeaveMeAlone
         public static Skill nuclear_waste;
         public static Skill abomination_form;
         public static Skill summon_igor;
+        public static Skill freeze_ray;
         //>>>>>>>>>>>>>>>>Room Declarations<<<<<<<<<<<//
         public static Room spike_trap;
 
@@ -51,6 +52,7 @@ namespace LeaveMeAlone
             nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
+            freeze_ray = new Skill("FreezeRay", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay);
 
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spikeroom);
@@ -301,6 +303,13 @@ namespace LeaveMeAlone
             Status igor_target = new Status("Igor", 1, caster.special_attack, Status.Effect_Time.Once, Status.Type.Other, Status.target_status_image, Status.DoNothing, null);
             igor_target.reverse_affect = igor_target.rev_Igor;
             target.statuses.Add(igor_target);
+        }
+        public static void FreezeRay(Character caster, Character target = null)
+        {
+            foreach (Character a_target in BattleManager.heroes)
+            {
+                a_target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(1,4), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
+            }
         }
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void SpikeTrap(List<Character> heroes)
