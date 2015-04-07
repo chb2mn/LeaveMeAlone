@@ -40,9 +40,9 @@ namespace LeaveMeAlone
             currentMouseState = Mouse.GetState();
             mainMenuOpen = true;
             bossMenuOpen = false;
-            brute = new MenuBoss(Character.Type.Brute, new Vector2(75, 200));
-            mastermind = new MenuBoss(Character.Type.Mastermind, new Vector2(275, 200));
-            operative = new MenuBoss(Character.Type.Operative, new Vector2(475, 200));
+            brute = new MenuBoss(Character.Type.Brute, new Vector2(LeaveMeAlone.WindowX / 2 - 400, LeaveMeAlone.WindowY - 400));
+            mastermind = new MenuBoss(Character.Type.Mastermind, new Vector2(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 400));
+            operative = new MenuBoss(Character.Type.Operative, new Vector2(LeaveMeAlone.WindowX / 2 + 200, LeaveMeAlone.WindowY - 400));
             
 
             brute.idle();
@@ -53,9 +53,9 @@ namespace LeaveMeAlone
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
             titleCard = content.Load<Texture2D>("TitleCard");
-            newGame = new Button(content.Load<Texture2D>("NewGame"), 300, 200, 200, 75);
-            loadGame = new Button(content.Load<Texture2D>("LoadGame"), 300, 275, 200, 75);
-            quit = new Button(content.Load<Texture2D>("Quit"), 300, 350, 200, 75);
+            newGame = new Button(content.Load<Texture2D>("NewGame"), LeaveMeAlone.WindowX / 2 - 100, 200, 200, 75);
+            loadGame = new Button(content.Load<Texture2D>("LoadGame"), LeaveMeAlone.WindowX / 2 - 100, 275, 200, 75);
+            quit = new Button(content.Load<Texture2D>("Quit"), LeaveMeAlone.WindowX / 2 - 100, 350, 200, 75);
 
             bruteTitle = content.Load<Texture2D>("bruteTitle");
             mastermindTitle = content.Load<Texture2D>("mastermindTitle");
@@ -129,28 +129,32 @@ namespace LeaveMeAlone
                 operative.Update(gameTime);
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released && canFinish)
                 {
-                    BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, new Text(""));
-                    BattleManager.boss.charType = current.bossType;
-                    BattleManager.boss.Init();
-
-                    //TODO remove this method of adding skills
-                    BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
-                    BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
-                    BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
-                    bossMenuOpen = false;
-                    Console.WriteLine("Here we go!");
-                    BattleManager.heroes = PartyManager.CreateParty();
-                    foreach (Character hero in BattleManager.heroes)
+                    Vector2 mousePos = new Vector2(currentMouseState.X, currentMouseState.Y);
+                    if (operative.Contains(mousePos) || brute.Contains(mousePos) || mastermind.Contains(mousePos))
                     {
-                        hero.Init();
-                    }
-                    //required because the UpgradeMenu needs some info
-                    BattleManager.Init();
-                    UpgradeMenu.Init(current);
-                    
-                    //return LeaveMeAlone.GameState.Upgrade;
+                        BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, new Text(""));
+                        BattleManager.boss.charType = current.bossType;
+                        BattleManager.boss.Init();
 
-                    return LeaveMeAlone.GameState.Lair;
+                        //TODO remove this method of adding skills
+                        BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
+                        BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
+                        BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
+                        bossMenuOpen = false;
+                        Console.WriteLine("Here we go!");
+                        BattleManager.heroes = PartyManager.CreateParty();
+                        foreach (Character hero in BattleManager.heroes)
+                        {
+                            hero.Init();
+                        }
+                        //required because the UpgradeMenu needs some info
+                        BattleManager.Init();
+                        UpgradeMenu.Init(current);
+
+                        //return LeaveMeAlone.GameState.Upgrade;
+
+                        return LeaveMeAlone.GameState.Lair;
+                    }
                 }
                 canFinish = true;
             }
@@ -160,30 +164,30 @@ namespace LeaveMeAlone
         {
             if (mainMenuOpen)
             {
-                Spritebatch.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
-                Spritebatch.Draw(titleCard, new Rectangle(200, 0, 400, 200), Color.White);
+                Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), Color.Black);
+                Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX / 2 - 200, 0, 400, 200), Color.White);
                 newGame.Draw(Spritebatch);
                 loadGame.Draw(Spritebatch);
                 quit.Draw(Spritebatch);
             }
             if (bossMenuOpen)
             {
-                Spritebatch.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
-                Spritebatch.Draw(titleCard, new Rectangle(200, 0, 400, 200), Color.White);
+                Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), Color.Black);
+                Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX/2 - 200, 0, 400, 200), Color.White);
                 brute.Draw(Spritebatch, Color.White);
                 mastermind.Draw(Spritebatch, Color.White);
                 operative.Draw(Spritebatch, Color.White);
                 if (bruteHover)
                 {
-                    Spritebatch.Draw(bruteTitle, new Rectangle(110, 330, 150, 50), Color.White);
+                    Spritebatch.Draw(bruteTitle, new Rectangle(LeaveMeAlone.WindowX / 2 - 370, LeaveMeAlone.WindowY - 250, 150, 50), Color.White);
                 }
                 if (mastermindHover)
                 {
-                    Spritebatch.Draw(mastermindTitle, new Rectangle(285, 330, 225, 50), Color.White);
+                    Spritebatch.Draw(mastermindTitle, new Rectangle(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 250, 225, 50), Color.White);
                 }
                 if (operativeHover)
                 {
-                    Spritebatch.Draw(operativeTitle, new Rectangle(485, 330, 200, 50), Color.White);
+                    Spritebatch.Draw(operativeTitle, new Rectangle(LeaveMeAlone.WindowX / 2 + 220, LeaveMeAlone.WindowY - 250, 200, 50), Color.White);
                 }
             }
         }
