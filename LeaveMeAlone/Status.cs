@@ -19,7 +19,7 @@ namespace LeaveMeAlone
         public enum Effect_Time { Once, Every, Before, After };
 
         public Effect_Time effect_time;
-        public enum Type { Buff, Debuff };
+        public enum Type { Buff, Debuff, Other };
         public Type type;
         public Affect affect;
         public Affect reverse_affect;
@@ -29,6 +29,7 @@ namespace LeaveMeAlone
         public static Status check_beserk;
         public static Status check_defend;
         public static Status check_specdefend;
+        public static Status check_abom;
 
         public static Status check_attackplus;
         public static Status check_attackminus;
@@ -49,6 +50,7 @@ namespace LeaveMeAlone
         public static Texture2D specminus_image;
         public static Texture2D specdefplus_image;
         public static Texture2D specdefminus_image;
+        public static Texture2D no_image;
 
         public static void LoadContent(ContentManager content)
         {
@@ -63,6 +65,7 @@ namespace LeaveMeAlone
             specminus_image = content.Load<Texture2D>("SpecMinus");
             specdefplus_image = content.Load<Texture2D>("SpecDefPlus");
             specdefminus_image = content.Load<Texture2D>("SpecDefMinus");
+            no_image = content.Load<Texture2D>("Blank");
 
             if (poison_image == null)
             {
@@ -76,7 +79,7 @@ namespace LeaveMeAlone
             check_beserk = new Status("beserk", 3, Effect_Time.Once, Type.Debuff, beserk_image, Beserk, rev_Beserk);
             check_defend = new Status("defend", 2, Effect_Time.Once, Type.Buff, defplus_image, DoNothing, ReduceDefense);
             check_specdefend = new Status("specdefend", 2, Effect_Time.Once, Type.Buff, specdefplus_image, DoNothing, ReduceSDefense);
-
+            check_abom = new Status("abom", 3, Effect_Time.Once, Type.Other, no_image, DoNothing, rev_Abom);
 
             check_attackplus = new Status("atk+", 3, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
             check_attackminus = new Status("atk-", 3, Effect_Time.Once, Type.Debuff, atkminus_image, ReduceAttack, RaiseAttack);
@@ -144,6 +147,12 @@ namespace LeaveMeAlone
             carrier.attack /= 2;
         }
 
+        public static void rev_Abom(Character carrier)
+        {
+            int temp = carrier.attack;
+            carrier.attack = carrier.special_attack;
+            carrier.special_attack = temp;
+        }
         
         public static void RaiseAttack(Character carrier)
         {

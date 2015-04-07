@@ -282,6 +282,16 @@ namespace LeaveMeAlone
             int temp = caster.attack;
             caster.attack = caster.special_attack;
             caster.special_attack = temp;
+
+            if (caster.statuses.Contains(Status.check_abom))
+            {
+                caster.statuses.Remove(Status.check_abom);
+            }
+            //Otherwise add it
+            else
+            {
+                caster.statuses.Add(new Status("abom", 999, Status.Effect_Time.Once, Status.Type.Other, Status.no_image, Status.DoNothing, Status.rev_Abom));
+            }
         }
         //>>>>>>>>>>>>>>>>>>>>>>>Room Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void SpikeTrap(List<Character> heroes)
