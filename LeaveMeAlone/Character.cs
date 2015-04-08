@@ -41,6 +41,8 @@ namespace LeaveMeAlone
         //The text that will display the damage done
         public Text damage_text;
         public Text debug_text;
+        //This is how much damage is expected from any attack done
+        public int expected_damage;
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -353,8 +355,8 @@ namespace LeaveMeAlone
                     //Use status inflicting skill
                 }
             }
-
-            
+            int val = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / (double)defense) * (double)power + 2.0) * (double)modifier);
+            expected_damage = this.attack;
             return basic_attack;
         }
     }
