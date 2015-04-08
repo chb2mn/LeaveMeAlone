@@ -33,6 +33,12 @@ namespace LeaveMeAlone
         private static Texture2D buttonLocPic;
         private static Texture2D bkgd;
         private static Texture2D targeter;
+        private static int[] check_cooldown = new int[6];
+
+        private static bool haste_check;
+
+        private static Text info_text;
+        private static int info_counter;
         private static Text target_text;
 
         private static Text victory_text;
@@ -51,8 +57,8 @@ namespace LeaveMeAlone
         private static int animation_counter = 30;
 
 
-        private static int enemy_attack_delay = 30;
-        private static int enemy_turn = 0;
+        private static int enemy_attack_delay = 60;
+        private static int enemy_turn = -1;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
 
@@ -76,14 +82,14 @@ namespace LeaveMeAlone
 
             bkgd = Content.Load<Texture2D>("skyscraperBkgd");
             int button_basex = 100;
-            int button_basey = 350;
+            int button_basey = LeaveMeAlone.WindowY - 200;
 
             //remove all knowledge that the enemy heroes have
             Knowledge.Clear();
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
-            target_text = new Text(msg:"Select Target");
+            target_text = new Text("Select Target", new Vector2(200, 180));
 
             basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
             basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
@@ -103,9 +109,11 @@ namespace LeaveMeAlone
             basic_buttons[3].UpdateText("Bribe");
 
 
-            bossLoc = new Rectangle(650, 120, 100, 100); 
-            boss_hp = new Text(msg:"");
-            boss_energy = new Text(msg:"");
+
+            bossLoc = new Rectangle(LeaveMeAlone.WindowX-150, LeaveMeAlone.WindowY/2 - 100, 200, 200); 
+            boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
+            boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
+
 
             for (int i = 0; i < 4; i++)
             {
@@ -116,8 +124,15 @@ namespace LeaveMeAlone
 
             back_button = new Button(Content.Load<Texture2D>("Back"), 675, 410, 113, 51);
 
-            victory_text = new Text(msg:"Victory!\nWe will survive another day!", position:new Vector2(300, 50));
-            defeat_text = new Text(msg:"Defeat\nYour friends will be so embarrased with you", position:new Vector2(300, 50));
+
+            victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50));
+            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50));
+
+            victory_text = new Text("Victory!\nWe will survive another day!");
+            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
+            info_text = new Text("", new Vector2(200, 50));
+            info_counter = 240;
+
 
             next_button = new Button(Content.Load<Texture2D>("Next"), 325, 100, 113, 32);
 
@@ -137,17 +152,37 @@ namespace LeaveMeAlone
 
         }
 
-        public static void Init(Character.Type t)
+        public static void Init()
         {
-            message = new Text(Text.fonts["Arial-12"], Color.Black, "");
+            message = new Text("", new Vector2(0,0), Text.fonts["Arial-12"], Color.Black);
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             victory = false;
             defeat = false;
+            haste_check = false;
             state = State.Basic;
             boss.health = boss.max_health;
             boss.energy = boss.max_energy;
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
             boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
+
+            for (int i = 0; i < 6; i++)
+            {
+                check_cooldown[i] = 0;
+            }
+
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                if (heroes[i] != null)
+                {
+                    hero_hp[i].changeMessage(heroes[i].health + "/" + heroes[i].max_health);
+                }
+            }
+
+            foreach (Character hero in heroes)
+            {
+                Console.WriteLine(hero);
+            }
+
             NewMenu(0);
 
             total_amount.UpdateText("How Much?: 0");
@@ -157,29 +192,42 @@ namespace LeaveMeAlone
         public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
         {
             //iterating through the list backwards allows us to properly remove them from the list (it auto-concatenates after every removal)
+            //Console.WriteLine("Applying statuses on Character: " + affected.health);
             for (int i = affected.statuses.Count() - 1; i >= 0; i--)
             {
                 Status status = affected.statuses[i];
                 //If the effect is a one time, increment the counter and move on
-                if (effect_time == Status.Effect_Time.Once)
+                if (effect_time == Status.Effect_Time.Once && status.effect_time == Status.Effect_Time.Once)
                 {
+                    //Console.WriteLine("Once: "+ status.ToString() + " : " + status.duration_left);
+                    //If it's the first time, apply the status affect
+                    if (status.duration_left == status.duration)
+                    {
+                        status.affect(affected);
+                    }
                     status.duration_left--;
                     if (status.duration_left == 0)
                     {
                         //reverse the affect and remove the status
-                        status.reverse_affect(affected);
+                        if (status.reverse_affect != null)
+                        {
+                            status.reverse_affect(affected);
+                        }
                         affected.statuses.Remove(status);
                     }
                 }
+                
                 //If the effect is not one time, do the effect and increment counter
-                else if (effect_time == status.effect_time)
+                else if (effect_time == status.effect_time && status.effect_time == Status.Effect_Time.After)
                 {
+                    //Console.WriteLine("After: " + status.ToString() + " : " + status.duration_left);
                     status.affect(affected);
-                    //Whenever the status is triggered, check if the status should be removed
+                    //Whenever the status is triggered, check if the status should be removed                    
                     if (status.duration_left-- == 0)
                     {
                         affected.statuses.Remove(status);
                     }
+
                 }
 
             }
@@ -190,6 +238,13 @@ namespace LeaveMeAlone
         {
             //targeted_enemy is our target
             //selected_skill is our skill
+            if (caster.statuses.Contains(Status.check_stun))
+            {
+                Apply_Status(caster, Status.Effect_Time.Before);
+                Apply_Status(caster, Status.Effect_Time.After);
+                Apply_Status(caster, Status.Effect_Time.Once);
+                return;
+            }
 
             //Initiate animation
             caster.attackAnimation();
@@ -200,6 +255,7 @@ namespace LeaveMeAlone
                 state = State.Target;
                 return;
             }
+
 
             if (targeted_enemy >= 0)
             {
@@ -219,6 +275,7 @@ namespace LeaveMeAlone
             {
                 Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill);
+
             }
             //For enemy turns
             else if (targeted_enemy == -2)
@@ -226,6 +283,24 @@ namespace LeaveMeAlone
                 Apply_Status(caster, Status.Effect_Time.Before);
                 heroes[enemy_turn].cast(selected_skill, boss);
             }
+            //if it's the hero's turn
+            if (enemy_turn == -1)
+            {
+                Console.WriteLine("reducing cooldowns");
+                for (int i = 0; i < 6; i++)
+                {
+                    if (check_cooldown[i] > 0)
+                    {
+                        check_cooldown[i]--;
+                    }
+                }
+                if (boss.selected_skills.Contains(selected_skill))
+                {
+                    check_cooldown[boss.selected_skills.IndexOf(selected_skill)] += selected_skill.cooldown;
+                }
+                
+            }
+
             //apply affects for after the attack
             Apply_Status(caster, Status.Effect_Time.After);
 
@@ -243,6 +318,10 @@ namespace LeaveMeAlone
             boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
 
             //update the state to pass the turn to enemies
+            if (enemy_turn == -1)
+            {
+                enemy_turn = 0;
+            }
             state = State.EnemyTurn;
             //Check after the Boss goes
             CheckVictoryDefeat();
@@ -282,7 +361,7 @@ namespace LeaveMeAlone
             }
             if (!any_target)
             {
-                Console.WriteLine("None found");
+                //Console.WriteLine("None found");
                 hovered_enemy = -1;
             }
             //return no target if no target has been selected
@@ -423,6 +502,18 @@ namespace LeaveMeAlone
                                 try
                                 {
                                     selected_skill = boss.selected_skills[i];
+                                    //check cooldown
+                                    if (check_cooldown[i] > 0)
+                                    {
+                                        info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
+                                        continue;
+                                    }
+                                    //check mana_cost
+                                    if (selected_skill.energy > boss.energy)
+                                    {
+                                        info_text.changeMessage("Not Enough Energy!");
+                                        continue;
+                                    }
                                     if (selected_skill.target == Skill.Target.Single)
                                     {
                                         state = State.Target;
@@ -541,6 +632,15 @@ namespace LeaveMeAlone
                         int selectLocY = Mouse.GetState().Y;
                         if (next_button.Intersects(selectLocX, selectLocY))
                         {
+                            //Clear the boss's stats
+                            foreach (Status status in boss.statuses)
+                            {
+                                if (status.effect_time == Status.Effect_Time.Once && status.reverse_affect != null)
+                                {
+                                    status.reverse_affect(boss);
+                                }
+                            }
+                            boss.statuses.Clear();
                             if (victory)
                             {
                                 //Do next battle
@@ -548,7 +648,6 @@ namespace LeaveMeAlone
                                 PartyManager.PartyNum++;
                                 MainMenu.init();
                                 victory = false;
-                                BattleManager.Init(boss.charType);
                                 return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)
@@ -573,12 +672,11 @@ namespace LeaveMeAlone
                     {
                         state = State.Basic;
                         NewMenu(0);
-                        enemy_turn = 0;
+                        enemy_turn = -1;
                         targeted_enemy = -1;
                         CheckVictoryDefeat();
                         break;
                     }
-
 
                     Character enemy = heroes[enemy_turn];
                     if (enemy == null)
@@ -586,20 +684,31 @@ namespace LeaveMeAlone
                         enemy_turn++;
                         break;
                     }
-                    enemy_attack_delay = 31;
+                    enemy_attack_delay = 60;
 
                     //AI occurs
                     targeted_enemy = -2;
                     selected_skill = enemy.basic_attack;
                     Attack(enemy);
 
-                    enemy_turn++;
+                    //Check if this enemy has haste, and check if a hasted enemy has already attacked
+                    if (enemy.statuses.Contains(Status.check_haste) && !haste_check)
+                    {
+                        haste_check = true;
+                        CheckVictoryDefeat();
+                        break;
+                    }
+                    else //pass the turn to the next character
+                    {
+                        haste_check = false;
+                        enemy_turn++;
+                    }
                     //Check if end of enemy turn;
                     if (enemy_turn >= heroes.Count())
                     {
                         state = State.Basic;
                         NewMenu(0);
-                        enemy_turn = 0;
+                        enemy_turn = -1;
                         targeted_enemy = -1;
                     }
                     //Check after each Enemy
@@ -614,7 +723,7 @@ namespace LeaveMeAlone
             }
             boss.Update(gametime);
             boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
-            boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.energy.ToString());
+            boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.max_energy.ToString());
             return LeaveMeAlone.GameState.Battle;
         }
 
@@ -622,9 +731,9 @@ namespace LeaveMeAlone
         {
             //Do Background drawing
 
-            spriteBatch.Draw(bkgd, new Rectangle(-100, -25, 1000, 543), Color.White);
+            spriteBatch.Draw(bkgd, new Rectangle(-300, -25, 2000, 1086), Color.White);
             //Draw Heroes
-            Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
+            //Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
             for (int i = 0; i < heroes.Count(); i++)
             {
                 try
@@ -634,7 +743,7 @@ namespace LeaveMeAlone
                         heroes[i].Draw(spriteBatch, Color.Violet);
                         if (state == State.Target || state == State.Bribe)
                         {
-                            target_text.draw(spriteBatch, 200, 180);
+                            target_text.Draw(spriteBatch);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Red);
                         }
                     }
@@ -643,17 +752,17 @@ namespace LeaveMeAlone
                         heroes[i].Draw(spriteBatch, Color.White);
                         if (state == State.Target || state == State.Bribe)
                         {
-                            target_text.draw(spriteBatch, 200, 180);
+                            target_text.Draw(spriteBatch);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Black);
                         }
                     }
-                    hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y + 30);
+                    hero_hp[i].Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
 
                     if (!heroes[i].damage_text.message.Equals(""))
                     {
                         if (animation_counter-- >= 0)
                         {
-                            heroes[i].damage_text.draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3);
+                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3));
                         }
                         else
                         {
@@ -673,14 +782,15 @@ namespace LeaveMeAlone
 
             }
 
+            //Draw Boss
             boss.Draw(spriteBatch, Color.White);
-            boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 100);
-            boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
+            boss_hp.Draw(spriteBatch);
+            boss_energy.Draw(spriteBatch);
             if (!boss.damage_text.message.Equals(""))
             {
                 if (animation_counter-- >= 0)
                 {
-                    boss.damage_text.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3);
+                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3));
                 }
                 else
                 {
@@ -689,16 +799,27 @@ namespace LeaveMeAlone
                 }
             }
 
+            if (info_counter > 0 && !info_text.message.Equals(""))
+            {
+                info_text.Draw(spriteBatch, new Vector2(200, 50));
+                info_counter--;
+            }
+            else
+            {
+                info_counter = 240;
+                info_text.changeMessage("");
+            }
+
             //Check if we have victory
             if (victory)
             {
-                victory_text.draw(spriteBatch, 300, 50);
+                victory_text.Draw(spriteBatch);
                 next_button.Draw(spriteBatch);
                 return;
             }
             else if (defeat)
             {
-                defeat_text.draw(spriteBatch, 300, 50);
+                defeat_text.Draw(spriteBatch);
                 next_button.Draw(spriteBatch);
                 return;
             }
@@ -737,18 +858,23 @@ namespace LeaveMeAlone
             }
 
 
-            message.draw(spriteBatch, 0, 0);
+            message.Draw(spriteBatch);
         }
 
         public static void bossDefaultPosition()
         {
-            boss.sPosition = new Vector2(640, 140);
+            boss.sPosition = new Vector2(LeaveMeAlone.WindowX-160, LeaveMeAlone.WindowY/2);
         }
         public static void setHeroesPosition()
         {
             for (int i = 0; i < heroes.Count(); i++)
             {
-                heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+                if (heroes[i] != null)
+                {
+                    heroLoc[i] = new Rectangle(heroLoc[i].X, heroLoc[i].Y + 200, 100, 100);
+                    heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+
+                }
             }
         }
     }

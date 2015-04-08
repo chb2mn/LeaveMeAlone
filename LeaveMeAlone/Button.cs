@@ -23,7 +23,7 @@ namespace LeaveMeAlone
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(sprite, rectangle, Color.White);
-            text.draw(sb, rectangle.X+10, rectangle.Y+10);
+            text.Draw(sb);
         }
         public Boolean Intersects(int x, int y)
         {

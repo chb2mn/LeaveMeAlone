@@ -40,6 +40,7 @@ namespace LeaveMeAlone
         public Skill defend;
         //The text that will display the damage done
         public Text damage_text;
+        public Text debug_text;
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -73,7 +74,11 @@ namespace LeaveMeAlone
             exp = _exp;
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
+
             damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
+
+            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
+
         }
 
         public Character(Type t, int level)
@@ -93,6 +98,8 @@ namespace LeaveMeAlone
                     ;
                     break;
             }
+            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
+
 
 
         }
@@ -163,7 +170,60 @@ namespace LeaveMeAlone
 
         public void levelUp()
         {
+            Random rng = new Random();
+            int var;
+            if (charType == Type.Brute)
+            {
+                var = rng.Next(100);
+                this.max_health += 25;
+                if (var >= 50)
+                {
+                    this.max_health += 25;
+                }
 
+                var = rng.Next(100);
+                this.max_energy += 5;
+                if (var >= 50)
+                {
+                    this.max_energy += 5;
+                }
+
+                var = rng.Next(100);
+                this.attack += 2;
+                if (var >= 50)
+                {
+                    this.attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.defense += 2;
+                if (var >= 50)
+                {
+                    this.defense += 2;
+                }
+
+                var = rng.Next(100);
+                this.special_attack += 2;
+                if (var >= 50)
+                {
+                    this.special_attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.special_defense += 2;
+                if (var >= 50)
+                {
+                    this.special_defense += 2;
+                }
+            }
+            else if (charType == Type.Mastermind)
+            {
+
+            }
+            else if (charType == Type.Operative)
+            {
+
+            }
         }
         public void cast(Skill skill, Character target = null)
         {
@@ -187,18 +247,40 @@ namespace LeaveMeAlone
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
                 spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                int i = 0;
                 foreach (Status status in this.statuses)
                 {
-                    spriteBatch.Draw(status.img, oPosition, Color.White);
+                    if (status == null) 
+                    {
+                        continue;
+                    }
+                    spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
+                    i++;
                 }
+                debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
+                debug_text.Draw(spriteBatch);
+
             }
             else
             {
                 spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+                int i = 0;
                 foreach (Status status in this.statuses)
                 {
-                    spriteBatch.Draw(status.img, sPosition, Color.White);
+                    if (status == null)
+                    {
+                        continue;
+                    }
+                    if (status.img != null)
+                    {
+                        spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20 * i, sPosition.Y), Color.White);
+                    }
+                    i++;
                 }
+                debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
+                debug_text.Draw(spriteBatch);
+
+
             }
         }
 
@@ -267,7 +349,7 @@ namespace LeaveMeAlone
                 thought = random.Next(100);
 
                 //Consider adding a status effect?
-                if (!BattleManager.boss.statuses.Contains(Status.poison) //If the boss doesn't have poison
+                if (!BattleManager.boss.statuses.Contains(Status.check_poison) //If the boss doesn't have poison
                     && (BattleManager.boss.health*100)/BattleManager.boss.max_health > 75 //and it has high health
                     && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
                 {

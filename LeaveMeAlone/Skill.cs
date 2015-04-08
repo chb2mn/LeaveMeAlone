@@ -49,30 +49,38 @@ namespace LeaveMeAlone
             int attack;
             if(type_attack==Attack.Attack)
             {
-                Console.WriteLine("using attack");
+                //Console.WriteLine("using attack");
 
                 attack = caster.attack;
             }
             else
             {
-                Console.WriteLine("using sp_attack");
+                //Console.WriteLine("using sp_attack");
 
                 attack = caster.special_attack;
             }
             int defense;
             if(type_defense==Defense.Defense)
             {
-                Console.WriteLine("using defense");
+                //Console.WriteLine("using defense");
                 defense = target.defense;
             }
             else
             {
-                Console.WriteLine("using sp_def");
+                //Console.WriteLine("using sp_def");
                 defense = target.special_defense;
             }
             //from .85 to 1.0
             //modifier *= (100 -(LeaveMeAlone.random.Next(16))) / 100;
             int val = (int)(((2.0 * (double)caster.level + 10.0)/250.0 * ((double)attack/(double)defense)*(double)power+2.0) * (double)modifier);
+            return val;
+        }
+
+        public static int damage(int attack, int defense, int level, int power, int modifier = 1)
+        {
+            //from .85 to 1.0
+            //modifier *= (100 -(LeaveMeAlone.random.Next(16))) / 100;
+            int val = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / (double)defense) * (double)power + 2.0) * (double)modifier);
             return val;
         }
         public class TargetRequiredException: Exception

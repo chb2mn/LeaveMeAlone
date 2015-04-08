@@ -54,58 +54,29 @@ namespace LeaveMeAlone
         {
             List<Character> new_party = new List<Character>();
             int partysize = RNG.Next(20); //Roll a d20
+            int num = 0;
             if (partysize == 0) //0 means 1 hero
             {
-                //Just one buff hero
-                
-                int type = RNG.Next(3);
-                new_party.Add(CreateHero(type));
-                Text text = new Text();
-                BattleManager.hero_hp.Add(text);
-                BattleManager.hero_hp[0].changeMessage(new_party[0].max_health.ToString() + "/" + new_party[0].max_health.ToString());
-
+                num = 1;
             }
             else if (partysize <= 5) //1-5 means 2 heroes
             {
-                //A pair of heroes
-                for (int i = 0; i < 2; i++)
-                {
-                    int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type));
-                    Text text = new Text();
-                    BattleManager.hero_hp.Add(text);
-                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
-
-                }
+                num = 2;
             }
             else if (partysize <= 11) // 6-11 means 3 heroes
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type));
-                    Text text = new Text();
-                    BattleManager.hero_hp.Add(text);
-                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
-
-                }
-                //A classic trio of heroes
+                num = 3;
             }
             else // 12-19 means 4 heroes
             {
-                //4 heroes
-                for (int i = 0; i < 4; i++)
-                {
-                    int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type));
-                    Text text = new Text();
-                    BattleManager.hero_hp.Add(text);
-                    BattleManager.hero_hp[i].changeMessage(new_party[i].max_health.ToString() + "/" + new_party[i].max_health.ToString());
-                }
+                num = 4;
             }
-            //Changing the boss's health and energy text fields 
-            //--This could/should probably move--
 
+            for(int x = 0; x < num; x++)
+            {
+                int type = RNG.Next(3);
+                new_party.Add(CreateHero(type));
+            }
             return new_party;
         }
         public static bool popParty()
@@ -127,7 +98,11 @@ namespace LeaveMeAlone
                 BattleManager.heroes = topParty;
                 for (int i = 0; i < BattleManager.heroes.Count; i++)
                 {
-                    BattleManager.heroes[i].Init();
+                    if (BattleManager.heroes[i] != null)
+                    {
+                        BattleManager.heroes[i].Init();
+
+                    }
                 }
                 int hero_basex = 50;
                 int hero_basey = 150;
