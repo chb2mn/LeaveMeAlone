@@ -22,9 +22,9 @@ namespace LeaveMeAlone
         public ButtonRoom[] AvailableRooms = new ButtonRoom[2];
         public static Texture2D buttonPic;
 
-        Vector2 baseSkillButtonPos = new Vector2(300, 50);
-        Vector2 baseRoomButtonPos = new Vector2(700, 50);
-        Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
+        public static Vector2 baseSkillButtonPos = new Vector2(300, 50);
+        public static Vector2 baseRoomButtonPos = new Vector2(700, 50);
+        public static Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
 
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
         public static Skill basic_attack;

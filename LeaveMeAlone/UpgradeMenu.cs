@@ -19,6 +19,7 @@ namespace LeaveMeAlone
         public static List<Skill> boughtSkills = new List<Skill>();
         public static List<Room> boughtRooms = new List<Room>();
         public static SkillTree skilltree;
+        public static Dictionary<string, Text> texts = new Dictionary<string, Text>();
         public static Text goldText;
         public static Text skillText;
         public static Text RoomText;
@@ -31,7 +32,8 @@ namespace LeaveMeAlone
             selectedBoss.MoveTo(new Vector2(0, 0));
             selectedBoss.idle();
 
-            goldText = new Text("Gold: " + Resources.gold, new Vector2(30, 200));
+            texts["gold"] = new Text("Gold: " + Resources.gold, new Vector2(30, 200));
+            texts["skilltext"] = new Text("Skills", new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50));
         }
 
         public static void loadContent(ContentManager content)
