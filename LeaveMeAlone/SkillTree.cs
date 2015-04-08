@@ -165,6 +165,9 @@ namespace LeaveMeAlone
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
+            st.addSkill(2, SkillTree.abomination_form);
+            st.addSkill(3, SkillTree.summon_igor);
+            st.addSkill(3, SkillTree.freeze_ray);
             skilltrees[Character.Type.Mastermind] = st;
             st.updateTree();
 
