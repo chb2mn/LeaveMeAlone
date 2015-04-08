@@ -19,13 +19,19 @@ namespace LeaveMeAlone
         public static List<Skill> boughtSkills = new List<Skill>();
         public static List<Room> boughtRooms = new List<Room>();
         public static SkillTree skilltree;
+        public static Text goldText;
+        public static Text skillText;
+        public static Text RoomText;
+        public static Text selectedSkillsText;
         public static void Init(MenuBoss boss)
         {
             SkillTree.Init();
             selectedBoss = boss;
             skilltree = SkillTree.skilltrees[selectedBoss.bossType];
-            selectedBoss.MoveTo(new Vector2( 0, 0));
+            selectedBoss.MoveTo(new Vector2(0, 0));
             selectedBoss.idle();
+
+            goldText = new Text("Gold: " + Resources.gold, new Vector2(30, 200));
         }
 
         public static void loadContent(ContentManager content)
@@ -39,6 +45,18 @@ namespace LeaveMeAlone
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
 
+            foreach (Skill s in skilltree.SkillButtons.Keys)
+            {
+                if (s.cost > Resources.gold)
+                {
+                    skilltree.SkillButtons[s].text.color = Color.Red;
+                }
+                else
+                {
+                    skilltree.SkillButtons[s].text.color = Color.Black;
+                }
+            }
+
             selectedBoss.Update(g);
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
@@ -48,11 +66,11 @@ namespace LeaveMeAlone
                     BattleManager.bossDefaultPosition();
                     return LeaveMeAlone.GameState.Lair;
                 }
-                foreach(Skill s in skilltree.SkillButtons.Keys)
+                foreach (Skill s in skilltree.SkillButtons.Keys)
                 {
-                    if(skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
+                    if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
                     {
-                        if(BattleManager.boss.skills.Contains(s) == false)
+                        if (BattleManager.boss.skills.Contains(s) == false)
                         {
                             BattleManager.boss.addSkill(s);
                             Console.WriteLine(BattleManager.boss.skills.Count);
@@ -66,14 +84,13 @@ namespace LeaveMeAlone
 
         public static void Draw(SpriteBatch sb)
         {
-            
-            if (LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Upgrade)
+            sb.Draw(menuBackground, LeaveMeAlone.BackgroundRect, Color.Black);
+            selectedBoss.Draw(sb, Color.White);
+            foreach (Button button in skilltree.SkillButtons.Values)
             {
-                sb.Draw(menuBackground, LeaveMeAlone.BackgroundRect, Color.Black);
-                selectedBoss.Draw(sb, Color.White);
-                SkillTree.skilltrees[selectedBoss.bossType].Draw(sb);
-                next.Draw(sb);
+                button.Draw(sb);
             }
+            next.Draw(sb);
         }
     }
 }

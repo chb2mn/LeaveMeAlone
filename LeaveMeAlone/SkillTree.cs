@@ -148,15 +148,7 @@ namespace LeaveMeAlone
             initKnight();
 
         }
-        public void Draw(SpriteBatch s)
-        {
-            foreach(Button button in SkillButtons.Values)
-            {
-                button.Draw(s);
-            }
 
-
-        }
         public void addSkill(int level, Skill skill)
         {
             addToDict(skill_tiers, ref level, ref skill);
