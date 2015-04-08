@@ -31,9 +31,14 @@ namespace LeaveMeAlone
             skilltree = SkillTree.skilltrees[selectedBoss.bossType];
             selectedBoss.MoveTo(new Vector2(0, 0));
             selectedBoss.idle();
+            Console.WriteLine("" + Text.fonts.Keys.ToString());
+            Console.Out.Flush();
+            var test = Text.fonts;
+            texts["gold"] = new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-32"], Color.White);
 
-            texts["gold"] = new Text("Gold: " + Resources.gold, new Vector2(30, 200));
-            texts["skilltext"] = new Text("Skills", new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50));
+            texts["selectedskills"] = new Text("Selected Skills", new Vector2(30, 275));
+            texts["skilltext"] = new Text("Skills", new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
+            texts["roomtext"] = new Text("Rooms", new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
         }
 
         public static void loadContent(ContentManager content)
@@ -91,6 +96,11 @@ namespace LeaveMeAlone
             foreach (Button button in skilltree.SkillButtons.Values)
             {
                 button.Draw(sb);
+            }
+            foreach (Text t in texts.Values)
+            {
+                t.Draw(sb);
+                Console.WriteLine(t.message);
             }
             next.Draw(sb);
         }

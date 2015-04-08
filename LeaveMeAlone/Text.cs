@@ -51,10 +51,12 @@ namespace LeaveMeAlone
             if (!dir.Exists)
                 throw new DirectoryNotFoundException();
 
-            FileInfo[] files = dir.GetFiles("*.xnb");
+            Console.WriteLine("Starting files");
+            FileInfo[] files = dir.GetFiles("*.*");
             foreach (FileInfo file in files)
             {
                 string key = Path.GetFileNameWithoutExtension(file.Name);
+                Console.WriteLine(key);
                 fonts[key] = content.Load<SpriteFont>("Fonts/" + key);
             }
         }

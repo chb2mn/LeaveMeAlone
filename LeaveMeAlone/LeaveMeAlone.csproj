@@ -276,6 +276,8 @@
     <Content Include="Content\TitleCard.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Content\Fonts\RetroComputer-12.xnb" />
+    <None Include="Content\Fonts\RetroComputer-24.xnb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
