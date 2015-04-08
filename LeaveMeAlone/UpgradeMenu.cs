@@ -17,6 +17,7 @@ namespace LeaveMeAlone
         private static MouseState currentMouseState, lastMouseState;
         public static MenuBoss selectedBoss;
         public static List<Skill> boughtSkills = new List<Skill>();
+        public static List<Room> boughtRooms = new List<Room>();
         public static SkillTree skilltree;
         public static void Init(MenuBoss boss)
         {
@@ -47,9 +48,9 @@ namespace LeaveMeAlone
                     BattleManager.bossDefaultPosition();
                     return LeaveMeAlone.GameState.Lair;
                 }
-                foreach(Skill s in skilltree.buttons.Keys)
+                foreach(Skill s in skilltree.SkillButtons.Keys)
                 {
-                    if(skilltree.buttons[s].Intersects(currentMouseState.X, currentMouseState.Y))
+                    if(skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
                     {
                         if(BattleManager.boss.skills.Contains(s) == false)
                         {
@@ -65,10 +66,10 @@ namespace LeaveMeAlone
 
         public static void Draw(SpriteBatch sb)
         {
-
+            
             if (LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Upgrade)
             {
-                sb.Draw(menuBackground, new Rectangle(0, 0, 800, 600), Color.Black);
+                sb.Draw(menuBackground, LeaveMeAlone.BackgroundRect, Color.Black);
                 selectedBoss.Draw(sb, Color.White);
                 SkillTree.skilltrees[selectedBoss.bossType].Draw(sb);
                 next.Draw(sb);
