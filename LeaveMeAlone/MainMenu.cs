@@ -129,21 +129,22 @@ namespace LeaveMeAlone
                 operative.Update(gameTime);
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released && canFinish)
                 {
+
                     Vector2 mousePos = new Vector2(currentMouseState.X, currentMouseState.Y);
                     if (operative.Contains(mousePos) || brute.Contains(mousePos) || mastermind.Contains(mousePos))
                     {
-                        BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0, new Text(""));
+                        BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0);
                         BattleManager.boss.charType = current.bossType;
                         BattleManager.boss.Init();
 
                         //TODO remove this method of adding skills
-                        BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
+                        /*BattleManager.boss.selected_skills.Add(SkillTree.portal_punch);
                         BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
                         BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
                         BattleManager.boss.selected_skills.Add(SkillTree.abomination_form);
                         BattleManager.boss.selected_skills.Add(SkillTree.summon_igor);
                         BattleManager.boss.selected_skills.Add(SkillTree.freeze_ray);
-                        bossMenuOpen = false;
+                        bossMenuOpen = false;*/
                         Console.WriteLine("Here we go!");
                         BattleManager.heroes = PartyManager.CreateParty();
                         foreach (Character hero in BattleManager.heroes)

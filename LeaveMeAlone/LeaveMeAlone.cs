@@ -86,7 +86,7 @@ namespace LeaveMeAlone
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
             //GraphicsDevice.SetRenderTarget(target);
-
+            Text.loadContent(Content);
             MainMenu.loadContent(Content);
             MenuBoss.LoadContent(Content);
             UpgradeMenu.loadContent(Content);
@@ -115,7 +115,7 @@ namespace LeaveMeAlone
             //BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
             //BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
             //BattleManager.LoadContent(Content);
-            Text.loadContent(Content);
+            
 
         }
 

@@ -18,91 +18,65 @@ namespace LeaveMeAlone
         public static int ArmyNum;
         public static List<List<Character>> partyQueue;
         private static Random RNG = new Random();
-        private static Text[] damage_texts = new Text[4];
+        //private static Text[] damage_texts = new Text[4];
 
         public static void Init()
         {
             partyQueue = new List<List<Character>>();
             partyQueue.Add(null);
-            for (int i = 0; i < 4; i++)
-            {
-                damage_texts[i] = new Text("");
-            }
-
         }
 
-        public static Character CreateHero(int type, Text damage_text)
+        public static Character CreateHero(int type)
         {
             Character c;
             switch (type)
             {
                 case 0:
                     //Knight
-                    c = new Character(50, 25, 5, 500, 0, 5, 1, 1, 100, 100, damage_text);
+                    c = new Character(50, 25, 5, 500, 0, 5, 1, 1, 100, 100);
                     c.charType = Character.Type.Knight;
                     return c;
                 case 1:
                     //Mage;
-                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, 100, 100, damage_text);
+                    c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, 100, 100);
                     c.charType = Character.Type.Mage;
                     return c;
                 case 2:
                     //Ranger
-                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1, 100, 100, damage_text);
+                    c = new Character(25, 10, 10, 10, 10, 35, 1, 1, 100, 100);
                     c.charType = Character.Type.Ranger;
                     return c;
             }
-            return new Character(25, 5, 5, 5, 5, 5, 1, 1, 100, 100, damage_text);
-
-            // Character c = new Character(Character.Type.Ranger, 1);
-            // return c;
-
+            return new Character(25, 5, 5, 5, 5, 5, 1, 1, 100, 100);
         }
 
         public static List<Character> CreateParty()
         {
             List<Character> new_party = new List<Character>();
             int partysize = RNG.Next(20); //Roll a d20
+            int num = 0;
             if (partysize == 0) //0 means 1 hero
             {
-                //Just one buff hero
-                
-                int type = RNG.Next(3);
-                new_party.Add(CreateHero(type, damage_texts[0]));
-
+                num = 1;
             }
             else if (partysize <= 5) //1-5 means 2 heroes
             {
-                //A pair of heroes
-                for (int i = 0; i < 2; i++)
-                {
-                    int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type, damage_texts[i]));
-
-                }
+                num = 2;
             }
             else if (partysize <= 11) // 6-11 means 3 heroes
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type, damage_texts[i]));
-
-                }
-                //A classic trio of heroes
+                num = 3;
             }
             else // 12-19 means 4 heroes
             {
-                //4 heroes
-                for (int i = 0; i < 4; i++)
-                {
-                    int type = RNG.Next(3);
-                    new_party.Add(CreateHero(type, damage_texts[i]));
-                }
+                num = 4;
             }
-            //Changing the boss's health and energy text fields 
-            //--This could/should probably move--
 
+            for(int x = 0; x < num; x++)
+            {
+                int type = RNG.Next(3);
+                new_party.Add(CreateHero(type));
+            }
             return new_party;
         }
         public static bool popParty()

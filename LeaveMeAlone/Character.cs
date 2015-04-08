@@ -59,7 +59,7 @@ namespace LeaveMeAlone
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int _gold, int _exp, Text _damage_text)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int _gold, int _exp)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -76,8 +76,11 @@ namespace LeaveMeAlone
             exp = _exp;
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
-            damage_text = _damage_text;
-            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
+
+            damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
+
+            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
+
         }
 
         public Character(Type t, int level)
@@ -257,7 +260,7 @@ namespace LeaveMeAlone
                     i++;
                 }
                 debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
-                debug_text.draw(spriteBatch, (int)oPosition.X + 100, (int)oPosition.Y);
+                debug_text.Draw(spriteBatch);
 
             }
             else
@@ -277,7 +280,7 @@ namespace LeaveMeAlone
                     i++;
                 }
                 debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
-                debug_text.draw(spriteBatch, (int)sPosition.X - 100, (int)sPosition.Y);
+                debug_text.Draw(spriteBatch);
 
 
             }
