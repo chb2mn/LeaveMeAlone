@@ -646,7 +646,8 @@ namespace LeaveMeAlone
                                 //Do next battle
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
-                                MainMenu.init();
+                                //MainMenu.init();
+                                heroLoc.Clear();
                                 victory = false;
                                 return LeaveMeAlone.GameState.Lair;
                             }
@@ -688,7 +689,7 @@ namespace LeaveMeAlone
 
                     //AI occurs
                     targeted_enemy = -2;
-                    selected_skill = enemy.basic_attack;
+                    selected_skill = enemy.Think();
                     Attack(enemy);
 
                     //Check if this enemy has haste, and check if a hasted enemy has already attacked

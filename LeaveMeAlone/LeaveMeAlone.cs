@@ -53,8 +53,8 @@ namespace LeaveMeAlone
         protected override void Initialize()
         {
             base.Initialize();
-            //graphics.ToggleFullScreen();
-            //graphics.ApplyChanges();
+            graphics.ToggleFullScreen();
+            graphics.ApplyChanges();
 
             IsMouseVisible = true;
             this.Window.Title = "Leave Me Alone";
