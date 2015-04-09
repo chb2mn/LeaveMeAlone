@@ -5,9 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using LeaveMeAlone;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
 
 namespace LeaveMeAlone
 {
@@ -20,8 +18,12 @@ namespace LeaveMeAlone
         public static Texture2D poison_pit_image;
         
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
-        public Dictionary<Skill, Button> buttons = new Dictionary<Skill,Button>();
-        public static Texture2D buttonPic;
+        public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
+
+
+        public static Vector2 baseSkillButtonPos = new Vector2(500, 50);
+        public static Vector2 baseRoomButtonPos = new Vector2(1200, 50);
+        public static Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
 
 
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
@@ -33,10 +35,12 @@ namespace LeaveMeAlone
         public static Skill abomination_form;
         public static Skill summon_igor;
         public static Skill freeze_ray;
+        public static Skill speedy_shoes;
 
         public static Skill cure;
         public static Skill panacea;
         public static Skill fire;
+        public static Skill magefire;
         public static Skill bash;
         public static Skill poison_dagger;
         public static Skill haste;
@@ -45,16 +49,18 @@ namespace LeaveMeAlone
         public static Room spike_trap;
         public static Room poison_pit;
 
+
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
+
         }
         public static void LoadContent(ContentManager content)
         {
             spike_room_image = content.Load<Texture2D>("spikeRoom2");
             poison_pit_image = content.Load<Texture2D>("PoisonPit");
-            buttonPic = content.Load<Texture2D>("buttonbase");
+            //buttonPic = content.Load<Texture2D>("buttonbase");
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
             basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
@@ -66,12 +72,14 @@ namespace LeaveMeAlone
             nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("FreezeRay", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
-            
+            freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
+            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
+
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
             cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 1, "Heals and ally or self", Cure);
             fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
+            magefire = new Skill("fire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire);
             bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 1, "Hit an enemy using physical attack", Bash);
             haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 1, "Speed an ally up so he can hit twice in a row", Haste);
             panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 1, "Cure Self or Ally of all Status effects", Panacea);
@@ -81,28 +89,28 @@ namespace LeaveMeAlone
             poison_pit = new Room("Poison Pit", 100, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
         }
 
-        //Instantiates all classes     
+        //Updates or creates the buttons and 
         public void updateTree()
         {
             List<int> keys = skill_tiers.Keys.ToList();
             keys.Sort();
             //int boss_level = BattleManager.boss.level;
+            //used to separate buttons horizontally by level
             int kindex = 0;
             foreach (int key in keys)
             {
                 Console.WriteLine(key);
-                List<Skill> tier = skill_tiers[key];
-                int slength = tier.Count;
+                List<Skill> skilltier = skill_tiers[key];
+                int slength = skilltier.Count;
                 int sindex = 0;
-                foreach (Skill skill in tier)
+                foreach (Skill skill in skilltier)
                 {
                     Console.WriteLine(skill.name);
-                    Button b = new Button(buttonPic, 200 + sindex*175, 50 + 75*kindex, 150, 50);
+                    Button b = new Button(Button.buttonPic, (int)baseSkillButtonPos.X + sindex * 175, (int)baseSkillButtonPos.Y + 75 * kindex, 150, 50);
                     b.UpdateText(skill.name);
-                    buttons[skill] = b;
+                    SkillButtons[skill] = b;
                     sindex++;
                 }
-                Console.WriteLine();
                 kindex++;
             }
         }
@@ -119,14 +127,7 @@ namespace LeaveMeAlone
             initKnight();
 
         }
-        public void Draw(SpriteBatch s)
-        {
-            foreach(Button button in buttons.Values)
-            {
-                button.Draw(s);
-            }
 
-        }
         public void addSkill(int level, Skill skill)
         {
             addToDict(skill_tiers, ref level, ref skill);
@@ -157,18 +158,31 @@ namespace LeaveMeAlone
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
+
+            st.addRoom(1, spike_trap);
+            st.addRoom(1, poison_pit);
             skilltrees[Character.Type.Brute] = st;
             st.updateTree();
+
         }
         public static void initMastermind()
         {
             SkillTree st = new SkillTree();
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
+            st.addSkill(1, cure);
             st.addSkill(2, nuclear_waste);
-            st.addSkill(2, SkillTree.abomination_form);
-            st.addSkill(3, SkillTree.summon_igor);
-            st.addSkill(3, SkillTree.freeze_ray);
+            st.addSkill(2, abomination_form);
+            st.addSkill(3, summon_igor);
+            st.addSkill(3, freeze_ray);
+            st.addSkill(3, speedy_shoes);
+            st.addSkill(2, fire);
+            st.addSkill(2, abomination_form);
+            st.addSkill(3, summon_igor);
+            st.addSkill(3, freeze_ray);
+           
+            st.addRoom(1, spike_trap);
+            st.addRoom(1, poison_pit);
             skilltrees[Character.Type.Mastermind] = st;
             st.updateTree();
 
@@ -179,6 +193,9 @@ namespace LeaveMeAlone
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
+
+            st.addRoom(1, spike_trap);
+            st.addRoom(1, poison_pit);
             skilltrees[Character.Type.Operative] = st;
             st.updateTree();
 
@@ -333,15 +350,23 @@ namespace LeaveMeAlone
         {
             foreach (Character a_target in BattleManager.heroes)
             {
-                a_target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(1,4), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
+                a_target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(2,5), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
             }
+        }
+        public static void SpeedyShoes(Character caster, Character target = null)
+        {
+            caster.statuses.Add(new Status("haste", 3*2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.haste_image, Status.DoNothing));
         }
 
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
-            int heal_pts = caster.special_attack;
+            int heal_pts = caster.special_attack/2;
             target.health += heal_pts;
+            if (target.health > target.max_health)
+            {
+                target.health = target.max_health;
+            }
         }
         public static void Fire(Character caster, Character target = null)
         {
@@ -435,3 +460,5 @@ namespace LeaveMeAlone
         }
     }
 }
+
+

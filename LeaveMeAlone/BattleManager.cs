@@ -125,11 +125,10 @@ namespace LeaveMeAlone
             back_button = new Button(Content.Load<Texture2D>("Back"), 675, 410, 113, 51);
 
 
-            victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50));
-            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50));
+            victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
+            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
-            victory_text = new Text("Victory!\nWe will survive another day!");
-            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
+            
             info_text = new Text("", new Vector2(200, 50));
             info_counter = 240;
 
@@ -246,19 +245,21 @@ namespace LeaveMeAlone
                 return;
             }
 
-            //Initiate animation
-            caster.attackAnimation();
-
-            //Check if targeted_enemy is within the party size
-            if (targeted_enemy >= heroes.Count())
+            if (targeted_enemy >= heroes.Count() || (enemy_turn == -1 && targeted_enemy == -2))
             {
                 state = State.Target;
                 return;
             }
+            //Initiate animation
+            caster.attackAnimation();
+
+            //Check if targeted_enemy is within the party size
+            
 
 
             if (targeted_enemy >= 0)
             {
+                Console.WriteLine(targeted_enemy);
                 //if hero is dead, ignore
                 if (heroes[targeted_enemy] == null)
                 {
@@ -266,6 +267,7 @@ namespace LeaveMeAlone
                     return;
                 }
                 Apply_Status(caster, Status.Effect_Time.Before);
+                Console.WriteLine(targeted_enemy);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
 
@@ -320,9 +322,19 @@ namespace LeaveMeAlone
             //update the state to pass the turn to enemies
             if (enemy_turn == -1)
             {
-                enemy_turn = 0;
+                if (boss.statuses.Contains(Status.check_haste) && !haste_check)
+                {
+                    //go again
+                    left_click = true;
+                    state = State.Basic;
+                    haste_check = true;
+                }
+                else
+                {
+                    enemy_turn = 0;
+                    state = State.EnemyTurn;
+                }
             }
-            state = State.EnemyTurn;
             //Check after the Boss goes
             CheckVictoryDefeat();
         }
@@ -654,7 +666,8 @@ namespace LeaveMeAlone
                             else if (defeat)
                             {
                                 //Restart battle
-                                MainMenu.init();
+                                heroLoc.Clear();
+                                MainMenu.init(false);
                                 return LeaveMeAlone.GameState.Main;
 
                             }
@@ -688,8 +701,9 @@ namespace LeaveMeAlone
                     enemy_attack_delay = 60;
 
                     //AI occurs
-                    targeted_enemy = -2;
-                    selected_skill = enemy.Think();
+                    var pair = enemy.Think();
+                    selected_skill = pair.Key;
+                    targeted_enemy = pair.Value;
                     Attack(enemy);
 
                     //Check if this enemy has haste, and check if a hasted enemy has already attacked
@@ -763,7 +777,7 @@ namespace LeaveMeAlone
                     {
                         if (animation_counter-- >= 0)
                         {
-                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3));
+                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3), Color.AntiqueWhite);
                         }
                         else
                         {
@@ -791,11 +805,11 @@ namespace LeaveMeAlone
             {
                 if (animation_counter-- >= 0)
                 {
-                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3));
+                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3), Color.AntiqueWhite);
                 }
                 else
                 {
-                    animation_counter = 25;
+                    animation_counter = 50;
                     boss.damage_text.changeMessage("");
                 }
             }

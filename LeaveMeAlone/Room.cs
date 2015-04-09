@@ -10,7 +10,7 @@ namespace LeaveMeAlone
     {
         public int id;
         public String name;
-        public int gold_cost;
+        public int cost;
         public int level;
         public int type;
         public String description;
@@ -21,7 +21,7 @@ namespace LeaveMeAlone
         public Room(string _name, int _gold_cost, int _level, int _type, string _description, Room.Run _run, Texture2D _img)
         {
             this.name = _name;
-            this.gold_cost = _gold_cost;
+            this.cost = _gold_cost;
             this.level = _level;
             this.type = _type;
             this.description = _description;

@@ -18,6 +18,9 @@ namespace LeaveMeAlone
         public static int character_counter = 0;
         public List<Skill> skills = new List<Skill>();
         public List<Skill> selected_skills = new List<Skill>();
+        public const int MAX_ROOMS = 6;
+        public List<Room> rooms = new List<Room>();
+        public List<Room> selected_rooms = new List<Room>();
         public List<Status> statuses = new List<Status>();
 
         public enum Knowledge {Weak_Def, Weak_SDef, Str_Atk, Str_SAtk};
@@ -104,11 +107,20 @@ namespace LeaveMeAlone
                 case Type.Mage:
                     initMage();
                     break;
+                case Type.Knight:
+                    initKnight();
+                    break;
                 default:
                     ;
                     break;
             }
-            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
+
+            basic_attack = SkillTree.basic_attack;
+            defend = SkillTree.defend;
+
+            damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
+
+            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
 
 
@@ -123,15 +135,48 @@ namespace LeaveMeAlone
         }
         private void initRanger()
         {
+            max_health = 25;
+            health = max_health;
+            attack = 10;
+            special_attack = 10;
+            defense = 10;
+            special_defense = 10;
+            max_energy = 35;
+            energy = max_energy;
+            manaRechargeRate = 1;
+            gold = 100;
+            exp = 100;
             cure = SkillTree.cure;
         }
         private void initMage()
         {
+            max_health = 25;
+            health = max_health;
+            attack = 5;
+            special_attack = 25;
+            defense = 5;
+            special_defense = 25;
+            max_energy = 15;
+            energy = max_energy;
+            manaRechargeRate = 1;
+            gold = 100;
+            exp = 100;
             cure = SkillTree.cure;
+            basic_attack = SkillTree.magefire;
         }
-        private void initBrute()
+        private void initKnight()
         {
-            ;
+            max_health = 50;
+            health = max_health;
+            attack = 25;
+            special_attack = 5;
+            defense = 500;
+            special_defense = 0;
+            max_energy = 5;
+            energy = max_energy;
+            manaRechargeRate = 1;
+            gold = 100;
+            exp = 100;
         }
 
         public static void load_content(ContentManager content)
@@ -296,17 +341,29 @@ namespace LeaveMeAlone
             }
         }
 
-        public Skill Think()
+        public KeyValuePair<Skill, int> Think()
         {
             // Get the health remaining if normalized to 100
             // Essentially, this is a percentage times 100
             Random random = new Random();
+
+            int my_target = -2; //-2 is boss, -1 is nobody, 0-3 is heroes
             Skill selected_skill = basic_attack;
             bool str_used = true;
             int thought = random.Next(100);
 
             //They don't help each other
-            int normal_health = this.health*100/this.max_health;
+            int[] normal_health = new int[4];
+            for(int i = 0; i < BattleManager.heroes.Count(); i++)
+            {
+                if (BattleManager.heroes[i] != null)
+                {
+                    normal_health[i] = BattleManager.heroes[i].health*100/BattleManager.heroes[i].max_health;
+                }
+                else{
+                    normal_health[i] = 100000;
+                }
+            }
             bool has_defect = false;
 
             foreach (Status stat in statuses)
@@ -322,20 +379,25 @@ namespace LeaveMeAlone
             //If it doesn't exist, fuck it and try anything
             if (this.energy >= 10)
             {
-                Console.WriteLine("normal_health: "+normal_health);
+                //Console.WriteLine("normal_health: "+normal_health);
                 //I can use abilities!
                 //This is basically health percentage
-                if (normal_health < 50)
+                for (int i = 0; i < BattleManager.heroes.Count(); i++)
                 {
-                    //I need health!
-                    thought = random.Next(100);
-                    Console.WriteLine("thought: " + thought);
-
-                    if (thought > 20)
+                    if (normal_health[i] < 50)
                     {
-                        if (cure != null)
+                        //I need health!
+                        thought = random.Next(100);
+                        Console.WriteLine("thought: " + thought);
+
+                        if (thought > 20)
                         {
-                            selected_skill = cure;//cure
+                            if (cure != null)
+                            {
+                                Console.WriteLine("Cure Selected");
+                                selected_skill = cure;//cure
+                                my_target = i;
+                            }
                         }
                     }
                 }
@@ -365,6 +427,7 @@ namespace LeaveMeAlone
                         if (strong_attack != null)
                         {
                             selected_skill = strong_attack;
+                            my_target = -2;
                         }
                     }
                 }
@@ -377,6 +440,8 @@ namespace LeaveMeAlone
                         if (strong_special != null)
                         {
                             selected_skill = strong_special;
+                            str_used = false;
+                            my_target = -2;
                         }
 
                     }
@@ -395,12 +460,13 @@ namespace LeaveMeAlone
                     {
                         //Use status inflicting skill
                         selected_skill = status;
+                        my_target = -2;
                     }
                 }
             }
             else
             {
-                if (normal_health < 20)
+                if (health*100/max_health < 40)
                 {
                     thought = random.Next(100);
                     //I need health!
@@ -410,16 +476,19 @@ namespace LeaveMeAlone
                     }
                 }
             }
+            int boss_defense = (BattleManager.boss.defense + BattleManager.boss.special_defense) / 2;
             if (str_used)
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / (double)BattleManager.boss.defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / boss_defense)));
             }
             else
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / (double)BattleManager.boss.special_defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / boss_defense)));
             }
-            Console.WriteLine("selected_skill: " + selected_skill + " expected damage: " + expected_damage);
-            return selected_skill;
+            
+            damage_text.changeMessage(selected_skill.name);
+            //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
+            return new KeyValuePair<Skill, int>(selected_skill, my_target);
         }
     }
 }
