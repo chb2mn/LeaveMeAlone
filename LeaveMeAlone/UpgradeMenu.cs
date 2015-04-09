@@ -106,11 +106,10 @@ namespace LeaveMeAlone
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
-
-            texts["gold"] = new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-32"], Color.White);
-            texts["selectedskills"] = new Text("Selected Skills", new Vector2(30, 375), Text.fonts["6809Chargen-32"], Color.White);
-            texts["skilltext"] = new Text("Skills", new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
-            texts["roomtext"] = new Text("Rooms", new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
+            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-32"], Color.White);
+            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 375), Text.fonts["6809Chargen-32"], Color.White);
+            texts["skilltext"] =        new Text("Skills",                  new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
+            texts["roomtext"] =         new Text("Rooms",                   new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
         }
 
         public static void loadContent(ContentManager content)
@@ -124,7 +123,11 @@ namespace LeaveMeAlone
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
             texts["gold"].changeMessage("Gold: " + Resources.gold);
-            foreach (Skill s in skilltree.SkillButtons.Keys)
+            foreach(Skill s in BattleManager.boss.skills)
+            {
+                skilltree.SkillButtons[s].text.color = Color.Black;
+            }
+            foreach (Skill s in skilltree.SkillButtons.Keys.Except(BattleManager.boss.skills))
             {
                 if (s.cost > Resources.gold)
                 {
@@ -132,7 +135,7 @@ namespace LeaveMeAlone
                 }
                 else
                 {
-                    skilltree.SkillButtons[s].text.color = Color.Black;
+                    skilltree.SkillButtons[s].text.color = Color.Blue;
                 }
             }
 
@@ -155,7 +158,7 @@ namespace LeaveMeAlone
                             {
                                 BattleManager.boss.addSkill(s);
                                 Resources.gold -= s.cost;
-                                Console.WriteLine(BattleManager.boss.skills.Count);
+                                //Console.WriteLine(BattleManager.boss.skills.Count);
                             }
                         }
                         else
@@ -164,7 +167,7 @@ namespace LeaveMeAlone
                             {
                                 int index = BattleManager.boss.selected_skills.IndexOf(selectedSkillSwapButton.s);
                                 BattleManager.boss.selected_skills[index] = s;
-                                Console.WriteLine("swapped");
+                                //Console.WriteLine("swapped");
                             }
                         }
                         
