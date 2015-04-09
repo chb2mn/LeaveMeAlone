@@ -125,11 +125,10 @@ namespace LeaveMeAlone
             back_button = new Button(Content.Load<Texture2D>("Back"), 675, 410, 113, 51);
 
 
-            victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50));
-            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50));
+            victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
+            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
-            victory_text = new Text("Victory!\nWe will survive another day!");
-            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
+            
             info_text = new Text("", new Vector2(200, 50));
             info_counter = 240;
 

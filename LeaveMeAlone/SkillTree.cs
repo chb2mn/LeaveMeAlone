@@ -5,9 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using LeaveMeAlone;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
 
 namespace LeaveMeAlone
 {
@@ -20,8 +18,12 @@ namespace LeaveMeAlone
         public static Texture2D poison_pit_image;
         
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
-        public Dictionary<Skill, Button> buttons = new Dictionary<Skill,Button>();
-        public static Texture2D buttonPic;
+        public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
+
+
+        public static Vector2 baseSkillButtonPos = new Vector2(500, 50);
+        public static Vector2 baseRoomButtonPos = new Vector2(1200, 50);
+        public static Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
 
 
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
@@ -45,16 +47,18 @@ namespace LeaveMeAlone
         public static Room spike_trap;
         public static Room poison_pit;
 
+
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
+
         }
         public static void LoadContent(ContentManager content)
         {
             spike_room_image = content.Load<Texture2D>("spikeRoom2");
             poison_pit_image = content.Load<Texture2D>("PoisonPit");
-            buttonPic = content.Load<Texture2D>("buttonbase");
+            //buttonPic = content.Load<Texture2D>("buttonbase");
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
             basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
@@ -81,28 +85,28 @@ namespace LeaveMeAlone
             poison_pit = new Room("Poison Pit", 100, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
         }
 
-        //Instantiates all classes     
+        //Updates or creates the buttons and 
         public void updateTree()
         {
             List<int> keys = skill_tiers.Keys.ToList();
             keys.Sort();
             //int boss_level = BattleManager.boss.level;
+            //used to separate buttons horizontally by level
             int kindex = 0;
             foreach (int key in keys)
             {
                 Console.WriteLine(key);
-                List<Skill> tier = skill_tiers[key];
-                int slength = tier.Count;
+                List<Skill> skilltier = skill_tiers[key];
+                int slength = skilltier.Count;
                 int sindex = 0;
-                foreach (Skill skill in tier)
+                foreach (Skill skill in skilltier)
                 {
                     Console.WriteLine(skill.name);
-                    Button b = new Button(buttonPic, 200 + sindex*175, 50 + 75*kindex, 150, 50);
+                    Button b = new Button(Button.buttonPic, (int)baseSkillButtonPos.X + sindex * 175, (int)baseSkillButtonPos.Y + 75 * kindex, 150, 50);
                     b.UpdateText(skill.name);
-                    buttons[skill] = b;
+                    SkillButtons[skill] = b;
                     sindex++;
                 }
-                Console.WriteLine();
                 kindex++;
             }
         }
@@ -119,14 +123,7 @@ namespace LeaveMeAlone
             initKnight();
 
         }
-        public void Draw(SpriteBatch s)
-        {
-            foreach(Button button in buttons.Values)
-            {
-                button.Draw(s);
-            }
 
-        }
         public void addSkill(int level, Skill skill)
         {
             addToDict(skill_tiers, ref level, ref skill);
@@ -157,18 +154,27 @@ namespace LeaveMeAlone
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
+
+            st.addRoom(1, spike_trap);
+            st.addRoom(1, poison_pit);
             skilltrees[Character.Type.Brute] = st;
             st.updateTree();
+
         }
         public static void initMastermind()
         {
             SkillTree st = new SkillTree();
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
+            st.addSkill(1, cure);
             st.addSkill(2, nuclear_waste);
-            st.addSkill(2, SkillTree.abomination_form);
-            st.addSkill(3, SkillTree.summon_igor);
-            st.addSkill(3, SkillTree.freeze_ray);
+            st.addSkill(2, fire);
+            st.addSkill(2, abomination_form);
+            st.addSkill(3, summon_igor);
+            st.addSkill(3, freeze_ray);
+           
+            st.addRoom(1, spike_trap);
+            st.addRoom(1, poison_pit);
             skilltrees[Character.Type.Mastermind] = st;
             st.updateTree();
 
@@ -179,6 +185,9 @@ namespace LeaveMeAlone
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
+
+            st.addRoom(1, spike_trap);
+            st.addRoom(1, poison_pit);
             skilltrees[Character.Type.Operative] = st;
             st.updateTree();
 
@@ -435,3 +444,5 @@ namespace LeaveMeAlone
         }
     }
 }
+
+
