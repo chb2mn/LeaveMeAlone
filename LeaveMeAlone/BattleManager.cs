@@ -246,19 +246,21 @@ namespace LeaveMeAlone
                 return;
             }
 
-            //Initiate animation
-            caster.attackAnimation();
-
-            //Check if targeted_enemy is within the party size
-            if (targeted_enemy >= heroes.Count())
+            if (targeted_enemy >= heroes.Count() || (enemy_turn == -1 && targeted_enemy == -2))
             {
                 state = State.Target;
                 return;
             }
+            //Initiate animation
+            caster.attackAnimation();
+
+            //Check if targeted_enemy is within the party size
+            
 
 
             if (targeted_enemy >= 0)
             {
+                Console.WriteLine(targeted_enemy);
                 //if hero is dead, ignore
                 if (heroes[targeted_enemy] == null)
                 {
@@ -266,6 +268,7 @@ namespace LeaveMeAlone
                     return;
                 }
                 Apply_Status(caster, Status.Effect_Time.Before);
+                Console.WriteLine(targeted_enemy);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
 
@@ -654,7 +657,8 @@ namespace LeaveMeAlone
                             else if (defeat)
                             {
                                 //Restart battle
-                                MainMenu.init();
+                                heroLoc.Clear();
+                                MainMenu.init(false);
                                 return LeaveMeAlone.GameState.Main;
 
                             }
@@ -688,8 +692,9 @@ namespace LeaveMeAlone
                     enemy_attack_delay = 60;
 
                     //AI occurs
-                    targeted_enemy = -2;
-                    selected_skill = enemy.Think();
+                    var pair = enemy.Think();
+                    selected_skill = pair.Key;
+                    targeted_enemy = pair.Value;
                     Attack(enemy);
 
                     //Check if this enemy has haste, and check if a hasted enemy has already attacked

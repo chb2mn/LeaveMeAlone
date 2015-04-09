@@ -15,6 +15,8 @@ namespace LeaveMeAlone
     {
         private static Texture2D menuBackground;
         private static Texture2D titleCard;
+        private static bool isNewGame;
+        private static Button continueGame;
         private static Button newGame;
         private static Button loadGame;
         private static Button quit;
@@ -35,11 +37,12 @@ namespace LeaveMeAlone
         
 
 
-        public static void init()
+        public static void init(bool defeat = true)
         {
             currentMouseState = Mouse.GetState();
             mainMenuOpen = true;
             bossMenuOpen = false;
+            isNewGame = defeat;
             brute = new MenuBoss(Character.Type.Brute, new Vector2(LeaveMeAlone.WindowX / 2 - 400, LeaveMeAlone.WindowY - 400));
             mastermind = new MenuBoss(Character.Type.Mastermind, new Vector2(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 400));
             operative = new MenuBoss(Character.Type.Operative, new Vector2(LeaveMeAlone.WindowX / 2 + 200, LeaveMeAlone.WindowY - 400));
@@ -53,6 +56,7 @@ namespace LeaveMeAlone
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
             titleCard = content.Load<Texture2D>("TitleCard");
+            continueGame = new Button(content.Load<Texture2D>("ContinueGame"), LeaveMeAlone.WindowX / 2 - 100, 200, 200, 75);
             newGame = new Button(content.Load<Texture2D>("NewGame"), LeaveMeAlone.WindowX / 2 - 100, 200, 200, 75);
             loadGame = new Button(content.Load<Texture2D>("LoadGame"), LeaveMeAlone.WindowX / 2 - 100, 275, 200, 75);
             quit = new Button(content.Load<Texture2D>("Quit"), LeaveMeAlone.WindowX / 2 - 100, 350, 200, 75);
@@ -71,10 +75,14 @@ namespace LeaveMeAlone
             {
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
                 {
-                    if (newGame.Intersects(currentMouseState.X, currentMouseState.Y))
+                    if (newGame.Intersects(currentMouseState.X, currentMouseState.Y) && isNewGame)
                     {
                         mainMenuOpen = false;
                         bossMenuOpen = true;
+                    }
+                    else if (newGame.Intersects(currentMouseState.X, currentMouseState.Y) && !isNewGame)
+                    {
+                        return LeaveMeAlone.GameState.Lair;
                     }
                     else if (quit.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
@@ -170,7 +178,14 @@ namespace LeaveMeAlone
             {
                 Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), Color.Black);
                 Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX / 2 - 200, 0, 400, 200), Color.White);
-                newGame.Draw(Spritebatch);
+                if (isNewGame)
+                {
+                    newGame.Draw(Spritebatch);
+                }
+                else
+                {
+                    continueGame.Draw(Spritebatch);
+                }
                 loadGame.Draw(Spritebatch);
                 quit.Draw(Spritebatch);
             }
