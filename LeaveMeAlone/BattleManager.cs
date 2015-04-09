@@ -50,7 +50,7 @@ namespace LeaveMeAlone
         private static Button back_button;
 
         //debug string
-        private static Text message = new Text("");
+        private static Text message; 
 
         private static bool left_click = false;
         private static bool right_click = false;
@@ -89,7 +89,7 @@ namespace LeaveMeAlone
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
-            target_text = new Text("Select Target");
+            target_text = new Text("Select Target", new Vector2(200, 180));
 
             basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
             basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
@@ -109,23 +109,30 @@ namespace LeaveMeAlone
             basic_buttons[3].UpdateText("Bribe");
 
 
+
             bossLoc = new Rectangle(LeaveMeAlone.WindowX-150, LeaveMeAlone.WindowY/2 - 100, 200, 200); 
-            boss_hp = new Text("");
-            boss_energy = new Text("");
+            boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
+            boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
+
 
             for (int i = 0; i < 4; i++)
             {
-                Text hptext = new Text("");
+                Text hptext = new Text(msg:"");
                 hero_hp.Add(hptext);
             }
 
 
             back_button = new Button(Content.Load<Texture2D>("Back"), 675, 410, 113, 51);
 
+
+            victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50));
+            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50));
+
             victory_text = new Text("Victory!\nWe will survive another day!");
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you");
-            info_text = new Text("");
+            info_text = new Text("", new Vector2(200, 50));
             info_counter = 240;
+
 
             next_button = new Button(Content.Load<Texture2D>("Next"), 325, 100, 113, 32);
 
@@ -147,6 +154,7 @@ namespace LeaveMeAlone
 
         public static void Init()
         {
+            message = new Text("", new Vector2(0,0), Text.fonts["Arial-12"], Color.Black);
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             victory = false;
             defeat = false;
@@ -638,7 +646,8 @@ namespace LeaveMeAlone
                                 //Do next battle
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
-                                MainMenu.init();
+                                //MainMenu.init();
+                                heroLoc.Clear();
                                 victory = false;
                                 return LeaveMeAlone.GameState.Lair;
                             }
@@ -680,7 +689,7 @@ namespace LeaveMeAlone
 
                     //AI occurs
                     targeted_enemy = -2;
-                    selected_skill = enemy.basic_attack;
+                    selected_skill = enemy.Think();
                     Attack(enemy);
 
                     //Check if this enemy has haste, and check if a hasted enemy has already attacked
@@ -723,7 +732,7 @@ namespace LeaveMeAlone
         {
             //Do Background drawing
 
-            spriteBatch.Draw(bkgd, new Rectangle(-300, -25, 2000, 1086), Color.White);
+            spriteBatch.Draw(bkgd, new Rectangle(0, 0, 2000, 1086), Color.White);
             //Draw Heroes
             //Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
             for (int i = 0; i < heroes.Count(); i++)
@@ -735,7 +744,7 @@ namespace LeaveMeAlone
                         heroes[i].Draw(spriteBatch, Color.Violet);
                         if (state == State.Target || state == State.Bribe)
                         {
-                            target_text.draw(spriteBatch, 200, 180);
+                            target_text.Draw(spriteBatch);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Red);
                         }
                     }
@@ -744,17 +753,17 @@ namespace LeaveMeAlone
                         heroes[i].Draw(spriteBatch, Color.White);
                         if (state == State.Target || state == State.Bribe)
                         {
-                            target_text.draw(spriteBatch, 200, 180);
+                            target_text.Draw(spriteBatch);
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Black);
                         }
                     }
-                    hero_hp[i].draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y + 30);
+                    hero_hp[i].Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
 
                     if (!heroes[i].damage_text.message.Equals(""))
                     {
                         if (animation_counter-- >= 0)
                         {
-                            heroes[i].damage_text.draw(spriteBatch, heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3);
+                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3));
                         }
                         else
                         {
@@ -776,13 +785,13 @@ namespace LeaveMeAlone
 
             //Draw Boss
             boss.Draw(spriteBatch, Color.White);
-            boss_hp.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 100);
-            boss_energy.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y + 120);
+            boss_hp.Draw(spriteBatch);
+            boss_energy.Draw(spriteBatch);
             if (!boss.damage_text.message.Equals(""))
             {
                 if (animation_counter-- >= 0)
                 {
-                    boss.damage_text.draw(spriteBatch, bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3);
+                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3));
                 }
                 else
                 {
@@ -793,7 +802,7 @@ namespace LeaveMeAlone
 
             if (info_counter > 0 && !info_text.message.Equals(""))
             {
-                info_text.draw(spriteBatch, 200, 50);
+                info_text.Draw(spriteBatch, new Vector2(200, 50));
                 info_counter--;
             }
             else
@@ -805,13 +814,13 @@ namespace LeaveMeAlone
             //Check if we have victory
             if (victory)
             {
-                victory_text.draw(spriteBatch, 300, 50);
+                victory_text.Draw(spriteBatch);
                 next_button.Draw(spriteBatch);
                 return;
             }
             else if (defeat)
             {
-                defeat_text.draw(spriteBatch, 300, 50);
+                defeat_text.Draw(spriteBatch);
                 next_button.Draw(spriteBatch);
                 return;
             }
@@ -850,7 +859,7 @@ namespace LeaveMeAlone
             }
 
 
-            message.draw(spriteBatch, 0, 0);
+            message.Draw(spriteBatch);
         }
 
         public static void bossDefaultPosition()

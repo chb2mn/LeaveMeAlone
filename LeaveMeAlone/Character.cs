@@ -38,9 +38,19 @@ namespace LeaveMeAlone
         //The basic skills everybody has
         public Skill basic_attack;
         public Skill defend;
+        //Generic Skill fills for the Heroes
+        private Skill strong_attack = null;
+        private Skill strong_special = null;
+        private Skill cure = null;
+        private Skill esuna = null;
+        private Skill boon = null;
+        private Skill status = null;
+
         //The text that will display the damage done
         public Text damage_text;
         public Text debug_text;
+        //This is how much damage is expected from any attack done
+        public int expected_damage;
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -51,13 +61,13 @@ namespace LeaveMeAlone
 
         private static Texture2D hood2;
         private static Texture2D hood1;
-        private static Texture2D mastermind70, operative70;
+        private static Texture2D mastermind70, operative70, brute70;
 
         public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative};
 
         public const int MAX_SKILLS = 6;
 
-        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int _gold, int _exp, Text _damage_text)
+        public Character(int _max_health, int _attack, int _special_attack, int _defense, int _special_defense, int _max_energy, int _level, int _manaRechargeRate, int _gold, int _exp)
         {
             id = character_counter++;
             max_health = _max_health;
@@ -74,8 +84,11 @@ namespace LeaveMeAlone
             exp = _exp;
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
-            damage_text = _damage_text;
-            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
+
+            damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
+
+            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
+
         }
 
         public Character(Type t, int level)
@@ -110,11 +123,11 @@ namespace LeaveMeAlone
         }
         private void initRanger()
         {
-            ;
+            cure = SkillTree.cure;
         }
         private void initMage()
         {
-            ;
+            cure = SkillTree.cure;
         }
         private void initBrute()
         {
@@ -125,7 +138,8 @@ namespace LeaveMeAlone
         {
             hood2 = content.Load<Texture2D>("hood2");
             hood1 = content.Load<Texture2D>("hood1");
-            mastermind70 = content.Load<Texture2D>("mastermind70");
+            brute70 = content.Load<Texture2D>("brute70");
+            mastermind70 = content.Load<Texture2D>("mastermindMenu");
             operative70 = content.Load<Texture2D>("operative70");
         }
         public void Init()
@@ -152,7 +166,7 @@ namespace LeaveMeAlone
             }
             if (charType == Type.Brute)
             {
-                sTexture = mastermind70;
+                sTexture = brute70;
             }
             if (charType == Type.Mastermind)
             {
@@ -256,7 +270,7 @@ namespace LeaveMeAlone
                     i++;
                 }
                 debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
-                debug_text.draw(spriteBatch, (int)oPosition.X + 100, (int)oPosition.Y);
+                debug_text.Draw(spriteBatch, oPosition);
 
             }
             else
@@ -276,7 +290,7 @@ namespace LeaveMeAlone
                     i++;
                 }
                 debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
-                debug_text.draw(spriteBatch, (int)sPosition.X - 100, (int)sPosition.Y);
+                debug_text.Draw(spriteBatch, sPosition);
 
 
             }
@@ -287,76 +301,125 @@ namespace LeaveMeAlone
             // Get the health remaining if normalized to 100
             // Essentially, this is a percentage times 100
             Random random = new Random();
-
+            Skill selected_skill = basic_attack;
+            bool str_used = true;
             int thought = random.Next(100);
 
+            //They don't help each other
             int normal_health = this.health*100/this.max_health;
-            if (normal_health < 20)
+            bool has_defect = false;
+
+            foreach (Status stat in statuses)
             {
-                //I need health!
-                if (thought > 20)
+                if (stat.type == Status.Type.Debuff)
                 {
-                    //cure
+                    has_defect = true;
                 }
             }
 
             //We will use our battlemanager.Knowledge to detemine what we know about boss
             //If the key exists we know whether it does or doesn't work
             //If it doesn't exist, fuck it and try anything
-            if (this.energy > 10)
+            if (this.energy >= 10)
             {
+                Console.WriteLine("normal_health: "+normal_health);
                 //I can use abilities!
+                //This is basically health percentage
+                if (normal_health < 50)
+                {
+                    //I need health!
+                    thought = random.Next(100);
+                    Console.WriteLine("thought: " + thought);
 
+                    if (thought > 20)
+                    {
+                        if (cure != null)
+                        {
+                            selected_skill = cure;//cure
+                        }
+                    }
+                }
+                if (has_defect)
+                {
+                    thought = random.Next(100);
+
+                    if (thought > 40)
+                    {
+                        if (esuna != null)
+                        {
+                            selected_skill = esuna;
+                        }
+                    }
+                }
+
+                thought = random.Next(100);
                 //Consider exploiting a weakness?
                 if (BattleManager.Knowledge.ContainsKey(Knowledge.Weak_Def))
                 {
                     //If we know there is a weakness and we are smart enough to make the move
+                    thought = random.Next(100);
+
                     if (BattleManager.Knowledge[Knowledge.Weak_Def] && thought > 100-(40+5*level))
                     {
                         //Use strong physical skill
+                        if (strong_attack != null)
+                        {
+                            selected_skill = strong_attack;
+                        }
                     }
-                    thought = random.Next(100);
                 }
-                else if (BattleManager.Knowledge.ContainsKey(Knowledge.Weak_SDef) && thought > 100 - (40 + 5 * level))
+                if (BattleManager.Knowledge.ContainsKey(Knowledge.Weak_SDef))
                 {
-                    if (BattleManager.Knowledge[Knowledge.Weak_SDef])
+                    thought = random.Next(100);
+                    if (BattleManager.Knowledge[Knowledge.Weak_SDef] && thought > 100 - (40 + 5 * level))
                     {
                         //Use strong special skill
-                    }
-                    thought = random.Next(100);
+                        if (strong_special != null)
+                        {
+                            selected_skill = strong_special;
+                        }
 
-                }
-                else if (BattleManager.Knowledge.ContainsKey(Knowledge.Str_Atk) && thought > 100 - (40 + 5 * level))
-                {
-                    if (BattleManager.Knowledge[Knowledge.Str_Atk])
-                    {
-                        //Use status effect lowering skill
                     }
-                    thought = random.Next(100);
 
-                }
-                else if (BattleManager.Knowledge.ContainsKey(Knowledge.Str_SAtk) && thought > 100 - (40 + 5 * level))
-                {
-                    if (BattleManager.Knowledge[Knowledge.Str_SAtk])
-                    {
-                        //Use status effect lowering skill
-                    }
-                    thought = random.Next(100);
                 }
                 //Let's take another thought
                 thought = random.Next(100);
 
                 //Consider adding a status effect?
-                if (!BattleManager.boss.statuses.Contains(Status.check_poison) //If the boss doesn't have poison
-                    && (BattleManager.boss.health*100)/BattleManager.boss.max_health > 75 //and it has high health
-                    && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
+                //How do I check if status is there?
+                if (status != null)
                 {
-                    //Use status inflicting skill
+                    if (!BattleManager.boss.statuses.Contains(status.inflicts) //If the boss doesn't have the status effect that my status does
+                        && (BattleManager.boss.health * 100) / BattleManager.boss.max_health > 75 //and it has high health
+                        && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
+                    {
+                        //Use status inflicting skill
+                        selected_skill = status;
+                    }
                 }
             }
-
-            
-            return basic_attack;
+            else
+            {
+                if (normal_health < 20)
+                {
+                    thought = random.Next(100);
+                    //I need health!
+                    if (thought > 20)
+                    {
+                        selected_skill = defend;//cure
+                    }
+                }
+            }
+            if (str_used)
+            {
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / (double)BattleManager.boss.defense)));
+            }
+            else
+            {
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / (double)BattleManager.boss.special_defense)));
+            }
+            Console.WriteLine("selected_skill: " + selected_skill + " expected damage: " + expected_damage);
+            return selected_skill;
         }
     }
 }

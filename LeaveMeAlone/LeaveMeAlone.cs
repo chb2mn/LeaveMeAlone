@@ -28,13 +28,6 @@ namespace LeaveMeAlone
             : base() 
         {
             graphics = new GraphicsDeviceManager(this);
-            WindowX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            WindowY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            graphics.PreferredBackBufferWidth = WindowX;
-            graphics.PreferredBackBufferHeight = WindowY;
-
-
-            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             //graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
             //graphics.PreferredBackBufferHeight = 480;   // set this value to the desired height of your window
@@ -53,8 +46,8 @@ namespace LeaveMeAlone
         protected override void Initialize()
         {
             base.Initialize();
-            //graphics.ToggleFullScreen();
-            //graphics.ApplyChanges();
+            graphics.ToggleFullScreen();
+            graphics.ApplyChanges();
 
             IsMouseVisible = true;
             this.Window.Title = "Leave Me Alone";
@@ -86,7 +79,7 @@ namespace LeaveMeAlone
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
             //GraphicsDevice.SetRenderTarget(target);
-
+            Text.loadContent(Content);
             MainMenu.loadContent(Content);
             MenuBoss.LoadContent(Content);
             UpgradeMenu.loadContent(Content);
@@ -115,7 +108,7 @@ namespace LeaveMeAlone
             //BattleManager.boss.selected_skills.Add(SkillTree.flamethrower);
             //BattleManager.boss.selected_skills.Add(SkillTree.nuclear_waste);
             //BattleManager.LoadContent(Content);
-            Text.loadContent(Content);
+            
 
         }
 

@@ -114,7 +114,7 @@ namespace LeaveMeAlone
         }
         public static void Draw(SpriteBatch Spritebatch)
         {
-            Spritebatch.Draw(lairBkgd, new Rectangle(-300, -200, 2308, 1200), Color.White);
+            Spritebatch.Draw(lairBkgd, new Rectangle(0, 0, 2308, 1200), Color.White);
             Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X+LeaveMeAlone.WindowX/3), (int)(towerPosition.Y+LeaveMeAlone.WindowY-100), 400, 100), Color.White);
             Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (TowerLevel + 1)), 400, 100), Color.White);
             for (int i = 0; i < TowerLevel; i++)
