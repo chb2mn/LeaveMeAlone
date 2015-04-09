@@ -20,8 +20,6 @@ namespace LeaveMeAlone
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
         public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
 
-        public static Texture2D buttonPic;
-
 
         public static Vector2 baseSkillButtonPos = new Vector2(500, 50);
         public static Vector2 baseRoomButtonPos = new Vector2(1200, 50);
@@ -60,7 +58,7 @@ namespace LeaveMeAlone
         {
             spike_room_image = content.Load<Texture2D>("spikeRoom2");
             poison_pit_image = content.Load<Texture2D>("PoisonPit");
-            buttonPic = content.Load<Texture2D>("buttonbase");
+            //buttonPic = content.Load<Texture2D>("buttonbase");
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
             basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
@@ -104,7 +102,7 @@ namespace LeaveMeAlone
                 foreach (Skill skill in skilltier)
                 {
                     Console.WriteLine(skill.name);
-                    Button b = new Button(buttonPic, (int)baseSkillButtonPos.X + sindex*175, (int)baseSkillButtonPos.Y + 75*kindex, 150, 50);
+                    Button b = new Button(Button.buttonPic, (int)baseSkillButtonPos.X + sindex * 175, (int)baseSkillButtonPos.Y + 75 * kindex, 150, 50);
                     b.UpdateText(skill.name);
                     SkillButtons[skill] = b;
                     sindex++;
@@ -168,9 +166,9 @@ namespace LeaveMeAlone
             SkillTree st = new SkillTree();
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
-            //st.addSkill(1, cure);
+            st.addSkill(1, cure);
             st.addSkill(2, nuclear_waste);
-            //st.addSkill(2, fire);
+            st.addSkill(2, fire);
             st.addSkill(2, abomination_form);
             st.addSkill(3, summon_igor);
             st.addSkill(3, freeze_ray);

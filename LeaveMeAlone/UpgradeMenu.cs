@@ -96,19 +96,19 @@ namespace LeaveMeAlone
 
             AvailableRooms[0] = new ButtonRoom();
             AvailableRooms[1] = new ButtonRoom();
-            AvailableRooms[0].b = new Button(SkillTree.buttonPic, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 100, 100);
-            AvailableRooms[1].b = new Button(SkillTree.buttonPic, (int)baseRoomButtonPos.X + 75, (int)baseRoomButtonPos.Y, 100, 100);
+            AvailableRooms[0].b = new Button(Button.buttonPic, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 100, 100);
+            AvailableRooms[1].b = new Button(Button.buttonPic, (int)baseRoomButtonPos.X + 75, (int)baseRoomButtonPos.Y, 100, 100);
 
             for(int x = 0; x < SelectedSkills.Length; x++)
             {
                 SelectedSkills[x] = new ButtonSkill();
-                SelectedSkills[x].b = new Button(SkillTree.buttonPic, 30, 450 + 75*x, 200, 50);
+                SelectedSkills[x].b = new Button(Button.buttonPic, 30, 450 + 75 * x, 200, 50);
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
 
             texts["gold"] = new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-32"], Color.White);
-            texts["selectedskills"] = new Text("Selected Skills", new Vector2(30, 400), Text.fonts["6809Chargen-32"], Color.White);
+            texts["selectedskills"] = new Text("Selected Skills", new Vector2(30, 375), Text.fonts["6809Chargen-32"], Color.White);
             texts["skilltext"] = new Text("Skills", new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
             texts["roomtext"] = new Text("Rooms", new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
         }
@@ -181,12 +181,18 @@ namespace LeaveMeAlone
                     {
                         flag = true;
                         selectedSkillSwapButton = buttonStuff;
-                        Console.WriteLine("selected " + buttonStuff.s.name);
+                        selectedSkillSwapButton.b.selected = true;
+                        //Console.WriteLine("selected " + buttonStuff.s.name);
                     }
                 }
                 if (flag == false)
                 {
+                    if (selectedSkillSwapButton.b != null)
+                    {
+                        selectedSkillSwapButton.b.selected = false;
+                    }
                     selectedSkillSwapButton = default(ButtonSkill);
+
                     Console.WriteLine("unselected");
                 }
             }
