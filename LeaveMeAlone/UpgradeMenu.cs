@@ -115,16 +115,16 @@ namespace LeaveMeAlone
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
-            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-32"], Color.White);
-            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 375), Text.fonts["6809Chargen-32"], Color.White);
-            texts["skilltext"] =        new Text("Skills",                  new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
-            texts["roomtext"] =         new Text("Rooms",                   new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
+            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-24"], Color.White);
+            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 300), Text.fonts["6809Chargen-24"], Color.White);
+            texts["skilltext"] =        new Text("Skills",                  new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["roomtext"] =         new Text("Rooms",                   new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
 
         public static void loadContent(ContentManager content)
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
-            next = new Button(content.Load<Texture2D>("next"), 1000, 1000, 113, 32);
+            next = new Button(content.Load<Texture2D>("next"), 900, 500, 113, 32);
         }
 
         public static LeaveMeAlone.GameState Update(GameTime g)
@@ -174,6 +174,7 @@ namespace LeaveMeAlone
             selectedBoss.Update(g);
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
+                //check if a room was clicked on
                 for (int x = 0; x < AvailableRooms.Length; x++)
                 {
                     if(AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y))
@@ -181,7 +182,8 @@ namespace LeaveMeAlone
                         if(AvailableRooms[x].r.cost < Resources.gold)
                         {
                             BattleManager.boss.selected_rooms.Add(AvailableRooms[x].r);
-                            LairManager.boughtRooms.Add(AvailableRooms[x]);
+            
+                            LairManager.addRoom(AvailableRooms[x]); 
                             Resources.gold -= AvailableRooms[x].r.cost;
                         }
                     }

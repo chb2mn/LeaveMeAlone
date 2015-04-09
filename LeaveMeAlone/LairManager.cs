@@ -42,7 +42,7 @@ namespace LeaveMeAlone
         }
         public static void LairAttack(Room room, List<Character> party)
         {
-            if (party != null)
+            if (party != null && room.activate != null)
             {
                 room.activate(party);
             }
