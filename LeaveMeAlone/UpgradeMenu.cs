@@ -69,6 +69,10 @@ namespace LeaveMeAlone
                     b.Draw(s);
                 }
             }
+            public void Draw(SpriteBatch s, Rectangle r)
+            {
+                s.Draw(b.sprite, r, Color.White);
+            }
             public void UpdateRoom(Room r)
             {
                 b.text.changeMessage(r.name);
@@ -177,6 +181,7 @@ namespace LeaveMeAlone
                         if(AvailableRooms[x].r.cost < Resources.gold)
                         {
                             BattleManager.boss.selected_rooms.Add(AvailableRooms[x].r);
+                            LairManager.boughtRooms.Add(AvailableRooms[x]);
                             Resources.gold -= AvailableRooms[x].r.cost;
                         }
                     }
@@ -210,7 +215,6 @@ namespace LeaveMeAlone
                                 //Console.WriteLine("swapped");
                             }
                         }
-                        
                         //Console.WriteLine(s+" pressed");
                     }
                 }

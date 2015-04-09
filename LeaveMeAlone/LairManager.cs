@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +16,11 @@ namespace LeaveMeAlone
         public static int MaxLevel;
         public static Vector2 towerPosition;
         public static List<Room> LairRooms;
-        private static Texture2D lairBkgd, lairLobby, bossRoom, spikeRoom;
+        private static Texture2D lairBkgd, lairLobby, bossRoom, spikeRoom, unconstructed_room;
         private static Button skillsBtn, nextwaveBtn, constructionBtn;
         private static MouseState currentMouseState, lastMouseState;
+        public static Room UnconstructedRoom;
+        public static List<UpgradeMenu.ButtonRoom> boughtRooms = new List<UpgradeMenu.ButtonRoom>();
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void loadContent(ContentManager content)
@@ -36,6 +36,8 @@ namespace LeaveMeAlone
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
             spikeRoom = content.Load<Texture2D>("spikeRoom2");
+            unconstructed_room = content.Load<Texture2D>("unconstructed_room");
+            UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room);
             
         }
         public static void LairAttack(Room room, List<Character> party)
@@ -56,6 +58,7 @@ namespace LeaveMeAlone
 
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
+                //next wave
                 if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     for (int i = 0; i < TowerLevel; i++)
@@ -94,7 +97,7 @@ namespace LeaveMeAlone
                     if (TowerLevel < MaxLevel)
                     {
                         TowerLevel++;
-                        LairRooms.Add(SkillTree.spike_trap);
+                        LairRooms.Add(UnconstructedRoom);
                         PartyManager.partyQueue.Add(null);
                         for (int j = PartyManager.partyQueue.Count() - 1; j > 0; j--)
                         {
@@ -132,6 +135,12 @@ namespace LeaveMeAlone
                     newChar.Init();
                     newChar.Draw(Spritebatch, Color.White);
                 }
+            }
+            int count = 0;
+            foreach(UpgradeMenu.ButtonRoom r in boughtRooms)
+            {
+                r.Draw(Spritebatch, new Rectangle(30, 300 + 100 * count, 200, 75));
+                count ++;
             }
             nextwaveBtn.Draw(Spritebatch);
             skillsBtn.Draw(Spritebatch);
