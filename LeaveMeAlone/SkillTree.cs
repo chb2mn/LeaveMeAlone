@@ -128,13 +128,13 @@ namespace LeaveMeAlone
 
         }
 
-        public void addSkill(int level, Skill skill)
+        public void addSkill(Skill skill)
         {
-            addToDict(skill_tiers, ref level, ref skill);
+            addToDict(skill_tiers, ref skill.level, ref skill);
         }
-        public void addRoom(int level, Room room)
+        public void addRoom(Room room)
         {
-            addToDict(room_tiers, ref level, ref room);
+            addToDict(room_tiers, ref room.level, ref room);
         }
         private void addToDict<T,F>(Dictionary<T,List<F>> d, ref T index, ref F value)
         {
@@ -155,12 +155,12 @@ namespace LeaveMeAlone
         public static void initBrute()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(2, nuclear_waste);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            st.addSkill(nuclear_waste);
 
-            st.addRoom(1, spike_trap);
-            st.addRoom(1, poison_pit);
+            st.addRoom(spike_trap);
+            st.addRoom(poison_pit);
             skilltrees[Character.Type.Brute] = st;
             st.updateTree();
 
@@ -168,18 +168,18 @@ namespace LeaveMeAlone
         public static void initMastermind()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(1, cure);
-            st.addSkill(2, fire);
-            st.addSkill(2, nuclear_waste);
-            st.addSkill(10, speedy_shoes);
-            st.addSkill(2, abomination_form);
-            st.addSkill(3, summon_igor);
-            st.addSkill(20, freeze_ray);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            st.addSkill(cure);
+            st.addSkill(fire);
+            st.addSkill(nuclear_waste);
+            st.addSkill(speedy_shoes);
+            st.addSkill(abomination_form);
+            st.addSkill(summon_igor);
+            st.addSkill(freeze_ray);
            
-            st.addRoom(1, spike_trap);
-            st.addRoom(1, poison_pit);
+            st.addRoom(spike_trap);
+            st.addRoom(poison_pit);
             skilltrees[Character.Type.Mastermind] = st;
             st.updateTree();
 
@@ -187,12 +187,12 @@ namespace LeaveMeAlone
         public static void initOperative()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(2, nuclear_waste);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            st.addSkill(nuclear_waste);
 
-            st.addRoom(1, spike_trap);
-            st.addRoom(1, poison_pit);
+            st.addRoom(spike_trap);
+            st.addRoom(poison_pit);
             skilltrees[Character.Type.Operative] = st;
             st.updateTree();
 
@@ -206,9 +206,9 @@ namespace LeaveMeAlone
         public static void initMage()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(2, nuclear_waste);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            st.addSkill(nuclear_waste);
             skilltrees[Character.Type.Mage] = st;
             st.updateTree();
 

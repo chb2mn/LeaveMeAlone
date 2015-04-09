@@ -22,9 +22,9 @@ namespace LeaveMeAlone
         public static SkillTree skilltree;
         public static Dictionary<string, Text> texts = new Dictionary<string, Text>();
 
-        public static Vector2 baseSkillButtonPos = new Vector2(500, 50);
-        public static Vector2 baseRoomButtonPos = new Vector2(1200, 50);
-        public static Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
+        public static Vector2 baseSkillButtonPos = new Vector2(300, 50);
+        public static Vector2 baseRoomButtonPos = new Vector2(300, 500);
+        public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
         
         public static Text goldText;
         public static Text skillText;
@@ -100,8 +100,8 @@ namespace LeaveMeAlone
 
             AvailableRooms[0] = new ButtonRoom();
             AvailableRooms[1] = new ButtonRoom();
-            AvailableRooms[0].b = new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 400, 100);
-            AvailableRooms[1].b = new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y + 150, 400, 100);
+            AvailableRooms[0].b = new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50);
+            AvailableRooms[1].b = new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50);
             AvailableRooms[0].b.UpdateText(SkillTree.poison_pit.name);
             AvailableRooms[1].b.UpdateText(SkillTree.spike_trap.name);
             AvailableRooms[0].r = SkillTree.poison_pit;
@@ -111,12 +111,12 @@ namespace LeaveMeAlone
             for(int x = 0; x < SelectedSkills.Length; x++)
             {
                 SelectedSkills[x] = new ButtonSkill();
-                SelectedSkills[x].b = new Button(Button.buttonPic, 30, 450 + 75 * x, 200, 50);
+                SelectedSkills[x].b = new Button(Button.buttonPic, (int)baseSelectedSkillButtonPos.X, (int)baseSelectedSkillButtonPos.Y + 60 * x, 200, 50);
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
-            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-24"], Color.White);
-            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 300), Text.fonts["6809Chargen-24"], Color.White);
+            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 150), Text.fonts["6809Chargen-24"], Color.White);
             texts["skilltext"] =        new Text("Skills",                  new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["roomtext"] =         new Text("Rooms",                   new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }

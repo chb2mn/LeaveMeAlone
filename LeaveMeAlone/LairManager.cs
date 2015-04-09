@@ -146,5 +146,13 @@ namespace LeaveMeAlone
             skillsBtn.Draw(Spritebatch);
             constructionBtn.Draw(Spritebatch);
         }
+
+        internal static void addRoom(UpgradeMenu.ButtonRoom buttonRoom)
+        {
+            var copy = new UpgradeMenu.ButtonRoom();
+            copy.b = new Button(buttonRoom.r.img, 30, 200 + 80 * boughtRooms.Count, 100, 75);
+            copy.r = new Room(buttonRoom.r.name, buttonRoom.r.cost, buttonRoom.r.level, buttonRoom.r.type, buttonRoom.r.description, buttonRoom.r.activate, buttonRoom.r.img);
+            boughtRooms.Add(copy);
+        }
     }
 }
