@@ -373,7 +373,7 @@ namespace LeaveMeAlone
             //If it doesn't exist, fuck it and try anything
             if (this.energy >= 10)
             {
-                Console.WriteLine("normal_health: "+normal_health);
+                //Console.WriteLine("normal_health: "+normal_health);
                 //I can use abilities!
                 //This is basically health percentage
                 for (int i = 0; i < BattleManager.heroes.Count(); i++)
@@ -478,7 +478,7 @@ namespace LeaveMeAlone
             {
                 expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / (double)BattleManager.boss.special_defense)));
             }
-            Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
+            //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
             return new KeyValuePair<Skill, int>(selected_skill, my_target);
         }
     }

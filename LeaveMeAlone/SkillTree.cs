@@ -33,6 +33,7 @@ namespace LeaveMeAlone
         public static Skill abomination_form;
         public static Skill summon_igor;
         public static Skill freeze_ray;
+        public static Skill speedy_shoes;
 
         public static Skill cure;
         public static Skill panacea;
@@ -66,8 +67,9 @@ namespace LeaveMeAlone
             nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("FreezeRay", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
-            
+            freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
+            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
+
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
             cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 1, "Heals and ally or self", Cure);
@@ -166,9 +168,10 @@ namespace LeaveMeAlone
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
             st.addSkill(2, nuclear_waste);
-            st.addSkill(2, SkillTree.abomination_form);
-            st.addSkill(3, SkillTree.summon_igor);
-            st.addSkill(3, SkillTree.freeze_ray);
+            st.addSkill(2, abomination_form);
+            st.addSkill(3, summon_igor);
+            st.addSkill(3, freeze_ray);
+            st.addSkill(3, speedy_shoes);
             skilltrees[Character.Type.Mastermind] = st;
             st.updateTree();
 
@@ -333,15 +336,23 @@ namespace LeaveMeAlone
         {
             foreach (Character a_target in BattleManager.heroes)
             {
-                a_target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(1,4), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
+                a_target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(2,5), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
             }
+        }
+        public static void SpeedyShoes(Character caster, Character target = null)
+        {
+            caster.statuses.Add(new Status("haste", 3*2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.haste_image, Status.DoNothing));
         }
 
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
-            int heal_pts = caster.special_attack;
+            int heal_pts = caster.special_attack/2;
             target.health += heal_pts;
+            if (target.health > target.max_health)
+            {
+                target.health = target.max_health;
+            }
         }
         public static void Fire(Character caster, Character target = null)
         {

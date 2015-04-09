@@ -323,9 +323,19 @@ namespace LeaveMeAlone
             //update the state to pass the turn to enemies
             if (enemy_turn == -1)
             {
-                enemy_turn = 0;
+                if (boss.statuses.Contains(Status.check_haste) && !haste_check)
+                {
+                    //go again
+                    left_click = true;
+                    state = State.Basic;
+                    haste_check = true;
+                }
+                else
+                {
+                    enemy_turn = 0;
+                    state = State.EnemyTurn;
+                }
             }
-            state = State.EnemyTurn;
             //Check after the Boss goes
             CheckVictoryDefeat();
         }
