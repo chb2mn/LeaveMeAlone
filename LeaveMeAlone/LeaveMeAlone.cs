@@ -22,8 +22,9 @@ namespace LeaveMeAlone
         //Character boss;
         public enum GameState { Main, Upgrade, Lair, Battle, Quit };
         public static GameState gamestate = GameState.Main;
-        int seed = 1000;
-        public static Random random = new Random(1000);
+        public static int seed = 1000;
+        public static Random random = new Random(seed);
+        public static Rectangle BackgroundRect; 
         public LeaveMeAlone()
             : base() 
         {
@@ -32,13 +33,9 @@ namespace LeaveMeAlone
             WindowY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = WindowX;
             graphics.PreferredBackBufferHeight = WindowY;
-
-
+            BackgroundRect= new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
-            //graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
-            //graphics.PreferredBackBufferHeight = 480;   // set this value to the desired height of your window
-
         }
         
 
@@ -87,6 +84,7 @@ namespace LeaveMeAlone
             //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
             //GraphicsDevice.SetRenderTarget(target);
             Text.loadContent(Content);
+            Button.LoadContent(Content);
             MainMenu.loadContent(Content);
             MenuBoss.LoadContent(Content);
             UpgradeMenu.loadContent(Content);

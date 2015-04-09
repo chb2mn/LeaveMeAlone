@@ -44,19 +44,38 @@ namespace LeaveMeAlone
         {
             message = msg;
         }
-
+        public static void loadFont(string fontName, ContentManager content)
+        {
+            fonts[fontName] = content.Load<SpriteFont>("Fonts/" + fontName);
+        }
         public static void loadContent(ContentManager content)
         {
-            DirectoryInfo dir = new DirectoryInfo(content.RootDirectory + "/Fonts");
+            /*
+            loadFont("6809Chargen-12", content);
+            loadFont("6809Chargen-24", content);
+            loadFont("6809Chargen-32", content);
+
+            loadFont("Arial-12", content);
+            loadFont("Arial-24", content);
+
+            loadFont("RetroComputer-12", content);
+            loadFont("RetroComputer-24", content);*/
+            
+            DirectoryInfo dir = new DirectoryInfo(content.RootDirectory + @"\Fonts");
             if (!dir.Exists)
                 throw new DirectoryNotFoundException();
 
+            Console.WriteLine("Starting files");
             FileInfo[] files = dir.GetFiles("*.xnb");
+            string str = "";
             foreach (FileInfo file in files)
             {
+                 str = str + ", " + file.Name;
                 string key = Path.GetFileNameWithoutExtension(file.Name);
-                fonts[key] = content.Load<SpriteFont>("Fonts/" + key);
+                Console.WriteLine(key);
+                fonts[key] = content.Load<SpriteFont>(@"Fonts\" + key);
             }
+            Console.WriteLine(str);
         }
 
         public void Draw(SpriteBatch sb,  Vector2 pos = default(Vector2), Color c = default(Color))

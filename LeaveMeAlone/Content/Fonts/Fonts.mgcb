@@ -13,6 +13,24 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin 6809Chargen-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:6809Chargen-12.spritefont
+
+#begin 6809Chargen-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:6809Chargen-24.spritefont
+
+#begin 6809Chargen-32.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:6809Chargen-32.spritefont
+
 #begin Arial-12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -36,16 +54,4 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:RetroComputer-24.spritefont
-
-#begin 6809Chargen-12.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:6809Chargen-12.spritefont
-
-#begin 6809Chargen-24.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:6809Chargen-24.spritefont
 
