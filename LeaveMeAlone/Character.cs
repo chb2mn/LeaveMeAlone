@@ -159,6 +159,7 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 100;
             cure = SkillTree.cure;
+            basic_attack = SkillTree.magefire;
         }
         private void initKnight()
         {
@@ -470,14 +471,17 @@ namespace LeaveMeAlone
                     }
                 }
             }
+            int boss_defense = (BattleManager.boss.defense + BattleManager.boss.special_defense) / 2;
             if (str_used)
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / (double)BattleManager.boss.defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / boss_defense)));
             }
             else
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / (double)BattleManager.boss.special_defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / boss_defense)));
             }
+            
+            damage_text.changeMessage(selected_skill.name);
             //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
             return new KeyValuePair<Skill, int>(selected_skill, my_target);
         }

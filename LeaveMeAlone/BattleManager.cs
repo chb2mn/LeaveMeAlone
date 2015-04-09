@@ -778,7 +778,7 @@ namespace LeaveMeAlone
                     {
                         if (animation_counter-- >= 0)
                         {
-                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3));
+                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3), Color.AntiqueWhite);
                         }
                         else
                         {
@@ -806,11 +806,11 @@ namespace LeaveMeAlone
             {
                 if (animation_counter-- >= 0)
                 {
-                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3));
+                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3), Color.AntiqueWhite);
                 }
                 else
                 {
-                    animation_counter = 25;
+                    animation_counter = 50;
                     boss.damage_text.changeMessage("");
                 }
             }
