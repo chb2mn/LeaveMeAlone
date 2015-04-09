@@ -96,9 +96,14 @@ namespace LeaveMeAlone
 
             AvailableRooms[0] = new ButtonRoom();
             AvailableRooms[1] = new ButtonRoom();
-            AvailableRooms[0].b = new Button(Button.buttonPic, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 100, 100);
-            AvailableRooms[1].b = new Button(Button.buttonPic, (int)baseRoomButtonPos.X + 75, (int)baseRoomButtonPos.Y, 100, 100);
-
+            AvailableRooms[0].b = new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 400, 100);
+            AvailableRooms[1].b = new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y + 150, 400, 100);
+            AvailableRooms[0].b.UpdateText(SkillTree.poison_pit.name);
+            AvailableRooms[1].b.UpdateText(SkillTree.spike_trap.name);
+            AvailableRooms[0].r = SkillTree.poison_pit;
+            AvailableRooms[1].r = SkillTree.spike_trap;
+            
+            selectedSkillSwapButton = default(ButtonSkill);
             for(int x = 0; x < SelectedSkills.Length; x++)
             {
                 SelectedSkills[x] = new ButtonSkill();
@@ -123,10 +128,33 @@ namespace LeaveMeAlone
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
             texts["gold"].changeMessage("Gold: " + Resources.gold);
+            //things you bought are in black
+
+            for (int x = 0; x < AvailableRooms.Length; x++)
+            {
+                if (AvailableRooms[x].r != null)
+                {
+                    var r = AvailableRooms[x].r;
+                    if(BattleManager.boss.selected_rooms.Contains(r) == true)
+                    {
+                        AvailableRooms[x].b.text.color = Color.Black;
+                    }
+                    else if (r.cost > Resources.gold)
+                    {
+                        AvailableRooms[x].b.text.color = Color.Red;
+                    }
+                    else
+                    {
+                        AvailableRooms[x].b.text.color = Color.Blue;
+                    }
+                }
+            }
+
             foreach(Skill s in BattleManager.boss.skills)
             {
                 skilltree.SkillButtons[s].text.color = Color.Black;
             }
+            //gets things that haven't been bought and colors them
             foreach (Skill s in skilltree.SkillButtons.Keys.Except(BattleManager.boss.skills))
             {
                 if (s.cost > Resources.gold)
@@ -142,7 +170,17 @@ namespace LeaveMeAlone
             selectedBoss.Update(g);
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
-
+                for (int x = 0; x < AvailableRooms.Length; x++)
+                {
+                    if(AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    {
+                        if(AvailableRooms[x].r.cost < Resources.gold)
+                        {
+                            BattleManager.boss.selected_rooms.Add(AvailableRooms[x].r);
+                            Resources.gold -= AvailableRooms[x].r.cost;
+                        }
+                    }
+                }
                 if (next.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     BattleManager.bossDefaultPosition();
@@ -154,6 +192,7 @@ namespace LeaveMeAlone
                     {
                         if (BattleManager.boss.skills.Contains(s) == false)
                         {
+                            //if you have enough money, buy it
                             if(s.cost < Resources.gold)
                             {
                                 BattleManager.boss.addSkill(s);
@@ -163,6 +202,7 @@ namespace LeaveMeAlone
                         }
                         else
                         {
+                            //When a skill isn't selected to swap, it should be set to default(Skill)
                             if (selectedSkillSwapButton.s != default(Skill) && BattleManager.boss.selected_skills.Contains(s) == false)
                             {
                                 int index = BattleManager.boss.selected_skills.IndexOf(selectedSkillSwapButton.s);
@@ -214,6 +254,7 @@ namespace LeaveMeAlone
         {
             sb.Draw(menuBackground, LeaveMeAlone.BackgroundRect, Color.Black);
             selectedBoss.Draw(sb, Color.White);
+
             foreach (Button button in skilltree.SkillButtons.Values)
             {
                 button.Draw(sb);
@@ -226,6 +267,18 @@ namespace LeaveMeAlone
             for(int x = 0; x < SelectedSkills.Length; x++)
             {
                 SelectedSkills[x].Draw(sb);
+            }
+            for (int x = 0; x < AvailableRooms.Length; x++)
+            {
+                if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false)
+                {
+                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                }
+                else
+                {
+                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                }
+                AvailableRooms[x].b.Draw(sb);
             }
             next.Draw(sb);
         }

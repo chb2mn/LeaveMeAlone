@@ -18,6 +18,9 @@ namespace LeaveMeAlone
         public static int character_counter = 0;
         public List<Skill> skills = new List<Skill>();
         public List<Skill> selected_skills = new List<Skill>();
+        public const int MAX_ROOMS = 6;
+        public List<Room> rooms = new List<Room>();
+        public List<Room> selected_rooms = new List<Room>();
         public List<Status> statuses = new List<Status>();
 
         public enum Knowledge {Weak_Def, Weak_SDef, Str_Atk, Str_SAtk};
