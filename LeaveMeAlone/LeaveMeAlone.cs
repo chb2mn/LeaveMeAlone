@@ -29,8 +29,8 @@ namespace LeaveMeAlone
             : base() 
         {
             graphics = new GraphicsDeviceManager(this);
-            WindowX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            WindowY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            WindowX = 1152;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            WindowY = 648;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = WindowX;
             graphics.PreferredBackBufferHeight = WindowY;
             BackgroundRect= new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
@@ -50,8 +50,8 @@ namespace LeaveMeAlone
         protected override void Initialize()
         {
             base.Initialize();
-            graphics.ToggleFullScreen();
-            graphics.ApplyChanges();
+            //graphics.ToggleFullScreen();
+            //graphics.ApplyChanges();
 
             IsMouseVisible = true;
             this.Window.Title = "Leave Me Alone";
@@ -81,7 +81,7 @@ namespace LeaveMeAlone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
+            //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 1024, 576);
             //GraphicsDevice.SetRenderTarget(target);
             Text.loadContent(Content);
             Button.LoadContent(Content);
