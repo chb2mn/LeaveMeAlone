@@ -17,6 +17,7 @@ namespace LeaveMeAlone
         public int level;
         public int cooldown;
         public int type;
+        public Status inflicts;
         public string description;
         public Target target;
         public Run runnable;
@@ -28,7 +29,7 @@ namespace LeaveMeAlone
 
         // example way to make a skill
         // Skill s = new Skill("test", 1, 100, 1, 0, Target.Self, 0, "My first skill", new Skill.Run(function_name));
-        public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run)
+        public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run, Status _inflicts = null)
         {
             this.id = total;
             total++;
@@ -41,6 +42,7 @@ namespace LeaveMeAlone
             this.type = type;
             this.description = description;
             this.runnable = run;
+            this.inflicts = _inflicts;
         }
         
         public static int damage(Character caster, Character target, Attack type_attack, Defense type_defense, int power, double modifier=1)
