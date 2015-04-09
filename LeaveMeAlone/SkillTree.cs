@@ -19,11 +19,11 @@ namespace LeaveMeAlone
         
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
         public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
-        public ButtonRoom[] AvailableRooms = new ButtonRoom[2];
+
         public static Texture2D buttonPic;
 
-        public static Vector2 baseSkillButtonPos = new Vector2(300, 50);
-        public static Vector2 baseRoomButtonPos = new Vector2(700, 50);
+        public static Vector2 baseSkillButtonPos = new Vector2(500, 50);
+        public static Vector2 baseRoomButtonPos = new Vector2(1200, 50);
         public static Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
 
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
@@ -47,37 +47,12 @@ namespace LeaveMeAlone
         public static Room spike_trap;
         public static Room poison_pit;
 
-        public struct ButtonRoom
-        {
-            public Button b;
-            private Room r;
-            private bool drawable;
-            public void Draw(SpriteBatch s)
-            {
-                if(drawable)
-                {
-                    b.Draw(s);
-                }
-            }
-            public void UpdateRoom(Room r)
-            {
-                b.text.changeMessage(r.name);
-                drawable = true;
-            }
-            public void DeleteRoom()
-            {
-                r = default(Room);
-                drawable = false;
-            }
-        }
+
         public SkillTree()
         {
             skill_tiers = new Dictionary<int, List<Skill>>();
             room_tiers = new Dictionary<int, List<Room>>();
-            AvailableRooms[0] = new ButtonRoom();
-            AvailableRooms[1] = new ButtonRoom();
-            AvailableRooms[0].b = new Button(buttonPic, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 100, 100);
-            AvailableRooms[1].b = new Button(buttonPic, (int)baseRoomButtonPos.X + 75, (int)baseRoomButtonPos.Y, 100, 100);
+
         }
         public static void LoadContent(ContentManager content)
         {
@@ -191,11 +166,13 @@ namespace LeaveMeAlone
             SkillTree st = new SkillTree();
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
+            st.addSkill(1, cure);
             st.addSkill(2, nuclear_waste);
+            st.addSkill(2, fire);
             st.addSkill(2, abomination_form);
             st.addSkill(3, summon_igor);
             st.addSkill(3, freeze_ray);
-
+           
             st.addRoom(1, spike_trap);
             st.addRoom(1, poison_pit);
             skilltrees[Character.Type.Mastermind] = st;

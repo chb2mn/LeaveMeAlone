@@ -12,7 +12,7 @@ namespace LeaveMeAlone
 
         public static void Init()
         {
-            gold = 500;
+            gold = 100000;
             exp = 0;
         }
     }
