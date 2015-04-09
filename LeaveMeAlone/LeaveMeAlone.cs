@@ -29,15 +29,12 @@ namespace LeaveMeAlone
             : base() 
         {
             graphics = new GraphicsDeviceManager(this);
-<<<<<<< HEAD
-=======
             WindowX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             WindowY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = WindowX;
             graphics.PreferredBackBufferHeight = WindowY;
             BackgroundRect= new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             graphics.ApplyChanges();
->>>>>>> 054648baa7ab221e0e87967b1a6bc55a464ba265
             Content.RootDirectory = "Content";
         }
         
