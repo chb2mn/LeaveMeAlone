@@ -155,7 +155,9 @@
     <None Include="Content\Fonts\6809Chargen-24.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Fonts\6809Chargen-32.xnb" />
+    <None Include="Content\Fonts\6809Chargen-32.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Fonts\Arial-12.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -276,8 +278,12 @@
     <Content Include="Content\TitleCard.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Content\Fonts\RetroComputer-12.xnb" />
-    <None Include="Content\Fonts\RetroComputer-24.xnb" />
+    <None Include="Content\Fonts\RetroComputer-12.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Fonts\RetroComputer-24.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
