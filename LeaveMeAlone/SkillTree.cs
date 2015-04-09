@@ -168,9 +168,9 @@ namespace LeaveMeAlone
             SkillTree st = new SkillTree();
             st.addSkill(1, portal_punch);
             st.addSkill(1, flamethrower);
-            st.addSkill(1, cure);
+            //st.addSkill(1, cure);
             st.addSkill(2, nuclear_waste);
-            st.addSkill(2, fire);
+            //st.addSkill(2, fire);
             st.addSkill(2, abomination_form);
             st.addSkill(3, summon_igor);
             st.addSkill(3, freeze_ray);
@@ -446,3 +446,5 @@ namespace LeaveMeAlone
         }
     }
 }
+
+
