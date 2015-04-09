@@ -47,7 +47,7 @@ namespace LeaveMeAlone
         public static void LoadContent(ContentManager content)
         {
             textures[Character.Type.Brute] = content.Load<Texture2D>("bruteMenu");
-            textures[Character.Type.Operative] = content.Load<Texture2D>("bruteMenu");
+            textures[Character.Type.Operative] = content.Load<Texture2D>("operativeMenu");
             textures[Character.Type.Mastermind] = content.Load<Texture2D>("bruteMenu");
         }
 
