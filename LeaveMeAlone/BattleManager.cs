@@ -746,7 +746,7 @@ namespace LeaveMeAlone
         {
             //Do Background drawing
 
-            spriteBatch.Draw(bkgd, new Rectangle(-300, -25, 2000, 1086), Color.White);
+            spriteBatch.Draw(bkgd, new Rectangle(0, 0, 2000, 1086), Color.White);
             //Draw Heroes
             //Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
             for (int i = 0; i < heroes.Count(); i++)
