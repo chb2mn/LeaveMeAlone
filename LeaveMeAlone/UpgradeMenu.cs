@@ -212,6 +212,8 @@ namespace LeaveMeAlone
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
             texts["gold"].changeMessage("Gold: " + Resources.gold);
+            texts["level"].changeMessage("Level: " + BattleManager.boss.level);
+
             //things you bought are in black
 
             /*
