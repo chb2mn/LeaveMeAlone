@@ -695,3 +695,45 @@
 /processorParam:TextureFormat=Color
 /build:nothing.png
 
+#begin Fonts/6809Chargen-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/6809Chargen-12.spritefont
+
+#begin Fonts/6809Chargen-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/6809Chargen-24.spritefont
+
+#begin Fonts/6809Chargen-32.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/6809Chargen-32.spritefont
+
+#begin Fonts/Arial-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Arial-12.spritefont
+
+#begin Fonts/Arial-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Arial-24.spritefont
+
+#begin Fonts/RetroComputer-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/RetroComputer-12.spritefont
+
+#begin Fonts/RetroComputer-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/RetroComputer-24.spritefont
+
