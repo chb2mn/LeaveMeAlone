@@ -88,7 +88,7 @@ namespace LeaveMeAlone
             //Brute
            ethereal_fist = new Skill("Slash", 5, 0,         1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
            blind_charge = new Skill("Blind Charge", 5, 0,   1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-           rub_dirt =       new Skill("Rub Dirt",   4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on maximum health", RubDirt); //damage in proportion to health
+           rub_dirt =       new Skill("Rub Dirt",   4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
            holk_smash = new Skill("Holk Smush", 10, 300,    3, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
            norris_kick = new Skill("Norris Kick", 8, 100,      2, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
            //bloodlust_strike; //vampiric
@@ -448,7 +448,7 @@ namespace LeaveMeAlone
                 Character newTarget = notDead[LeaveMeAlone.random.Next(notDead.Count)];
                 power = 25;
                 damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
-                target.health -= damage;
+                newTarget.health -= damage;
                 str_damage = (-damage).ToString();
                 newTarget.damage_text.changeMessage(str_damage);
             }
