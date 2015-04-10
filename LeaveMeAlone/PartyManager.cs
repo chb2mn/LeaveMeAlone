@@ -62,15 +62,15 @@ namespace LeaveMeAlone
             int num = 0;
             if (partysize == 0) //0 means 1 hero
             {
-                num = 4;
+                num = 1;
             }
             else if (partysize <= 5) //1-5 means 2 heroes
             {
-                num = 4;
+                num = 2;
             }
             else if (partysize <= 11) // 6-11 means 3 heroes
             {
-                num = 4;
+                num = 3;
             }
             else // 12-19 means 4 heroes
             {
