@@ -145,7 +145,7 @@ namespace LeaveMeAlone
         }
         public static void Draw(SpriteBatch Spritebatch)
         {
-            Spritebatch.Draw(lairBkgd, new Rectangle(0, 0, 2308, 1200), Color.White);
+            Spritebatch.Draw(lairBkgd, new Rectangle(-500, -200, 2308, 1200), Color.White);
             Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100), 400, 100), Color.White);
             Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (TowerLevel + 1)), 400, 100), Color.White);
             for (int i = 0; i < TowerLevel; i++)
@@ -157,7 +157,7 @@ namespace LeaveMeAlone
 
                 if (PartyManager.partyQueue[j] != null)
                 {
-                    Character.Type placeholder = Character.Type.Ranger;
+                    Character.Type placeholder = Character.Type.LairHero;
                     Character newChar = new Character(placeholder, 1);
                     newChar.sPosition = new Vector2((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY + 20 - 100 * (TowerLevel - j + 1)));
                     newChar.Init();
