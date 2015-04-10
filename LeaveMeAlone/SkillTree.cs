@@ -64,13 +64,13 @@ namespace LeaveMeAlone
             defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
-            portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-            nuclear_waste = new Skill("Nuclear Waste", 5, 0, 3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
-            abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
-            summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
-            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
+            portal_punch = new Skill("Portal Punch", 5, 0,              1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            flamethrower = new Skill("Flamethrower", 10, 0,             1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+            nuclear_waste = new Skill("Nuclear Waste", 5, 0,            3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
+            abomination_form = new Skill("Abomination Form", 1, 10,     5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
+            summon_igor = new Skill("Summon Igor", 5, 300,              3,   1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
+            freeze_ray = new Skill("Freeze Ray", 15, 2500,              20,  2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
+            speedy_shoes = new Skill("Speedy Shoes", 15, 1500,          10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
@@ -94,17 +94,21 @@ namespace LeaveMeAlone
             //int boss_level = BattleManager.boss.level;
             //used to separate buttons horizontally by level
             int kindex = 0;
-            foreach (int key in keys)
+            for (int x = 0; x < keys.Count; x++)
             {
-                Console.WriteLine(key);
+                var key = keys[x];
+                Console.WriteLine("Writing stuff for level" + key);
                 List<Skill> skilltier = skill_tiers[key];
                 int slength = skilltier.Count;
                 int sindex = 0;
-                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 25, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex), Text.fonts["6809Chargen-12"]);
-                //UpgradeMenu.texts.Add(key.ToString(), level);
+
+                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 40, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex), Text.fonts["6809Chargen-12"], Color.White);
+                Console.WriteLine("Created "+level.message+" at " + level.position.Y);
+                UpgradeMenu.texts[key.ToString()] = level;
                 foreach (Skill skill in skilltier)
                 {
-                    Console.WriteLine(skill.name);
+                    Console.WriteLine("Creating button for skill "+skill.name);
+                    Console.Out.Flush();
                     Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 175, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex, 150, 50);
                     b.UpdateText(skill.name);
                     SkillButtons[skill] = b;
@@ -116,11 +120,20 @@ namespace LeaveMeAlone
 
 
         //Instantiates all classes
-        public static void Init()
+        public static void Init(Character.Type t)
         {
-            initBrute();
-            initMastermind();
-            initOperative();
+            switch(t)
+            { 
+                case Character.Type.Brute:
+                    initBrute();
+                    break;
+                case Character.Type.Mastermind:
+                    initMastermind();
+                    break;
+                case Character.Type.Operative:
+                    initOperative();
+                    break;
+            }
             initRanger();
             initMage();
             initKnight();
@@ -209,15 +222,12 @@ namespace LeaveMeAlone
             st.addSkill(flamethrower);
             st.addSkill(nuclear_waste);
             skilltrees[Character.Type.Mage] = st;
-            st.updateTree();
-
         }
         public static void initKnight()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Knight] = st;
-            st.updateTree();
         }
 
         

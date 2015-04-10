@@ -26,10 +26,6 @@ namespace LeaveMeAlone
         public static Vector2 baseRoomButtonPos = new Vector2(400, 550);
         public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
         
-        public static Text goldText;
-        public static Text skillText;
-        public static Text RoomText;
-        public static Text selectedSkillsText;
 
         public static Skill skill_from_skilltree_to_swap;
 
@@ -101,7 +97,7 @@ namespace LeaveMeAlone
 
         public static void Init(MenuBoss boss)
         {
-            SkillTree.Init();
+            SkillTree.Init(boss.bossType);
             selectedBoss = boss;
             skilltree = SkillTree.skilltrees[selectedBoss.bossType];
             selectedBoss.MoveTo(new Vector2(0, 0));
