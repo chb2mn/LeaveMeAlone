@@ -141,8 +141,22 @@ namespace LeaveMeAlone
                     Vector2 mousePos = new Vector2(currentMouseState.X, currentMouseState.Y);
                     if (operative.Contains(mousePos) || brute.Contains(mousePos) || mastermind.Contains(mousePos))
                     {
-                        BattleManager.boss = new Character(100, 75, 10, 10, 10, 25, 1, 1, 100, 0);
-                        BattleManager.boss.charType = current.bossType;
+                        
+                        if (current.bossType == Character.Type.Brute)
+                        {
+                            BattleManager.boss = new Character(100, 50, 10, 50, 10, 25, 1, 1, 100, 0);
+                            BattleManager.boss.charType = current.bossType;
+                        }
+                        else if (current.bossType == Character.Type.Mastermind)
+                        {
+                            BattleManager.boss = new Character(100, 10, 50, 10, 50, 35, 1, 1, 100, 0);
+                            BattleManager.boss.charType = current.bossType;
+                        }
+                        else if (current.bossType == Character.Type.Operative)
+                        {
+                            BattleManager.boss = new Character(100, 25, 25, 25, 25, 50, 1, 1, 100, 0);
+                            BattleManager.boss.charType = current.bossType;
+                        }
                         BattleManager.boss.Init();
 
                         //TODO remove this method of adding skills

@@ -262,7 +262,6 @@ namespace LeaveMeAlone
 
             if (targeted_enemy >= 0)
             {
-                Console.WriteLine(targeted_enemy);
                 //if hero is dead, ignore
                 if (heroes[targeted_enemy] == null)
                 {
@@ -270,7 +269,6 @@ namespace LeaveMeAlone
                     return;
                 }
                 Apply_Status(caster, Status.Effect_Time.Before);
-                Console.WriteLine(targeted_enemy);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
 

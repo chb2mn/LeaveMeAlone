@@ -64,9 +64,9 @@ namespace LeaveMeAlone
             defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
-            portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-            nuclear_waste = new Skill("Nuclear Waste", 5, 0, 3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
+            portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            flamethrower = new Skill("Flamethrower", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+            nuclear_waste = new Skill("Nuclear Waste", 5, 100, 2, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
             freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
@@ -169,8 +169,7 @@ namespace LeaveMeAlone
             SkillTree st = new SkillTree();
             st.addSkill(portal_punch);
             st.addSkill(flamethrower);
-            //st.addSkill(cure);
-            //st.addSkill(fire);
+
             st.addSkill(nuclear_waste);
             st.addSkill(speedy_shoes);
             st.addSkill(abomination_form);
@@ -371,6 +370,7 @@ namespace LeaveMeAlone
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
                 target.damage_text.changeMessage(str_damage);
+                caster.Learn(damage, Character.Knowledge.Str_SAtk);
             }
         }
         public static void Bash(Character caster, Character target = null)
@@ -380,6 +380,8 @@ namespace LeaveMeAlone
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
                 target.damage_text.changeMessage(str_damage);
+                caster.Learn(damage, Character.Knowledge.Str_Atk);
+
             }
         }
         public static void PoisonDagger(Character caster, Character target = null)
