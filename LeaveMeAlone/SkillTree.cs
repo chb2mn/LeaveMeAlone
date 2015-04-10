@@ -76,7 +76,7 @@ namespace LeaveMeAlone
 
             cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 1, "Heals and ally or self", Cure);
             fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
-            magefire = new Skill("fire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire);
+            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire);
             bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 1, "Hit an enemy using physical attack", Bash);
             haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 1, "Speed an ally up so he can hit twice in a row", Haste);
             panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 1, "Cure Self or Ally of all Status effects", Panacea);
@@ -376,7 +376,7 @@ namespace LeaveMeAlone
         public static void Bash(Character caster, Character target = null)
         {
             {
-                int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
+                int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 150);
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
                 target.damage_text.changeMessage(str_damage);

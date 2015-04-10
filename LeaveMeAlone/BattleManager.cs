@@ -889,7 +889,7 @@ namespace LeaveMeAlone
             {
                 if (heroes[i] != null)
                 {
-                    heroLoc[i] = new Rectangle(herobase.X , herobase.Y + 75*i, 50, 50);
+                    heroLoc[i] = new Rectangle(herobase.X , herobase.Y + 75*i, 100, 100);
                     heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
 
                 }
