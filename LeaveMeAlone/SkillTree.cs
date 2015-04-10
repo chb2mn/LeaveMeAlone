@@ -86,11 +86,11 @@ namespace LeaveMeAlone
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             //Brute
-           ethereal_fist = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-           blind_charge = new Skill("Blind Charge", 5, 0, 1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-           //rub_dirt; //damage in proportion to health
-           holk_smash = new Skill("Holk Smush", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-           //norris_kick; //damage one a lot and another a little
+           ethereal_fist = new Skill("Slash", 5, 0,         1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+           blind_charge = new Skill("Blind Charge", 5, 0,   1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
+           rub_dirt =       new Skill("Rub Dirt",   4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on maximum health", RubDirt); //damage in proportion to health
+           holk_smash = new Skill("Holk Smush", 10, 300,    3, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+           norris_kick = new Skill("Norris Kick", 8, 100,      2, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
            //bloodlust_strike; //vampiric
            //raised_by_wolves; //destroy one enemy, damage another, raise your own stats
 
@@ -211,9 +211,11 @@ namespace LeaveMeAlone
         public static void initBrute()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(portal_punch);
-            st.addSkill(flamethrower);
-            st.addSkill(nuclear_waste);
+            st.addSkill(ethereal_fist);
+            st.addSkill(blind_charge);            
+            st.addSkill(rub_dirt);      
+            st.addSkill(holk_smash);          
+            st.addSkill(norris_kick);
 
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
@@ -424,7 +426,34 @@ namespace LeaveMeAlone
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);
         }
+        public static void NorrisKick(Character caster, Character target = null)
+        {
+            int power = 100;
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+            //number of not-killed character
+            List<Character> notDead = new List<Character>();
+            foreach(Character h in BattleManager.heroes)
+            {
+                if(h != null && h != target)
+                {
+                    Console.WriteLine("Adding " + h.charType);
+                    notDead.Add(h);
+                }
+            }
+            if (notDead.Count > 0)
+            {
+                Character newTarget = notDead[LeaveMeAlone.random.Next(notDead.Count)];
+                power = 25;
+                damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
+                target.health -= damage;
+                str_damage = (-damage).ToString();
+                newTarget.damage_text.changeMessage(str_damage);
+            }
 
+        }
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
@@ -528,6 +557,8 @@ namespace LeaveMeAlone
                 }
             }
         }
+
+        
     }
 }
 
