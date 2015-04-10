@@ -62,11 +62,11 @@ namespace LeaveMeAlone
         public int animationNext;
         public Type charType;
 
-        private static Texture2D hood2;
-        private static Texture2D hood1;
-        private static Texture2D mastermind70, operative70, brute70;
+        private static Texture2D Mage140;
+        private static Texture2D Ranger140;
+        private static Texture2D mastermind140, operative140, brute140, lairHero70;
 
-        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative};
+        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
 
         public const int MAX_SKILLS = 6;
 
@@ -185,11 +185,12 @@ namespace LeaveMeAlone
 
         public static void load_content(ContentManager content)
         {
-            hood2 = content.Load<Texture2D>("hood2");
-            hood1 = content.Load<Texture2D>("hood1");
-            brute70 = content.Load<Texture2D>("brute70");
-            mastermind70 = content.Load<Texture2D>("mastermindMenu");
-            operative70 = content.Load<Texture2D>("operative70");
+            Mage140 = content.Load<Texture2D>("Mage140");
+            Ranger140 = content.Load<Texture2D>("Ranger140");
+            brute140 = content.Load<Texture2D>("bruteMenu");
+            mastermind140 = content.Load<Texture2D>("mastermindMenu");
+            operative140 = content.Load<Texture2D>("operativeMenu");
+            lairHero70 = content.Load<Texture2D>("LairHero70");
         }
         public void Init()
         {
@@ -200,30 +201,35 @@ namespace LeaveMeAlone
             facingRight = false;
             if (charType == Type.Mage)
             {
-                sTexture = hood2;
+                sTexture = Mage140;
                 facingRight = true;
             }
             if (charType == Type.Ranger)
             {
-                sTexture = hood2;
+                sTexture = Ranger140;
                 facingRight = true;
             }
             if (charType == Type.Knight)
             {
-                sTexture = hood1;
+                sTexture = Ranger140;
+                facingRight = true;
+            }
+            if (charType == Type.LairHero)
+            {
+                sTexture = lairHero70;
                 facingRight = true;
             }
             if (charType == Type.Brute)
             {
-                sTexture = brute70;
+                sTexture = brute140;
             }
             if (charType == Type.Mastermind)
             {
-                sTexture = mastermind70;
+                sTexture = mastermind140;
             }
             if (charType == Type.Operative)
             {
-                sTexture = operative70;
+                sTexture = operative140;
             }
             idle();
             AddAnimation(12);
@@ -459,7 +465,7 @@ namespace LeaveMeAlone
                 if (status != null)
                 {
                     if (!BattleManager.boss.statuses.Contains(status.inflicts) //If the boss doesn't have the status effect that my status does
-                        && (BattleManager.boss.health * 100) / BattleManager.boss.max_health > 75 //and it has high health
+                        && (BattleManager.boss.health * 100) / BattleManager.boss.max_health > 50 //and it has high health
                         && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
                     {
                         //Use status inflicting skill
@@ -480,6 +486,8 @@ namespace LeaveMeAlone
                     }
                 }
             }
+
+            //average the boss' defense
             int boss_defense = (BattleManager.boss.defense + BattleManager.boss.special_defense) / 2;
             if (str_used)
             {
