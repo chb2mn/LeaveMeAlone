@@ -42,7 +42,7 @@ namespace LeaveMeAlone
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
-            spikeRoom = content.Load<Texture2D>("spikeRoom2");
+            spikeRoom = content.Load<Texture2D>("spikeRoom");
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 

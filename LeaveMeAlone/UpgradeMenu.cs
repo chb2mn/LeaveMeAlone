@@ -242,7 +242,7 @@ namespace LeaveMeAlone
             //gets things that haven't been bought and colors them
             foreach (Skill s in skilltree.SkillButtons.Keys.Except(BattleManager.boss.skills))
             {
-                if (s.cost > Resources.gold)
+                if (s.cost > Resources.gold || BattleManager.boss.level < s.level)
                 {
                     skilltree.SkillButtons[s].text.color = Color.Red;
                 }
@@ -281,7 +281,7 @@ namespace LeaveMeAlone
                 {
                     if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
                     {
-                        if (BattleManager.boss.skills.Contains(s) == false)
+                        if (BattleManager.boss.skills.Contains(s) == false && BattleManager.boss.level >= s.level)
                         {
                             //if you have enough money, buy it
                             if(s.cost < Resources.gold)
