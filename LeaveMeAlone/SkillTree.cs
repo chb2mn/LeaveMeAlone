@@ -26,6 +26,17 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
         public static Skill basic_attack;
         public static Skill defend;
+
+        //Brute
+        public static Skill ethereal_fist;
+        public static Skill blind_charge;
+        public static Skill rub_dirt;
+        public static Skill holk_smash;
+        public static Skill norris_kick;
+        public static Skill bloodlust_strike;
+        public static Skill raised_by_wolves;
+
+        //Mastermind
         public static Skill portal_punch;
         public static Skill flamethrower;
         public static Skill nuclear_waste;
@@ -34,6 +45,16 @@ namespace LeaveMeAlone
         public static Skill freeze_ray;
         public static Skill speedy_shoes;
 
+        //Operative
+        public static Skill slash;
+        public static Skill shuriken;
+        public static Skill garrote_watch;
+        public static Skill silver_alloy_gun;
+        public static Skill exploding_pen;
+        public static Skill bladed_shoes;
+        public static Skill nuclear_warhead;
+
+        //heroes
         public static Skill cure;
         public static Skill panacea;
         public static Skill fire;
@@ -64,19 +85,39 @@ namespace LeaveMeAlone
             defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
-            portal_punch = new Skill("Portal Punch", 5, 0,              1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            flamethrower = new Skill("Flamethrower", 10, 0,             1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-            nuclear_waste = new Skill("Nuclear Waste", 5, 0,            3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
-            abomination_form = new Skill("Abomination Form", 1, 10,     5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
-            summon_igor = new Skill("Summon Igor", 5, 300,              3,   1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("Freeze Ray", 15, 2500,              20,  2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
-            speedy_shoes = new Skill("Speedy Shoes", 15, 1500,          10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
+            //Brute
+           ethereal_fist = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+           blind_charge = new Skill("Blind Charge", 5, 0, 1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
+           //rub_dirt; //damage in proportion to health
+           holk_smash = new Skill("Holk Smush", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+           //norris_kick; //damage one a lot and another a little
+           //bloodlust_strike; //vampiric
+           //raised_by_wolves; //destroy one enemy, damage another, raise your own stats
+
+            //Mastermind
+            portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            flamethrower = new Skill("Flamethrower", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+            nuclear_waste = new Skill("Nuclear Waste", 5, 100, 2, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
+            abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
+            summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
+            freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
+            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
+
+
+            //Operative
+            slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            shuriken = new Skill("Shuriken", 10, 300, 1, 0, Skill.Target.All, 1, "It bounces off of all enemies!", FlameThrower);
+            //garrote_watch; //remove at low health
+            //silver_alloy_gun; //hit and stun
+            exploding_pen = new Skill("Exploding Pen", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor); ;
+            bladed_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
+            //nuclear_warhead; // hit all for a lot of damage combo str and spec.
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
             cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 1, "Heals and ally or self", Cure);
             fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
-            magefire = new Skill("fire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire);
+            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire);
             bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 1, "Hit an enemy using physical attack", Bash);
             haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 1, "Speed an ally up so he can hit twice in a row", Haste);
             panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 1, "Cure Self or Ally of all Status effects", Panacea);
@@ -185,8 +226,7 @@ namespace LeaveMeAlone
             SkillTree st = new SkillTree();
             st.addSkill(portal_punch);
             st.addSkill(flamethrower);
-            //st.addSkill(cure);
-            //st.addSkill(fire);
+
             st.addSkill(nuclear_waste);
             st.addSkill(speedy_shoes);
             st.addSkill(abomination_form);
@@ -367,10 +407,28 @@ namespace LeaveMeAlone
             caster.statuses.Add(new Status("haste", 3*2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.haste_image, Status.DoNothing));
         }
 
+        public static void BlindCharge(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 200);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+            
+            caster.statuses.Add(new Status("stun", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
+        }
+
+        public static void RubDirt(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 75 + (caster.max_health-caster.health));
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+        }
+
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
-            int heal_pts = caster.special_attack/2;
+            int heal_pts = caster.special_attack/3;
             target.health += heal_pts;
             if (target.health > target.max_health)
             {
@@ -384,15 +442,18 @@ namespace LeaveMeAlone
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
                 target.damage_text.changeMessage(str_damage);
+                caster.Learn(damage, Character.Knowledge.Weak_SDef);
             }
         }
         public static void Bash(Character caster, Character target = null)
         {
             {
-                int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
+                int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 150);
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
                 target.damage_text.changeMessage(str_damage);
+                caster.Learn(damage, Character.Knowledge.Weak_Def);
+
             }
         }
         public static void PoisonDagger(Character caster, Character target = null)

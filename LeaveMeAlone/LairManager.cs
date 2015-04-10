@@ -12,8 +12,11 @@ namespace LeaveMeAlone
 {
     public class LairManager
     {
+        public static bool EndOfGame;
         public static int TowerLevel;
         public static int MaxLevel;
+        public static Text InfoText;
+        public static int texttimer;
         public static Vector2 towerPosition;
         public static List<Room> LairRooms;
         private static Texture2D lairBkgd, lairLobby, bossRoom, spikeRoom, unconstructed_room;
@@ -27,13 +30,15 @@ namespace LeaveMeAlone
         public static void loadContent(ContentManager content)
         {
             selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
+            EndOfGame = false;
             TowerLevel = 0;
             MaxLevel = 3;
+            InfoText = new Text("", new Vector2(LeaveMeAlone.WindowX - 350, LeaveMeAlone.WindowY - 200), Text.fonts["6809Chargen-24"], Color.Black);
             towerPosition = new Vector2(0, 0);
             LairRooms = new List<Room>();
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
             constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 175, 200, 75);
-            nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), -50, LeaveMeAlone.WindowY - 200, 200, 75);
+            nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Height - 75, 200, 75);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
@@ -94,7 +99,7 @@ namespace LeaveMeAlone
                     else
                     {
                         //Should have some sort of interface on screen
-                        Console.Write("No party! Take a breather.");
+                        InfoText.changeMessage("No party!\n      Take a breather.");
                         return LeaveMeAlone.GameState.Lair;
                     }
                 }
@@ -117,7 +122,8 @@ namespace LeaveMeAlone
                     }
                     else
                     {
-                        Console.WriteLine("MaxLevel Reached");
+                        InfoText.changeMessage("Max Lair Height");
+                        texttimer = 600;
                     }
                     return LeaveMeAlone.GameState.Lair;
                 }
@@ -145,7 +151,7 @@ namespace LeaveMeAlone
         }
         public static void Draw(SpriteBatch Spritebatch)
         {
-            Spritebatch.Draw(lairBkgd, new Rectangle(0, 0, 2308, 1200), Color.White);
+            Spritebatch.Draw(lairBkgd, new Rectangle(-500, -200, 2308, 1200), Color.White);
             Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100), 400, 100), Color.White);
             Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (TowerLevel + 1)), 400, 100), Color.White);
             for (int i = 0; i < TowerLevel; i++)
@@ -157,7 +163,7 @@ namespace LeaveMeAlone
 
                 if (PartyManager.partyQueue[j] != null)
                 {
-                    Character.Type placeholder = Character.Type.Ranger;
+                    Character.Type placeholder = Character.Type.LairHero;
                     Character newChar = new Character(placeholder, 1);
                     newChar.sPosition = new Vector2((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY + 20 - 100 * (TowerLevel - j + 1)));
                     newChar.Init();
@@ -173,6 +179,8 @@ namespace LeaveMeAlone
             nextwaveBtn.Draw(Spritebatch);
             skillsBtn.Draw(Spritebatch);
             constructionBtn.Draw(Spritebatch);
+            InfoText.Draw(Spritebatch);
+
         }
 
         internal static void addRoom(UpgradeMenu.ButtonRoom buttonRoom)

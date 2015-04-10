@@ -202,7 +202,8 @@ namespace LeaveMeAlone
         public static void loadContent(ContentManager content)
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
-            next = new Button(content.Load<Texture2D>("next"), 900, 500, 113, 32);
+
+            next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
         }
 
@@ -269,11 +270,13 @@ namespace LeaveMeAlone
                         }
                     }
                 }
+                //check the next button
                 if (next.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     BattleManager.bossDefaultPosition();
                     return LeaveMeAlone.GameState.Lair;
                 }
+                //check if we clicked on a skill
                 foreach (Skill s in skilltree.SkillButtons.Keys)
                 {
                     if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))

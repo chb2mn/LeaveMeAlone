@@ -21,6 +21,7 @@ namespace LeaveMeAlone
         public static List<Character> heroes = new List<Character>(4);
         public static List<Text> hero_hp = new List<Text>(4);
         public static List<Rectangle> heroLoc = new List<Rectangle>();
+        public static Point herobase = new Point(75, 120);
 
         public static Dictionary<Character.Knowledge, bool> Knowledge = new Dictionary<Character.Knowledge,bool>();
 
@@ -81,8 +82,10 @@ namespace LeaveMeAlone
 
 
             bkgd = Content.Load<Texture2D>("skyscraperBkgd");
-            int button_basex = 100;
-            int button_basey = LeaveMeAlone.WindowY - 200;
+
+            int button_basex = 300;
+            int button_basey = LeaveMeAlone.WindowY - 150;
+
 
             //remove all knowledge that the enemy heroes have
             Knowledge.Clear();
@@ -109,8 +112,7 @@ namespace LeaveMeAlone
             basic_buttons[3].UpdateText("Bribe");
 
 
-
-            bossLoc = new Rectangle(LeaveMeAlone.WindowX-150, LeaveMeAlone.WindowY/2 - 100, 200, 200); 
+            bossLoc = new Rectangle(LeaveMeAlone.WindowX-300, LeaveMeAlone.WindowY/2 - 150, 200, 200); 
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
             boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
 
@@ -158,6 +160,7 @@ namespace LeaveMeAlone
             victory = false;
             defeat = false;
             haste_check = false;
+            enemy_turn = -1;
             state = State.Basic;
             boss.health = boss.max_health;
             boss.energy = boss.max_energy;
@@ -259,7 +262,6 @@ namespace LeaveMeAlone
 
             if (targeted_enemy >= 0)
             {
-                Console.WriteLine(targeted_enemy);
                 //if hero is dead, ignore
                 if (heroes[targeted_enemy] == null)
                 {
@@ -267,7 +269,6 @@ namespace LeaveMeAlone
                     return;
                 }
                 Apply_Status(caster, Status.Effect_Time.Before);
-                Console.WriteLine(targeted_enemy);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
 
@@ -333,6 +334,7 @@ namespace LeaveMeAlone
                 {
                     enemy_turn = 0;
                     state = State.EnemyTurn;
+                    haste_check = false;
                 }
             }
             //Check after the Boss goes
@@ -747,7 +749,7 @@ namespace LeaveMeAlone
         {
             //Do Background drawing
 
-            spriteBatch.Draw(bkgd, new Rectangle(0, 0, 2000, 1086), Color.White);
+            spriteBatch.Draw(bkgd, new Rectangle(-450, -100, 2000, 1086), Color.White);
             //Draw Heroes
             //Console.WriteLine("State: " + state.ToString() + " Hovered Enemy: "+hovered_enemy);
             for (int i = 0; i < heroes.Count(); i++)
@@ -760,7 +762,7 @@ namespace LeaveMeAlone
                         if (state == State.Target || state == State.Bribe)
                         {
                             target_text.Draw(spriteBatch);
-                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Red);
+                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 90, heroLoc[i].Location.Y), Color.Red);
                         }
                     }
                     else
@@ -769,7 +771,7 @@ namespace LeaveMeAlone
                         if (state == State.Target || state == State.Bribe)
                         {
                             target_text.Draw(spriteBatch);
-                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 45, heroLoc[i].Location.Y), Color.Black);
+                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 90, heroLoc[i].Location.Y), Color.Black);
                         }
                     }
                     hero_hp[i].Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
@@ -879,7 +881,7 @@ namespace LeaveMeAlone
 
         public static void bossDefaultPosition()
         {
-            boss.sPosition = new Vector2(LeaveMeAlone.WindowX-160, LeaveMeAlone.WindowY/2);
+            boss.sPosition = new Vector2(LeaveMeAlone.WindowX-260, LeaveMeAlone.WindowY/2);
         }
         public static void setHeroesPosition()
         {
@@ -887,7 +889,7 @@ namespace LeaveMeAlone
             {
                 if (heroes[i] != null)
                 {
-                    heroLoc[i] = new Rectangle(heroLoc[i].X, heroLoc[i].Y + 200, 100, 100);
+                    heroLoc[i] = new Rectangle(herobase.X - 50*i + 150, herobase.Y + 100*i, 150, 100);
                     heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
 
                 }

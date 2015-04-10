@@ -62,11 +62,11 @@ namespace LeaveMeAlone
         public int animationNext;
         public Type charType;
 
-        private static Texture2D hood2;
-        private static Texture2D hood1;
-        private static Texture2D mastermind70, operative70, brute70;
+        private static Texture2D Mage140;
+        private static Texture2D Ranger140, Knight140;
+        private static Texture2D mastermind140, operative140, brute140, lairHero70;
 
-        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative};
+        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
 
         public const int MAX_SKILLS = 6;
 
@@ -98,7 +98,8 @@ namespace LeaveMeAlone
         {
             this.level = level;
             this.charType = t;
-
+            basic_attack = SkillTree.basic_attack;
+            defend = SkillTree.defend;
             switch(t)
             {
                 case Type.Ranger:
@@ -115,8 +116,7 @@ namespace LeaveMeAlone
                     break;
             }
 
-            basic_attack = SkillTree.basic_attack;
-            defend = SkillTree.defend;
+            
 
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
 
@@ -139,14 +139,17 @@ namespace LeaveMeAlone
             health = max_health;
             attack = 10;
             special_attack = 10;
-            defense = 10;
-            special_defense = 10;
+            defense = 7;
+            special_defense = 7;
             max_energy = 35;
             energy = max_energy;
             manaRechargeRate = 1;
             gold = 100;
             exp = 100;
             cure = SkillTree.cure;
+            strong_attack = SkillTree.bash;
+            status = SkillTree.poison_dagger;
+            esuna = SkillTree.panacea;
         }
         private void initMage()
         {
@@ -155,7 +158,7 @@ namespace LeaveMeAlone
             attack = 5;
             special_attack = 25;
             defense = 5;
-            special_defense = 25;
+            special_defense = 15;
             max_energy = 15;
             energy = max_energy;
             manaRechargeRate = 1;
@@ -170,22 +173,25 @@ namespace LeaveMeAlone
             health = max_health;
             attack = 25;
             special_attack = 5;
-            defense = 500;
-            special_defense = 0;
+            defense = 15;
+            special_defense = 5;
             max_energy = 5;
             energy = max_energy;
             manaRechargeRate = 1;
             gold = 100;
             exp = 100;
+            strong_attack = SkillTree.bash;
         }
 
         public static void load_content(ContentManager content)
         {
-            hood2 = content.Load<Texture2D>("hood2");
-            hood1 = content.Load<Texture2D>("hood1");
-            brute70 = content.Load<Texture2D>("brute70");
-            mastermind70 = content.Load<Texture2D>("mastermindMenu");
-            operative70 = content.Load<Texture2D>("operative70");
+            Mage140 = content.Load<Texture2D>("Mage140");
+            Ranger140 = content.Load<Texture2D>("Ranger140");
+            Knight140 = content.Load<Texture2D>("Knight140");
+            brute140 = content.Load<Texture2D>("bruteMenu");
+            mastermind140 = content.Load<Texture2D>("mastermindMenu");
+            operative140 = content.Load<Texture2D>("operativeMenu");
+            lairHero70 = content.Load<Texture2D>("LairHero70");
         }
         public void Init()
         {
@@ -196,30 +202,35 @@ namespace LeaveMeAlone
             facingRight = false;
             if (charType == Type.Mage)
             {
-                sTexture = hood2;
+                sTexture = Mage140;
                 facingRight = true;
             }
             if (charType == Type.Ranger)
             {
-                sTexture = hood2;
+                sTexture = Ranger140;
                 facingRight = true;
             }
             if (charType == Type.Knight)
             {
-                sTexture = hood1;
+                sTexture = Knight140;
+                facingRight = true;
+            }
+            if (charType == Type.LairHero)
+            {
+                sTexture = lairHero70;
                 facingRight = true;
             }
             if (charType == Type.Brute)
             {
-                sTexture = brute70;
+                sTexture = brute140;
             }
             if (charType == Type.Mastermind)
             {
-                sTexture = mastermind70;
+                sTexture = mastermind140;
             }
             if (charType == Type.Operative)
             {
-                sTexture = operative70;
+                sTexture = operative140;
             }
             idle();
             AddAnimation(12);
@@ -303,6 +314,10 @@ namespace LeaveMeAlone
             if (facingRight)
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
+                if (charType == Character.Type.Knight)
+                {
+                    oPosition = new Vector2(sPosition.X + 5, sPosition.Y - 50);
+                }
                 spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                 int i = 0;
                 foreach (Status status in this.statuses)
@@ -341,16 +356,33 @@ namespace LeaveMeAlone
             }
         }
 
+        public void Learn(int real_damage, Character.Knowledge idea)
+        {
+            //if it was effective of an attack
+            if (real_damage >= 1.1*(double)expected_damage)
+            {
+                BattleManager.Knowledge[idea] = true;
+            }
+            else if (real_damage <= .9 * (double)expected_damage)
+            {
+                BattleManager.Knowledge[idea] = false;
+            }
+        }
+
         public KeyValuePair<Skill, int> Think()
         {
             // Get the health remaining if normalized to 100
             // Essentially, this is a percentage times 100
             Random random = new Random();
-
             int my_target = -2; //-2 is boss, -1 is nobody, 0-3 is heroes
-            Skill selected_skill = basic_attack;
+            Skill selected_skill = null;
             bool str_used = true;
             int thought = random.Next(100);
+
+            foreach ( KeyValuePair<Character.Knowledge, bool> kvp in BattleManager.Knowledge)
+            {
+                Console.WriteLine("Knowledge = {0}, Value = {1}", kvp.Key, kvp.Value);
+            }
 
             //They don't help each other
             int[] normal_health = new int[4];
@@ -455,7 +487,7 @@ namespace LeaveMeAlone
                 if (status != null)
                 {
                     if (!BattleManager.boss.statuses.Contains(status.inflicts) //If the boss doesn't have the status effect that my status does
-                        && (BattleManager.boss.health * 100) / BattleManager.boss.max_health > 75 //and it has high health
+                        && (BattleManager.boss.health * 100) / BattleManager.boss.max_health > 50 //and it has high health
                         && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
                     {
                         //Use status inflicting skill
@@ -476,16 +508,56 @@ namespace LeaveMeAlone
                     }
                 }
             }
-            int boss_defense = (BattleManager.boss.defense + BattleManager.boss.special_defense) / 2;
+
+            thought = random.Next(100);
+            //if we still haven't picked a skill, pick a random attack
+            if (selected_skill == null)
+            {
+                if (thought < 66)
+                {
+                    //most of the time we want to attack
+                    selected_skill = basic_attack;
+                }
+                else if (thought > 90)
+                {
+                    //maybe we want to defend
+                    selected_skill = defend;
+                }
+                else
+                {
+                    if (strong_attack != null)
+                    {
+                        selected_skill = strong_attack;
+                    }
+                    else if (strong_special != null)
+                    {
+                        selected_skill = strong_special;
+                        str_used = false;
+                    }
+                    else if (status != null)
+                    {
+                        selected_skill = status;
+                    }
+                    else
+                    {
+                        selected_skill = basic_attack;
+                    }
+                }
+            }
+
+            //average the boss' defense plus or minus a third
+            int boss_defense = (int) (LeaveMeAlone.random.Next(80, 120) * (double)((BattleManager.boss.defense + BattleManager.boss.special_defense) / 2) / LeaveMeAlone.random.Next(80,120));
+
             if (str_used)
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / boss_defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)attack / boss_defense) * 100));
             }
             else
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / boss_defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)special_attack / boss_defense) * 100));
             }
-            
+            Console.WriteLine("Expected: " + expected_damage);
+            Console.WriteLine("Data: {0}, {1}, {2}", level, attack, boss_defense);
             damage_text.changeMessage(selected_skill.name);
             //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
             return new KeyValuePair<Skill, int>(selected_skill, my_target);
