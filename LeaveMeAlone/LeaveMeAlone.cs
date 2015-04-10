@@ -85,7 +85,7 @@ namespace LeaveMeAlone
             //Skill s = new Skill("test", 1, 100, 1, 0, 0, "My first skill", new Skill.Run(test));
             //s.runnable(boss_char);
                         MainMenu.init();
-            SkillTree.Init();
+            //SkillTree.Init();
             PartyManager.Init();
             Resources.Init();
 
@@ -118,7 +118,7 @@ namespace LeaveMeAlone
             PartyManager.Init();
             Resources.Init();
             SkillTree.LoadContent(Content);
-            SkillTree.Init();
+            //SkillTree.Init();
 
 
             Character.load_content(Content);

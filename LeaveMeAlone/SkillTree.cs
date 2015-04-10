@@ -87,13 +87,15 @@ namespace LeaveMeAlone
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             //Brute
-           ethereal_fist = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-           blind_charge = new Skill("Blind Charge", 5, 0, 1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-       //    rub_dirt; //damage in proportion to health
-           holk_smash = new Skill("Holk Smush", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-       //    norris_kick; //damage one a lot and another a little
-        //   bloodlust_strike; //vampiric
-        //   raised_by_wolves; //destroy one enemy, damage another, raise your own stats
+
+           ethereal_fist = new Skill("Slash", 5, 0,         1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+           blind_charge = new Skill("Blind Charge", 5, 0,   1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
+           rub_dirt =       new Skill("Rub Dirt",   4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
+           holk_smash = new Skill("Holk Smush", 10, 300,    3, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+           norris_kick = new Skill("Norris Kick", 8, 100,      2, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
+           bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 3, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
+           raised_by_wolves = new Skill("Raised by wolves", 25, 500, 5, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves);; //destroy one enemy, damage another, raise your own stats
+
 
             //Mastermind
             portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -104,16 +106,17 @@ namespace LeaveMeAlone
             freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
             speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
 
+
             //Operative
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             shuriken = new Skill("Shuriken", 10, 300, 1, 0, Skill.Target.All, 1, "It bounces off of all enemies!", FlameThrower);
+
             backstab = new Skill("Backstab", 10, 300, 1, 2, Skill.Target.Self, 1, "Hit an enemy ignoring defense", Backstab); // hit ignore defense
             garrote_watch = new Skill("Garrote Watch", 5, 300, 5, 0, Skill.Target.Single, 1, "Kill an enemy below 15% hp", GarroteWatch); //remove at low health
             silver_alloy_gun = new Skill("Silver Alloy Gun", 15, 500, 10, 2, Skill.Target.Single, 1, "Hit and Stun an enemy", SilverAlloyGun); //hit and stun
             exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
             bladed_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
             nuclear_warhead = new Skill("Nuclear Warhead", 20, 3000, 20, 3, Skill.Target.All, 1, "Do huge damage to all enemies", NuclearWarhead); // hit all for a lot of damage combo str and spec.
-
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
@@ -129,27 +132,34 @@ namespace LeaveMeAlone
             poison_pit = new Room("Poison Pit", 100, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
         }
 
-        //Updates or creates the buttons and 
+        //Updates or creates the buttons and text
+        //If this is run multiple times it might ruin the texts in UpgradeMenu
         public void updateTree()
         {
+           
             List<int> keys = skill_tiers.Keys.ToList();
             keys.Sort();
             //int boss_level = BattleManager.boss.level;
             //used to separate buttons horizontally by level
             int kindex = 0;
-            foreach (int key in keys)
+            for (int x = 0; x < keys.Count; x++)
             {
-                Console.WriteLine(key);
+                var key = keys[x];
+                Console.WriteLine("Writing stuff for level" + key);
                 List<Skill> skilltier = skill_tiers[key];
                 int slength = skilltier.Count;
                 int sindex = 0;
-                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 25, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex), Text.fonts["6809Chargen-12"]);
-                //UpgradeMenu.texts.Add(key.ToString(), level);
+
+                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 40, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex), Text.fonts["6809Chargen-12"], Color.White);
+                Console.WriteLine("Created "+level.message+" at " + level.position.Y);
+                UpgradeMenu.texts[key.ToString()] = level;
                 foreach (Skill skill in skilltier)
                 {
-                    Console.WriteLine(skill.name);
-                    Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 175, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex, 150, 50);
+                    Console.WriteLine("Creating button for skill "+skill.name);
+                    Console.Out.Flush();
+                    Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 225, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex, 200, 50);
                     b.UpdateText(skill.name);
+                    b.text.font = Text.fonts["6809Chargen-12"];
                     SkillButtons[skill] = b;
                     sindex++;
                 }
@@ -159,11 +169,20 @@ namespace LeaveMeAlone
 
 
         //Instantiates all classes
-        public static void Init()
+        public static void Init(Character.Type t)
         {
-            initBrute();
-            initMastermind();
-            initOperative();
+            switch(t)
+            { 
+                case Character.Type.Brute:
+                    initBrute();
+                    break;
+                case Character.Type.Mastermind:
+                    initMastermind();
+                    break;
+                case Character.Type.Operative:
+                    initOperative();
+                    break;
+            }
             initRanger();
             initMage();
             initKnight();
@@ -197,9 +216,13 @@ namespace LeaveMeAlone
         public static void initBrute()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(portal_punch);
-            st.addSkill(flamethrower);
-            st.addSkill(nuclear_waste);
+            st.addSkill(ethereal_fist);
+            st.addSkill(blind_charge);            
+            st.addSkill(rub_dirt);      
+            st.addSkill(holk_smash);          
+            st.addSkill(norris_kick);
+            st.addSkill(bloodlust_strike);
+            st.addSkill(raised_by_wolves);
 
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
@@ -258,15 +281,12 @@ namespace LeaveMeAlone
             st.addSkill(flamethrower);
             st.addSkill(nuclear_waste);
             skilltrees[Character.Type.Mage] = st;
-            st.updateTree();
-
         }
         public static void initKnight()
         {
             SkillTree st = new SkillTree();
             //addSkill(level, skill)
             skilltrees[Character.Type.Knight] = st;
-            st.updateTree();
         }
 
         
@@ -419,6 +439,77 @@ namespace LeaveMeAlone
             target.health -= damage;
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);
+        }
+        public static void NorrisKick(Character caster, Character target = null)
+        {
+            int power = 100;
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+            //number of not-killed character
+            List<Character> notDead = new List<Character>();
+            foreach(Character h in BattleManager.heroes)
+            {
+                if(h != null && h != target)
+                {
+                    Console.WriteLine("Adding " + h.charType);
+                    notDead.Add(h);
+                }
+            }
+            if (notDead.Count > 0)
+            {
+                Character newTarget = notDead[LeaveMeAlone.random.Next(notDead.Count)];
+                power = 25;
+                damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
+                newTarget.health -= damage;
+                str_damage = (-damage).ToString();
+                newTarget.damage_text.changeMessage(str_damage);
+            }
+
+        }
+        public static void BloodlustStrike(Character caster, Character target = null)
+        {
+            int power = 100;
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+
+            caster.health += damage;
+            str_damage = "+"+(Math.Abs(damage)).ToString();
+            caster.damage_text.changeMessage(str_damage);
+        }
+        public static void RaisedByWolves(Character caster, Character target = null)
+        {
+            String str_damage = (-target.health).ToString();
+            target.damage_text.changeMessage(str_damage);
+            target.health = 0;
+
+            List<Character> notDead = new List<Character>();
+            foreach (Character h in BattleManager.heroes)
+            {
+                if (h != null && h != target)
+                {
+                    Console.WriteLine("Adding " + h.charType);
+                    notDead.Add(h);
+                }
+            }
+            if (notDead.Count > 0)
+            {
+                Character newTarget = notDead[LeaveMeAlone.random.Next(notDead.Count)];
+                int power = 40;
+                int damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
+                newTarget.health -= damage;
+                str_damage = (-damage).ToString();
+                newTarget.damage_text.changeMessage(str_damage);
+            }
+
+
+            if (caster.statuses.Contains(Status.check_attackplus) == false)
+            {
+                caster.statuses.Add(new Status("attack_up", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.RaiseAttack, Status.ReduceAttack));
+            }
         }
 
         public static void GarroteWatch(Character caster, Character target = null)
@@ -573,6 +664,8 @@ namespace LeaveMeAlone
                 }
             }
         }
+
+        
     }
 }
 
