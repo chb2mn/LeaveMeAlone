@@ -13,6 +13,7 @@ namespace LeaveMeAlone
     public class LairManager
     {
         public static bool EndOfGame;
+        private static bool one_last_party = true;
         public static int TowerLevel;
         public static int MaxLevel;
         public static Text InfoText;
@@ -38,13 +39,13 @@ namespace LeaveMeAlone
             LairRooms = new List<Room>();
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
             constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 175, 200, 75);
-            nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), -50, LeaveMeAlone.WindowY - 200, 200, 75);
+            nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Height - 75, 200, 75);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
             spikeRoom = content.Load<Texture2D>("spikeRoom");
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
-            UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room);
+            UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
         }
         public static void LairAttack(Room room, List<Character> party)
@@ -82,32 +83,45 @@ namespace LeaveMeAlone
                         {
                             PartyManager.partyQueue[i] = null;
                         }
-                    }
-                    for (int i = 0; i < TowerLevel; i++)
-                    {
-                        LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
-                    }
-                    Random random = new Random();
-                    int makeParty = random.Next(100) % 2;
-                    if (makeParty == 1)
-                    {
-                        List<Character> newParty = PartyManager.CreateParty();
-                        PartyManager.partyQueue.Add(newParty);
-                    }
-                    else
-                    {
-                        PartyManager.partyQueue.Add(null);
-                    }
-                    if (PartyManager.popParty())
-                    {
-                        BattleManager.Init();
-                        return LeaveMeAlone.GameState.Battle;
+                        InfoText.changeMessage("PEASANTS!\nOUT OF THE WAY!\nHE'S OURS");
+                        if (one_last_party)
+                        {
+                            List<Character> FinalParty = new List<Character>();
+                        }
+                        else
+                        {
+
+                        }
+
                     }
                     else
                     {
-                        //Should have some sort of interface on screen
-                        InfoText.changeMessage("No party!\n      Take a breather.");
-                        return LeaveMeAlone.GameState.Lair;
+                        for (int i = 0; i < TowerLevel; i++)
+                        {
+                            LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
+                        }
+                        Random random = new Random();
+                        int makeParty = random.Next(100) % 2;
+                        if (makeParty == 1)
+                        {
+                            List<Character> newParty = PartyManager.CreateParty();
+                            PartyManager.partyQueue.Add(newParty);
+                        }
+                        else
+                        {
+                            PartyManager.partyQueue.Add(null);
+                        }
+                        if (PartyManager.popParty())
+                        {
+                            BattleManager.Init();
+                            return LeaveMeAlone.GameState.Battle;
+                        }
+                        else
+                        {
+                            //Should have some sort of interface on screen
+                            InfoText.changeMessage("No party!\n      Take a breather.");
+                            return LeaveMeAlone.GameState.Lair;
+                        }
                     }
                 }
                 if (skillsBtn.Intersects(currentMouseState.X, currentMouseState.Y))
@@ -193,6 +207,8 @@ namespace LeaveMeAlone
         internal static void addRoom(UpgradeMenu.ButtonRoom buttonRoom)
         {
             var cbutton = new Button(buttonRoom.r.img, 30, 50 + 60 * boughtRooms.Count, 100, 50);
+            cbutton.text.font = Text.fonts["RetroComputer-12"];
+            cbutton.text.position = new Vector2(140, 50 + 10 + 60 * boughtRooms.Count);
             var croom = new Room(buttonRoom.r.name, buttonRoom.r.cost, buttonRoom.r.level, buttonRoom.r.type, buttonRoom.r.description, buttonRoom.r.activate, buttonRoom.r.img);
             var copy = new UpgradeMenu.ButtonRoom(cbutton, croom);
             boughtRooms.Add(copy);

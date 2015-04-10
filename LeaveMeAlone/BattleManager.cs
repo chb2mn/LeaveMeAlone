@@ -135,7 +135,7 @@ namespace LeaveMeAlone
             info_counter = 240;
 
 
-            next_button = new Button(Content.Load<Texture2D>("Next"), 325, 100, 113, 32);
+            next_button = new Button(Content.Load<Texture2D>("Next"), LeaveMeAlone.BackgroundRect.Width - 120, LeaveMeAlone.BackgroundRect.Height - 50, 113, 32);
 
             //---Bribe Stuff---//
             bribe_gold = 0;
@@ -663,6 +663,7 @@ namespace LeaveMeAlone
                                 //MainMenu.init();
                                 heroLoc.Clear();
                                 victory = false;
+                                UpgradeMenu.rerollRooms();
                                 return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)
