@@ -76,7 +76,7 @@ namespace LeaveMeAlone
         }
         public static void LoadContent(ContentManager content)
         {
-            spike_room_image = content.Load<Texture2D>("spikeRoom2");
+            spike_room_image = content.Load<Texture2D>("spikeRoom");
             poison_pit_image = content.Load<Texture2D>("PoisonPit");
             //buttonPic = content.Load<Texture2D>("buttonbase");
 
@@ -88,11 +88,11 @@ namespace LeaveMeAlone
             //Brute
            ethereal_fist = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
            blind_charge = new Skill("Blind Charge", 5, 0, 1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-           rub_dirt; //damage in proportion to health
+           //rub_dirt; //damage in proportion to health
            holk_smash = new Skill("Holk Smush", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-           norris_kick; //damage one a lot and another a little
-           bloodlust_strike; //vampiric
-           raised_by_wolves; //destroy one enemy, damage another, raise your own stats
+          // norris_kick; //damage one a lot and another a little
+           //bloodlust_strike; //vampiric
+           //raised_by_wolves; //destroy one enemy, damage another, raise your own stats
 
             //Mastermind
             portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -106,11 +106,11 @@ namespace LeaveMeAlone
             //Operative
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             shuriken = new Skill("Shuriken", 10, 300, 1, 0, Skill.Target.All, 1, "It bounces off of all enemies!", FlameThrower);
-            garrote_watch; //remove at low health
-            silver_alloy_gun; //hit and stun
+            //garrote_watch; //remove at low health
+            //silver_alloy_gun; //hit and stun
             exploding_pen = new Skill("Exploding Pen", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor); ;
             bladed_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
-            nuclear_warhead; // hit all for a lot of damage combo str and spec.
+            //nuclear_warhead; // hit all for a lot of damage combo str and spec.
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
