@@ -77,7 +77,7 @@ namespace LeaveMeAlone
         }
         public static void LoadContent(ContentManager content)
         {
-            spike_room_image = content.Load<Texture2D>("spikeRoom2");
+            spike_room_image = content.Load<Texture2D>("spikeRoom");
             poison_pit_image = content.Load<Texture2D>("PoisonPit");
             //buttonPic = content.Load<Texture2D>("buttonbase");
 
@@ -113,6 +113,7 @@ namespace LeaveMeAlone
             exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
             bladed_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
             nuclear_warhead = new Skill("Nuclear Warhead", 20, 3000, 20, 3, Skill.Target.All, 1, "Do huge damage to all enemies", NuclearWarhead); // hit all for a lot of damage combo str and spec.
+
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
