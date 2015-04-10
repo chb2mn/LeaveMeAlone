@@ -63,7 +63,7 @@ namespace LeaveMeAlone
         public Type charType;
 
         private static Texture2D Mage140;
-        private static Texture2D Ranger140;
+        private static Texture2D Ranger140, Knight140;
         private static Texture2D mastermind140, operative140, brute140, lairHero70;
 
         public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
@@ -187,6 +187,7 @@ namespace LeaveMeAlone
         {
             Mage140 = content.Load<Texture2D>("Mage140");
             Ranger140 = content.Load<Texture2D>("Ranger140");
+            Knight140 = content.Load<Texture2D>("Knight140");
             brute140 = content.Load<Texture2D>("bruteMenu");
             mastermind140 = content.Load<Texture2D>("mastermindMenu");
             operative140 = content.Load<Texture2D>("operativeMenu");
@@ -211,7 +212,7 @@ namespace LeaveMeAlone
             }
             if (charType == Type.Knight)
             {
-                sTexture = Ranger140;
+                sTexture = Knight140;
                 facingRight = true;
             }
             if (charType == Type.LairHero)
@@ -313,6 +314,10 @@ namespace LeaveMeAlone
             if (facingRight)
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
+                if (charType == Character.Type.Knight)
+                {
+                    oPosition = new Vector2(sPosition.X + 5, sPosition.Y - 50);
+                }
                 spriteBatch.Draw(sTexture, oPosition, sRectangles[frameIndex], color, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                 int i = 0;
                 foreach (Status status in this.statuses)
