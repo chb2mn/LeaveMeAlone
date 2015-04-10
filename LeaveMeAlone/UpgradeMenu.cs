@@ -124,7 +124,7 @@ namespace LeaveMeAlone
         public static void loadContent(ContentManager content)
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
-            next = new Button(content.Load<Texture2D>("next"), 1000, 1000, 113, 32);
+            next = new Button(content.Load<Texture2D>("next"), 00, 00, 113, 32);
         }
 
         public static LeaveMeAlone.GameState Update(GameTime g)
