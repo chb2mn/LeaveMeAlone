@@ -402,6 +402,7 @@ namespace LeaveMeAlone
                     Console.WriteLine("Removing Enemy: " + i + " At health: " + hero.health);
                     Resources.gold += heroes[i].gold;
                     Resources.exp += heroes[i].exp;
+                    boss.level = (int)(.1 * Math.Sqrt(Resources.exp));
                     heroes[i] = null;
 
                     //Reward the boss
