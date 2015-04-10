@@ -55,7 +55,7 @@ namespace LeaveMeAlone
         }
         public static void LoadContent(ContentManager content)
         {
-            spike_room_image = content.Load<Texture2D>("spikeRoom2");
+            spike_room_image = content.Load<Texture2D>("spikeRoom");
             poison_pit_image = content.Load<Texture2D>("PoisonPit");
             //buttonPic = content.Load<Texture2D>("buttonbase");
 
