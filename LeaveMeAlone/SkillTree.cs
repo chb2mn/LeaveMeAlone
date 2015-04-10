@@ -91,8 +91,8 @@ namespace LeaveMeAlone
            rub_dirt =       new Skill("Rub Dirt",   4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
            holk_smash = new Skill("Holk Smush", 10, 300,    3, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
            norris_kick = new Skill("Norris Kick", 8, 100,      2, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
-           //bloodlust_strike; //vampiric
-           //raised_by_wolves; //destroy one enemy, damage another, raise your own stats
+           bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 3, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
+           raised_by_wolves = new Skill("Raised by wolves", 25, 500, 5, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves);; //destroy one enemy, damage another, raise your own stats
 
             //Mastermind
             portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -216,6 +216,8 @@ namespace LeaveMeAlone
             st.addSkill(rub_dirt);      
             st.addSkill(holk_smash);          
             st.addSkill(norris_kick);
+            st.addSkill(bloodlust_strike);
+            st.addSkill(raised_by_wolves);
 
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
@@ -451,6 +453,49 @@ namespace LeaveMeAlone
                 newTarget.health -= damage;
                 str_damage = (-damage).ToString();
                 newTarget.damage_text.changeMessage(str_damage);
+            }
+
+        }
+        public static void BloodlustStrike(Character caster, Character target = null)
+        {
+            int power = 100;
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+
+            caster.health += damage;
+            str_damage = "+"+(Math.Abs(damage)).ToString();
+            caster.damage_text.changeMessage(str_damage);
+        }
+        public static void RaisedByWolves(Character caster, Character target = null)
+        {
+            String str_damage = (-target.health).ToString();
+            target.damage_text.changeMessage(str_damage);
+            target.health = 0;
+
+            List<Character> notDead = new List<Character>();
+            foreach (Character h in BattleManager.heroes)
+            {
+                if (h != null && h != target)
+                {
+                    Console.WriteLine("Adding " + h.charType);
+                    notDead.Add(h);
+                }
+            }
+            if (notDead.Count > 0)
+            {
+                Character newTarget = notDead[LeaveMeAlone.random.Next(notDead.Count)];
+                int power = 40;
+                int damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
+                newTarget.health -= damage;
+                str_damage = (-damage).ToString();
+                newTarget.damage_text.changeMessage(str_damage);
+            }
+
+            if (caster.statuses.Contains(Status.check_attackplus) == false)
+            {
+                caster.statuses.Add(new Status("attack_up", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.RaiseAttack, Status.ReduceAttack));
             }
 
         }
