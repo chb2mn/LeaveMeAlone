@@ -21,7 +21,7 @@ namespace LeaveMeAlone
         public static List<Character> heroes = new List<Character>(4);
         public static List<Text> hero_hp = new List<Text>(4);
         public static List<Rectangle> heroLoc = new List<Rectangle>();
-        public static Point herobase = new Point(50, 120);
+        public static Point herobase = new Point(75, 120);
 
         public static Dictionary<Character.Knowledge, bool> Knowledge = new Dictionary<Character.Knowledge,bool>();
 
@@ -890,7 +890,7 @@ namespace LeaveMeAlone
             {
                 if (heroes[i] != null)
                 {
-                    heroLoc[i] = new Rectangle(herobase.X - 50*i + 150, herobase.Y + 75*i, 150, 100);
+                    heroLoc[i] = new Rectangle(herobase.X - 50*i + 150, herobase.Y + 100*i, 150, 100);
                     heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
 
                 }

@@ -14,6 +14,8 @@ namespace LeaveMeAlone
     {
         public static int TowerLevel;
         public static int MaxLevel;
+        public static Text InfoText;
+        public static int texttimer;
         public static Vector2 towerPosition;
         public static List<Room> LairRooms;
         private static Texture2D lairBkgd, lairLobby, bossRoom, spikeRoom, unconstructed_room;
@@ -29,6 +31,7 @@ namespace LeaveMeAlone
             selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
             TowerLevel = 0;
             MaxLevel = 3;
+            InfoText = new Text("", new Vector2(LeaveMeAlone.WindowX - 350, LeaveMeAlone.WindowY - 200), Text.fonts["6809Chargen-24"], Color.Black);
             towerPosition = new Vector2(0, 0);
             LairRooms = new List<Room>();
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
@@ -94,7 +97,7 @@ namespace LeaveMeAlone
                     else
                     {
                         //Should have some sort of interface on screen
-                        Console.Write("No party! Take a breather.");
+                        InfoText.changeMessage("No party!\n      Take a breather.");
                         return LeaveMeAlone.GameState.Lair;
                     }
                 }
@@ -117,7 +120,8 @@ namespace LeaveMeAlone
                     }
                     else
                     {
-                        Console.WriteLine("MaxLevel Reached");
+                        InfoText.changeMessage("Max Lair Height");
+                        texttimer = 600;
                     }
                     return LeaveMeAlone.GameState.Lair;
                 }
@@ -173,6 +177,8 @@ namespace LeaveMeAlone
             nextwaveBtn.Draw(Spritebatch);
             skillsBtn.Draw(Spritebatch);
             constructionBtn.Draw(Spritebatch);
+            InfoText.Draw(Spritebatch);
+
         }
 
         internal static void addRoom(UpgradeMenu.ButtonRoom buttonRoom)

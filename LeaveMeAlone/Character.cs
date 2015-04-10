@@ -98,7 +98,8 @@ namespace LeaveMeAlone
         {
             this.level = level;
             this.charType = t;
-
+            basic_attack = SkillTree.basic_attack;
+            defend = SkillTree.defend;
             switch(t)
             {
                 case Type.Ranger:
@@ -115,8 +116,7 @@ namespace LeaveMeAlone
                     break;
             }
 
-            basic_attack = SkillTree.basic_attack;
-            defend = SkillTree.defend;
+            
 
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
 
@@ -147,6 +147,9 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 100;
             cure = SkillTree.cure;
+            strong_attack = SkillTree.bash;
+            status = SkillTree.poison_dagger;
+            esuna = SkillTree.panacea;
         }
         private void initMage()
         {
@@ -177,6 +180,7 @@ namespace LeaveMeAlone
             manaRechargeRate = 1;
             gold = 100;
             exp = 100;
+            strong_attack = SkillTree.bash;
         }
 
         public static void load_content(ContentManager content)
@@ -466,7 +470,7 @@ namespace LeaveMeAlone
                 if (status != null)
                 {
                     if (!BattleManager.boss.statuses.Contains(status.inflicts) //If the boss doesn't have the status effect that my status does
-                        && (BattleManager.boss.health * 100) / BattleManager.boss.max_health > 75 //and it has high health
+                        && (BattleManager.boss.health * 100) / BattleManager.boss.max_health > 50 //and it has high health
                         && thought > 100 - (40 + 5 * level)) // and the Enemy has a good thought
                     {
                         //Use status inflicting skill
@@ -487,6 +491,8 @@ namespace LeaveMeAlone
                     }
                 }
             }
+
+            //average the boss' defense
             int boss_defense = (BattleManager.boss.defense + BattleManager.boss.special_defense) / 2;
             if (str_used)
             {
