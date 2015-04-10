@@ -83,9 +83,10 @@ namespace LeaveMeAlone
                         InfoText.changeMessage("PEASANTS!\nOUT OF THE WAY!\nHE'S OURS");
                         if (one_last_party)
                         {
-                            for (int i = 0; i < PartyManager.partyQueue.Count(); i++)
+                            for (int i = 0; i <= PartyManager.partyQueue.Count(); i++)
                             {
-                                PartyManager.partyQueue[i] = null;
+                                PartyManager.partyQueue.Add(null);
+                                PartyManager.popParty();
                             }
                             List<Character> FinalParty = new List<Character>();
                             FinalParty.Add(new Character(Character.Type.Knight, 25));
@@ -93,11 +94,13 @@ namespace LeaveMeAlone
                             FinalParty.Add(new Character(Character.Type.Mage, 25));
                             FinalParty.Add(new Character(Character.Type.Mage, 25));
                             PartyManager.partyQueue.Add(FinalParty);
+                            PartyManager.popParty();
                             one_last_party = false;
 
                         }
                         else
                         {
+
                             if (PartyManager.popParty())
                             {
                                 BattleManager.Init();
@@ -105,8 +108,10 @@ namespace LeaveMeAlone
                             }
                             else
                             {
+                                PartyManager.partyQueue.Add(null);
                                 return LeaveMeAlone.GameState.Lair;
                             }
+
                         }
 
                     }
@@ -198,9 +203,10 @@ namespace LeaveMeAlone
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
-
+                Console.WriteLine("At location {0}: {1}", j, PartyManager.partyQueue[j]);
                 if (PartyManager.partyQueue[j] != null)
                 {
+                    
                     Character.Type placeholder = Character.Type.LairHero;
                     Character newChar = new Character(placeholder, 1);
                     newChar.sPosition = new Vector2((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY + 20 - 100 * (TowerLevel - j + 1)));
