@@ -22,9 +22,9 @@ namespace LeaveMeAlone
         public static SkillTree skilltree;
         public static Dictionary<string, Text> texts = new Dictionary<string, Text>();
 
-        public static Vector2 baseSkillButtonPos = new Vector2(500, 50);
-        public static Vector2 baseRoomButtonPos = new Vector2(1200, 50);
-        public static Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
+        public static Vector2 baseSkillButtonPos = new Vector2(400, 50);
+        public static Vector2 baseRoomButtonPos = new Vector2(400, 550);
+        public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
         
         public static Text goldText;
         public static Text skillText;
@@ -38,7 +38,7 @@ namespace LeaveMeAlone
         //public static ;
         public static ButtonSkill selectedSkillSwapButton;
 
-        public struct ButtonSkill
+        public class ButtonSkill
         {
             public Button b;
             public Skill s;
@@ -57,11 +57,22 @@ namespace LeaveMeAlone
                 b.UpdateText("NONE");
             }
         }
-        public struct ButtonRoom
+        public class ButtonRoom
         {
             public Button b;
             public Room r;
             private bool drawable;
+            public ButtonRoom(Button b, Room r)
+            {
+                this.b = b;
+                this.r = r;
+                this.b.text.changeMessage(r.name);
+                drawable = true;
+            }
+            public ButtonRoom()
+            {
+
+            }
             public void Draw(SpriteBatch s)
             {
                 if(drawable)
@@ -75,6 +86,7 @@ namespace LeaveMeAlone
             }
             public void UpdateRoom(Room r)
             {
+                
                 b.text.changeMessage(r.name);
                 this.r = r;
                 drawable = true;
@@ -98,33 +110,29 @@ namespace LeaveMeAlone
             Console.Out.Flush();
             var test = Text.fonts;
 
-            AvailableRooms[0] = new ButtonRoom();
-            AvailableRooms[1] = new ButtonRoom();
-            AvailableRooms[0].b = new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 400, 100);
-            AvailableRooms[1].b = new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y + 150, 400, 100);
-            AvailableRooms[0].b.UpdateText(SkillTree.poison_pit.name);
-            AvailableRooms[1].b.UpdateText(SkillTree.spike_trap.name);
-            AvailableRooms[0].r = SkillTree.poison_pit;
-            AvailableRooms[1].r = SkillTree.spike_trap;
+            AvailableRooms[0] = new ButtonRoom(new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50), SkillTree.poison_pit);
+            AvailableRooms[1] = new ButtonRoom(new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50), SkillTree.spike_trap);
+
             
-            selectedSkillSwapButton = default(ButtonSkill);
+            selectedSkillSwapButton = new ButtonSkill();
             for(int x = 0; x < SelectedSkills.Length; x++)
             {
                 SelectedSkills[x] = new ButtonSkill();
-                SelectedSkills[x].b = new Button(Button.buttonPic, 30, 450 + 75 * x, 200, 50);
+                SelectedSkills[x].b = new Button(Button.buttonPic, (int)baseSelectedSkillButtonPos.X, (int)baseSelectedSkillButtonPos.Y + 60 * x, 200, 50);
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
-            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(30, 200), Text.fonts["6809Chargen-32"], Color.White);
-            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 375), Text.fonts["6809Chargen-32"], Color.White);
-            texts["skilltext"] =        new Text("Skills",                  new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
-            texts["roomtext"] =         new Text("Rooms",                   new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-32"], Color.White);
+            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 100), Text.fonts["6809Chargen-24"], Color.White);
+            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 150), Text.fonts["6809Chargen-24"], Color.White);
+            texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
 
         public static void loadContent(ContentManager content)
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
-            next = new Button(content.Load<Texture2D>("next"), 1000, 1000, 113, 32);
+            next = new Button(content.Load<Texture2D>("next"), 900, 500, 113, 32);
         }
 
         public static LeaveMeAlone.GameState Update(GameTime g)
@@ -174,14 +182,16 @@ namespace LeaveMeAlone
             selectedBoss.Update(g);
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
+                //check if a room was clicked on
                 for (int x = 0; x < AvailableRooms.Length; x++)
                 {
-                    if(AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
                         if(AvailableRooms[x].r.cost < Resources.gold)
                         {
                             BattleManager.boss.selected_rooms.Add(AvailableRooms[x].r);
-                            LairManager.boughtRooms.Add(AvailableRooms[x]);
+            
+                            LairManager.addRoom(AvailableRooms[x]); 
                             Resources.gold -= AvailableRooms[x].r.cost;
                         }
                     }
@@ -238,7 +248,7 @@ namespace LeaveMeAlone
                     {
                         selectedSkillSwapButton.b.selected = false;
                     }
-                    selectedSkillSwapButton = default(ButtonSkill);
+                    selectedSkillSwapButton = new ButtonSkill();;
 
                     Console.WriteLine("unselected");
                 }

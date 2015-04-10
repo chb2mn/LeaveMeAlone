@@ -21,9 +21,6 @@ namespace LeaveMeAlone
         public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
 
 
-        public static Vector2 baseSkillButtonPos = new Vector2(500, 50);
-        public static Vector2 baseRoomButtonPos = new Vector2(1200, 50);
-        public static Vector2 baseSelectedSkillButtonPos = new Vector2(20, 100);
 
 
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
@@ -69,7 +66,7 @@ namespace LeaveMeAlone
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             portal_punch = new Skill("Portal Punch", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             flamethrower = new Skill("Flamethrower", 10, 0, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-            nuclear_waste = new Skill("Nuclear Waste", 5, 0, 1, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
+            nuclear_waste = new Skill("Nuclear Waste", 5, 0, 3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
             freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
@@ -103,10 +100,12 @@ namespace LeaveMeAlone
                 List<Skill> skilltier = skill_tiers[key];
                 int slength = skilltier.Count;
                 int sindex = 0;
+                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 25, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex), Text.fonts["6809Chargen-12"]);
+                //UpgradeMenu.texts.Add(key.ToString(), level);
                 foreach (Skill skill in skilltier)
                 {
                     Console.WriteLine(skill.name);
-                    Button b = new Button(Button.buttonPic, (int)baseSkillButtonPos.X + sindex * 175, (int)baseSkillButtonPos.Y + 75 * kindex, 150, 50);
+                    Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 175, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex, 150, 50);
                     b.UpdateText(skill.name);
                     SkillButtons[skill] = b;
                     sindex++;
@@ -128,13 +127,13 @@ namespace LeaveMeAlone
 
         }
 
-        public void addSkill(int level, Skill skill)
+        public void addSkill(Skill skill)
         {
-            addToDict(skill_tiers, ref level, ref skill);
+            addToDict(skill_tiers, ref skill.level, ref skill);
         }
-        public void addRoom(int level, Room room)
+        public void addRoom(Room room)
         {
-            addToDict(room_tiers, ref level, ref room);
+            addToDict(room_tiers, ref room.level, ref room);
         }
         private void addToDict<T,F>(Dictionary<T,List<F>> d, ref T index, ref F value)
         {
@@ -155,12 +154,12 @@ namespace LeaveMeAlone
         public static void initBrute()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(2, nuclear_waste);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            st.addSkill(nuclear_waste);
 
-            st.addRoom(1, spike_trap);
-            st.addRoom(1, poison_pit);
+            st.addRoom(spike_trap);
+            st.addRoom(poison_pit);
             skilltrees[Character.Type.Brute] = st;
             st.updateTree();
 
@@ -168,18 +167,18 @@ namespace LeaveMeAlone
         public static void initMastermind()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(1, cure);
-            st.addSkill(2, fire);
-            st.addSkill(2, nuclear_waste);
-            st.addSkill(10, speedy_shoes);
-            st.addSkill(2, abomination_form);
-            st.addSkill(3, summon_igor);
-            st.addSkill(20, freeze_ray);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            //st.addSkill(cure);
+            //st.addSkill(fire);
+            st.addSkill(nuclear_waste);
+            st.addSkill(speedy_shoes);
+            st.addSkill(abomination_form);
+            st.addSkill(summon_igor);
+            st.addSkill(freeze_ray);
            
-            st.addRoom(1, spike_trap);
-            st.addRoom(1, poison_pit);
+            st.addRoom(spike_trap);
+            st.addRoom(poison_pit);
             skilltrees[Character.Type.Mastermind] = st;
             st.updateTree();
 
@@ -187,12 +186,12 @@ namespace LeaveMeAlone
         public static void initOperative()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(2, nuclear_waste);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            st.addSkill(nuclear_waste);
 
-            st.addRoom(1, spike_trap);
-            st.addRoom(1, poison_pit);
+            st.addRoom(spike_trap);
+            st.addRoom(poison_pit);
             skilltrees[Character.Type.Operative] = st;
             st.updateTree();
 
@@ -206,9 +205,9 @@ namespace LeaveMeAlone
         public static void initMage()
         {
             SkillTree st = new SkillTree();
-            st.addSkill(1, portal_punch);
-            st.addSkill(1, flamethrower);
-            st.addSkill(2, nuclear_waste);
+            st.addSkill(portal_punch);
+            st.addSkill(flamethrower);
+            st.addSkill(nuclear_waste);
             skilltrees[Character.Type.Mage] = st;
             st.updateTree();
 
