@@ -62,11 +62,11 @@ namespace LeaveMeAlone
         public int animationNext;
         public Type charType;
 
-        private static Texture2D hood2;
-        private static Texture2D hood1;
-        private static Texture2D mastermind70, operative70, brute70;
+        private static Texture2D Mage140;
+        private static Texture2D Ranger140;
+        private static Texture2D mastermind70, operative70, brute70, lairHero70;
 
-        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative};
+        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
 
         public const int MAX_SKILLS = 6;
 
@@ -181,11 +181,12 @@ namespace LeaveMeAlone
 
         public static void load_content(ContentManager content)
         {
-            hood2 = content.Load<Texture2D>("hood2");
-            hood1 = content.Load<Texture2D>("hood1");
+            Mage140 = content.Load<Texture2D>("Mage140");
+            Ranger140 = content.Load<Texture2D>("Ranger140");
             brute70 = content.Load<Texture2D>("brute70");
             mastermind70 = content.Load<Texture2D>("mastermindMenu");
             operative70 = content.Load<Texture2D>("operative70");
+            lairHero70 = content.Load<Texture2D>("LairHero70");
         }
         public void Init()
         {
@@ -196,17 +197,22 @@ namespace LeaveMeAlone
             facingRight = false;
             if (charType == Type.Mage)
             {
-                sTexture = hood2;
+                sTexture = Mage140;
                 facingRight = true;
             }
             if (charType == Type.Ranger)
             {
-                sTexture = hood2;
+                sTexture = Ranger140;
                 facingRight = true;
             }
             if (charType == Type.Knight)
             {
-                sTexture = hood1;
+                sTexture = Ranger140;
+                facingRight = true;
+            }
+            if (charType == Type.LairHero)
+            {
+                sTexture = lairHero70;
                 facingRight = true;
             }
             if (charType == Type.Brute)

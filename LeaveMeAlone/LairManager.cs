@@ -129,7 +129,7 @@ namespace LeaveMeAlone
                 
                 if (PartyManager.partyQueue[j] != null)
                 {
-                    Character.Type placeholder = Character.Type.Ranger;
+                    Character.Type placeholder = Character.Type.LairHero;
                     Character newChar = new Character(placeholder, 1);
                     newChar.sPosition = new Vector2((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY + 20 - 100 * (TowerLevel - j + 1)));
                     newChar.Init();

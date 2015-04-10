@@ -110,7 +110,7 @@ namespace LeaveMeAlone
 
 
 
-            bossLoc = new Rectangle(LeaveMeAlone.WindowX-150, LeaveMeAlone.WindowY/2 - 100, 200, 200); 
+            bossLoc = new Rectangle(LeaveMeAlone.WindowX-250, LeaveMeAlone.WindowY/2 - 100, 200, 200); 
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
             boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
 
@@ -878,7 +878,7 @@ namespace LeaveMeAlone
 
         public static void bossDefaultPosition()
         {
-            boss.sPosition = new Vector2(LeaveMeAlone.WindowX-160, LeaveMeAlone.WindowY/2);
+            boss.sPosition = new Vector2(LeaveMeAlone.WindowX-260, LeaveMeAlone.WindowY/2);
         }
         public static void setHeroesPosition()
         {
@@ -886,7 +886,7 @@ namespace LeaveMeAlone
             {
                 if (heroes[i] != null)
                 {
-                    heroLoc[i] = new Rectangle(heroLoc[i].X, heroLoc[i].Y + 200, 100, 100);
+                    heroLoc[i] = new Rectangle(heroLoc[i].X - 50*i + 150, heroLoc[i].Y, 100, 100);
                     heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
 
                 }
