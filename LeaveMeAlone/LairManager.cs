@@ -31,7 +31,7 @@ namespace LeaveMeAlone
             MaxLevel = 3;
             towerPosition = new Vector2(0, 0);
             LairRooms = new List<Room>();
-            skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX-200, 100, 200, 75);
+            skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
             constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 175, 200, 75);
             nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), -50, LeaveMeAlone.WindowY - 200, 200, 75);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
@@ -40,7 +40,7 @@ namespace LeaveMeAlone
             spikeRoom = content.Load<Texture2D>("spikeRoom2");
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room);
-            
+
         }
         public static void LairAttack(Room room, List<Character> party)
         {
@@ -62,42 +62,42 @@ namespace LeaveMeAlone
             {
                 for (int i = 0; i < TowerLevel; i++)
                 {
-                    var rectpos =  new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100);
-                    if(selectedRoomSwapButton.r != null && LairRooms.Contains(selectedRoomSwapButton.r) == false && rectpos.Contains(currentMouseState.X, currentMouseState.Y))
+                    var rectpos = new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100);
+                    if (selectedRoomSwapButton.r != null && LairRooms.Contains(selectedRoomSwapButton.r) == false && rectpos.Contains(currentMouseState.X, currentMouseState.Y))
                     {
                         LairRooms[i] = selectedRoomSwapButton.r;
                     }
                 }
-                    //next wave
-                    if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
+                //next wave
+                if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    for (int i = 0; i < TowerLevel; i++)
                     {
-                        for (int i = 0; i < TowerLevel; i++)
-                        {
-                            LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
-                        }
-                        Random random = new Random();
-                        int makeParty = random.Next(100) % 2;
-                        if (makeParty == 1)
-                        {
-                            List<Character> newParty = PartyManager.CreateParty();
-                            PartyManager.partyQueue.Add(newParty);
-                        }
-                        else
-                        {
-                            PartyManager.partyQueue.Add(null);
-                        }
-                        if (PartyManager.popParty())
-                        {
-                            BattleManager.Init();
-                            return LeaveMeAlone.GameState.Battle;
-                        }
-                        else
-                        {
-                            //Should have some sort of interface on screen
-                            Console.Write("No party! Take a breather.");
-                            return LeaveMeAlone.GameState.Lair;
-                        }
+                        LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
                     }
+                    Random random = new Random();
+                    int makeParty = random.Next(100) % 2;
+                    if (makeParty == 1)
+                    {
+                        List<Character> newParty = PartyManager.CreateParty();
+                        PartyManager.partyQueue.Add(newParty);
+                    }
+                    else
+                    {
+                        PartyManager.partyQueue.Add(null);
+                    }
+                    if (PartyManager.popParty())
+                    {
+                        BattleManager.Init();
+                        return LeaveMeAlone.GameState.Battle;
+                    }
+                    else
+                    {
+                        //Should have some sort of interface on screen
+                        Console.Write("No party! Take a breather.");
+                        return LeaveMeAlone.GameState.Lair;
+                    }
+                }
                 if (skillsBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     return LeaveMeAlone.GameState.Upgrade;
@@ -125,7 +125,7 @@ namespace LeaveMeAlone
                 bool flag = false;
                 foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
                 {
-                    if(r.b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    if (r.b.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
                         Console.WriteLine(r.b.text);
                         selectedRoomSwapButton = r;
@@ -134,7 +134,7 @@ namespace LeaveMeAlone
                     }
                 }
                 //otherwise we unselect any previously selected button
-                if(flag == false && selectedRoomSwapButton.b != null)
+                if (flag == false && selectedRoomSwapButton.b != null)
                 {
                     selectedRoomSwapButton.b.selected = false;
                     selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
@@ -146,7 +146,7 @@ namespace LeaveMeAlone
         public static void Draw(SpriteBatch Spritebatch)
         {
             Spritebatch.Draw(lairBkgd, new Rectangle(0, 0, 2308, 1200), Color.White);
-            Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X+LeaveMeAlone.WindowX/3), (int)(towerPosition.Y+LeaveMeAlone.WindowY-100), 400, 100), Color.White);
+            Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100), 400, 100), Color.White);
             Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (TowerLevel + 1)), 400, 100), Color.White);
             for (int i = 0; i < TowerLevel; i++)
             {
@@ -154,7 +154,7 @@ namespace LeaveMeAlone
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
-                
+
                 if (PartyManager.partyQueue[j] != null)
                 {
                     Character.Type placeholder = Character.Type.Ranger;
@@ -165,10 +165,10 @@ namespace LeaveMeAlone
                 }
             }
             int count = 0;
-            foreach(UpgradeMenu.ButtonRoom r in boughtRooms)
+            foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
             {
                 r.Draw(Spritebatch);
-                count ++;
+                count++;
             }
             nextwaveBtn.Draw(Spritebatch);
             skillsBtn.Draw(Spritebatch);
@@ -183,6 +183,6 @@ namespace LeaveMeAlone
             boughtRooms.Add(copy);
         }
 
-        
+
     }
 }

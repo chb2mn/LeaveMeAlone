@@ -22,8 +22,8 @@ namespace LeaveMeAlone
         public static SkillTree skilltree;
         public static Dictionary<string, Text> texts = new Dictionary<string, Text>();
 
-        public static Vector2 baseSkillButtonPos = new Vector2(300, 50);
-        public static Vector2 baseRoomButtonPos = new Vector2(300, 500);
+        public static Vector2 baseSkillButtonPos = new Vector2(400, 50);
+        public static Vector2 baseRoomButtonPos = new Vector2(400, 550);
         public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
         
         public static Text goldText;
@@ -123,9 +123,10 @@ namespace LeaveMeAlone
             }
 
             texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 100), Text.fonts["6809Chargen-24"], Color.White);
             texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 150), Text.fonts["6809Chargen-24"], Color.White);
-            texts["skilltext"] =        new Text("Skills",                  new Vector2(SkillTree.baseSkillButtonPos.X, SkillTree.baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
-            texts["roomtext"] =         new Text("Rooms",                   new Vector2(SkillTree.baseRoomButtonPos.X, SkillTree.baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
 
         public static void loadContent(ContentManager content)
