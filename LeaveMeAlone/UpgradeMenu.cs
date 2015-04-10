@@ -38,7 +38,7 @@ namespace LeaveMeAlone
         //public static ;
         public static ButtonSkill selectedSkillSwapButton;
 
-        public struct ButtonSkill
+        public class ButtonSkill
         {
             public Button b;
             public Skill s;
@@ -57,11 +57,22 @@ namespace LeaveMeAlone
                 b.UpdateText("NONE");
             }
         }
-        public struct ButtonRoom
+        public class ButtonRoom
         {
             public Button b;
             public Room r;
             private bool drawable;
+            public ButtonRoom(Button b, Room r)
+            {
+                this.b = b;
+                this.r = r;
+                this.b.text.changeMessage(r.name);
+                drawable = true;
+            }
+            public ButtonRoom()
+            {
+
+            }
             public void Draw(SpriteBatch s)
             {
                 if(drawable)
@@ -75,6 +86,7 @@ namespace LeaveMeAlone
             }
             public void UpdateRoom(Room r)
             {
+                
                 b.text.changeMessage(r.name);
                 this.r = r;
                 drawable = true;
@@ -98,16 +110,11 @@ namespace LeaveMeAlone
             Console.Out.Flush();
             var test = Text.fonts;
 
-            AvailableRooms[0] = new ButtonRoom();
-            AvailableRooms[1] = new ButtonRoom();
-            AvailableRooms[0].b = new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50);
-            AvailableRooms[1].b = new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50);
-            AvailableRooms[0].b.UpdateText(SkillTree.poison_pit.name);
-            AvailableRooms[1].b.UpdateText(SkillTree.spike_trap.name);
-            AvailableRooms[0].r = SkillTree.poison_pit;
-            AvailableRooms[1].r = SkillTree.spike_trap;
+            AvailableRooms[0] = new ButtonRoom(new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50), SkillTree.poison_pit);
+            AvailableRooms[1] = new ButtonRoom(new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50), SkillTree.spike_trap);
+
             
-            selectedSkillSwapButton = default(ButtonSkill);
+            selectedSkillSwapButton = new ButtonSkill();
             for(int x = 0; x < SelectedSkills.Length; x++)
             {
                 SelectedSkills[x] = new ButtonSkill();
@@ -177,7 +184,7 @@ namespace LeaveMeAlone
                 //check if a room was clicked on
                 for (int x = 0; x < AvailableRooms.Length; x++)
                 {
-                    if(AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
                         if(AvailableRooms[x].r.cost < Resources.gold)
                         {
@@ -240,7 +247,7 @@ namespace LeaveMeAlone
                     {
                         selectedSkillSwapButton.b.selected = false;
                     }
-                    selectedSkillSwapButton = default(ButtonSkill);
+                    selectedSkillSwapButton = new ButtonSkill();;
 
                     Console.WriteLine("unselected");
                 }

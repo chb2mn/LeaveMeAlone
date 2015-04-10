@@ -21,10 +21,12 @@ namespace LeaveMeAlone
         private static MouseState currentMouseState, lastMouseState;
         public static Room UnconstructedRoom;
         public static List<UpgradeMenu.ButtonRoom> boughtRooms = new List<UpgradeMenu.ButtonRoom>();
+        public static UpgradeMenu.ButtonRoom selectedRoomSwapButton { get; set; }
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void loadContent(ContentManager content)
         {
+            selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
             TowerLevel = 0;
             MaxLevel = 3;
             towerPosition = new Vector2(0, 0);
@@ -58,36 +60,44 @@ namespace LeaveMeAlone
 
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
-                //next wave
-                if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
+                for (int i = 0; i < TowerLevel; i++)
                 {
-                    for (int i = 0; i < TowerLevel; i++)
+                    var rectpos =  new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100);
+                    if(selectedRoomSwapButton.r != null && LairRooms.Contains(selectedRoomSwapButton.r) == false && rectpos.Contains(currentMouseState.X, currentMouseState.Y))
                     {
-                        LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
-                    }
-                    Random random = new Random();
-                    int makeParty = random.Next(100) % 2;
-                    if (makeParty == 1)
-                    {
-                        List<Character> newParty = PartyManager.CreateParty();
-                        PartyManager.partyQueue.Add(newParty);
-                    }
-                    else
-                    {
-                        PartyManager.partyQueue.Add(null);
-                    }
-                    if (PartyManager.popParty())
-                    {
-                        BattleManager.Init();
-                        return LeaveMeAlone.GameState.Battle;
-                    }
-                    else
-                    {
-                        //Should have some sort of interface on screen
-                        Console.Write("No party! Take a breather.");
-                        return LeaveMeAlone.GameState.Lair;
+                        LairRooms[i] = selectedRoomSwapButton.r;
                     }
                 }
+                    //next wave
+                    if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
+                    {
+                        for (int i = 0; i < TowerLevel; i++)
+                        {
+                            LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
+                        }
+                        Random random = new Random();
+                        int makeParty = random.Next(100) % 2;
+                        if (makeParty == 1)
+                        {
+                            List<Character> newParty = PartyManager.CreateParty();
+                            PartyManager.partyQueue.Add(newParty);
+                        }
+                        else
+                        {
+                            PartyManager.partyQueue.Add(null);
+                        }
+                        if (PartyManager.popParty())
+                        {
+                            BattleManager.Init();
+                            return LeaveMeAlone.GameState.Battle;
+                        }
+                        else
+                        {
+                            //Should have some sort of interface on screen
+                            Console.Write("No party! Take a breather.");
+                            return LeaveMeAlone.GameState.Lair;
+                        }
+                    }
                 if (skillsBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     return LeaveMeAlone.GameState.Upgrade;
@@ -110,6 +120,24 @@ namespace LeaveMeAlone
                         Console.WriteLine("MaxLevel Reached");
                     }
                     return LeaveMeAlone.GameState.Lair;
+                }
+                //checks if a room button was selected
+                bool flag = false;
+                foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
+                {
+                    if(r.b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    {
+                        Console.WriteLine(r.b.text);
+                        selectedRoomSwapButton = r;
+                        r.b.selected = true;
+                        flag = true;
+                    }
+                }
+                //otherwise we unselect any previously selected button
+                if(flag == false && selectedRoomSwapButton.b != null)
+                {
+                    selectedRoomSwapButton.b.selected = false;
+                    selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
                 }
             }
 
@@ -139,7 +167,7 @@ namespace LeaveMeAlone
             int count = 0;
             foreach(UpgradeMenu.ButtonRoom r in boughtRooms)
             {
-                r.Draw(Spritebatch, new Rectangle(30, 300 + 100 * count, 200, 75));
+                r.Draw(Spritebatch);
                 count ++;
             }
             nextwaveBtn.Draw(Spritebatch);
@@ -149,10 +177,12 @@ namespace LeaveMeAlone
 
         internal static void addRoom(UpgradeMenu.ButtonRoom buttonRoom)
         {
-            var copy = new UpgradeMenu.ButtonRoom();
-            copy.b = new Button(buttonRoom.r.img, 30, 200 + 80 * boughtRooms.Count, 100, 75);
-            copy.r = new Room(buttonRoom.r.name, buttonRoom.r.cost, buttonRoom.r.level, buttonRoom.r.type, buttonRoom.r.description, buttonRoom.r.activate, buttonRoom.r.img);
+            var cbutton = new Button(buttonRoom.r.img, 30, 50 + 60 * boughtRooms.Count, 100, 50);
+            var croom = new Room(buttonRoom.r.name, buttonRoom.r.cost, buttonRoom.r.level, buttonRoom.r.type, buttonRoom.r.description, buttonRoom.r.activate, buttonRoom.r.img);
+            var copy = new UpgradeMenu.ButtonRoom(cbutton, croom);
             boughtRooms.Add(copy);
         }
+
+        
     }
 }
