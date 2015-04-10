@@ -48,6 +48,7 @@ namespace LeaveMeAlone
         //Operative
         public static Skill slash;
         public static Skill shuriken;
+        public static Skill backstab;
         public static Skill garrote_watch;
         public static Skill silver_alloy_gun;
         public static Skill exploding_pen;
@@ -88,11 +89,11 @@ namespace LeaveMeAlone
             //Brute
            ethereal_fist = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
            blind_charge = new Skill("Blind Charge", 5, 0, 1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-           rub_dirt; //damage in proportion to health
+       //    rub_dirt; //damage in proportion to health
            holk_smash = new Skill("Holk Smush", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-           norris_kick; //damage one a lot and another a little
-           bloodlust_strike; //vampiric
-           raised_by_wolves; //destroy one enemy, damage another, raise your own stats
+       //    norris_kick; //damage one a lot and another a little
+        //   bloodlust_strike; //vampiric
+        //   raised_by_wolves; //destroy one enemy, damage another, raise your own stats
 
             //Mastermind
             portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -100,17 +101,18 @@ namespace LeaveMeAlone
             nuclear_waste = new Skill("Nuclear Waste", 5, 100, 2, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 10, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 2, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
+            freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
             speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
 
             //Operative
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             shuriken = new Skill("Shuriken", 10, 300, 1, 0, Skill.Target.All, 1, "It bounces off of all enemies!", FlameThrower);
-            garrote_watch; //remove at low health
-            silver_alloy_gun; //hit and stun
-            exploding_pen = new Skill("Exploding Pen", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor); ;
+            backstab = new Skill("Backstab", 10, 300, 1, 2, Skill.Target.Self, 1, "Hit an enemy ignoring defense", Backstab); // hit ignore defense
+            garrote_watch = new Skill("Garrote Watch", 5, 300, 5, 0, Skill.Target.Single, 1, "Kill an enemy below 15% hp", GarroteWatch); //remove at low health
+            silver_alloy_gun = new Skill("Silver Alloy Gun", 15, 500, 10, 2, Skill.Target.Single, 1, "Hit and Stun an enemy", SilverAlloyGun); //hit and stun
+            exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
             bladed_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
-            nuclear_warhead; // hit all for a lot of damage combo str and spec.
+            nuclear_warhead = new Skill("Nuclear Warhead", 20, 3000, 20, 3, Skill.Target.All, 1, "Do huge damage to all enemies", NuclearWarhead); // hit all for a lot of damage combo str and spec.
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
@@ -224,10 +226,17 @@ namespace LeaveMeAlone
         }
         public static void initOperative()
         {
+
             SkillTree st = new SkillTree();
-            st.addSkill(portal_punch);
-            st.addSkill(flamethrower);
-            st.addSkill(nuclear_waste);
+            st.addSkill(slash);
+            st.addSkill(shuriken);
+            st.addSkill(backstab);
+            st.addSkill(garrote_watch);
+            st.addSkill(silver_alloy_gun);
+            st.addSkill(exploding_pen);
+            st.addSkill(bladed_shoes);
+            st.addSkill(nuclear_warhead);
+
 
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
@@ -411,6 +420,55 @@ namespace LeaveMeAlone
             target.damage_text.changeMessage(str_damage);
         }
 
+        public static void GarroteWatch(Character caster, Character target = null)
+        {
+            if (target.health <= (int) (target.max_health * .15))
+            {
+                target.health -= target.health; //kill them
+            }
+            else
+            {
+                target.health -= (int) (target.max_health * .1);
+            }
+        }
+
+        public static void SilverAlloyGun(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+
+            target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(2,5), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
+        }
+
+        public static void Backstab(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster.attack, 1, caster.level, 50);
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
+        }
+
+        public static void NuclearWarhead(Character caster, Character target = null)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    target = BattleManager.heroes[i];
+                    if (target == null) { continue; }
+                    int damage = Skill.damage(caster.attack + caster.special_attack, target.special_defense, caster.level, 250);
+                    target.health -= damage;
+                    String str_damage = (-damage).ToString();
+                    target.damage_text.changeMessage(str_damage);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+
+                }
+            }      
+        }
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
