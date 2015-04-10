@@ -24,7 +24,31 @@ namespace LeaveMeAlone
         public static GameState gamestate = GameState.Main;
         public static int seed = 1000;
         public static Random random = new Random(seed);
-        public static Rectangle BackgroundRect; 
+        public static Rectangle BackgroundRect;
+
+        /*public static void SetPosition(this GameWindow window, Point position)
+        {
+            OpenTK.GameWindow OTKWindow = GetForm(window);
+            if (OTKWindow != null)
+            {
+                OTKWindow.X = position.X;
+                OTKWindow.Y = position.Y;
+            }
+        }
+
+        public static OpenTK.GameWindow GetForm(this GameWindow gameWindow)
+        {
+            Type type = typeof(OpenTKGameWindow);
+            System.Reflection.FieldInfo field = type.GetField("window", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field != null)
+                return field.GetValue(gameWindow) as OpenTK.GameWindow;
+            return null;
+        }
+        */
+        
+        
+        
+        
         public LeaveMeAlone()
             : base() 
         {
@@ -33,8 +57,10 @@ namespace LeaveMeAlone
             WindowY = 648;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = WindowX;
             graphics.PreferredBackBufferHeight = WindowY;
+            //SetPosition(Window, new Point(100,100));
             BackgroundRect= new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             graphics.ApplyChanges();
+            
             Content.RootDirectory = "Content";
         }
         

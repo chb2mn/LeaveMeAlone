@@ -74,7 +74,7 @@ namespace LeaveMeAlone
             }
             else // 12-19 means 4 heroes
             {
-                num = 4;
+                num = 3;
             }
 
             for(int x = 0; x < num; x++)

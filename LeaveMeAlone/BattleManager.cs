@@ -158,6 +158,7 @@ namespace LeaveMeAlone
             victory = false;
             defeat = false;
             haste_check = false;
+            enemy_turn = -1;
             state = State.Basic;
             boss.health = boss.max_health;
             boss.energy = boss.max_energy;
@@ -333,6 +334,7 @@ namespace LeaveMeAlone
                 {
                     enemy_turn = 0;
                     state = State.EnemyTurn;
+                    haste_check = false;
                 }
             }
             //Check after the Boss goes
