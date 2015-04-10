@@ -399,7 +399,16 @@ namespace LeaveMeAlone
             target.health -= damage;
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);
+            
             caster.statuses.Add(new Status("stun", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
+        }
+
+        public static void RubDirt(Character caster, Character target = null)
+        {
+            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 75 + (caster.max_health-caster.health));
+            target.health -= damage;
+            String str_damage = (-damage).ToString();
+            target.damage_text.changeMessage(str_damage);
         }
 
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
