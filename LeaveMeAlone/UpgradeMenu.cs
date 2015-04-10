@@ -132,6 +132,7 @@ namespace LeaveMeAlone
             {
                 SelectedSkills[x] = new ButtonSkill();
                 SelectedSkills[x].b = new Button(Button.buttonPic, (int)baseSelectedSkillButtonPos.X, (int)baseSelectedSkillButtonPos.Y + 60 * x, 200, 50);
+                SelectedSkills[x].b.text.font = Text.fonts["6809Chargen-12"];
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
@@ -187,7 +188,11 @@ namespace LeaveMeAlone
             {
                 Room r = validRooms[LeaveMeAlone.random.Next(validRooms.Count)];
                 validRooms.Remove(r);
+                var roombutton = AvailableRooms[index];
                 AvailableRooms[index] = new ButtonRoom(new Button(r.img, (int)baseRoomButtonPos.X + 250 * index, (int)baseRoomButtonPos.Y, 200, 50), r);
+                AvailableRooms[index].b.text.font = Text.fonts["RetroComputer-12"];
+                AvailableRooms[index].b.text.position = new Vector2(roombutton.b.rectangle.X, roombutton.b.rectangle.Y + roombutton.b.rectangle.Height + 5);
+                AvailableRooms[index].b.text.color = Color.White;
             }
             for (; index < 2; index++)
             {
@@ -208,6 +213,7 @@ namespace LeaveMeAlone
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             //things you bought are in black
 
+            /*
             for (int x = 0; x < AvailableRooms.Length; x++)
             {
                 if (AvailableRooms[x].r != null)
@@ -226,7 +232,7 @@ namespace LeaveMeAlone
                         AvailableRooms[x].b.text.color = Color.Blue;
                     }
                 }
-            }
+            }*/
 
             foreach(Skill s in BattleManager.boss.skills)
             {

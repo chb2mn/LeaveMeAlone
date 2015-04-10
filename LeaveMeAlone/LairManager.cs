@@ -178,6 +178,8 @@ namespace LeaveMeAlone
         internal static void addRoom(UpgradeMenu.ButtonRoom buttonRoom)
         {
             var cbutton = new Button(buttonRoom.r.img, 30, 50 + 60 * boughtRooms.Count, 100, 50);
+            cbutton.text.font = Text.fonts["RetroComputer-12"];
+            cbutton.text.position = new Vector2(140, 50 + 10 + 60 * boughtRooms.Count);
             var croom = new Room(buttonRoom.r.name, buttonRoom.r.cost, buttonRoom.r.level, buttonRoom.r.type, buttonRoom.r.description, buttonRoom.r.activate, buttonRoom.r.img);
             var copy = new UpgradeMenu.ButtonRoom(cbutton, croom);
             boughtRooms.Add(copy);

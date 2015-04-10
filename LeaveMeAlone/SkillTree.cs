@@ -111,8 +111,9 @@ namespace LeaveMeAlone
                 {
                     Console.WriteLine("Creating button for skill "+skill.name);
                     Console.Out.Flush();
-                    Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 175, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex, 150, 50);
+                    Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 225, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex, 200, 50);
                     b.UpdateText(skill.name);
+                    b.text.font = Text.fonts["6809Chargen-12"];
                     SkillButtons[skill] = b;
                     sindex++;
                 }
