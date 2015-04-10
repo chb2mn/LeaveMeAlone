@@ -154,8 +154,19 @@ namespace LeaveMeAlone
                         }
                         else if (current.bossType == Character.Type.Operative)
                         {
-                            BattleManager.boss = new Character(100, 25, 25, 25, 25, 50, 1, 1, 100, 0);
+                            BattleManager.boss = new Character(100, 25, 25, 25, 25, 50, 20, 1, 100, 0);
                             BattleManager.boss.charType = current.bossType;
+                            /*
+                            BattleManager.boss.skills.Add(SkillTree.slash);
+                            BattleManager.boss.skills.Add(SkillTree.shuriken);
+                            BattleManager.boss.skills.Add(SkillTree.backstab);
+                            BattleManager.boss.skills.Add(SkillTree.garrote_watch);
+                            BattleManager.boss.skills.Add(SkillTree.silver_alloy_gun);
+                            BattleManager.boss.skills.Add(SkillTree.exploding_pen);
+                            BattleManager.boss.skills.Add(SkillTree.bladed_shoes);
+                            */
+                            Resources.gold = 50000;
+
                         }
                         BattleManager.boss.Init();
 

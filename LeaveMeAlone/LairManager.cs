@@ -79,18 +79,34 @@ namespace LeaveMeAlone
                 {
                     if (EndOfGame)
                     {
-                        for (int i = 0; i < PartyManager.partyQueue.Count(); i++)
-                        {
-                            PartyManager.partyQueue[i] = null;
-                        }
+                        
                         InfoText.changeMessage("PEASANTS!\nOUT OF THE WAY!\nHE'S OURS");
                         if (one_last_party)
                         {
+                            for (int i = 0; i < PartyManager.partyQueue.Count(); i++)
+                            {
+                                PartyManager.partyQueue[i] = null;
+                            }
                             List<Character> FinalParty = new List<Character>();
+                            FinalParty.Add(new Character(Character.Type.Knight, 25));
+                            FinalParty.Add(new Character(Character.Type.Ranger, 25));
+                            FinalParty.Add(new Character(Character.Type.Mage, 25));
+                            FinalParty.Add(new Character(Character.Type.Mage, 25));
+                            PartyManager.partyQueue.Add(FinalParty);
+                            one_last_party = false;
+
                         }
                         else
                         {
-
+                            if (PartyManager.popParty())
+                            {
+                                BattleManager.Init();
+                                return LeaveMeAlone.GameState.Battle;
+                            }
+                            else
+                            {
+                                return LeaveMeAlone.GameState.Lair;
+                            }
                         }
 
                     }
@@ -114,6 +130,7 @@ namespace LeaveMeAlone
                         if (PartyManager.popParty())
                         {
                             BattleManager.Init();
+                            InfoText.changeMessage("");
                             return LeaveMeAlone.GameState.Battle;
                         }
                         else

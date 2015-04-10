@@ -20,11 +20,12 @@ namespace LeaveMeAlone
         SpriteBatch spriteBatch;
         public static int WindowX, WindowY;
         //Character boss;
-        public enum GameState { Main, Upgrade, Lair, Battle, Quit };
+        public enum GameState { Main, Upgrade, Lair, Battle, Quit, Credits };
         public static GameState gamestate = GameState.Main;
         public static int seed = 1000;
         public static Random random = new Random(seed);
         public static Rectangle BackgroundRect;
+        public static Text EndGameText;
 
         /*public static void SetPosition(this GameWindow window, Point position)
         {
@@ -105,6 +106,7 @@ namespace LeaveMeAlone
         /// </summary>
         protected override void LoadContent()
         {
+                       
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 1024, 576);
@@ -129,7 +131,8 @@ namespace LeaveMeAlone
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
-            
+            EndGameText = new Text("And So,\n\nThrough much perserverence\nand a low interest mortgage\nour boss was finally\n\nLeft Alone.",
+            new Vector2(300, 200), Text.fonts["6809Chargen-24"], Color.Cyan);
 
         }
 
@@ -170,6 +173,8 @@ namespace LeaveMeAlone
                 case GameState.Quit:
                     Exit();
                     break;
+                case GameState.Credits:
+                    break;
             }
             base.Update(gameTime);
         }
@@ -199,6 +204,11 @@ namespace LeaveMeAlone
                     break;
                 case GameState.Battle:
                     BattleManager.Draw(spriteBatch);
+                    break;
+                case GameState.Credits:
+                    spriteBatch.Draw(BattleManager.bkgd, new Rectangle(-450, -100, 2000, 1086), Color.White);
+                    BattleManager.boss.Draw(spriteBatch, Color.White);
+                    EndGameText.Draw(spriteBatch);
                     break;
             }
             //spriteBatch.End();

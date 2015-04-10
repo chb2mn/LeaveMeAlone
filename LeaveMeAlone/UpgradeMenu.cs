@@ -283,6 +283,7 @@ namespace LeaveMeAlone
                 {
                     if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
                     {
+                        Console.WriteLine("Got one!");
                         if (BattleManager.boss.skills.Contains(s) == false && BattleManager.boss.level >= s.level)
                         {
                             //if you have enough money, buy it
@@ -304,7 +305,7 @@ namespace LeaveMeAlone
                             {
                                 int index = BattleManager.boss.selected_skills.IndexOf(selectedSkillSwapButton.s);
                                 BattleManager.boss.selected_skills[index] = s;
-                                //Console.WriteLine("swapped");
+                                Console.WriteLine("swapped");
                             }
                         }
                         //Console.WriteLine(s+" pressed");

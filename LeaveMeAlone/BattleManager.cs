@@ -32,7 +32,7 @@ namespace LeaveMeAlone
         private static Button[] basic_buttons = new Button[4];
         private static Button[] skill_buttons = new Button[6];
         private static Texture2D buttonLocPic;
-        private static Texture2D bkgd;
+        public static Texture2D bkgd;
         private static Texture2D targeter;
         private static int[] check_cooldown = new int[6];
 
@@ -124,7 +124,7 @@ namespace LeaveMeAlone
             }
 
 
-            back_button = new Button(Content.Load<Texture2D>("Back"), 675, 410, 113, 51);
+            back_button = new Button(Content.Load<Texture2D>("Back"), LeaveMeAlone.WindowX-250, LeaveMeAlone.WindowY-100, 113, 51);
 
 
             victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
@@ -242,9 +242,28 @@ namespace LeaveMeAlone
             //selected_skill is our skill
             if (caster.statuses.Contains(Status.check_stun))
             {
+                Console.WriteLine("I'm Stunned!");
                 Apply_Status(caster, Status.Effect_Time.Before);
                 Apply_Status(caster, Status.Effect_Time.After);
                 Apply_Status(caster, Status.Effect_Time.Once);
+
+                //If it's the boss's turn pass to the heroes
+                if (enemy_turn == -1)
+                {
+                    if (boss.statuses.Contains(Status.check_haste) && !haste_check)
+                    {
+                        //go again
+                        left_click = true;
+                        state = State.Basic;
+                        haste_check = true;
+                    }
+                    else
+                    {
+                        enemy_turn = 0;
+                        state = State.EnemyTurn;
+                        haste_check = false;
+                    }
+                }
                 return;
             }
 
@@ -658,6 +677,10 @@ namespace LeaveMeAlone
                             boss.statuses.Clear();
                             if (victory)
                             {
+                                if (LairManager.EndOfGame)
+                                {
+                                    return LeaveMeAlone.GameState.Credits;
+                                }
                                 //Do next battle
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;

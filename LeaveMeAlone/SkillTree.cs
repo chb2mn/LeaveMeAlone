@@ -89,14 +89,14 @@ namespace LeaveMeAlone
             //Brute
 
 
-           ethereal_fist = new Skill("Slash", 5, 0,         1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-           blind_charge = new Skill("Blind Charge", 5, 0,   1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-           rub_dirt =       new Skill("Rub Dirt",   4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
-           holk_smash = new Skill("Holk Smush", 10, 300,    3, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-           norris_kick = new Skill("Norris Kick", 8, 100,      2, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
-           bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 3, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
-           raised_by_wolves = new Skill("Raised by wolves", 25, 500, 5, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves);; //destroy one enemy, damage another, raise your own stats
-
+            ethereal_fist = new Skill("Slash", 5, 0,         1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            blind_charge = new Skill("Blind Charge", 5, 0,   1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
+            rub_dirt =       new Skill("Rub Dirt",   4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
+            holk_smash = new Skill("Holk Smush", 10, 300,    3, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+            norris_kick = new Skill("Norris Kick", 8, 100,      2, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
+            bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 3, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
+            raised_by_wolves = new Skill("Raised by wolves", 25, 500, 5, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves);; //destroy one enemy, damage another, raise your own stats
+            final_skill[Character.Type.Brute] = raised_by_wolves;
 
             //Mastermind
             portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -118,7 +118,7 @@ namespace LeaveMeAlone
             garrote_watch = new Skill("Garrote Watch", 5, 300, 5, 0, Skill.Target.Single, 1, "Kill an enemy below 15% hp", GarroteWatch); //remove at low health
             silver_alloy_gun = new Skill("Silver Alloy Gun", 15, 500, 10, 2, Skill.Target.Single, 1, "Hit and Stun an enemy", SilverAlloyGun); //hit and stun
             exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
-            bladed_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
+            bladed_shoes = new Skill("Bladed Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
             nuclear_warhead = new Skill("Nuclear Warhead", 20, 3000, 20, 3, Skill.Target.All, 1, "Do huge damage to all enemies", NuclearWarhead); // hit all for a lot of damage combo str and spec.
             final_skill[Character.Type.Operative] = nuclear_warhead;
 
@@ -554,7 +554,7 @@ namespace LeaveMeAlone
                 {
                     target = BattleManager.heroes[i];
                     if (target == null) { continue; }
-                    int damage = Skill.damage(caster.attack + caster.special_attack, target.special_defense, caster.level, 250);
+                    int damage = Skill.damage(caster.attack + caster.special_attack, target.special_defense, caster.level, 25);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
                     target.damage_text.changeMessage(str_damage);
