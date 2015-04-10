@@ -64,7 +64,7 @@ namespace LeaveMeAlone
 
         private static Texture2D Mage140;
         private static Texture2D Ranger140;
-        private static Texture2D mastermind70, operative70, brute70, lairHero70;
+        private static Texture2D mastermind140, operative140, brute140, lairHero70;
 
         public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
 
@@ -183,9 +183,9 @@ namespace LeaveMeAlone
         {
             Mage140 = content.Load<Texture2D>("Mage140");
             Ranger140 = content.Load<Texture2D>("Ranger140");
-            brute70 = content.Load<Texture2D>("brute70");
-            mastermind70 = content.Load<Texture2D>("mastermindMenu");
-            operative70 = content.Load<Texture2D>("operative70");
+            brute140 = content.Load<Texture2D>("bruteMenu");
+            mastermind140 = content.Load<Texture2D>("mastermindMenu");
+            operative140 = content.Load<Texture2D>("operativeMenu");
             lairHero70 = content.Load<Texture2D>("LairHero70");
         }
         public void Init()
@@ -217,15 +217,15 @@ namespace LeaveMeAlone
             }
             if (charType == Type.Brute)
             {
-                sTexture = brute70;
+                sTexture = brute140;
             }
             if (charType == Type.Mastermind)
             {
-                sTexture = mastermind70;
+                sTexture = mastermind140;
             }
             if (charType == Type.Operative)
             {
-                sTexture = operative70;
+                sTexture = operative140;
             }
             idle();
             AddAnimation(12);
