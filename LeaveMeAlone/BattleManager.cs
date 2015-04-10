@@ -21,6 +21,7 @@ namespace LeaveMeAlone
         public static List<Character> heroes = new List<Character>(4);
         public static List<Text> hero_hp = new List<Text>(4);
         public static List<Rectangle> heroLoc = new List<Rectangle>();
+        public static Point herobase = new Point(100, 300);
 
         public static Dictionary<Character.Knowledge, bool> Knowledge = new Dictionary<Character.Knowledge,bool>();
 
@@ -81,8 +82,8 @@ namespace LeaveMeAlone
 
 
             bkgd = Content.Load<Texture2D>("skyscraperBkgd");
-            int button_basex = 100;
-            int button_basey = LeaveMeAlone.WindowY - 200;
+            int button_basex = 500;
+            int button_basey = LeaveMeAlone.WindowY - 150;
 
             //remove all knowledge that the enemy heroes have
             Knowledge.Clear();
@@ -110,7 +111,7 @@ namespace LeaveMeAlone
 
 
 
-            bossLoc = new Rectangle(LeaveMeAlone.WindowX-150, LeaveMeAlone.WindowY/2 - 100, 200, 200); 
+            bossLoc = new Rectangle(LeaveMeAlone.WindowX-300, LeaveMeAlone.WindowY/2 - 50, 200, 200); 
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
             boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
 
@@ -888,7 +889,7 @@ namespace LeaveMeAlone
             {
                 if (heroes[i] != null)
                 {
-                    heroLoc[i] = new Rectangle(heroLoc[i].X, heroLoc[i].Y + 200, 100, 100);
+                    heroLoc[i] = new Rectangle(herobase.X , herobase.Y + 75*i, 50, 50);
                     heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
 
                 }
