@@ -215,6 +215,10 @@ namespace LeaveMeAlone
                             {
                                 BattleManager.boss.addSkill(s);
                                 Resources.gold -= s.cost;
+                                if (s == SkillTree.final_skill[BattleManager.boss.charType])
+                                {
+                                    LairManager.EndOfGame = true;
+                                }
                                 //Console.WriteLine(BattleManager.boss.skills.Count);
                             }
                         }

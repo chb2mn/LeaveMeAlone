@@ -76,6 +76,13 @@ namespace LeaveMeAlone
                 //next wave
                 if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
+                    if (EndOfGame)
+                    {
+                        for (int i = 0; i < PartyManager.partyQueue.Count(); i++)
+                        {
+                            PartyManager.partyQueue[i] = null;
+                        }
+                    }
                     for (int i = 0; i < TowerLevel; i++)
                     {
                         LairAttack(LairRooms[i], PartyManager.partyQueue[i]);

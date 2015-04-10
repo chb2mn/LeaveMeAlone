@@ -20,7 +20,7 @@ namespace LeaveMeAlone
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
         public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
 
-
+        public static Dictionary<Character.Type, Skill> final_skill = new Dictionary<Character.Type, Skill>();
 
 
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
@@ -94,6 +94,7 @@ namespace LeaveMeAlone
        //    norris_kick; //damage one a lot and another a little
         //   bloodlust_strike; //vampiric
         //   raised_by_wolves; //destroy one enemy, damage another, raise your own stats
+            final_skill[Character.Type.Brute] = raised_by_wolves;
 
             //Mastermind
             portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -103,6 +104,8 @@ namespace LeaveMeAlone
             summon_igor = new Skill("Summon Igor", 5, 300, 2, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
             freeze_ray = new Skill("Freeze Ray", 15, 2500, 20, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
             speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
+            final_skill[Character.Type.Mastermind] = freeze_ray;
+
 
             //Operative
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -113,6 +116,7 @@ namespace LeaveMeAlone
             exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
             bladed_shoes = new Skill("Speedy Shoes", 15, 1500, 10, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
             nuclear_warhead = new Skill("Nuclear Warhead", 20, 3000, 20, 3, Skill.Target.All, 1, "Do huge damage to all enemies", NuclearWarhead); // hit all for a lot of damage combo str and spec.
+            final_skill[Character.Type.Operative] = nuclear_warhead;
 
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
