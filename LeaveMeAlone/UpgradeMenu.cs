@@ -13,6 +13,7 @@ namespace LeaveMeAlone
     public class UpgradeMenu
     {
         private static Texture2D menuBackground;
+        public static Texture2D nothing_img { get; set; }
         private static Button next;
         private static MouseState currentMouseState, lastMouseState;
         public static MenuBoss selectedBoss;
@@ -33,6 +34,7 @@ namespace LeaveMeAlone
         public static ButtonSkill[] SelectedSkills = new ButtonSkill[6];
         //public static ;
         public static ButtonSkill selectedSkillSwapButton;
+        public static Room Nothing;
 
         public class ButtonSkill
         {
@@ -55,6 +57,12 @@ namespace LeaveMeAlone
         }
         public class ButtonRoom
         {
+            public ButtonRoom Copy()
+            {
+                var b = new ButtonRoom(this.b, this.r);
+                b.drawable = false;
+                return b;
+            }
             public Button b;
             public Room r;
             private bool drawable;
@@ -80,11 +88,11 @@ namespace LeaveMeAlone
             {
                 s.Draw(b.sprite, r, Color.White);
             }
-            public void UpdateRoom(Room r)
+            public void UpdateRoom(Room newRoom)
             {
-                
-                b.text.changeMessage(r.name);
-                this.r = r;
+                b.text.changeMessage(newRoom.name);
+                b.sprite = newRoom.img;
+                r.img = newRoom.img;
                 drawable = true;
             }
             public void DeleteRoom()
@@ -94,21 +102,30 @@ namespace LeaveMeAlone
             }
         }
         
-
+        public static Room makeNothing()
+        {
+            return new Room("", 0, -1, 0, "Nothing!", null, nothing_img);
+        }
+        public static void zeroAvailableRooms()
+        {
+            AvailableRooms[0] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
+            AvailableRooms[1] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
+        }
         public static void Init(MenuBoss boss)
         {
             SkillTree.Init(boss.bossType);
+            
             selectedBoss = boss;
             skilltree = SkillTree.skilltrees[selectedBoss.bossType];
+          
             selectedBoss.MoveTo(new Vector2(0, 0));
             selectedBoss.idle();
             Console.WriteLine("" + Text.fonts.Keys.ToString());
             Console.Out.Flush();
             var test = Text.fonts;
 
-            AvailableRooms[0] = new ButtonRoom(new Button(SkillTree.poison_pit_image, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50), SkillTree.poison_pit);
-            AvailableRooms[1] = new ButtonRoom(new Button(SkillTree.spike_room_image, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50), SkillTree.spike_trap);
-
+            zeroAvailableRooms();
+            UpgradeMenu.rerollRooms();
             
             selectedSkillSwapButton = new ButtonSkill();
             for(int x = 0; x < SelectedSkills.Length; x++)
@@ -124,11 +141,64 @@ namespace LeaveMeAlone
             texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
+        public static void rerollRooms()
+        {
+            //find out why room except on list doesn't work
+            List<Room> validRooms = new List<Room>();
 
+            //get all keys to room_tiers
+            List<int> keys = skilltree.room_tiers.Keys.ToList();
+            //sort to get from lowest to highest
+            keys.Sort();
+            int boss_level = BattleManager.boss.level;
+
+            //go though all ints representing levels in the 
+            for (int x = 0; x < keys.Count; x++)
+            {
+                int key = keys[x];
+                //if we are at a higher level than we should be
+                if(key > BattleManager.boss.level)
+                {
+                    break;
+                }
+                List<Room> rooms = skilltree.room_tiers[key];
+                validRooms.AddRange(rooms);
+            }
+            //get rooms not already bought
+            List<Room> roomlist = new List<Room>();
+            foreach(Room r in validRooms)
+            {
+                if(boughtRooms.Contains(r) == false)
+                {
+                    roomlist.Add(r);
+                }
+            }
+            validRooms = roomlist;
+
+            //clear the old rooms
+            //zeroAvailableRooms();
+            int numToPick = 2;
+            if (validRooms.Count < 2)
+            {
+                numToPick = validRooms.Count;
+            }
+            int index =0;
+            for (index = 0; index < numToPick; index++)
+            {
+                Room r = validRooms[LeaveMeAlone.random.Next(validRooms.Count)];
+                validRooms.Remove(r);
+                AvailableRooms[index] = new ButtonRoom(new Button(r.img, (int)baseRoomButtonPos.X + 250 * index, (int)baseRoomButtonPos.Y, 200, 50), r);
+            }
+            for (; index < 2; index++)
+            {
+                AvailableRooms[index] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 250 * index, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
+            }
+        }
         public static void loadContent(ContentManager content)
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
             next = new Button(content.Load<Texture2D>("next"), 900, 500, 113, 32);
+            nothing_img = content.Load<Texture2D>("nothing");
         }
 
         public static LeaveMeAlone.GameState Update(GameTime g)
@@ -181,13 +251,14 @@ namespace LeaveMeAlone
                 //check if a room was clicked on
                 for (int x = 0; x < AvailableRooms.Length; x++)
                 {
-                    if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].b.Intersects(currentMouseState.X, currentMouseState.Y) && AvailableRooms[x].r.level != -1)
                     {
                         if(AvailableRooms[x].r.cost < Resources.gold)
                         {
                             BattleManager.boss.selected_rooms.Add(AvailableRooms[x].r);
             
-                            LairManager.addRoom(AvailableRooms[x]); 
+                            LairManager.addRoom(AvailableRooms[x]);
+                            boughtRooms.Add(AvailableRooms[x].r);
                             Resources.gold -= AvailableRooms[x].r.cost;
                         }
                     }
@@ -280,7 +351,7 @@ namespace LeaveMeAlone
             }
             for (int x = 0; x < AvailableRooms.Length; x++)
             {
-                if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false)
+                if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false  && AvailableRooms[x].r.level != -1)
                 {
                     sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
                 }
@@ -292,5 +363,7 @@ namespace LeaveMeAlone
             }
             next.Draw(sb);
         }
+
+
     }
 }

@@ -86,9 +86,11 @@ namespace LeaveMeAlone
             poison_pit = new Room("Poison Pit", 100, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
         }
 
-        //Updates or creates the buttons and 
+        //Updates or creates the buttons and text
+        //If this is run multiple times it might ruin the texts in UpgradeMenu
         public void updateTree()
         {
+           
             List<int> keys = skill_tiers.Keys.ToList();
             keys.Sort();
             //int boss_level = BattleManager.boss.level;

@@ -661,6 +661,7 @@ namespace LeaveMeAlone
                                 //MainMenu.init();
                                 heroLoc.Clear();
                                 victory = false;
+                                UpgradeMenu.rerollRooms();
                                 return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)
