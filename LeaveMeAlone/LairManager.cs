@@ -12,6 +12,7 @@ namespace LeaveMeAlone
 {
     public class LairManager
     {
+        public static bool EndOfGame;
         public static int TowerLevel;
         public static int MaxLevel;
         public static Text InfoText;
@@ -29,6 +30,7 @@ namespace LeaveMeAlone
         public static void loadContent(ContentManager content)
         {
             selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
+            EndOfGame = false;
             TowerLevel = 0;
             MaxLevel = 3;
             InfoText = new Text("", new Vector2(LeaveMeAlone.WindowX - 350, LeaveMeAlone.WindowY - 200), Text.fonts["6809Chargen-24"], Color.Black);

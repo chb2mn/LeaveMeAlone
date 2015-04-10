@@ -139,8 +139,8 @@ namespace LeaveMeAlone
             health = max_health;
             attack = 10;
             special_attack = 10;
-            defense = 10;
-            special_defense = 10;
+            defense = 7;
+            special_defense = 7;
             max_energy = 35;
             energy = max_energy;
             manaRechargeRate = 1;
@@ -158,7 +158,7 @@ namespace LeaveMeAlone
             attack = 5;
             special_attack = 25;
             defense = 5;
-            special_defense = 25;
+            special_defense = 15;
             max_energy = 15;
             energy = max_energy;
             manaRechargeRate = 1;
@@ -173,8 +173,8 @@ namespace LeaveMeAlone
             health = max_health;
             attack = 25;
             special_attack = 5;
-            defense = 500;
-            special_defense = 0;
+            defense = 15;
+            special_defense = 5;
             max_energy = 5;
             energy = max_energy;
             manaRechargeRate = 1;
@@ -359,11 +359,11 @@ namespace LeaveMeAlone
         public void Learn(int real_damage, Character.Knowledge idea)
         {
             //if it was effective of an attack
-            if (real_damage > 1.25*(double)expected_damage)
+            if (real_damage >= 1.1*(double)expected_damage)
             {
                 BattleManager.Knowledge[idea] = true;
             }
-            else if (real_damage < .75 * (double)expected_damage)
+            else if (real_damage <= .9 * (double)expected_damage)
             {
                 BattleManager.Knowledge[idea] = false;
             }
@@ -550,12 +550,14 @@ namespace LeaveMeAlone
 
             if (str_used)
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / boss_defense) * 100));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)attack / boss_defense) * 100));
             }
             else
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / boss_defense) * 100));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)special_attack / boss_defense) * 100));
             }
+            Console.WriteLine("Expected: " + expected_damage);
+            Console.WriteLine("Data: {0}, {1}, {2}", level, attack, boss_defense);
             damage_text.changeMessage(selected_skill.name);
             //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
             return new KeyValuePair<Skill, int>(selected_skill, my_target);

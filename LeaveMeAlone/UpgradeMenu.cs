@@ -197,11 +197,13 @@ namespace LeaveMeAlone
                         }
                     }
                 }
+                //check the next button
                 if (next.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     BattleManager.bossDefaultPosition();
                     return LeaveMeAlone.GameState.Lair;
                 }
+                //check if we clicked on a skill
                 foreach (Skill s in skilltree.SkillButtons.Keys)
                 {
                     if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
