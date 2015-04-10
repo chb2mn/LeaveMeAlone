@@ -550,11 +550,11 @@ namespace LeaveMeAlone
 
             if (str_used)
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / boss_defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)attack / boss_defense) * 100));
             }
             else
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / boss_defense)));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * ((double)special_attack / boss_defense) * 100));
             }
             damage_text.changeMessage(selected_skill.name);
             //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);

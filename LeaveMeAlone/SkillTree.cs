@@ -356,7 +356,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
-            int heal_pts = caster.special_attack/2;
+            int heal_pts = caster.special_attack/3;
             target.health += heal_pts;
             if (target.health > target.max_health)
             {
@@ -370,7 +370,7 @@ namespace LeaveMeAlone
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
                 target.damage_text.changeMessage(str_damage);
-                caster.Learn(damage, Character.Knowledge.Str_SAtk);
+                caster.Learn(damage, Character.Knowledge.Weak_SDef);
             }
         }
         public static void Bash(Character caster, Character target = null)
@@ -380,7 +380,7 @@ namespace LeaveMeAlone
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
                 target.damage_text.changeMessage(str_damage);
-                caster.Learn(damage, Character.Knowledge.Str_Atk);
+                caster.Learn(damage, Character.Knowledge.Weak_Def);
 
             }
         }
