@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Media;
 #endregion
 
 namespace LeaveMeAlone
@@ -156,6 +157,12 @@ namespace LeaveMeAlone
         public static void Init()
         {
             message = new Text("", new Vector2(0,0), Text.fonts["Arial-12"], Color.Black);
+
+            //Play the Music
+            //MediaPlayer.IsRepeatable = true;
+            LeaveMeAlone.Menu_Song_Instance.Stop();
+            LeaveMeAlone.Battle_Song_Instance.Play();
+
             boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             victory = false;
             defeat = false;
@@ -420,8 +427,7 @@ namespace LeaveMeAlone
                 {
                     Console.WriteLine("Removing Enemy: " + i + " At health: " + hero.health);
                     Resources.gold += heroes[i].gold;
-                    Resources.exp += heroes[i].exp;
-                    boss.level = (int)(.1 * Math.Sqrt(Resources.exp));
+                    Resources.exp += heroes[i].exp;     
                     heroes[i] = null;
 
                     //Reward the boss
@@ -433,6 +439,7 @@ namespace LeaveMeAlone
             }
             if (victory || defeat)
             {
+                boss.level = (int)(.1 * Math.Sqrt(Resources.exp));
                 state = State.Endgame;
             }
         }
@@ -688,6 +695,7 @@ namespace LeaveMeAlone
                                 heroLoc.Clear();
                                 victory = false;
                                 UpgradeMenu.rerollRooms();
+                                LairManager.Init();
                                 return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)

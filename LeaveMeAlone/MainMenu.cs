@@ -154,7 +154,7 @@ namespace LeaveMeAlone
                         }
                         else if (current.bossType == Character.Type.Operative)
                         {
-                            BattleManager.boss = new Character(100, 25, 25, 25, 25, 50, 20, 1, 100, 0);
+                            BattleManager.boss = new Character(100, 25, 25, 30, 30, 50, 20, 1, 100, 0);
                             BattleManager.boss.charType = current.bossType;
                             /*
                             BattleManager.boss.skills.Add(SkillTree.slash);
@@ -170,16 +170,15 @@ namespace LeaveMeAlone
                         }
                         BattleManager.boss.Init();
 
-                        Console.WriteLine("Here we go!");
                         BattleManager.heroes = PartyManager.CreateParty();
                         foreach (Character hero in BattleManager.heroes)
                         {
                             hero.Init();
                             //required because the UpgradeMenu needs some info
                         }
-                        BattleManager.Init();
+                        //BattleManager.Init();
                         UpgradeMenu.Init(current);
-
+                        LairManager.Init();
                         //return LeaveMeAlone.GameState.Upgrade;
 
                         return LeaveMeAlone.GameState.Lair;

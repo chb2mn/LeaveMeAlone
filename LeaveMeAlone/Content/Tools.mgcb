@@ -695,3 +695,15 @@
 /processorParam:TextureFormat=Color
 /build:nothing.png
 
+#begin Epic_Loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Epic_Loop.wav
+
+#begin VGameTune.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:VGameTune.wav
+

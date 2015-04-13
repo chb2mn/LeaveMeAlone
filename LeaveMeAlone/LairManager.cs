@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.Media;
 
 namespace LeaveMeAlone
 {
@@ -47,6 +48,13 @@ namespace LeaveMeAlone
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
+        }
+
+        public static void Init()
+        {
+            //play the music
+            LeaveMeAlone.Battle_Song_Instance.Stop();
+            LeaveMeAlone.Menu_Song_Instance.Play();
         }
         public static void LairAttack(Room room, List<Character> party)
         {
@@ -203,7 +211,6 @@ namespace LeaveMeAlone
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
-                Console.WriteLine("At location {0}: {1}", j, PartyManager.partyQueue[j]);
                 if (PartyManager.partyQueue[j] != null)
                 {
                     
