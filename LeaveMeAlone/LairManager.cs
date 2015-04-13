@@ -216,6 +216,7 @@ namespace LeaveMeAlone
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
+                //This is where is breaks in the final battle
                 if (PartyManager.partyQueue[j] != null)
                 {
                     

@@ -154,7 +154,8 @@ namespace LeaveMeAlone
                         }
                         else if (current.bossType == Character.Type.Operative)
                         {
-                            BattleManager.boss = new Character(100, 25, 25, 30, 30, 50, 20, 1, 100, 0);
+                            BattleManager.boss = new Character(100, 25, 25, 30, 30, 50, 10, 1, 100, 0);
+                            Resources.exp = 20001;
                             BattleManager.boss.charType = current.bossType;
                             /*
                             BattleManager.boss.skills.Add(SkillTree.slash);

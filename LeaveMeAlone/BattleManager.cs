@@ -439,7 +439,8 @@ namespace LeaveMeAlone
             }
             if (victory || defeat)
             {
-                boss.level = (int)(.1 * Math.Sqrt(Resources.exp));
+                boss.level = Resources.get_level(Resources.exp);
+                LeaveMeAlone.Battle_Song_Instance.Stop();
                 state = State.Endgame;
             }
         }
