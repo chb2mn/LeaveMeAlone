@@ -301,7 +301,7 @@ namespace LeaveMeAlone
                         else
                         {
                             //When a skill isn't selected to swap, it should be set to default(Skill)
-                            if (selectedSkillSwapButton.s != default(Skill) && BattleManager.boss.selected_skills.Contains(s) == false)
+                            if (selectedSkillSwapButton.s != default(Skill) && BattleManager.boss.skills.Contains(s) == true && BattleManager.boss.selected_skills.Contains(s) == false)
                             {
                                 int index = BattleManager.boss.selected_skills.IndexOf(selectedSkillSwapButton.s);
                                 BattleManager.boss.selected_skills[index] = s;
@@ -319,6 +319,11 @@ namespace LeaveMeAlone
 
                     if (buttonStuff.b.Intersects(currentMouseState.X, currentMouseState.Y) && buttonStuff.s != null)
                     {
+                        //already have a selected thing;
+                        if(selectedSkillSwapButton.b != null)
+                        {
+                            selectedSkillSwapButton.b.selected = false;
+                        }
                         flag = true;
                         selectedSkillSwapButton = buttonStuff;
                         selectedSkillSwapButton.b.selected = true;

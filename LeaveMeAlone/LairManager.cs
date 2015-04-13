@@ -185,6 +185,11 @@ namespace LeaveMeAlone
                     if (r.b.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
                         Console.WriteLine(r.b.text);
+                        //already have a selected thing;
+                        if (selectedRoomSwapButton.b != null)
+                        {
+                            selectedRoomSwapButton.b.selected = false;
+                        }
                         selectedRoomSwapButton = r;
                         r.b.selected = true;
                         flag = true;
