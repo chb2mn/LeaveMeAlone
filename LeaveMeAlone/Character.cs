@@ -51,6 +51,7 @@ namespace LeaveMeAlone
 
         //The text that will display the damage done
         public Text damage_text;
+        public int damage_counter;
         public Text debug_text;
         //This is how much damage is expected from any attack done
         public int expected_damage;
@@ -89,6 +90,7 @@ namespace LeaveMeAlone
             defend = SkillTree.defend;
 
             damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
+            damage_counter = 150;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
@@ -118,7 +120,8 @@ namespace LeaveMeAlone
 
             
 
-            damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
+            damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
+            damage_counter = 150;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
