@@ -140,11 +140,11 @@ namespace LeaveMeAlone
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
-            Menu_Song = Content.Load<SoundEffect>("Epic_Loop.wav");
+            Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop.wav");
             Menu_Song_Instance = Menu_Song.CreateInstance();
             Menu_Song_Instance.IsLooped = true;
 
-            Battle_Song = Content.Load<SoundEffect>("VGameTune.wav");
+            Battle_Song = Content.Load<SoundEffect>("Sounds/VGameTune.wav");
             Battle_Song_Instance = Battle_Song.CreateInstance();
             Battle_Song_Instance.IsLooped = true;
             //Console.WriteLine(MediaPlayer.IsRepeating);
