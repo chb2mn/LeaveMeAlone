@@ -24,10 +24,18 @@ namespace LeaveMeAlone
         {
             partyQueue = new List<List<Character>>();
             partyQueue.Add(null);
+            for (int x = 0; x < 4; x++)
+            {
+                int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1) % 2);
+                int ypos = LairManager.topOffset + LairManager.topScaling * x;
+                BattleManager.heroLoc.Add(new Rectangle(xpos + 60, ypos, 100, 160));
+            }
         }
 
         public static Character CreateHero(int type, int lvl, Vector2 pos)
         {
+
+            //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
             Character c;
             switch (type)
             {
@@ -84,6 +92,7 @@ namespace LeaveMeAlone
                 int level = BattleManager.boss.level + LeaveMeAlone.random.Next(3) + (5-num);
                 int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1)% 2);
                 int ypos = LairManager.topOffset + LairManager.topScaling * x;
+               
                 new_party.Add(CreateHero(type, level, new Vector2(xpos, ypos)));
             }
             return new_party;
@@ -116,10 +125,10 @@ namespace LeaveMeAlone
                 }*/
                 int hero_basex = 50;
                 int hero_basey = 150;
-                BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
-                BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 80, 100, 60));
-                BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 160, 100, 60));
-                BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 240, 100, 60));
+                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
+                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 80, 100, 60));
+                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 160, 100, 60));
+                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 240, 100, 60));
                 //BattleManager.setHeroesPosition();
                 return true;
             }

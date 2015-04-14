@@ -95,7 +95,7 @@ namespace LeaveMeAlone
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
-            target_text = new Text("Select Target", new Vector2(200, 180));
+            target_text = new Text("Select Target", new Vector2(100, 100), Text.fonts["RetroComputer-12"]);
 
             basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
             basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
@@ -696,7 +696,7 @@ namespace LeaveMeAlone
                                 //Go to next (Upgrade) menu
                                 PartyManager.PartyNum++;
                                 //MainMenu.init();
-                                heroLoc.Clear();
+                                //heroLoc.Clear();
                                 victory = false;
                                 UpgradeMenu.rerollRooms();
                                 LairManager.Init();
@@ -705,7 +705,7 @@ namespace LeaveMeAlone
                             else if (defeat)
                             {
                                 //Restart battle
-                                heroLoc.Clear();
+                                //heroLoc.Clear();
                                 MainMenu.init(false);
                                 return LeaveMeAlone.GameState.Main;
 
@@ -798,7 +798,7 @@ namespace LeaveMeAlone
                         if (state == State.Target || state == State.Bribe)
                         {
                             target_text.Draw(spriteBatch);
-                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 90, heroLoc[i].Location.Y), Color.Red);
+                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 20, heroLoc[i].Location.Y), Color.Red);
                         }
                     }
                     else
@@ -807,7 +807,7 @@ namespace LeaveMeAlone
                         if (state == State.Target || state == State.Bribe)
                         {
                             target_text.Draw(spriteBatch);
-                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 90, heroLoc[i].Location.Y), Color.Black);
+                            spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 20, heroLoc[i].Location.Y), Color.Black);
                         }
                     }
                     hero_hp[i].Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
@@ -919,6 +919,7 @@ namespace LeaveMeAlone
         {
             //boss.sPosition = new Vector2(LeaveMeAlone.WindowX-260, LeaveMeAlone.WindowY/2);
         }
+        /*
         public static void setHeroesPosition()
         {
             for (int i = 0; i < heroes.Count(); i++)
@@ -930,6 +931,6 @@ namespace LeaveMeAlone
 
                 }
             }
-        }
+        }*/
     }
 }

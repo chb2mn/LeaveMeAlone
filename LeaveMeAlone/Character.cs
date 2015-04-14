@@ -166,9 +166,11 @@ namespace LeaveMeAlone
         private void initMastermind()
         {
             max_health = 100;
-            health = max_health;
-            attack = 10;
+            //health = max_health;
+            //attack = 10;
             special_attack = 50;
+            attack = 100;
+            special_attack = 500;
             defense = 10;
             special_defense = 50;
             max_energy = 35;
@@ -413,8 +415,6 @@ namespace LeaveMeAlone
                 }
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
                 //debug_text.Draw(spriteBatch, sPosition);
-
-
             }
         }
 
