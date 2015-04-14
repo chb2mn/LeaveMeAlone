@@ -141,9 +141,10 @@ namespace LeaveMeAlone
                     Vector2 mousePos = new Vector2(currentMouseState.X, currentMouseState.Y);
                     if (operative.Contains(mousePos) || brute.Contains(mousePos) || mastermind.Contains(mousePos))
                     {
-                        
-                        if (current.bossType == Character.Type.Brute)
+                        BattleManager.boss = new Character(current.bossType, 1, new Vector2(BattleManager.bossLoc.X, BattleManager.bossLoc.Y));
+                        /*if (current.bossType == Character.Type.Brute)
                         {
+
                             BattleManager.boss = new Character(100, 50, 10, 50, 10, 25, 1, 1, 100, 0);
                             BattleManager.boss.charType = current.bossType;
                         }
@@ -156,27 +157,20 @@ namespace LeaveMeAlone
                         {
                             BattleManager.boss = new Character(100, 25, 25, 25, 25, 50, 20, 1, 100, 0);
                             BattleManager.boss.charType = current.bossType;
-                            /*
-                            BattleManager.boss.skills.Add(SkillTree.slash);
-                            BattleManager.boss.skills.Add(SkillTree.shuriken);
-                            BattleManager.boss.skills.Add(SkillTree.backstab);
-                            BattleManager.boss.skills.Add(SkillTree.garrote_watch);
-                            BattleManager.boss.skills.Add(SkillTree.silver_alloy_gun);
-                            BattleManager.boss.skills.Add(SkillTree.exploding_pen);
-                            BattleManager.boss.skills.Add(SkillTree.bladed_shoes);
-                            */
                             Resources.gold = 50000;
 
                         }
-                        BattleManager.boss.Init();
+                    */
+                        //BattleManager.boss.Init();
 
                         Console.WriteLine("Here we go!");
                         BattleManager.heroes = PartyManager.CreateParty();
+                        /*
                         foreach (Character hero in BattleManager.heroes)
                         {
                             hero.Init();
                             //required because the UpgradeMenu needs some info
-                        }
+                        }*/
                         BattleManager.Init();
                         UpgradeMenu.Init(current);
 

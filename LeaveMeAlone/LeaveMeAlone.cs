@@ -90,11 +90,11 @@ namespace LeaveMeAlone
             PartyManager.Init();
             Resources.Init();
 
-            BattleManager.heroes = PartyManager.CreateParty();
-            for (int i = 0; i < BattleManager.heroes.Count; i++)
+            //BattleManager.heroes = PartyManager.CreateParty();
+            /*for (int i = 0; i < BattleManager.heroes.Count; i++)
             {
                 BattleManager.heroes[i].Init();
-            }
+            }*/
 
 
             

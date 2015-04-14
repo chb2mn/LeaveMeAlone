@@ -41,6 +41,7 @@
     <Compile Include="BattleManager.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="HoverText.cs" />
     <Compile Include="LeaveMeAlone.cs" />
     <Compile Include="LairManager.cs" />
     <Compile Include="MainMenu.cs" />
@@ -101,13 +102,7 @@
     <Content Include="Content\bruteMenu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\DefMinus.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\ContinueGame.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\DefMinus.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\back.xnb">

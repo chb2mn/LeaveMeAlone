@@ -26,7 +26,7 @@ namespace LeaveMeAlone
             partyQueue.Add(null);
         }
 
-        public static Character CreateHero(int type)
+        public static Character CreateHero(int type, int lvl, Vector2 pos)
         {
             Character c;
             switch (type)
@@ -35,20 +35,20 @@ namespace LeaveMeAlone
                     //Knight
                     //c = new Character(50, 25, 5, 500, 0, 5, 1, 1, 100, 100);
                     //c.charType = Character.Type.Knight;
-                    c = new Character(Character.Type.Knight, 1);
+                    c = new Character(Character.Type.Knight, lvl, pos);
                     return c;
                 case 1:
                     //Mage;
                     //c =  new Character(25, 5, 25, 5, 25, 15, 1, 1, 100, 100);
                     //c.charType = Character.Type.Mage;
-                    c = new Character(Character.Type.Mage, 1);
+                    c = new Character(Character.Type.Mage, lvl, pos);
 
                     return c;
                 case 2:
                     //Ranger
                     //c = new Character(25, 10, 10, 10, 10, 35, 1, 1, 100, 100);
                     //c.charType = Character.Type.Ranger;
-                    c = new Character(Character.Type.Ranger, 1);
+                    c = new Character(Character.Type.Ranger, lvl, pos);
 
                     return c;
             }
@@ -80,7 +80,11 @@ namespace LeaveMeAlone
             for(int x = 0; x < num; x++)
             {
                 int type = RNG.Next(3);
-                new_party.Add(CreateHero(type));
+                // want to make a party with a single enemy more difficult than a single enemy in a party of 4
+                int level = BattleManager.boss.level + LeaveMeAlone.random.Next(3) + (5-num);
+                int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1)% 2);
+                int ypos = LairManager.topOffset + LairManager.topScaling * x;
+                new_party.Add(CreateHero(type, level, new Vector2(xpos, ypos)));
             }
             return new_party;
         }
@@ -101,6 +105,7 @@ namespace LeaveMeAlone
             if (topParty != null)
             {
                 BattleManager.heroes = topParty;
+                /*
                 for (int i = 0; i < BattleManager.heroes.Count; i++)
                 {
                     if (BattleManager.heroes[i] != null)
@@ -108,14 +113,14 @@ namespace LeaveMeAlone
                         BattleManager.heroes[i].Init();
 
                     }
-                }
+                }*/
                 int hero_basex = 50;
                 int hero_basey = 150;
                 BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
                 BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 80, 100, 60));
                 BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 160, 100, 60));
                 BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 240, 100, 60));
-                BattleManager.setHeroesPosition();
+                //BattleManager.setHeroesPosition();
                 return true;
             }
             else

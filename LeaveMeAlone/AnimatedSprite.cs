@@ -12,7 +12,7 @@ namespace LeaveMeAlone
     {
         #region Fields
 
-        protected Texture2D sTexture;
+        public Texture2D sTexture;
         public Vector2 sPosition;
         protected bool facingRight;
         private bool midAttack;
@@ -31,7 +31,8 @@ namespace LeaveMeAlone
         public int walkEndFrame;
         private string currentState;
         private string lastState;
-
+        public int width;
+        public int height;
         public double FramesPerSecond
         {
             set { timeToUpdate = (1f / value); }
@@ -46,9 +47,10 @@ namespace LeaveMeAlone
         public void AddAnimation(int frames)
         {
             //Calculates the width of each frame
-            int width = (int)Math.Floor((double)(sTexture.Width / frames));
+            width = (int)Math.Floor((double)(sTexture.Width / frames));
             aWidth = width + 25;
             aHeight = sTexture.Height;
+            height = sTexture.Height;
             //Creates an array of rectangles which will be used when playing an animation
             sRectangles = new Rectangle[frames];
 

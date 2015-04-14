@@ -25,6 +25,8 @@ namespace LeaveMeAlone
 
         public static Dictionary<Character.Knowledge, bool> Knowledge = new Dictionary<Character.Knowledge,bool>();
 
+        public static Text hovertext = new Text("", new Vector2(LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Y), Text.fonts["RetroComputer-12"]);
+        public static Texture2D hovertextbackground;
 
         public static Character boss;
         public static Rectangle bossLoc;
@@ -156,7 +158,7 @@ namespace LeaveMeAlone
         public static void Init()
         {
             message = new Text("", new Vector2(0,0), Text.fonts["Arial-12"], Color.Black);
-            boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
+            //boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
             victory = false;
             defeat = false;
             haste_check = false;
@@ -479,6 +481,7 @@ namespace LeaveMeAlone
 
         public static LeaveMeAlone.GameState Update(GameTime gametime)
         {
+            //Keyboard.GetState();
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
             {
@@ -905,7 +908,7 @@ namespace LeaveMeAlone
 
         public static void bossDefaultPosition()
         {
-            boss.sPosition = new Vector2(LeaveMeAlone.WindowX-260, LeaveMeAlone.WindowY/2);
+            //boss.sPosition = new Vector2(LeaveMeAlone.WindowX-260, LeaveMeAlone.WindowY/2);
         }
         public static void setHeroesPosition()
         {
@@ -914,7 +917,7 @@ namespace LeaveMeAlone
                 if (heroes[i] != null)
                 {
                     heroLoc[i] = new Rectangle(herobase.X - 50*i + 150, herobase.Y + 100*i, 150, 100);
-                    heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
+                    //heroes[i].sPosition = new Vector2(heroLoc[i].X + 20, heroLoc[i].Y);
 
                 }
             }
