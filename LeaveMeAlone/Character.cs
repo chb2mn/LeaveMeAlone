@@ -90,7 +90,7 @@ namespace LeaveMeAlone
 
             damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
 
-            debug_text = new HoverText(this,"atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
+            //debug_text = new HoverText(this,"atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
         }
 
@@ -130,7 +130,7 @@ namespace LeaveMeAlone
 
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
 
-            debug_text = new HoverText(this, "atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
+            //debug_text = new HoverText(this, "atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
 
 
 
@@ -174,13 +174,16 @@ namespace LeaveMeAlone
         }
         private void initOperative()
         {
+            //BattleManager.boss = new Character(100, 25, 25, 25, 25, 50, 20, 1, 100, 0);
+
+            level = 20;
             max_health = 100;
             health = max_health;
-            attack = 50;
-            special_attack = 10;
-            defense = 50;
-            special_defense = 10;
-            max_energy = 25;
+            attack = 25;
+            special_attack = 25;
+            defense = 25;
+            special_defense = 25;
+            max_energy = 50;
             manaRechargeRate = 1;
             energy = max_energy;
             gold = 100;
