@@ -143,6 +143,9 @@ namespace LeaveMeAlone
                 selected_skills.Add(s);
             }
         }
+
+
+        //>>>>>>>>>>>>>>>>>>Class Stats<<<<<<<<<<<<<<<<<<
         private void initBrute()
         {
             max_health = 100;
@@ -170,12 +173,9 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
-            //new Character(100, 10, 50, 10, 50, 35, 1, 1, 100, 0);
         }
         private void initOperative()
         {
-            //BattleManager.boss = new Character(100, 25, 25, 25, 25, 50, 20, 1, 100, 0);
-
             level = 20;
             max_health = 100;
             health = max_health;
@@ -189,6 +189,7 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
         }
+        //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
         {
             max_health = 25 + 5 * level-1;
