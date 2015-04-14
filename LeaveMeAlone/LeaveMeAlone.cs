@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace LeaveMeAlone
@@ -25,7 +27,14 @@ namespace LeaveMeAlone
         public static int seed = 1000;
         public static Random random = new Random(seed);
         public static Rectangle BackgroundRect;
+
         public static Text EndGameText;
+        public static SoundEffect Menu_Song;
+        public static SoundEffectInstance Menu_Song_Instance;
+        public static SoundEffect Battle_Song;
+        public static SoundEffectInstance Battle_Song_Instance;
+
+
 
         /*public static void SetPosition(this GameWindow window, Point position)
         {
@@ -131,6 +140,16 @@ namespace LeaveMeAlone
             //font = Content.Load<SpriteFont>("coure.fon");
             // TODO: use this.Content to load your game content here
 
+            Menu_Song = Content.Load<SoundEffect>("Epic_Loop.wav");
+            Menu_Song_Instance = Menu_Song.CreateInstance();
+            Menu_Song_Instance.IsLooped = true;
+
+            Battle_Song = Content.Load<SoundEffect>("VGameTune.wav");
+            Battle_Song_Instance = Battle_Song.CreateInstance();
+            Battle_Song_Instance.IsLooped = true;
+            //Console.WriteLine(MediaPlayer.IsRepeating);
+            //both songs have no duration
+            
             EndGameText = new Text("And So,\n\nThrough much perserverence\nand a low interest mortgage\nour boss was finally\n\nLeft Alone.",
             new Vector2(300, 200), Text.fonts["6809Chargen-24"], Color.Cyan);
 
@@ -155,6 +174,7 @@ namespace LeaveMeAlone
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            
             switch (gamestate)
             {
                 case GameState.Main:

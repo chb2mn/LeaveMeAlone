@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Media;
 #endregion
 
 namespace LeaveMeAlone
@@ -158,7 +159,13 @@ namespace LeaveMeAlone
         public static void Init()
         {
             message = new Text("", new Vector2(0,0), Text.fonts["Arial-12"], Color.Black);
-            //boss.sPosition = new Vector2(bossLoc.X - 20, bossLoc.Y + 20);
+
+            //Play the Music
+            //MediaPlayer.IsRepeatable = true;
+            LeaveMeAlone.Menu_Song_Instance.Stop();
+            LeaveMeAlone.Battle_Song_Instance.Play();
+
+
             victory = false;
             defeat = false;
             haste_check = false;
@@ -422,8 +429,7 @@ namespace LeaveMeAlone
                 {
                     Console.WriteLine("Removing Enemy: " + i + " At health: " + hero.health);
                     Resources.gold += heroes[i].gold;
-                    Resources.exp += heroes[i].exp;
-                    boss.level = (int)(.1 * Math.Sqrt(Resources.exp));
+                    Resources.exp += heroes[i].exp;     
                     heroes[i] = null;
 
                     //Reward the boss
@@ -435,6 +441,8 @@ namespace LeaveMeAlone
             }
             if (victory || defeat)
             {
+                boss.level = Resources.get_level(Resources.exp);
+                LeaveMeAlone.Battle_Song_Instance.Stop();
                 state = State.Endgame;
             }
         }
@@ -691,6 +699,7 @@ namespace LeaveMeAlone
                                 heroLoc.Clear();
                                 victory = false;
                                 UpgradeMenu.rerollRooms();
+                                LairManager.Init();
                                 return LeaveMeAlone.GameState.Lair;
                             }
                             else if (defeat)
@@ -805,13 +814,13 @@ namespace LeaveMeAlone
 
                     if (!heroes[i].damage_text.message.Equals(""))
                     {
-                        if (animation_counter-- >= 0)
+                        if (heroes[i].damage_counter-- >= 0)
                         {
-                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + animation_counter / 3), Color.AntiqueWhite);
+                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + heroes[i].damage_counter / 3), Color.AntiqueWhite);
                         }
                         else
                         {
-                            animation_counter = 50;
+                            heroes[i].damage_counter = 150;
                             heroes[i].damage_text.changeMessage("");
                         }
                     }
@@ -833,13 +842,13 @@ namespace LeaveMeAlone
             boss_energy.Draw(spriteBatch);
             if (!boss.damage_text.message.Equals(""))
             {
-                if (animation_counter-- >= 0)
+                if (boss.damage_counter-- >= 0)
                 {
-                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + animation_counter / 3), Color.AntiqueWhite);
+                    boss.damage_text.Draw(spriteBatch, new Vector2(bossLoc.Location.X, bossLoc.Location.Y - 20 + boss.damage_counter / 3), Color.AntiqueWhite);
                 }
                 else
                 {
-                    animation_counter = 50;
+                    boss.damage_counter = 150;
                     boss.damage_text.changeMessage("");
                 }
             }

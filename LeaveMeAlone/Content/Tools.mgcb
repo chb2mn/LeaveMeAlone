@@ -695,6 +695,7 @@
 /processorParam:TextureFormat=Color
 /build:nothing.png
 
+<<<<<<< HEAD
 #begin Fonts/6809Chargen-12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -736,4 +737,17 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:Fonts/RetroComputer-24.spritefont
+=======
+#begin Epic_Loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Epic_Loop.wav
+
+#begin VGameTune.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:VGameTune.wav
+>>>>>>> bcb446ba2209c1e1ffce325b778e6a43037a73ee
 
