@@ -607,12 +607,12 @@ namespace LeaveMeAlone
             if (target.statuses.Contains(Status.check_poison))
             {
                 int status_index = target.statuses.IndexOf(Status.check_poison);
-                target.statuses[status_index].duration_left += 3;
+                target.statuses[status_index].duration_left += 2;
             }
             //Otherwise add it
             else
             {
-                target.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
+                target.statuses.Add(new Status("poison", 1, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
             }
         }
         public static void Haste(Character caster, Character target = null) 

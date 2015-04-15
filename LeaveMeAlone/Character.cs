@@ -198,11 +198,11 @@ namespace LeaveMeAlone
         {
             max_health = 25 + 5 * (level-1);
             health = max_health;
-            attack = 10 + 5 * (level - 1);
-            special_attack = 10 + 5 * (level - 1);
-            defense = 7 + 5 * (level - 1);
-            special_defense = 7 + 5 * (level - 1);
-            max_energy = 35 + 4 * (level - 1);
+            attack = 10 + 4 * (level - 1);
+            special_attack = 10 + 4 * (level - 1);
+            defense = 7 + 3 * (level - 1);
+            special_defense = 7 + 3 * (level - 1);
+            max_energy = 35 + 7 * (level - 1);
             energy = max_energy;
             manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
             gold = 100 + 20 * (level - 1);
@@ -216,10 +216,10 @@ namespace LeaveMeAlone
         {
             max_health = 25 + 5 * (level - 1);
             health = max_health;
-            attack = 5 + 5 * (level - 1);
+            attack = 5 + 2 * (level - 1);
             special_attack = 25 + 5 * (level - 1);
-            defense = 5 + 5 * (level - 1);
-            special_defense = 15 + 5 * (level - 1);
+            defense = 5 + 1 * (level - 1);
+            special_defense = 15 + 4 * (level - 1);
             max_energy = 15 + 7 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
@@ -233,9 +233,9 @@ namespace LeaveMeAlone
             max_health = 50 + 10 * (level - 1);
             health = max_health;
             attack = 25 + 5 * (level - 1);
-            special_attack = 5 + 5 * (level - 1);
-            defense = 15 + 10 * (level - 1);
-            special_defense = 5 + 2 * (level - 1);
+            special_attack = 5 + 2 * (level - 1);
+            defense = 15 + 9 * (level - 1);
+            special_defense = 5 + 1 * (level - 1);
             max_energy = 5 + 3 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));

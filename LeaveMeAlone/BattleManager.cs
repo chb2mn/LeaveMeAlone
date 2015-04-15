@@ -36,6 +36,10 @@ namespace LeaveMeAlone
         private static Button[] skill_buttons = new Button[6];
         private static Texture2D buttonLocPic;
         public static Texture2D bkgd;
+
+        private static Texture2D green;
+        public static List<Rectangle> hpbars = new List<Rectangle>();
+
         private static Texture2D targeter;
         private static int[] check_cooldown = new int[6];
 
@@ -94,6 +98,9 @@ namespace LeaveMeAlone
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
+            green = Content.Load<Texture2D>("green");
+
+            
 
             target_text = new Text("Select Target", new Vector2(100, 100), Text.fonts["RetroComputer-12"]);
 
@@ -119,6 +126,11 @@ namespace LeaveMeAlone
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
             boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
 
+            for (int i = 0; i < 4; i++)
+            {
+                hpbars.Add(new Rectangle(0,0,0,0));
+            }
+            hpbars.Add(new Rectangle(0,0,0,0));
 
             for (int i = 0; i < 4; i++)
             {
@@ -175,6 +187,22 @@ namespace LeaveMeAlone
             boss.energy = boss.max_energy;
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
             boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
+
+            for (int i = 0; i < 4; i++)
+            {
+                Rectangle hpbar = hpbars[i];
+                hpbar.X = heroLoc[i].X;
+                hpbar.Y = heroLoc[i].Y+140;
+                hpbar.Width = 100;
+                hpbar.Height = 10;
+                hpbars[i] = hpbar;
+            }
+            Rectangle boss_hpbar = hpbars[4];
+            boss_hpbar.X = bossLoc.X;
+            boss_hpbar.Y = bossLoc.Y + 140;
+            boss_hpbar.Width = 100;
+            boss_hpbar.Height = 10;
+            hpbars[4] = boss_hpbar;
 
             for (int i = 0; i < 6; i++)
             {
@@ -811,7 +839,10 @@ namespace LeaveMeAlone
                         }
                     }
                     hero_hp[i].Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
-
+                    if (heroes[i] != null)
+                    {
+                        spriteBatch.Draw(green, hpbars[i], Color.Green);
+                    }
                     if (!heroes[i].damage_text.message.Equals(""))
                     {
                         if (heroes[i].damage_counter-- >= 0)
@@ -840,6 +871,7 @@ namespace LeaveMeAlone
             boss.Draw(spriteBatch, Color.White);
             boss_hp.Draw(spriteBatch);
             boss_energy.Draw(spriteBatch);
+            spriteBatch.Draw(green, hpbars[4], Color.Green);
             if (!boss.damage_text.message.Equals(""))
             {
                 if (boss.damage_counter-- >= 0)
