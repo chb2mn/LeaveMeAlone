@@ -92,12 +92,13 @@ namespace LeaveMeAlone
             damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
             damage_counter = 150;
 
-            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
+            //debug_text = new HoverText(this,"atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
         }
 
-        public Character(Type t, int level)
+        public Character(Type t, int level, Vector2 pos)
         {
+            sPosition = pos;
             this.level = level;
             this.charType = t;
             basic_attack = SkillTree.basic_attack;
@@ -113,17 +114,26 @@ namespace LeaveMeAlone
                 case Type.Knight:
                     initKnight();
                     break;
+                case Type.Brute:
+                    initBrute();
+                    break;
+                case Type.Mastermind:
+                    initMastermind();
+                    break;
+                case Type.Operative:
+                    initOperative();
+                    break;
                 default:
                     ;
                     break;
             }
-
+            Init();
             
 
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
             damage_counter = 150;
 
-            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
+            //debug_text = new HoverText(this, "atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
 
 
 
@@ -136,19 +146,68 @@ namespace LeaveMeAlone
                 selected_skills.Add(s);
             }
         }
+
+
+        //>>>>>>>>>>>>>>>>>>Class Stats<<<<<<<<<<<<<<<<<<
+        private void initBrute()
+        {
+            max_health = 100;
+            health = max_health;
+            attack = 50;
+            special_attack = 10;
+            defense = 50;
+            special_defense = 10;
+            max_energy = 25;
+            manaRechargeRate = 1;
+            energy = max_energy;
+            gold = 100;
+            exp = 0;
+        }
+        private void initMastermind()
+        {
+            max_health = 100;
+            //health = max_health;
+            //attack = 10;
+            special_attack = 50;
+            attack = 100;
+            special_attack = 500;
+            defense = 10;
+            special_defense = 50;
+            max_energy = 35;
+            manaRechargeRate = 1;
+            energy = max_energy;
+            gold = 100;
+            exp = 0;
+        }
+        private void initOperative()
+        {
+            level = 20;
+            max_health = 100;
+            health = max_health;
+            attack = 25;
+            special_attack = 25;
+            defense = 25;
+            special_defense = 25;
+            max_energy = 50;
+            manaRechargeRate = 1;
+            energy = max_energy;
+            gold = 100;
+            exp = 0;
+        }
+        //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
         {
-            max_health = 25;
+            max_health = 25 + 5 * level-1;
             health = max_health;
-            attack = 10;
-            special_attack = 10;
-            defense = 7;
-            special_defense = 7;
-            max_energy = 35;
+            attack = 10 + 5 * level - 1;
+            special_attack = 10 + 5 * level - 1;
+            defense = 7 + 5 * level - 1;
+            special_defense = 7 + 5 * level - 1;
+            max_energy = 35 + 4 * level - 1;
             energy = max_energy;
-            manaRechargeRate = 1;
-            gold = 100;
-            exp = 100;
+            manaRechargeRate = (int)(1 + .2 * (double)level - 1);
+            gold = 100 + 20 * level - 1;
+            exp = 100 + 40 * level - 1;
             cure = SkillTree.cure;
             strong_attack = SkillTree.bash;
             status = SkillTree.poison_dagger;
@@ -156,33 +215,33 @@ namespace LeaveMeAlone
         }
         private void initMage()
         {
-            max_health = 25;
+            max_health = 25 + 5 * level - 1;
             health = max_health;
-            attack = 5;
-            special_attack = 25;
-            defense = 5;
-            special_defense = 15;
-            max_energy = 15;
+            attack = 5 + 5 * level - 1;
+            special_attack = 25 + 5 * level - 1;
+            defense = 5 + 5 * level - 1;
+            special_defense = 15 + 5 * level - 1;
+            max_energy = 15 + 7 * level - 1;
             energy = max_energy;
-            manaRechargeRate = 1;
-            gold = 100;
-            exp = 100;
+            manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
+            gold = 100 + 20 * level - 1;
+            exp = 100 + 40 * level - 1;
             cure = SkillTree.cure;
             basic_attack = SkillTree.magefire;
         }
         private void initKnight()
         {
-            max_health = 50;
+            max_health = 50 + 10 * level - 1;
             health = max_health;
-            attack = 25;
-            special_attack = 5;
-            defense = 15;
-            special_defense = 5;
-            max_energy = 5;
+            attack = 25 + 5 * level - 1;
+            special_attack = 5 + 5 * level - 1;
+            defense = 15 + 10 * level - 1;
+            special_defense = 5 + 2 * level - 1;
+            max_energy = 5 + 3 * level - 1;
             energy = max_energy;
-            manaRechargeRate = 1;
-            gold = 100;
-            exp = 100;
+            manaRechargeRate = 1 + (int)(1 + .3 * (double)level - 1);
+            gold = 100 + 20 * level - 1;
+            exp = 100 + 40 * level - 1;
             strong_attack = SkillTree.bash;
         }
 
@@ -196,7 +255,7 @@ namespace LeaveMeAlone
             operative140 = content.Load<Texture2D>("operativeMenu");
             lairHero70 = content.Load<Texture2D>("LairHero70");
         }
-        public void Init()
+        private void Init()
         {
             idleStartFrame = 0;
             idleEndFrame = 1;
@@ -309,11 +368,13 @@ namespace LeaveMeAlone
         }
 
         public void Update(GameTime gameTime) {
+            
             FrameUpdate(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
+            //debug_text.changeMessage("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense);
             if (facingRight)
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
@@ -332,8 +393,8 @@ namespace LeaveMeAlone
                     spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
                     i++;
                 }
-                debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
-                debug_text.Draw(spriteBatch, oPosition);
+                
+                //debug_text.Draw(spriteBatch, oPosition);
 
             }
             else
@@ -352,10 +413,8 @@ namespace LeaveMeAlone
                     }
                     i++;
                 }
-                debug_text.changeMessage("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense);
-                debug_text.Draw(spriteBatch, sPosition);
-
-
+                //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
+                //debug_text.Draw(spriteBatch, sPosition);
             }
         }
 

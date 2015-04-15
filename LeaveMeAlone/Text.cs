@@ -16,6 +16,7 @@ namespace LeaveMeAlone
         public Color color;
         public Vector2 position;
         public string message;
+        
 
         public static Color DEFAULT_COLOR = Color.Black;
 
@@ -78,7 +79,7 @@ namespace LeaveMeAlone
             Console.WriteLine(str);
         }
 
-        public void Draw(SpriteBatch sb,  Vector2 pos = default(Vector2), Color c = default(Color))
+        public virtual void Draw(SpriteBatch sb,  Vector2 pos = default(Vector2), Color c = default(Color))
         {
             if (c == default(Color))
             {

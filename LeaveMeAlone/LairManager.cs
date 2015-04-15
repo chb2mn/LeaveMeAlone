@@ -27,6 +27,10 @@ namespace LeaveMeAlone
         public static Room UnconstructedRoom;
         public static List<UpgradeMenu.ButtonRoom> boughtRooms = new List<UpgradeMenu.ButtonRoom>();
         public static UpgradeMenu.ButtonRoom selectedRoomSwapButton { get; set; }
+        public static  int sideOffset = 75;
+        public static  int sideScaling = 50;
+        public static  int topOffset = 150;
+        public static int topScaling = 120;
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void loadContent(ContentManager content)
@@ -97,10 +101,11 @@ namespace LeaveMeAlone
                                 PartyManager.popParty();
                             }
                             List<Character> FinalParty = new List<Character>();
-                            FinalParty.Add(new Character(Character.Type.Knight, 25));
-                            FinalParty.Add(new Character(Character.Type.Ranger, 25));
-                            FinalParty.Add(new Character(Character.Type.Mage, 25));
-                            FinalParty.Add(new Character(Character.Type.Mage, 25));
+
+                            FinalParty.Add(new Character(Character.Type.Knight, 25, new Vector2(sideOffset, topOffset + topScaling * 1)));
+                            FinalParty.Add(new Character(Character.Type.Ranger, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
+                            FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset, topOffset + topScaling * 3)));
+                            FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 4)));
                             PartyManager.partyQueue.Add(FinalParty);
                             PartyManager.popParty();
                             one_last_party = false;
@@ -221,9 +226,9 @@ namespace LeaveMeAlone
                 {
                     
                     Character.Type placeholder = Character.Type.LairHero;
-                    Character newChar = new Character(placeholder, 1);
-                    newChar.sPosition = new Vector2((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY + 20 - 100 * (TowerLevel - j + 1)));
-                    newChar.Init();
+                    Vector2 characterPos = new Vector2((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY + 20 - 100 * (TowerLevel - j + 1)));
+                    Character newChar = new Character(placeholder, 1, characterPos);
+                                        //newChar.Init();
                     newChar.Draw(Spritebatch, Color.White);
                 }
             }
