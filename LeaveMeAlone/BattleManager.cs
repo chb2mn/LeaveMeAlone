@@ -134,7 +134,7 @@ namespace LeaveMeAlone
 
             for (int i = 0; i < 4; i++)
             {
-                Text hptext = new Text(msg:"");
+                Text hptext = new Text(msg:"", position:new Vector2(heroLoc[i].Location.X , heroLoc[i].Location.Y + 120));
                 hero_hp.Add(hptext);
             }
 
@@ -272,6 +272,32 @@ namespace LeaveMeAlone
             }
         }
 
+        public static void updateHealth()
+        {
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                if (heroes[i] != null)
+                {
+                    Rectangle hpbar = hpbars[i];
+                    hpbar.Width = 100* heroes[i].health / heroes[i].max_health;
+                    hpbars[i] = hpbar;
+                }
+            }
+            Rectangle boss_hpbar = hpbars[4];
+            boss_hpbar.Width = 100 * boss.health / boss.max_health;
+            hpbars[4] = boss_hpbar;
+
+            //Update texts
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                if (heroes[i] == null) { continue; }
+                hero_hp[i].changeMessage(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
+            }
+            boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
+            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
+
+
+        }
 
         public static void Attack(Character caster)
         {
@@ -367,15 +393,7 @@ namespace LeaveMeAlone
             Apply_Status(caster, Status.Effect_Time.Once);
 
             //Do damage and send state to enemy turn
-            //Update texts
-            for (int i = 0; i < heroes.Count(); i++)
-            {
-                if (heroes[i] == null) { continue; }
-                hero_hp[i].changeMessage(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
-            }
-            boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
-            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
-
+            
             //update the state to pass the turn to enemies
             if (enemy_turn == -1)
             {
@@ -697,6 +715,8 @@ namespace LeaveMeAlone
                 case State.Attack:
                     //Attacking
                     Attack(boss);
+                    updateHealth();
+                    
                     break;
                 case State.Endgame:
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
@@ -804,8 +824,9 @@ namespace LeaveMeAlone
                 heroes[i].Update(gametime);
             }
             boss.Update(gametime);
-            boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
-            boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.max_energy.ToString());
+            
+            updateHealth();
+
             return LeaveMeAlone.GameState.Battle;
         }
 
@@ -838,7 +859,7 @@ namespace LeaveMeAlone
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 20, heroLoc[i].Location.Y), Color.Black);
                         }
                     }
-                    hero_hp[i].Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
+                    hero_hp[i].Draw(spriteBatch);//, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
                     if (heroes[i] != null)
                     {
                         spriteBatch.Draw(green, hpbars[i], Color.Green);
