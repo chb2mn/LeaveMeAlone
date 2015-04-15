@@ -166,8 +166,7 @@ namespace LeaveMeAlone
         private void initMastermind()
         {
             max_health = 100;
-            //health = max_health;
-            //attack = 10;
+            health = max_health;
             special_attack = 50;
             attack = 100;
             special_attack = 500;
@@ -197,17 +196,17 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
         {
-            max_health = 25 + 5 * level-1;
+            max_health = 25 + 5 * (level-1);
             health = max_health;
-            attack = 10 + 5 * level - 1;
-            special_attack = 10 + 5 * level - 1;
-            defense = 7 + 5 * level - 1;
-            special_defense = 7 + 5 * level - 1;
-            max_energy = 35 + 4 * level - 1;
+            attack = 10 + 5 * (level - 1);
+            special_attack = 10 + 5 * (level - 1);
+            defense = 7 + 5 * (level - 1);
+            special_defense = 7 + 5 * (level - 1);
+            max_energy = 35 + 4 * (level - 1);
             energy = max_energy;
-            manaRechargeRate = (int)(1 + .2 * (double)level - 1);
-            gold = 100 + 20 * level - 1;
-            exp = 100 + 40 * level - 1;
+            manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
+            gold = 100 + 20 * (level - 1);
+            exp = 100 + 40 * (level - 1);
             cure = SkillTree.cure;
             strong_attack = SkillTree.bash;
             status = SkillTree.poison_dagger;
@@ -215,33 +214,33 @@ namespace LeaveMeAlone
         }
         private void initMage()
         {
-            max_health = 25 + 5 * level - 1;
+            max_health = 25 + 5 * (level - 1);
             health = max_health;
-            attack = 5 + 5 * level - 1;
-            special_attack = 25 + 5 * level - 1;
-            defense = 5 + 5 * level - 1;
-            special_defense = 15 + 5 * level - 1;
-            max_energy = 15 + 7 * level - 1;
+            attack = 5 + 5 * (level - 1);
+            special_attack = 25 + 5 * (level - 1);
+            defense = 5 + 5 * (level - 1);
+            special_defense = 15 + 5 * (level - 1);
+            max_energy = 15 + 7 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
-            gold = 100 + 20 * level - 1;
-            exp = 100 + 40 * level - 1;
+            gold = 100 + 20 * (level - 1);
+            exp = 100 + 40 * (level - 1);
             cure = SkillTree.cure;
             basic_attack = SkillTree.magefire;
         }
         private void initKnight()
         {
-            max_health = 50 + 10 * level - 1;
+            max_health = 50 + 10 * (level - 1);
             health = max_health;
-            attack = 25 + 5 * level - 1;
-            special_attack = 5 + 5 * level - 1;
-            defense = 15 + 10 * level - 1;
-            special_defense = 5 + 2 * level - 1;
-            max_energy = 5 + 3 * level - 1;
+            attack = 25 + 5 * (level - 1);
+            special_attack = 5 + 5 * (level - 1);
+            defense = 15 + 10 * (level - 1);
+            special_defense = 5 + 2 * (level - 1);
+            max_energy = 5 + 3 * (level - 1);
             energy = max_energy;
-            manaRechargeRate = 1 + (int)(1 + .3 * (double)level - 1);
-            gold = 100 + 20 * level - 1;
-            exp = 100 + 40 * level - 1;
+            manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
+            gold = 100 + 20 * (level - 1);
+            exp = 100 + 40 * (level - 1);
             strong_attack = SkillTree.bash;
         }
 
