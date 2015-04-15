@@ -53,6 +53,7 @@ namespace LeaveMeAlone
         public Text damage_text;
         public int damage_counter;
         public Text debug_text;
+        public Text lvl_text;
         //This is how much damage is expected from any attack done
         public int expected_damage;
 
@@ -89,6 +90,7 @@ namespace LeaveMeAlone
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
 
+            lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
             damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
             damage_counter = 150;
 
@@ -128,7 +130,8 @@ namespace LeaveMeAlone
                     break;
             }
             Init();
-            
+
+            lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X+45, sPosition.Y), c: Color.CadetBlue);
 
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
             damage_counter = 150;
@@ -392,6 +395,7 @@ namespace LeaveMeAlone
                     spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
                     i++;
                 }
+                lvl_text.Draw(spriteBatch);
                 
                 //debug_text.Draw(spriteBatch, oPosition);
 
@@ -412,6 +416,8 @@ namespace LeaveMeAlone
                     }
                     i++;
                 }
+                lvl_text.Draw(spriteBatch);
+
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
                 //debug_text.Draw(spriteBatch, sPosition);
             }
