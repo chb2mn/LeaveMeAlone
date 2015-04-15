@@ -54,11 +54,10 @@ namespace LeaveMeAlone
         private static Button back_button;
 
         //debug string
-        private static Text message; 
+        private static Text message;
 
         private static bool left_click = false;
         private static bool right_click = false;
-        private static int animation_counter = 30;
 
 
         private static int enemy_attack_delay = 60;
@@ -95,6 +94,7 @@ namespace LeaveMeAlone
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
+
             target_text = new Text("Select Target", new Vector2(100, 100), Text.fonts["RetroComputer-12"]);
 
             basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);

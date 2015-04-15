@@ -26,9 +26,9 @@ namespace LeaveMeAlone
             partyQueue.Add(null);
             for (int x = 0; x < 4; x++)
             {
-                int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1) % 2);
+                int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1) % 2) + 60;
                 int ypos = LairManager.topOffset + LairManager.topScaling * x;
-                BattleManager.heroLoc.Add(new Rectangle(xpos + 60, ypos, 100, 160));
+                BattleManager.heroLoc.Add(new Rectangle(xpos, ypos, 80, 140));
             }
         }
 

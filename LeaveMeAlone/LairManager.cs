@@ -28,9 +28,9 @@ namespace LeaveMeAlone
         public static List<UpgradeMenu.ButtonRoom> boughtRooms = new List<UpgradeMenu.ButtonRoom>();
         public static UpgradeMenu.ButtonRoom selectedRoomSwapButton { get; set; }
         public static  int sideOffset = 75;
-        public static  int sideScaling = 50;
+        public static  int sideScaling = 85;
         public static  int topOffset = 150;
-        public static int topScaling = 120;
+        public static int topScaling = 80;
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void loadContent(ContentManager content)
