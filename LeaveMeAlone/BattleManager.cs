@@ -43,7 +43,7 @@ namespace LeaveMeAlone
         private static Texture2D blue;
         public static List<Rectangle> manabars = new List<Rectangle>();
 
-        private static Texture2D targeter;
+        public static Texture2D targeter;
         private static int[] check_cooldown = new int[6];
 
         private static bool haste_check;

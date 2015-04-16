@@ -31,6 +31,7 @@ namespace LeaveMeAlone
         public static  int sideScaling = 85;
         public static  int topOffset = 150;
         public static int topScaling = 80;
+        public static bool selected_flag = false;
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void loadContent(ContentManager content)
@@ -84,6 +85,7 @@ namespace LeaveMeAlone
                     if (selectedRoomSwapButton.r != null && LairRooms.Contains(selectedRoomSwapButton.r) == false && rectpos.Contains(currentMouseState.X, currentMouseState.Y))
                     {
                         LairRooms[i] = selectedRoomSwapButton.r;
+                        selectedRoomSwapButton.used = true;
                     }
                 }
                 //next wave
@@ -184,7 +186,7 @@ namespace LeaveMeAlone
                     return LeaveMeAlone.GameState.Lair;
                 }
                 //checks if a room button was selected
-                bool flag = false;
+                selected_flag = false;
                 foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
                 {
                     if (r.b.Intersects(currentMouseState.X, currentMouseState.Y))
@@ -197,11 +199,11 @@ namespace LeaveMeAlone
                         }
                         selectedRoomSwapButton = r;
                         r.b.selected = true;
-                        flag = true;
+                        selected_flag = true;
                     }
                 }
                 //otherwise we unselect any previously selected button
-                if (flag == false && selectedRoomSwapButton.b != null)
+                if (selected_flag == false && selectedRoomSwapButton.b != null)
                 {
                     selectedRoomSwapButton.b.selected = false;
                     selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
@@ -218,6 +220,10 @@ namespace LeaveMeAlone
             for (int i = 0; i < TowerLevel; i++)
             {
                 Spritebatch.Draw(LairRooms[i].img, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100), Color.White);
+                if (selected_flag)
+                {
+                    Spritebatch.Draw(BattleManager.targeter, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3) + 150, (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 100, 100), Color.Red);
+                }
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
@@ -235,7 +241,7 @@ namespace LeaveMeAlone
             int count = 0;
             foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
             {
-                r.Draw(Spritebatch);
+                r.Draw(Spritebatch, r.used);
                 count++;
             }
             nextwaveBtn.Draw(Spritebatch);

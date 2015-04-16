@@ -65,6 +65,7 @@ namespace LeaveMeAlone
             }
             public Button b;
             public Room r;
+            public bool used = false;
             private bool drawable;
             public ButtonRoom(Button b, Room r)
             {
@@ -77,11 +78,11 @@ namespace LeaveMeAlone
             {
 
             }
-            public void Draw(SpriteBatch s)
+            public void Draw(SpriteBatch s, bool faded = false)
             {
                 if(drawable)
                 {
-                    b.Draw(s);
+                    b.Draw(s, faded);
                 }
             }
             public void Draw(SpriteBatch s, Rectangle r)
