@@ -68,6 +68,20 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>Room Declarations<<<<<<<<<<<//
         public static Room spike_trap;
         public static Room poison_pit;
+        public static Room poor_booby_traps;
+
+        //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
+        public static Room the_gym;
+        public static Room massive_treadmill;
+
+        //>>>>>>>>Mastermind Specific Rooms<<<<<<<<<<<//
+        public static Room laser_room;
+        public static Room mind_erase_chamber;
+
+        //>>>>>>>>Operative Specific Rooms<<<<<<<<<<<<<//
+        public static Room sea_bass_room;
+        public static Room interrogation_chamber;
+        public static Room austin_marlin_garage;
 
 
         public SkillTree()

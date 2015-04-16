@@ -84,8 +84,16 @@ namespace LeaveMeAlone
                     var rectpos = new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100);
                     if (selectedRoomSwapButton.r != null && LairRooms.Contains(selectedRoomSwapButton.r) == false && rectpos.Contains(currentMouseState.X, currentMouseState.Y))
                     {
+                        foreach (UpgradeMenu.ButtonRoom oldroom in boughtRooms)
+                        {
+                            if (oldroom.r == LairRooms[i])
+                            {
+                                oldroom.used = false;
+                            }
+                        }
                         LairRooms[i] = selectedRoomSwapButton.r;
                         selectedRoomSwapButton.used = true;
+                        
                     }
                 }
                 //next wave
