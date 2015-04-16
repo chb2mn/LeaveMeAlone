@@ -143,10 +143,12 @@ namespace LeaveMeAlone
             Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop.wav");
             Menu_Song_Instance = Menu_Song.CreateInstance();
             Menu_Song_Instance.IsLooped = true;
+            Menu_Song_Instance.Volume = .1f;
 
             Battle_Song = Content.Load<SoundEffect>("Sounds/VGameTune.wav");
             Battle_Song_Instance = Battle_Song.CreateInstance();
             Battle_Song_Instance.IsLooped = true;
+            Battle_Song_Instance.Volume = .1f;
             //Console.WriteLine(MediaPlayer.IsRepeating);
             //both songs have no duration
             

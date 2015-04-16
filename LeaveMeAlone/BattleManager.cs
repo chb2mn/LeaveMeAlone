@@ -40,6 +40,9 @@ namespace LeaveMeAlone
         private static Texture2D green;
         public static List<Rectangle> hpbars = new List<Rectangle>();
 
+        private static Texture2D blue;
+        public static List<Rectangle> manabars = new List<Rectangle>();
+
         private static Texture2D targeter;
         private static int[] check_cooldown = new int[6];
 
@@ -99,6 +102,7 @@ namespace LeaveMeAlone
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
             green = Content.Load<Texture2D>("green");
+            blue = Content.Load<Texture2D>("blue");
 
             
 
@@ -129,8 +133,10 @@ namespace LeaveMeAlone
             for (int i = 0; i < 4; i++)
             {
                 hpbars.Add(new Rectangle(0,0,0,0));
+                manabars.Add(new Rectangle(0, 0, 0, 0));
             }
             hpbars.Add(new Rectangle(0,0,0,0));
+            manabars.Add(new Rectangle(0,0,0,0));
 
             for (int i = 0; i < 4; i++)
             {
@@ -196,6 +202,12 @@ namespace LeaveMeAlone
                 hpbar.Width = 100;
                 hpbar.Height = 10;
                 hpbars[i] = hpbar;
+                Rectangle manabar = manabars[i];
+                manabar.X = heroLoc[i].X;
+                manabar.Y = heroLoc[i].Y + 155;
+                manabar.Width = 100;
+                manabar.Height = 10;
+                manabars[i] = manabar;
             }
             Rectangle boss_hpbar = hpbars[4];
             boss_hpbar.X = bossLoc.X;
@@ -203,6 +215,12 @@ namespace LeaveMeAlone
             boss_hpbar.Width = 100;
             boss_hpbar.Height = 10;
             hpbars[4] = boss_hpbar;
+            Rectangle boss_manabar = manabars[4];
+            boss_manabar.X = bossLoc.X;
+            boss_manabar.Y = bossLoc.Y + 155;
+            boss_manabar.Width = 100;
+            boss_manabar.Height = 10;
+            manabars[4] = boss_manabar;
 
             for (int i = 0; i < 6; i++)
             {
@@ -281,11 +299,17 @@ namespace LeaveMeAlone
                     Rectangle hpbar = hpbars[i];
                     hpbar.Width = 100* heroes[i].health / heroes[i].max_health;
                     hpbars[i] = hpbar;
+                    Rectangle manabar = manabars[i];
+                    manabar.Width = 100 * heroes[i].energy / heroes[i].max_energy;
+                    manabars[i] = manabar;
                 }
             }
             Rectangle boss_hpbar = hpbars[4];
             boss_hpbar.Width = 100 * boss.health / boss.max_health;
-            hpbars[4] = boss_hpbar;
+            hpbars[4] = boss_hpbar; 
+            Rectangle boss_manabar = manabars[4];
+            boss_manabar.Width = 100 * boss.energy / boss.max_energy;
+            manabars[4] = boss_manabar;
 
             //Update texts
             for (int i = 0; i < heroes.Count(); i++)
@@ -863,6 +887,8 @@ namespace LeaveMeAlone
                     if (heroes[i] != null)
                     {
                         spriteBatch.Draw(green, hpbars[i], Color.Green);
+                        spriteBatch.Draw(blue, manabars[i], Color.Blue);
+
                     }
                     if (!heroes[i].damage_text.message.Equals(""))
                     {
@@ -893,6 +919,8 @@ namespace LeaveMeAlone
             boss_hp.Draw(spriteBatch);
             boss_energy.Draw(spriteBatch);
             spriteBatch.Draw(green, hpbars[4], Color.Green);
+            spriteBatch.Draw(blue, manabars[4], Color.Blue);
+
             if (!boss.damage_text.message.Equals(""))
             {
                 if (boss.damage_counter-- >= 0)

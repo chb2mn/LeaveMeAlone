@@ -89,7 +89,7 @@ namespace LeaveMeAlone
             {
                 int type = RNG.Next(3);
                 // want to make a party with a single enemy more difficult than a single enemy in a party of 4
-                int level = BattleManager.boss.level + LeaveMeAlone.random.Next(3) + (5-num);
+                int level = BattleManager.boss.level + (4 - num); //LeaveMeAlone.random.Next(3) +
                 int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1)% 2);
                 int ypos = LairManager.topOffset + LairManager.topScaling * x;
                

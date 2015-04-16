@@ -104,7 +104,7 @@ namespace LeaveMeAlone
             this.level = level;
             this.charType = t;
             basic_attack = SkillTree.basic_attack;
-            defend = SkillTree.defend;
+            defend = SkillTree.enemy_defend;
             switch(t)
             {
                 case Type.Ranger:
@@ -157,7 +157,7 @@ namespace LeaveMeAlone
             max_health = 100;
             health = max_health;
             attack = 50;
-            special_attack = 10;
+            special_attack = 15;
             defense = 50;
             special_defense = 10;
             max_energy = 25;
@@ -171,8 +171,8 @@ namespace LeaveMeAlone
             max_health = 100;
             health = max_health;
             special_attack = 50;
-            attack = 100;
-            special_attack = 500;
+            attack = 15;
+            special_attack = 50;
             defense = 10;
             special_defense = 50;
             max_energy = 35;
@@ -183,11 +183,11 @@ namespace LeaveMeAlone
         }
         private void initOperative()
         {
-            level = 20;
+            level = 1;
             max_health = 100;
             health = max_health;
-            attack = 25;
-            special_attack = 25;
+            attack = 30;
+            special_attack = 30;
             defense = 25;
             special_defense = 25;
             max_energy = 50;
@@ -209,7 +209,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
             gold = 100 + 20 * (level - 1);
-            exp = 100 + 40 * (level - 1);
+            exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             strong_attack = SkillTree.bash;
             status = SkillTree.poison_dagger;
@@ -227,7 +227,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
             gold = 100 + 20 * (level - 1);
-            exp = 100 + 40 * (level - 1);
+            exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             basic_attack = SkillTree.magefire;
         }
@@ -243,7 +243,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
             gold = 100 + 20 * (level - 1);
-            exp = 100 + 40 * (level - 1);
+            exp = 100 + 100 * (level - 1);
             strong_attack = SkillTree.bash;
         }
 

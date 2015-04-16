@@ -26,6 +26,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
         public static Skill basic_attack;
         public static Skill defend;
+        public static Skill enemy_defend;
 
         //Brute
         public static Skill ethereal_fist;
@@ -84,6 +85,7 @@ namespace LeaveMeAlone
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
             basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
             defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
+            enemy_defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Defend", EnemyDefend);
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             //Brute
@@ -114,7 +116,7 @@ namespace LeaveMeAlone
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             shuriken = new Skill("Shuriken", 10, 300, 1, 0, Skill.Target.All, 1, "It bounces off of all enemies!", FlameThrower);
 
-            backstab = new Skill("Backstab", 10, 300, 1, 2, Skill.Target.Self, 1, "Hit an enemy ignoring defense", Backstab); // hit ignore defense
+            backstab = new Skill("Backstab", 10, 300, 1, 2, Skill.Target.Single, 1, "Hit an enemy ignoring defense", Backstab); // hit ignore defense
             garrote_watch = new Skill("Garrote Watch", 5, 300, 5, 0, Skill.Target.Single, 1, "Kill an enemy below 15% hp", GarroteWatch); //remove at low health
             silver_alloy_gun = new Skill("Silver Alloy Gun", 15, 500, 7, 2, Skill.Target.Single, 1, "Hit and Stun an enemy", SilverAlloyGun); //hit and stun
             exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
@@ -342,6 +344,48 @@ namespace LeaveMeAlone
             else
             {
                 caster.statuses.Add(new Status("specdefend", 2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specdefplus_image, Status.DoNothing, Status.ReduceSDefense)); 
+                caster.special_defense += (5 * 1 + (caster.level / 3));
+            }
+        }
+        public static void EnemyDefend(Character caster, Character target = null)
+        {
+            caster.health += (int)(((double)caster.max_health) * .05);
+            caster.energy += 10;
+            if (caster.health > caster.max_health)
+            {
+                caster.health = caster.max_health;
+            }
+            if (caster.energy > caster.max_energy)
+            {
+                caster.energy = caster.max_energy;
+            }
+
+            //If the status already exists, increase its duration
+            //Status this_defend = new Status("defend", 2, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense);
+            //We use DoNothing here^ because we raise defense here, and it is lowered in 2 turns
+
+            if (caster.statuses.Contains(Status.check_defend))
+            {
+                int status_index = caster.statuses.IndexOf(Status.check_defend);
+                caster.statuses[status_index].duration_left += 2;
+            }
+            //Otherwise add it
+            else
+            {
+                caster.statuses.Add(new Status("defend", 2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense));
+                caster.defense += (5 * 1 + (caster.level / 3));
+            }
+            //Status this_sdefend = new Status("specdefend", 2, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceSDefense);
+            //If the status already exists, increase its duration
+            if (caster.statuses.Contains(Status.check_specdefend))
+            {
+                int status_index = caster.statuses.IndexOf(Status.check_specdefend);
+                caster.statuses[status_index].duration_left += 2;
+            }
+            //Otherwise add it
+            else
+            {
+                caster.statuses.Add(new Status("specdefend", 2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specdefplus_image, Status.DoNothing, Status.ReduceSDefense));
                 caster.special_defense += (5 * 1 + (caster.level / 3));
             }
         }
