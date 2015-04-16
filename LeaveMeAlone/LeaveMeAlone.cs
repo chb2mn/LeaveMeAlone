@@ -29,6 +29,12 @@ namespace LeaveMeAlone
         public static Rectangle BackgroundRect;
 
         public static Text EndGameText;
+        private static int CreditTimer = 480;
+        private static int slide = -1; // this will be incremented once before used for indexing
+        private static List<String> Credits = new List<String>();
+
+        public static SoundEffect Main_Song;
+        public static SoundEffectInstance Main_Song_Instance;
         public static SoundEffect Menu_Song;
         public static SoundEffectInstance Menu_Song_Instance;
         public static SoundEffect Battle_Song;
@@ -92,18 +98,12 @@ namespace LeaveMeAlone
             IsMouseVisible = true;
             this.Window.Title = "Leave Me Alone";
 
-            //Skill s = new Skill("test", 1, 100, 1, 0, 0, "My first skill", new Skill.Run(test));
-            //s.runnable(boss_char);
-                        MainMenu.init();
-            //SkillTree.Init();
+            MainMenu.init();
             PartyManager.Init();
             Resources.Init();
 
-            //BattleManager.heroes = PartyManager.CreateParty();
-            /*for (int i = 0; i < BattleManager.heroes.Count; i++)
-            {
-                BattleManager.heroes[i].Init();
-            }*/
+            Credits.Add("Leave Me Alone \n\n A game developed by: \n\n\tChristopher Burkhalter\n\tKyle O'Donnell\n\tMitchell Smith");
+            Credits.Add("Music (provided by Newgrounds):\nBattleSongLoop by Goukison\n~Epic_Loop~ by Catstuffer\nLingering \"Chip\" Puzzle by lacifer");
 
 
             
@@ -149,7 +149,11 @@ namespace LeaveMeAlone
             Battle_Song_Instance = Battle_Song.CreateInstance();
             Battle_Song_Instance.IsLooped = true;
             Battle_Song_Instance.Volume = .1f;
-            //Console.WriteLine(MediaPlayer.IsRepeating);
+
+            Main_Song = Content.Load<SoundEffect>("Sounds/LingeringChip.wav");
+            Main_Song_Instance = Main_Song.CreateInstance();
+            Main_Song_Instance.IsLooped = true;
+            Main_Song_Instance.Volume = .1f;
             //both songs have no duration
             
             EndGameText = new Text("And So,\n\nThrough much perserverence\nand a low interest mortgage\nour boss was finally\n\nLeft Alone.",
@@ -230,7 +234,17 @@ namespace LeaveMeAlone
                 case GameState.Credits:
                     spriteBatch.Draw(BattleManager.bkgd, new Rectangle(-450, -100, 2000, 1086), Color.White);
                     BattleManager.boss.Draw(spriteBatch, Color.White);
-                    EndGameText.Draw(spriteBatch);
+                    if (CreditTimer > 0)
+                    {
+                        EndGameText.Draw(spriteBatch);
+                        CreditTimer--;
+                        slide++;
+                    }
+                    else
+                    {
+                        EndGameText.changeMessage(Credits[slide]);
+                        CreditTimer = 480;
+                    }
                     break;
             }
             //spriteBatch.End();

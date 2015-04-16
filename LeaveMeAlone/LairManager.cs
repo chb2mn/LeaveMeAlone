@@ -127,6 +127,14 @@ namespace LeaveMeAlone
                             if (PartyManager.popParty())
                             {
                                 BattleManager.Init();
+
+                                List<Character> FinalParty = new List<Character>();
+                                FinalParty.Add(new Character(Character.Type.Knight, 25, new Vector2(sideOffset, topOffset + topScaling * 1)));
+                                FinalParty.Add(new Character(Character.Type.Ranger, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
+                                FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset, topOffset + topScaling * 3)));
+                                FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 4)));
+                                PartyManager.partyQueue.Add(FinalParty);
+                               
                                 return LeaveMeAlone.GameState.Battle;
                             }
                             else
@@ -145,8 +153,8 @@ namespace LeaveMeAlone
                             LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
                         }
                         Random random = new Random();
-                        int makeParty = random.Next(100) % 2;
-                        if (makeParty == 1)
+                        int makeParty = random.Next(100) % 4;
+                        if (makeParty != 1)
                         {
                             List<Character> newParty = PartyManager.CreateParty();
                             PartyManager.partyQueue.Add(newParty);

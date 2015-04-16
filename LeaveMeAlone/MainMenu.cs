@@ -46,7 +46,7 @@ namespace LeaveMeAlone
             brute = new MenuBoss(Character.Type.Brute, new Vector2(LeaveMeAlone.WindowX / 2 - 400, LeaveMeAlone.WindowY - 400));
             mastermind = new MenuBoss(Character.Type.Mastermind, new Vector2(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 400));
             operative = new MenuBoss(Character.Type.Operative, new Vector2(LeaveMeAlone.WindowX / 2 + 200, LeaveMeAlone.WindowY - 400));
-            
+            LeaveMeAlone.Main_Song_Instance.Play();
 
             brute.idle();
             mastermind.idle();
@@ -176,11 +176,11 @@ namespace LeaveMeAlone
 
                         //}
                         //BattleManager.Init();
+                        LeaveMeAlone.Main_Song_Instance.Stop();
 
                         UpgradeMenu.Init(current);
                         LairManager.Init();
                         //return LeaveMeAlone.GameState.Upgrade;
-
                         return LeaveMeAlone.GameState.Lair;
                     }
                 }

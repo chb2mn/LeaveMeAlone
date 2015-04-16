@@ -114,22 +114,7 @@ namespace LeaveMeAlone
             if (topParty != null)
             {
                 BattleManager.heroes = topParty;
-                /*
-                for (int i = 0; i < BattleManager.heroes.Count; i++)
-                {
-                    if (BattleManager.heroes[i] != null)
-                    {
-                        BattleManager.heroes[i].Init();
-
-                    }
-                }*/
-                int hero_basex = 50;
-                int hero_basey = 150;
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 80, 100, 60));
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 160, 100, 60));
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 240, 100, 60));
-                //BattleManager.setHeroesPosition();
+                
                 return true;
             }
             else

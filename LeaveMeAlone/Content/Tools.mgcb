@@ -848,3 +848,9 @@
 /processorParam:TextureFormat=Color
 /build:spikeRoom.jpg
 
+#begin Sounds/LingeringChip.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/LingeringChip.wav
+

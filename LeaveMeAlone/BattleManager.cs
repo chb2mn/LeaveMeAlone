@@ -511,7 +511,16 @@ namespace LeaveMeAlone
             }
             if (victory || defeat)
             {
+                int current_level = boss.level;
                 boss.level = Resources.get_level(Resources.exp);
+                if (boss.level > current_level)
+                {
+                    for (int i = 0; i < boss.level - current_level; i++)
+                    {
+                        boss.levelUp();
+                    }
+                }
+                boss.lvl_text.changeMessage("Lvl: " + boss.level);
                 LeaveMeAlone.Battle_Song_Instance.Stop();
                 state = State.Endgame;
             }

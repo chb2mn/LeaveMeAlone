@@ -75,6 +75,7 @@ namespace LeaveMeAlone
             //from .85 to 1.0
             //modifier *= (100 -(LeaveMeAlone.random.Next(16))) / 100;
             int val = (int)(((2.0 * (double)caster.level + 5.0)/250.0 * ((double)attack/(double)defense)*(double)power+2.0) * (double)modifier);
+            Console.WriteLine("Values {0}, {1}, {2}, {3}, {4}", caster.level, attack, defense, power, modifier);
             Console.WriteLine("calculate damage: {0}", val);
             return val;
         }
