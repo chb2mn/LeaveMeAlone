@@ -189,18 +189,19 @@ namespace LeaveMeAlone
         }
         private void initOperative()
         {
-            level = 1;
+            level = 10;
             max_health = 100;
             health = max_health;
-            attack = 30;
-            special_attack = 30;
-            defense = 25;
-            special_defense = 25;
+            attack = 70;
+            special_attack = 70;
+            defense = 120;
+            special_defense = 120;
             max_energy = 50;
             manaRechargeRate = 1;
             energy = max_energy;
             gold = 100;
             exp = 0;
+            Resources.gold = 20000;
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
@@ -327,28 +328,28 @@ namespace LeaveMeAlone
                 }
 
                 var = rng.Next(100);
-                this.attack += 2;
+                this.attack += 3;
                 if (var >= 50)
                 {
                     this.attack += 2;
                 }
 
                 var = rng.Next(100);
-                this.defense += 2;
+                this.defense += 3;
                 if (var >= 50)
                 {
                     this.defense += 2;
                 }
 
                 var = rng.Next(100);
-                this.special_attack += 2;
+                this.special_attack += 3;
                 if (var >= 50)
                 {
                     this.special_attack += 2;
                 }
 
                 var = rng.Next(100);
-                this.special_defense += 2;
+                this.special_defense += 3;
                 if (var >= 50)
                 {
                     this.special_defense += 2;

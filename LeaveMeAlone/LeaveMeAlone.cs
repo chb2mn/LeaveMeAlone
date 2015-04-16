@@ -30,7 +30,7 @@ namespace LeaveMeAlone
 
         public static Text EndGameText;
         private static int CreditTimer = 480;
-        private static int slide = -1; // this will be incremented once before used for indexing
+        private static int slide = 0;
         private static List<String> Credits = new List<String>();
 
         public static SoundEffect Main_Song;
@@ -102,8 +102,10 @@ namespace LeaveMeAlone
             PartyManager.Init();
             Resources.Init();
 
-            Credits.Add("Leave Me Alone \n\n A game developed by: \n\n\tChristopher Burkhalter\n\tKyle O'Donnell\n\tMitchell Smith");
-            Credits.Add("Music (provided by Newgrounds):\nBattleSongLoop by Goukison\n~Epic_Loop~ by Catstuffer\nLingering \"Chip\" Puzzle by lacifer");
+            Credits.Add("Leave Me Alone \n\nA game developed by: \n\n     Christopher Burkhalter\n     Kyle O'Donnell\n     Mitchell Smith");
+            Credits.Add("Music (provided by Newgrounds):\n\nBattleSongLoop by Goukison\n~Epic_Loop~ by Catstuffer\nLingering \"Chip\" Puzzle by lacifer\n~Melancholious Victory by Blind-Bane\nVictory is Yours! by ImperfectDisciple");
+            Credits.Add("Sound Effects...Eventually");
+            Credits.Add("Thank You For Playing!");
 
 
             
@@ -234,16 +236,16 @@ namespace LeaveMeAlone
                 case GameState.Credits:
                     spriteBatch.Draw(BattleManager.bkgd, new Rectangle(-450, -100, 2000, 1086), Color.White);
                     BattleManager.boss.Draw(spriteBatch, Color.White);
-                    if (CreditTimer > 0)
+                    if (CreditTimer > 0 || slide >= 4)
                     {
                         EndGameText.Draw(spriteBatch);
                         CreditTimer--;
-                        slide++;
                     }
                     else
                     {
                         EndGameText.changeMessage(Credits[slide]);
                         CreditTimer = 480;
+                        slide++;
                     }
                     break;
             }

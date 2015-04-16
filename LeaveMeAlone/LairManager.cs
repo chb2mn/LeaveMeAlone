@@ -112,10 +112,10 @@ namespace LeaveMeAlone
                             }
                             List<Character> FinalParty = new List<Character>();
 
-                            FinalParty.Add(new Character(Character.Type.Knight, 25, new Vector2(sideOffset, topOffset + topScaling * 1)));
-                            FinalParty.Add(new Character(Character.Type.Ranger, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
-                            FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset, topOffset + topScaling * 3)));
-                            FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 4)));
+                            FinalParty.Add(new Character(Character.Type.Knight, 14, new Vector2(sideOffset + sideScaling, topOffset)));
+                            FinalParty.Add(new Character(Character.Type.Ranger, 14, new Vector2(sideOffset, topOffset + topScaling * 1)));
+                            FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
+                            FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset, topOffset + topScaling * 3)));
                             PartyManager.partyQueue.Add(FinalParty);
                             PartyManager.popParty();
                             one_last_party = false;
@@ -129,10 +129,10 @@ namespace LeaveMeAlone
                                 BattleManager.Init();
 
                                 List<Character> FinalParty = new List<Character>();
-                                FinalParty.Add(new Character(Character.Type.Knight, 25, new Vector2(sideOffset, topOffset + topScaling * 1)));
-                                FinalParty.Add(new Character(Character.Type.Ranger, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
-                                FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset, topOffset + topScaling * 3)));
-                                FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 4)));
+                                FinalParty.Add(new Character(Character.Type.Knight, 14, new Vector2(sideOffset + sideScaling, topOffset)));
+                                FinalParty.Add(new Character(Character.Type.Ranger, 14, new Vector2(sideOffset, topOffset + topScaling * 1)));
+                                FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
+                                FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset, topOffset + topScaling * 3)));
                                 PartyManager.partyQueue.Add(FinalParty);
                                
                                 return LeaveMeAlone.GameState.Battle;

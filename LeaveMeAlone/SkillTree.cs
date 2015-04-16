@@ -612,7 +612,7 @@ namespace LeaveMeAlone
                 {
                     target = BattleManager.heroes[i];
                     if (target == null) { continue; }
-                    int damage = Skill.damage(caster.attack + caster.special_attack, target.special_defense, caster.level, 50);
+                    int damage = Skill.damage(caster.attack + caster.special_attack, target.special_defense, caster.level, 250);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
                     target.damage_text.changeMessage(str_damage);
