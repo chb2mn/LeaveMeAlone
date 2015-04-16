@@ -152,7 +152,7 @@ namespace LeaveMeAlone
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
             
-            info_text = new Text("", new Vector2(200, 50));
+            info_text = new Text("", new Vector2(400, 50), Text.fonts["Arial-24"], Color.Cyan);
             info_counter = 240;
 
 
@@ -329,7 +329,7 @@ namespace LeaveMeAlone
             //selected_skill is our skill
             if (caster.statuses.Contains(Status.check_stun))
             {
-                Console.WriteLine("I'm Stunned!");
+                info_text.changeMessage("I'm Stunned!");
                 Apply_Status(caster, Status.Effect_Time.Before);
                 Apply_Status(caster, Status.Effect_Time.After);
                 Apply_Status(caster, Status.Effect_Time.Once);

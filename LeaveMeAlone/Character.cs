@@ -104,17 +104,23 @@ namespace LeaveMeAlone
             this.level = level;
             this.charType = t;
             basic_attack = SkillTree.basic_attack;
-            defend = SkillTree.enemy_defend;
+            defend = SkillTree.defend;
             switch(t)
             {
                 case Type.Ranger:
                     initRanger();
+                    defend = SkillTree.enemy_defend;
+
                     break;
                 case Type.Mage:
                     initMage();
+                    defend = SkillTree.enemy_defend;
+
                     break;
                 case Type.Knight:
                     initKnight();
+                    defend = SkillTree.enemy_defend;
+
                     break;
                 case Type.Brute:
                     initBrute();
