@@ -16,7 +16,6 @@ namespace LeaveMeAlone
         private static Texture2D menuBackground;
         private static Texture2D titleCard;
         private static bool isNewGame;
-        private static Button continueGame;
         private static Button newGame;
         private static Button loadGame;
         private static Button quit;
@@ -56,9 +55,10 @@ namespace LeaveMeAlone
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
             titleCard = content.Load<Texture2D>("TitleCard");
-            continueGame = new Button(content.Load<Texture2D>("ContinueGame"), LeaveMeAlone.WindowX / 2 - 100, 200, 200, 75);
-            newGame = new Button(content.Load<Texture2D>("NewGame"), LeaveMeAlone.WindowX / 2 - 100, 200, 200, 75);
-            loadGame = new Button(content.Load<Texture2D>("LoadGame"), LeaveMeAlone.WindowX / 2 - 100, 275, 200, 75);
+            newGame = new Button(content.Load<Texture2D>("NewGame"), LeaveMeAlone.WindowX / 2 - 100, 275, 200, 75);
+            newGame.selected = true;
+            loadGame = new Button(content.Load<Texture2D>("LoadGame"), LeaveMeAlone.WindowX / 2 - 150, 200, 300, 75);
+            loadGame.selected = true;
             quit = new Button(content.Load<Texture2D>("Quit"), LeaveMeAlone.WindowX / 2 - 100, 350, 200, 75);
 
             bruteTitle = content.Load<Texture2D>("bruteTitle");
@@ -75,12 +75,12 @@ namespace LeaveMeAlone
             {
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
                 {
-                    if (newGame.Intersects(currentMouseState.X, currentMouseState.Y) && isNewGame)
+                    if (newGame.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
                         mainMenuOpen = false;
                         bossMenuOpen = true;
                     }
-                    else if (newGame.Intersects(currentMouseState.X, currentMouseState.Y) && !isNewGame)
+                    else if (loadGame.Intersects(currentMouseState.X, currentMouseState.Y) && !isNewGame)
                     {
                         return LeaveMeAlone.GameState.Lair;
                     }
@@ -90,7 +90,7 @@ namespace LeaveMeAlone
                     }
                 }
             }
-            if (bossMenuOpen)
+            else
             {
                 if (brute.Contains(new Vector2(currentMouseState.X, currentMouseState.Y)))
                 {
@@ -142,40 +142,10 @@ namespace LeaveMeAlone
                     if (operative.Contains(mousePos) || brute.Contains(mousePos) || mastermind.Contains(mousePos))
                     {
                         BattleManager.boss = new Character(current.bossType, 1, new Vector2(BattleManager.bossLoc.X, BattleManager.bossLoc.Y));
-                        /*if (current.bossType == Character.Type.Brute)
-                        {
-
-                            BattleManager.boss = new Character(100, 50, 10, 50, 10, 25, 1, 1, 100, 0);
-                            BattleManager.boss.charType = current.bossType;
-                        }
-                        else if (current.bossType == Character.Type.Mastermind)
-                        {
-                            BattleManager.boss = new Character(100, 10, 50, 10, 50, 35, 1, 1, 100, 0);
-                            BattleManager.boss.charType = current.bossType;
-                        }
-                        else if (current.bossType == Character.Type.Operative)
-                        {
-                            BattleManager.boss = new Character(100, 25, 25, 30, 30, 50, 10, 1, 100, 0);
-                            Resources.exp = 20001;
-                            BattleManager.boss.charType = current.bossType;
-                            Resources.gold = 50000;
-
-                        }
-                    */
-                        //BattleManager.boss.Init();
+                        
 
                         BattleManager.heroes = PartyManager.CreateParty();
-                        /*
-                        foreach (Character hero in BattleManager.heroes)
-                        {
-                            hero.Init();
-                            //required because the UpgradeMenu needs some info
-
-                        }*/
-                        //BattleManager.Init();
-
-                        //}
-                        //BattleManager.Init();
+                        
                         LeaveMeAlone.Main_Song_Instance.Stop();
 
                         UpgradeMenu.Init(current);
@@ -194,15 +164,11 @@ namespace LeaveMeAlone
             {
                 Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), Color.Black);
                 Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX / 2 - 200, 0, 400, 200), Color.White);
-                if (isNewGame)
+                newGame.Draw(Spritebatch);
+                if (!isNewGame)
                 {
-                    newGame.Draw(Spritebatch);
+                    loadGame.Draw(Spritebatch);
                 }
-                else
-                {
-                    continueGame.Draw(Spritebatch);
-                }
-                loadGame.Draw(Spritebatch);
                 quit.Draw(Spritebatch);
             }
             if (bossMenuOpen)

@@ -22,7 +22,7 @@ namespace LeaveMeAlone
         public static Vector2 towerPosition;
         public static List<Room> LairRooms;
         private static Texture2D lairBkgd, lairLobby, bossRoom, spikeRoom, unconstructed_room;
-        private static Button skillsBtn, nextwaveBtn, constructionBtn;
+        private static Button skillsBtn, nextwaveBtn, constructionBtn, mainmenuBtn;
         private static MouseState currentMouseState, lastMouseState;
         public static Room UnconstructedRoom;
         public static List<UpgradeMenu.ButtonRoom> boughtRooms = new List<UpgradeMenu.ButtonRoom>();
@@ -46,10 +46,10 @@ namespace LeaveMeAlone
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
             constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 175, 200, 75);
             nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Height - 75, 200, 75);
+            mainmenuBtn = new Button(content.Load<Texture2D>("Buttons/MainMenu"), LeaveMeAlone.WindowX - 300, 0, 300, 80);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
-            //spikeRoom = content.Load<Texture2D>("spikeRoom");
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
@@ -201,6 +201,11 @@ namespace LeaveMeAlone
                     }
                     return LeaveMeAlone.GameState.Lair;
                 }
+                if (mainmenuBtn.Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    MainMenu.init(false);
+                    return LeaveMeAlone.GameState.Main;
+                }
                 //checks if a room button was selected
                 selected_flag = false;
                 foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
@@ -263,6 +268,7 @@ namespace LeaveMeAlone
             nextwaveBtn.Draw(Spritebatch);
             skillsBtn.Draw(Spritebatch);
             constructionBtn.Draw(Spritebatch);
+            mainmenuBtn.Draw(Spritebatch);
             InfoText.Draw(Spritebatch);
 
         }
