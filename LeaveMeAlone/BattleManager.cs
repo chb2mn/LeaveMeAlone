@@ -302,6 +302,8 @@ namespace LeaveMeAlone
                     Rectangle manabar = manabars[i];
                     manabar.Width = 100 * heroes[i].energy / heroes[i].max_energy;
                     manabars[i] = manabar;
+                    heroes[i].debug_text.changeMessage("atk: " + heroes[i].attack + " def: " + heroes[i].defense + "\nsatk: " + heroes[i].special_attack + " sdef: " + heroes[i].special_defense);
+
                 }
             }
             Rectangle boss_hpbar = hpbars[4];
@@ -320,6 +322,7 @@ namespace LeaveMeAlone
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
             boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
 
+            boss.debug_text.changeMessage("atk: " + boss.attack + " def: " + boss.defense + "\nsatk: " + boss.special_attack + " sdef: " + boss.special_defense);
 
         }
 

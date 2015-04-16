@@ -486,7 +486,7 @@ namespace LeaveMeAlone
             if (this.energy >= 10)
             {
                 //Console.WriteLine("normal_health: "+normal_health);
-                //I can use abilities!
+                Console.WriteLine("I can use abilities!");
                 //This is basically health percentage
                 for (int i = 0; i < BattleManager.heroes.Count(); i++)
                 {
@@ -597,7 +597,7 @@ namespace LeaveMeAlone
                     //maybe we want to defend
                     selected_skill = defend;
                 }
-                else
+                else if (energy >= 5)
                 {
                     if (strong_attack != null)
                     {
@@ -611,11 +611,11 @@ namespace LeaveMeAlone
                     else if (status != null)
                     {
                         selected_skill = status;
-                    }
-                    else
-                    {
-                        selected_skill = basic_attack;
-                    }
+                    }  
+                }
+                else
+                {
+                    selected_skill = basic_attack;
                 }
             }
 

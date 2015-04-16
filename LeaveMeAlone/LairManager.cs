@@ -49,7 +49,7 @@ namespace LeaveMeAlone
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
-            spikeRoom = content.Load<Texture2D>("spikeRoom");
+            //spikeRoom = content.Load<Texture2D>("spikeRoom");
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
@@ -205,7 +205,7 @@ namespace LeaveMeAlone
                 selected_flag = false;
                 foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
                 {
-                    if (r.b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    if (r.b.Intersects(currentMouseState.X, currentMouseState.Y) && !r.used)
                     {
                         Console.WriteLine(r.b.text);
                         //already have a selected thing;

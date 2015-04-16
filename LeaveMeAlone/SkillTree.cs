@@ -16,7 +16,22 @@ namespace LeaveMeAlone
 
         public static Texture2D spike_room_image;
         public static Texture2D poison_pit_image;
+        public static Texture2D poor_booby_traps_image;
+
+        //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
+        public static Texture2D the_gym_image;
+        public static Texture2D massive_treadmill_image;
+
+        //>>>>>>>>Mastermind Specific Rooms<<<<<<<<<<<//
+        public static Texture2D laser_room_image;
+        public static Texture2D mind_erase_chamber_image;
+
+        //>>>>>>>>Operative Specific Rooms<<<<<<<<<<<<<//
+        public static Texture2D sea_bass_room_image;
+        public static Texture2D interrogation_chamber_image;
+        public static Texture2D austin_marlin_garage_image;
         
+
         public static Dictionary<Character.Type, SkillTree> skilltrees = new Dictionary<Character.Type, SkillTree>();
         public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
 
@@ -92,8 +107,22 @@ namespace LeaveMeAlone
         }
         public static void LoadContent(ContentManager content)
         {
-            spike_room_image = content.Load<Texture2D>("spikeRoom");
-            poison_pit_image = content.Load<Texture2D>("PoisonPit");
+            spike_room_image = content.Load<Texture2D>("Lair/spikeRoom");
+            poison_pit_image = content.Load<Texture2D>("Lair/PoisonPit");
+            poor_booby_traps_image = content.Load<Texture2D>("Lair/PoisonPit");
+
+        //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
+            the_gym_image = content.Load<Texture2D>("Lair/PoisonPit");
+            massive_treadmill_image = content.Load<Texture2D>("Lair/PoisonPit");
+
+        //>>>>>>>>Mastermind Specific Rooms<<<<<<<<<<<//
+            laser_room_image = content.Load<Texture2D>("Lair/LaserRoom");
+            mind_erase_chamber_image = content.Load<Texture2D>("Lair/MindErase");
+
+        //>>>>>>>>Operative Specific Rooms<<<<<<<<<<<<<//
+            sea_bass_room_image = content.Load<Texture2D>("Lair/PoisonPit");
+            interrogation_chamber_image = content.Load<Texture2D>("Lair/InterrogationChamber");
+            austin_marlin_garage_image = content.Load<Texture2D>("Lair/PoisonPit");
             //buttonPic = content.Load<Texture2D>("buttonbase");
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
@@ -148,8 +177,22 @@ namespace LeaveMeAlone
             panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 1, "Cure Self or Ally of all Status effects", Panacea);
             poison_dagger = new Skill("poison_dagger", 5, 0, 1, 1, Skill.Target.Single, 1, "Do physical damage and give poison", PoisonDagger, Status.check_poison);
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
-            spike_trap = new Room("Spike Trap", 100, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
-            poison_pit = new Room("Poison Pit", 100, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
+            spike_trap = new Room("Spike Trap", 200, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
+            poison_pit = new Room("Poison Pit", 300, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
+            poor_booby_traps = new Room("Poor Booby Traps", 500, 2, 0, "Temporarily lowers all heroes' stats", PoorTraps, poor_booby_traps_image);
+
+            //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
+            the_gym = new Room("The Gym", 500, 2, 0, "Lowers attack and special attack by 2 stages", TheGym, the_gym_image);
+            massive_treadmill =  new Room("Massive Treadmill", 1500, 4, 0, "Reduces energy to 0, and has a chance to inflict stun", MassiveTreadmill, massive_treadmill_image);
+
+            //>>>>>>>>Mastermind Specific Rooms<<<<<<<<<<<//
+            laser_room = new Room("Laser Room", 500, 2, 0, "All heroes except Rangers take damage!", LaserRoom, laser_room_image);
+            mind_erase_chamber = new Room("Mind Erase Chamber", 3000, 7, 0, "Stuns all heroes except Mages", MindEraseChamber, mind_erase_chamber_image);
+
+            //>>>>>>>>Operative Specific Rooms<<<<<<<<<<<<<//
+            sea_bass_room = new Room("Tank of Ill-Tempered Sea Bass", 2000, 4, 0, "inflicts twice the poison on all heroes", SeaBassRoom, sea_bass_room_image);
+            interrogation_chamber = new Room("Interrogation Chamber", 3000, 5, 0, "Stuns all heroes except Knights", InterrogationChamber, interrogation_chamber_image);
+            austin_marlin_garage = new Room("Austin Marlin Garage", 10000, 8, 0, "Has a chance to inflict 40% damage on each hero", AustinMarlinGarage, austin_marlin_garage_image);
         }
 
         //Updates or creates the buttons and text
@@ -246,6 +289,8 @@ namespace LeaveMeAlone
 
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
+            st.addRoom(the_gym);
+            st.addRoom(massive_treadmill);
             skilltrees[Character.Type.Brute] = st;
             st.updateTree();
 
@@ -264,6 +309,8 @@ namespace LeaveMeAlone
            
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
+            st.addRoom(laser_room);
+            st.addRoom(mind_erase_chamber);
             skilltrees[Character.Type.Mastermind] = st;
             st.updateTree();
 
@@ -284,6 +331,9 @@ namespace LeaveMeAlone
 
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
+            st.addRoom(sea_bass_room);
+            st.addRoom(interrogation_chamber);
+            st.addRoom(austin_marlin_garage);
             skilltrees[Character.Type.Operative] = st;
             st.updateTree();
 
@@ -703,7 +753,7 @@ namespace LeaveMeAlone
                 Character hero = heroes[i];
                 if (hero != null)
                 {
-                    int damage = (int)(hero.max_health * .1);
+                    int damage = (int)(hero.max_health * .2);
                     hero.health -= damage;
                     if (hero.health <= 0)
                     {
@@ -726,8 +776,93 @@ namespace LeaveMeAlone
                 }
             }
         }
-
         
+        public static void PoorTraps(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                //reduce everything
+                hero.attack -= Status.StageValue(hero.attack, hero.level);
+                hero.statuses.Add(new Status("atk-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.atkminus_image, Status.DoNothing, Status.RaiseAttack));
+                hero.defense -= Status.StageValue(hero.defense, hero.level);
+                hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.specminus_image, Status.DoNothing, Status.RaiseDefense));
+                hero.special_attack -= Status.StageValue(hero.special_attack, hero.level);
+                hero.statuses.Add(new Status("atk-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.atkminus_image, Status.DoNothing, Status.RaiseSAttack));
+                hero.special_defense -= Status.StageValue(hero.special_defense, hero.level);
+                hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.specminus_image, Status.DoNothing, Status.RaiseSDefense));
+            }
+        }
+        public static void TheGym(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                hero.attack -= Status.StageValue(hero.attack, hero.level);
+                hero.statuses.Add(new Status("atk-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.atkminus_image, Status.DoNothing, Status.RaiseAttack));
+                hero.special_attack -= Status.StageValue(hero.special_attack, hero.level);
+                hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.specminus_image, Status.DoNothing, Status.RaiseSAttack));
+                //Yes, twice
+                hero.attack -= Status.StageValue(hero.attack, hero.level);
+                hero.statuses.Add(new Status("atk-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.atkminus_image, Status.DoNothing, Status.RaiseAttack));
+                hero.special_attack -= Status.StageValue(hero.special_attack, hero.level);
+                hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.specminus_image, Status.DoNothing, Status.RaiseSAttack));
+            }
+        }
+        public static void MassiveTreadmill(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                hero.energy = 0;
+                if (LeaveMeAlone.random.Next(100) > 60){
+                    hero.statuses.Add(new Status("stun", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing, Status.DoNothing));
+                }
+
+            }
+        }
+        public static void LaserRoom(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                if (hero.charType != Character.Type.Ranger)
+                {
+                    hero.health -= 20;
+                }
+            }
+        }
+        public static void MindEraseChamber(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                if (hero.charType != Character.Type.Mage)
+                {
+                    hero.statuses.Add(new Status("stun", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing, Status.DoNothing));
+                }
+            }
+        }
+        public static void SeaBassRoom(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                    hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
+                    hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
+            }
+        }
+        public static void InterrogationChamber(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                if (hero.charType != Character.Type.Knight)
+                {
+                    hero.statuses.Add(new Status("stun", 3, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing, Status.DoNothing));
+                }
+            }
+        }
+        public static void AustinMarlinGarage(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                hero.health -= (int)(hero.health * .4);
+            }
+        }
     }
 }
 
