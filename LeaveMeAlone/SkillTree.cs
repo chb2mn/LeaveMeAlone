@@ -202,6 +202,8 @@ namespace LeaveMeAlone
            
             List<int> keys = skill_tiers.Keys.ToList();
             keys.Sort();
+            Text leveltxt = new Text("level", new Vector2(UpgradeMenu.baseSkillButtonPos.X - 45, (int)UpgradeMenu.baseSkillButtonPos.Y-15), Text.fonts["6809Chargen-12"], Color.White);
+            UpgradeMenu.texts.Add("leveltxt", leveltxt);
             //int boss_level = BattleManager.boss.level;
             //used to separate buttons horizontally by level
             int kindex = 0;
@@ -213,9 +215,9 @@ namespace LeaveMeAlone
                 int slength = skilltier.Count;
                 int sindex = 0;
 
-                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 40, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex), Text.fonts["6809Chargen-12"], Color.White);
+                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 30, (int)UpgradeMenu.baseSkillButtonPos.Y + 10 + 75 * kindex), Text.fonts["6809Chargen-12"], Color.White);
                 Console.WriteLine("Created "+level.message+" at " + level.position.Y);
-                UpgradeMenu.texts[key.ToString()] = level;
+                UpgradeMenu.texts.Add(key.ToString(), level);
                 foreach (Skill skill in skilltier)
                 {
                     Console.WriteLine("Creating button for skill "+skill.name);

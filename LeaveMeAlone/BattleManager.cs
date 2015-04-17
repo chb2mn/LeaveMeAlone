@@ -1034,9 +1034,11 @@ namespace LeaveMeAlone
 
             message.Draw(spriteBatch);
 
-
-            spriteBatch.Draw(hovertextbackground, hovertextRect, Color.White);
-            hovertext.Draw(spriteBatch, maxLineWidth:hovertextRect.Width - 10);
+            if (hovertext.message != "")
+            {
+                spriteBatch.Draw(hovertextbackground, hovertextRect, Color.White);
+                hovertext.Draw(spriteBatch, maxLineWidth: hovertextRect.Width - 10);
+            }
         }
 
         public static void bossDefaultPosition()

@@ -165,7 +165,7 @@ namespace LeaveMeAlone
             texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 100), Text.fonts["6809Chargen-24"], Color.White);
             texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 150), Text.fonts["6809Chargen-24"], Color.White);
-            texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
+            texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X + 100, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
         public static void rerollRooms()
@@ -398,7 +398,14 @@ namespace LeaveMeAlone
 
             foreach (Button button in skilltree.SkillButtons.Values)
             {
-                button.Draw(sb);
+                if (button.text.color == Color.Red)
+                {
+                    button.Draw(sb, true);
+                }
+                else
+                {
+                    button.Draw(sb);
+                }
             }
             foreach (Text t in texts.Values)
             {
@@ -407,19 +414,34 @@ namespace LeaveMeAlone
             }
             for(int x = 0; x < SelectedSkills.Length; x++)
             {
-                SelectedSkills[x].Draw(sb);
-            }
-            for (int x = 0; x < AvailableRooms.Length; x++)
-            {
-                if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false  && AvailableRooms[x].r.level != -1)
+                if(SelectedSkills[x].b.text.message == "NONE")
                 {
-                    AvailableRooms[x].b.Draw(sb);
-                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.5f);
-                    //sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White*0.5f);
+                    SelectedSkills[x].b.Draw(sb, true);
                 }
                 else
                 {
-                    
+                SelectedSkills[x].Draw(sb);
+                }
+            }
+            for (int x = 0; x < AvailableRooms.Length; x++)
+            {
+                if (BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].r.level != -1 && AvailableRooms[x].r.cost > Resources.gold)
+                {
+                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                    AvailableRooms[x].b.Draw(sb);
+                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                }
+                if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false  && AvailableRooms[x].r.level != -1)
+                {
+                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                    AvailableRooms[x].b.Draw(sb);
+                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                    //sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White*0.5f);
+                }
+
+                else
+                {
+
                     AvailableRooms[x].b.Draw(sb);
                 }
                 
