@@ -95,7 +95,7 @@ namespace LeaveMeAlone
                     target_rect = new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (1)), 400, 100);
                     break;
                 case TutorialState.SendWave:
-                    TutorialText.changeMessage("Now each time we press the start wave\nand the heroes will come to attack!");
+                    TutorialText.changeMessage("Now each time we press the NEXT WAVE\nand the heroes will come to attack!");
                     target_rect = nextwaveBtn.rectangle;
                     break;
                 case TutorialState.None:
