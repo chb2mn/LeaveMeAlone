@@ -18,39 +18,39 @@ namespace LeaveMeAlone
 
         public static int get_level(int experience)
         {
-            if (experience > 20000)
+            if (experience > 10000)
             {
                 return 10;
             }
-            else if (experience > 16000 ) 
+            else if (experience > 8000 ) 
             {
                 return 9;
             }
-            else if (experience > 12000)
+            else if (experience > 6000)
             {
                 return 8;
             }
-            else if (experience > 9000)
+            else if (experience > 4500)
             {
                 return 7;
             }
-            else if (experience > 6400)
+            else if (experience > 3200)
             {
                 return 6;
             }
-            else if (experience > 4400)
+            else if (experience > 2200)
             {
                 return 5;
             }
-            else if (experience > 3400)
+            else if (experience > 1700)
             {
                 return 4;
             }
-            else if (experience > 2000)
+            else if (experience > 1000)
             {
                 return 3;
             }
-            else if (experience > 1000)
+            else if (experience > 500)
             {
                 return 2;
             }

@@ -38,7 +38,14 @@ namespace LeaveMeAlone
         private static Button[] skill_buttons = new Button[6];
         private static Texture2D buttonLocPic;
         public static Texture2D bkgd;
-        private static Texture2D targeter;
+
+        private static Texture2D green;
+        public static List<Rectangle> hpbars = new List<Rectangle>();
+
+        private static Texture2D blue;
+        public static List<Rectangle> manabars = new List<Rectangle>();
+
+        public static Texture2D targeter;
         private static int[] check_cooldown = new int[6];
 
         private static bool haste_check;
@@ -60,7 +67,6 @@ namespace LeaveMeAlone
 
         private static bool left_click = false;
         private static bool right_click = false;
-        private static int animation_counter = 30;
 
 
         private static int enemy_attack_delay = 60;
@@ -97,6 +103,11 @@ namespace LeaveMeAlone
 
             buttonLocPic = Content.Load<Texture2D>("buttonbase");
             targeter = Content.Load<Texture2D>("Target");
+            green = Content.Load<Texture2D>("green");
+            blue = Content.Load<Texture2D>("blue");
+
+            
+
             target_text = new Text("Select Target", new Vector2(100, 100), Text.fonts["RetroComputer-12"]);
 
             hovertextpos = new Vector2(LeaveMeAlone.BackgroundRect.Width/2 - 200, 15);
@@ -128,10 +139,18 @@ namespace LeaveMeAlone
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
             boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
 
+            for (int i = 0; i < 4; i++)
+            {
+                hpbars.Add(new Rectangle(0,0,0,0));
+                manabars.Add(new Rectangle(0, 0, 0, 0));
+            }
+            hpbars.Add(new Rectangle(0,0,0,0));
+            manabars.Add(new Rectangle(0,0,0,0));
 
             for (int i = 0; i < 4; i++)
             {
-                Text hptext = new Text(msg: "");
+                Text hptext = new Text(msg:"", position:new Vector2(heroLoc[i].Location.X , heroLoc[i].Location.Y + 120));
+
                 hero_hp.Add(hptext);
             }
 
@@ -143,7 +162,8 @@ namespace LeaveMeAlone
             defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
 
-            info_text = new Text("", new Vector2(200, 50));
+            info_text = new Text("", new Vector2(400, 50), Text.fonts["Arial-24"], Color.Cyan);
+
             info_counter = 240;
 
 
@@ -184,6 +204,34 @@ namespace LeaveMeAlone
             boss.energy = boss.max_energy;
             boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
             boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
+
+            for (int i = 0; i < 4; i++)
+            {
+                Rectangle hpbar = hpbars[i];
+                hpbar.X = heroLoc[i].X;
+                hpbar.Y = heroLoc[i].Y+140;
+                hpbar.Width = 100;
+                hpbar.Height = 10;
+                hpbars[i] = hpbar;
+                Rectangle manabar = manabars[i];
+                manabar.X = heroLoc[i].X;
+                manabar.Y = heroLoc[i].Y + 155;
+                manabar.Width = 100;
+                manabar.Height = 10;
+                manabars[i] = manabar;
+            }
+            Rectangle boss_hpbar = hpbars[4];
+            boss_hpbar.X = bossLoc.X;
+            boss_hpbar.Y = bossLoc.Y + 140;
+            boss_hpbar.Width = 100;
+            boss_hpbar.Height = 10;
+            hpbars[4] = boss_hpbar;
+            Rectangle boss_manabar = manabars[4];
+            boss_manabar.X = bossLoc.X;
+            boss_manabar.Y = bossLoc.Y + 155;
+            boss_manabar.Width = 100;
+            boss_manabar.Height = 10;
+            manabars[4] = boss_manabar;
 
             for (int i = 0; i < 6; i++)
             {
@@ -253,6 +301,41 @@ namespace LeaveMeAlone
             }
         }
 
+        public static void updateHealth()
+        {
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                if (heroes[i] != null)
+                {
+                    Rectangle hpbar = hpbars[i];
+                    hpbar.Width = 100* heroes[i].health / heroes[i].max_health;
+                    hpbars[i] = hpbar;
+                    Rectangle manabar = manabars[i];
+                    manabar.Width = 100 * heroes[i].energy / heroes[i].max_energy;
+                    manabars[i] = manabar;
+                    heroes[i].debug_text.changeMessage("atk: " + heroes[i].attack + " def: " + heroes[i].defense + "\nsatk: " + heroes[i].special_attack + " sdef: " + heroes[i].special_defense);
+
+                }
+            }
+            Rectangle boss_hpbar = hpbars[4];
+            boss_hpbar.Width = 100 * boss.health / boss.max_health;
+            hpbars[4] = boss_hpbar; 
+            Rectangle boss_manabar = manabars[4];
+            boss_manabar.Width = 100 * boss.energy / boss.max_energy;
+            manabars[4] = boss_manabar;
+
+            //Update texts
+            for (int i = 0; i < heroes.Count(); i++)
+            {
+                if (heroes[i] == null) { continue; }
+                hero_hp[i].changeMessage(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
+            }
+            boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
+            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
+
+            boss.debug_text.changeMessage("atk: " + boss.attack + " def: " + boss.defense + "\nsatk: " + boss.special_attack + " sdef: " + boss.special_defense);
+
+        }
 
         public static void Attack(Character caster)
         {
@@ -260,7 +343,7 @@ namespace LeaveMeAlone
             //selected_skill is our skill
             if (caster.statuses.Contains(Status.check_stun))
             {
-                Console.WriteLine("I'm Stunned!");
+                info_text.changeMessage("I'm Stunned!");
                 Apply_Status(caster, Status.Effect_Time.Before);
                 Apply_Status(caster, Status.Effect_Time.After);
                 Apply_Status(caster, Status.Effect_Time.Once);
@@ -348,15 +431,7 @@ namespace LeaveMeAlone
             Apply_Status(caster, Status.Effect_Time.Once);
 
             //Do damage and send state to enemy turn
-            //Update texts
-            for (int i = 0; i < heroes.Count(); i++)
-            {
-                if (heroes[i] == null) { continue; }
-                hero_hp[i].changeMessage(heroes[i].health.ToString() + "/" + heroes[i].max_health.ToString());
-            }
-            boss_hp.changeMessage(boss.health.ToString() + "/" + boss.max_health.ToString());
-            boss_energy.changeMessage(boss.energy.ToString() + "/" + boss.max_energy.ToString());
-
+            
             //update the state to pass the turn to enemies
             if (enemy_turn == -1)
             {
@@ -450,7 +525,16 @@ namespace LeaveMeAlone
             }
             if (victory || defeat)
             {
+                int current_level = boss.level;
                 boss.level = Resources.get_level(Resources.exp);
+                if (boss.level > current_level)
+                {
+                    for (int i = 0; i < boss.level - current_level; i++)
+                    {
+                        boss.levelUp();
+                    }
+                }
+                boss.lvl_text.changeMessage("Lvl: " + boss.level);
                 LeaveMeAlone.Battle_Song_Instance.Stop();
                 state = State.Endgame;
             }
@@ -695,6 +779,8 @@ namespace LeaveMeAlone
                 case State.Attack:
                     //Attacking
                     Attack(boss);
+                    updateHealth();
+                    
                     break;
                 case State.Endgame:
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
@@ -801,8 +887,9 @@ namespace LeaveMeAlone
                 heroes[i].Update(gametime);
             }
             boss.Update(gametime);
-            boss_hp.changeMessage(BattleManager.boss.health.ToString() + "/" + BattleManager.boss.max_health.ToString());
-            boss_energy.changeMessage(BattleManager.boss.energy.ToString() + "/" + BattleManager.boss.max_energy.ToString());
+            
+            updateHealth();
+
             return LeaveMeAlone.GameState.Battle;
         }
 
@@ -835,8 +922,13 @@ namespace LeaveMeAlone
                             spriteBatch.Draw(targeter, new Vector2(heroLoc[i].Location.X + 20, heroLoc[i].Location.Y), Color.Black);
                         }
                     }
-                    hero_hp[i].Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
+                    hero_hp[i].Draw(spriteBatch);//, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y + 30));
+                    if (heroes[i] != null)
+                    {
+                        spriteBatch.Draw(green, hpbars[i], Color.Green);
+                        spriteBatch.Draw(blue, manabars[i], Color.Blue);
 
+                    }
                     if (!heroes[i].damage_text.message.Equals(""))
                     {
                         if (heroes[i].damage_counter-- >= 0)
@@ -865,6 +957,9 @@ namespace LeaveMeAlone
             boss.Draw(spriteBatch, Color.White);
             boss_hp.Draw(spriteBatch);
             boss_energy.Draw(spriteBatch);
+            spriteBatch.Draw(green, hpbars[4], Color.Green);
+            spriteBatch.Draw(blue, manabars[4], Color.Blue);
+
             if (!boss.damage_text.message.Equals(""))
             {
                 if (boss.damage_counter-- >= 0)

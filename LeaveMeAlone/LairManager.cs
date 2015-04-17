@@ -22,15 +22,16 @@ namespace LeaveMeAlone
         public static Vector2 towerPosition;
         public static List<Room> LairRooms;
         private static Texture2D lairBkgd, lairLobby, bossRoom, spikeRoom, unconstructed_room;
-        private static Button skillsBtn, nextwaveBtn, constructionBtn;
+        private static Button skillsBtn, nextwaveBtn, constructionBtn, mainmenuBtn;
         private static MouseState currentMouseState, lastMouseState;
         public static Room UnconstructedRoom;
         public static List<UpgradeMenu.ButtonRoom> boughtRooms = new List<UpgradeMenu.ButtonRoom>();
         public static UpgradeMenu.ButtonRoom selectedRoomSwapButton { get; set; }
         public static  int sideOffset = 75;
-        public static  int sideScaling = 50;
+        public static  int sideScaling = 85;
         public static  int topOffset = 150;
-        public static int topScaling = 120;
+        public static int topScaling = 80;
+        public static bool selected_flag = false;
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void loadContent(ContentManager content)
@@ -45,10 +46,10 @@ namespace LeaveMeAlone
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
             constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 175, 200, 75);
             nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Height - 75, 200, 75);
+            mainmenuBtn = new Button(content.Load<Texture2D>("Buttons/MainMenu"), LeaveMeAlone.WindowX - 300, 0, 300, 80);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
             bossRoom = content.Load<Texture2D>("bossRoom");
-            spikeRoom = content.Load<Texture2D>("spikeRoom");
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
@@ -83,7 +84,16 @@ namespace LeaveMeAlone
                     var rectpos = new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100);
                     if (selectedRoomSwapButton.r != null && LairRooms.Contains(selectedRoomSwapButton.r) == false && rectpos.Contains(currentMouseState.X, currentMouseState.Y))
                     {
+                        foreach (UpgradeMenu.ButtonRoom oldroom in boughtRooms)
+                        {
+                            if (oldroom.r == LairRooms[i])
+                            {
+                                oldroom.used = false;
+                            }
+                        }
                         LairRooms[i] = selectedRoomSwapButton.r;
+                        selectedRoomSwapButton.used = true;
+                        
                     }
                 }
                 //next wave
@@ -102,10 +112,10 @@ namespace LeaveMeAlone
                             }
                             List<Character> FinalParty = new List<Character>();
 
-                            FinalParty.Add(new Character(Character.Type.Knight, 25, new Vector2(sideOffset, topOffset + topScaling * 1)));
-                            FinalParty.Add(new Character(Character.Type.Ranger, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
-                            FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset, topOffset + topScaling * 3)));
-                            FinalParty.Add(new Character(Character.Type.Mage, 25, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 4)));
+                            FinalParty.Add(new Character(Character.Type.Knight, 14, new Vector2(sideOffset + sideScaling, topOffset)));
+                            FinalParty.Add(new Character(Character.Type.Ranger, 14, new Vector2(sideOffset, topOffset + topScaling * 1)));
+                            FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
+                            FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset, topOffset + topScaling * 3)));
                             PartyManager.partyQueue.Add(FinalParty);
                             PartyManager.popParty();
                             one_last_party = false;
@@ -117,6 +127,14 @@ namespace LeaveMeAlone
                             if (PartyManager.popParty())
                             {
                                 BattleManager.Init();
+
+                                List<Character> FinalParty = new List<Character>();
+                                FinalParty.Add(new Character(Character.Type.Knight, 14, new Vector2(sideOffset + sideScaling, topOffset)));
+                                FinalParty.Add(new Character(Character.Type.Ranger, 14, new Vector2(sideOffset, topOffset + topScaling * 1)));
+                                FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
+                                FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset, topOffset + topScaling * 3)));
+                                PartyManager.partyQueue.Add(FinalParty);
+                               
                                 return LeaveMeAlone.GameState.Battle;
                             }
                             else
@@ -135,8 +153,8 @@ namespace LeaveMeAlone
                             LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
                         }
                         Random random = new Random();
-                        int makeParty = random.Next(100) % 2;
-                        if (makeParty == 1)
+                        int makeParty = random.Next(100) % 4;
+                        if (makeParty != 1)
                         {
                             List<Character> newParty = PartyManager.CreateParty();
                             PartyManager.partyQueue.Add(newParty);
@@ -183,11 +201,16 @@ namespace LeaveMeAlone
                     }
                     return LeaveMeAlone.GameState.Lair;
                 }
+                if (mainmenuBtn.Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    MainMenu.init(false);
+                    return LeaveMeAlone.GameState.Main;
+                }
                 //checks if a room button was selected
-                bool flag = false;
+                selected_flag = false;
                 foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
                 {
-                    if (r.b.Intersects(currentMouseState.X, currentMouseState.Y))
+                    if (r.b.Intersects(currentMouseState.X, currentMouseState.Y) && !r.used)
                     {
                         Console.WriteLine(r.b.text);
                         //already have a selected thing;
@@ -197,11 +220,11 @@ namespace LeaveMeAlone
                         }
                         selectedRoomSwapButton = r;
                         r.b.selected = true;
-                        flag = true;
+                        selected_flag = true;
                     }
                 }
                 //otherwise we unselect any previously selected button
-                if (flag == false && selectedRoomSwapButton.b != null)
+                if (selected_flag == false && selectedRoomSwapButton.b != null)
                 {
                     selectedRoomSwapButton.b.selected = false;
                     selectedRoomSwapButton = new UpgradeMenu.ButtonRoom();
@@ -218,6 +241,10 @@ namespace LeaveMeAlone
             for (int i = 0; i < TowerLevel; i++)
             {
                 Spritebatch.Draw(LairRooms[i].img, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100), Color.White);
+                if (selected_flag)
+                {
+                    Spritebatch.Draw(BattleManager.targeter, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3) + 150, (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 100, 100), Color.Red);
+                }
             }
             for (int j = 0; j < TowerLevel + 1; j++)
             {
@@ -235,12 +262,13 @@ namespace LeaveMeAlone
             int count = 0;
             foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
             {
-                r.Draw(Spritebatch);
+                r.Draw(Spritebatch, r.used);
                 count++;
             }
             nextwaveBtn.Draw(Spritebatch);
             skillsBtn.Draw(Spritebatch);
             constructionBtn.Draw(Spritebatch);
+            mainmenuBtn.Draw(Spritebatch);
             InfoText.Draw(Spritebatch);
 
         }

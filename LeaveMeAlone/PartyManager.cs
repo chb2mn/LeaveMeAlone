@@ -26,9 +26,9 @@ namespace LeaveMeAlone
             partyQueue.Add(null);
             for (int x = 0; x < 4; x++)
             {
-                int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1) % 2);
+                int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1) % 2) + 60;
                 int ypos = LairManager.topOffset + LairManager.topScaling * x;
-                BattleManager.heroLoc.Add(new Rectangle(xpos + 60, ypos, 100, 160));
+                BattleManager.heroLoc.Add(new Rectangle(xpos, ypos, 80, 140));
             }
         }
 
@@ -89,7 +89,7 @@ namespace LeaveMeAlone
             {
                 int type = RNG.Next(3);
                 // want to make a party with a single enemy more difficult than a single enemy in a party of 4
-                int level = BattleManager.boss.level + LeaveMeAlone.random.Next(3) + (5-num);
+                int level = BattleManager.boss.level + (4 - num); //LeaveMeAlone.random.Next(3) +
                 int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1)% 2);
                 int ypos = LairManager.topOffset + LairManager.topScaling * x;
                
@@ -114,22 +114,7 @@ namespace LeaveMeAlone
             if (topParty != null)
             {
                 BattleManager.heroes = topParty;
-                /*
-                for (int i = 0; i < BattleManager.heroes.Count; i++)
-                {
-                    if (BattleManager.heroes[i] != null)
-                    {
-                        BattleManager.heroes[i].Init();
-
-                    }
-                }*/
-                int hero_basex = 50;
-                int hero_basey = 150;
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey, 100, 60));
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 80, 100, 60));
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 160, 100, 60));
-                //BattleManager.heroLoc.Add(new Rectangle(hero_basex, hero_basey + 240, 100, 60));
-                //BattleManager.setHeroesPosition();
+                
                 return true;
             }
             else

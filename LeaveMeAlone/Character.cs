@@ -53,6 +53,7 @@ namespace LeaveMeAlone
         public Text damage_text;
         public int damage_counter;
         public Text debug_text;
+        public Text lvl_text;
         //This is how much damage is expected from any attack done
         public int expected_damage;
 
@@ -89,10 +90,11 @@ namespace LeaveMeAlone
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
 
+            lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
             damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
             damage_counter = 150;
 
-            //debug_text = new HoverText(this,"atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
+            debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
         }
 
@@ -107,12 +109,18 @@ namespace LeaveMeAlone
             {
                 case Type.Ranger:
                     initRanger();
+                    defend = SkillTree.enemy_defend;
+
                     break;
                 case Type.Mage:
                     initMage();
+                    defend = SkillTree.enemy_defend;
+
                     break;
                 case Type.Knight:
                     initKnight();
+                    defend = SkillTree.enemy_defend;
+
                     break;
                 case Type.Brute:
                     initBrute();
@@ -128,12 +136,13 @@ namespace LeaveMeAlone
                     break;
             }
             Init();
-            
+
+            lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X+45, sPosition.Y), c: Color.CadetBlue);
 
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
             damage_counter = 150;
 
-            //debug_text = new HoverText(this, "atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
+            debug_text = new Text("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
 
 
 
@@ -154,7 +163,7 @@ namespace LeaveMeAlone
             max_health = 100;
             health = max_health;
             attack = 50;
-            special_attack = 10;
+            special_attack = 15;
             defense = 50;
             special_defense = 10;
             max_energy = 25;
@@ -166,11 +175,10 @@ namespace LeaveMeAlone
         private void initMastermind()
         {
             max_health = 100;
-            //health = max_health;
-            //attack = 10;
+            health = max_health;
             special_attack = 50;
-            attack = 100;
-            special_attack = 500;
+            attack = 15;
+            special_attack = 50;
             defense = 10;
             special_defense = 50;
             max_energy = 35;
@@ -181,33 +189,34 @@ namespace LeaveMeAlone
         }
         private void initOperative()
         {
-            level = 20;
+            level = 10;
             max_health = 100;
             health = max_health;
-            attack = 25;
-            special_attack = 25;
-            defense = 25;
-            special_defense = 25;
+            attack = 70;
+            special_attack = 70;
+            defense = 120;
+            special_defense = 120;
             max_energy = 50;
             manaRechargeRate = 1;
             energy = max_energy;
             gold = 100;
             exp = 0;
+            Resources.gold = 20000;
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
         {
-            max_health = 25 + 5 * level-1;
+            max_health = 25 + 5 * (level-1);
             health = max_health;
-            attack = 10 + 5 * level - 1;
-            special_attack = 10 + 5 * level - 1;
-            defense = 7 + 5 * level - 1;
-            special_defense = 7 + 5 * level - 1;
-            max_energy = 35 + 4 * level - 1;
+            attack = 10 + 4 * (level - 1);
+            special_attack = 10 + 4 * (level - 1);
+            defense = 7 + 3 * (level - 1);
+            special_defense = 7 + 3 * (level - 1);
+            max_energy = 35 + 7 * (level - 1);
             energy = max_energy;
-            manaRechargeRate = (int)(1 + .2 * (double)level - 1);
-            gold = 100 + 20 * level - 1;
-            exp = 100 + 40 * level - 1;
+            manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
+            gold = 100 + 20 * (level - 1);
+            exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             strong_attack = SkillTree.bash;
             status = SkillTree.poison_dagger;
@@ -215,33 +224,33 @@ namespace LeaveMeAlone
         }
         private void initMage()
         {
-            max_health = 25 + 5 * level - 1;
+            max_health = 25 + 5 * (level - 1);
             health = max_health;
-            attack = 5 + 5 * level - 1;
-            special_attack = 25 + 5 * level - 1;
-            defense = 5 + 5 * level - 1;
-            special_defense = 15 + 5 * level - 1;
-            max_energy = 15 + 7 * level - 1;
+            attack = 5 + 2 * (level - 1);
+            special_attack = 25 + 5 * (level - 1);
+            defense = 5 + 1 * (level - 1);
+            special_defense = 15 + 4 * (level - 1);
+            max_energy = 15 + 7 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
-            gold = 100 + 20 * level - 1;
-            exp = 100 + 40 * level - 1;
+            gold = 100 + 20 * (level - 1);
+            exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             basic_attack = SkillTree.magefire;
         }
         private void initKnight()
         {
-            max_health = 50 + 10 * level - 1;
+            max_health = 50 + 10 * (level - 1);
             health = max_health;
-            attack = 25 + 5 * level - 1;
-            special_attack = 5 + 5 * level - 1;
-            defense = 15 + 10 * level - 1;
-            special_defense = 5 + 2 * level - 1;
-            max_energy = 5 + 3 * level - 1;
+            attack = 25 + 5 * (level - 1);
+            special_attack = 5 + 2 * (level - 1);
+            defense = 15 + 9 * (level - 1);
+            special_defense = 5 + 1 * (level - 1);
+            max_energy = 5 + 3 * (level - 1);
             energy = max_energy;
-            manaRechargeRate = 1 + (int)(1 + .3 * (double)level - 1);
-            gold = 100 + 20 * level - 1;
-            exp = 100 + 40 * level - 1;
+            manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
+            gold = 100 + 20 * (level - 1);
+            exp = 100 + 100 * (level - 1);
             strong_attack = SkillTree.bash;
         }
 
@@ -319,28 +328,28 @@ namespace LeaveMeAlone
                 }
 
                 var = rng.Next(100);
-                this.attack += 2;
+                this.attack += 3;
                 if (var >= 50)
                 {
                     this.attack += 2;
                 }
 
                 var = rng.Next(100);
-                this.defense += 2;
+                this.defense += 3;
                 if (var >= 50)
                 {
                     this.defense += 2;
                 }
 
                 var = rng.Next(100);
-                this.special_attack += 2;
+                this.special_attack += 3;
                 if (var >= 50)
                 {
                     this.special_attack += 2;
                 }
 
                 var = rng.Next(100);
-                this.special_defense += 2;
+                this.special_defense += 3;
                 if (var >= 50)
                 {
                     this.special_defense += 2;
@@ -393,8 +402,9 @@ namespace LeaveMeAlone
                     spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
                     i++;
                 }
+                lvl_text.Draw(spriteBatch);
                 
-                //debug_text.Draw(spriteBatch, oPosition);
+                debug_text.Draw(spriteBatch, oPosition);
 
             }
             else
@@ -413,8 +423,10 @@ namespace LeaveMeAlone
                     }
                     i++;
                 }
+                lvl_text.Draw(spriteBatch);
+
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
-                //debug_text.Draw(spriteBatch, sPosition);
+                debug_text.Draw(spriteBatch, sPosition);
             }
         }
 
@@ -474,7 +486,7 @@ namespace LeaveMeAlone
             if (this.energy >= 10)
             {
                 //Console.WriteLine("normal_health: "+normal_health);
-                //I can use abilities!
+                Console.WriteLine("I can use abilities!");
                 //This is basically health percentage
                 for (int i = 0; i < BattleManager.heroes.Count(); i++)
                 {
@@ -585,7 +597,7 @@ namespace LeaveMeAlone
                     //maybe we want to defend
                     selected_skill = defend;
                 }
-                else
+                else if (energy >= 5)
                 {
                     if (strong_attack != null)
                     {
@@ -599,11 +611,11 @@ namespace LeaveMeAlone
                     else if (status != null)
                     {
                         selected_skill = status;
-                    }
-                    else
-                    {
-                        selected_skill = basic_attack;
-                    }
+                    }  
+                }
+                else
+                {
+                    selected_skill = basic_attack;
                 }
             }
 

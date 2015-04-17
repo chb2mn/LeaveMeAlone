@@ -36,13 +36,20 @@ namespace LeaveMeAlone
             redbackground = c.Load<Texture2D>("red");
             bluebackground = c.Load<Texture2D>("blue");
         }
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, bool faded = false)
         {
             if(selected)
             {
                 sb.Draw(greenbackground, selectRectangle, Color.White);
             }
-            sb.Draw(sprite, rectangle, Color.White);
+            if (faded)
+            {
+                sb.Draw(sprite, rectangle, Color.DimGray);
+            }
+            else
+            {
+                sb.Draw(sprite, rectangle, Color.White);
+            }
             text.Draw(sb);
         }
         public Boolean Intersects(int x, int y)

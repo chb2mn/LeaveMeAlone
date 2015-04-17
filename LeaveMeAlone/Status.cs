@@ -117,6 +117,20 @@ namespace LeaveMeAlone
             this.reverse_affect = _Reverse;
         }
 
+        //returns the value of a "stage"
+        public static int StageValue(int stat, int carrier_level)
+        {
+            int reduction = (int)(5 * (1 + carrier_level / 3));
+
+            if (stat <= reduction)
+            {
+                //if the reduction amount is greater than the stat, halve the stat
+                return stat/2;
+            }
+            //otherwise return the calculated reduction
+            return reduction;
+        }
+
         public override String ToString()
         {
             return this.name;
@@ -185,59 +199,52 @@ namespace LeaveMeAlone
          */
         public static void RaiseAttack(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            carrier.attack += reduction;
+            //stage value returns the value of a "stage"
+            carrier.attack += StageValue(carrier.attack, carrier.level);
         }
         public static void ReduceAttack(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            carrier.attack -= reduction;
+            carrier.attack -= StageValue(carrier.attack, carrier.level);
+            //This and similar chunks of code should no longer be needed, but are here precautionarily.
             if (carrier.attack <= 0)
             {
-                carrier.attack = 0;
+                carrier.attack = 1;
             }
         }
         public static void RaiseDefense(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            Console.WriteLine(reduction);
-            carrier.defense += reduction;
+            carrier.defense += StageValue(carrier.defense, carrier.level);
         }
         public static void ReduceDefense(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            carrier.defense -= reduction;
+            carrier.defense -= StageValue(carrier.defense, carrier.level);
             if (carrier.defense <= 0)
             {
-                carrier.defense = 0;
+                carrier.defense = 1;
             }
         }
         public static void RaiseSAttack(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            carrier.special_attack += reduction;
+            carrier.special_attack += StageValue(carrier.special_attack, carrier.level);
         }
         public static void ReduceSAttack(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            carrier.special_attack -= reduction;
+            carrier.special_attack -= StageValue(carrier.special_attack, carrier.level);
             if (carrier.special_attack <= 0)
             {
-                carrier.special_attack = 0;
+                carrier.special_attack = 1;
             }
         }
         public static void RaiseSDefense(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            carrier.special_defense += reduction;
+            carrier.special_defense += StageValue(carrier.special_defense, carrier.level);
         }
         public static void ReduceSDefense(Character carrier)
         {
-            int reduction = (int)(5 * (1 + carrier.level / 3));
-            carrier.special_defense -= reduction;
+            carrier.special_defense -= StageValue(carrier.special_defense, carrier.level);
             if (carrier.special_defense <= 0)
             {
-                carrier.special_defense = 0;
+                carrier.special_defense = 1;
             }
         }
     }
