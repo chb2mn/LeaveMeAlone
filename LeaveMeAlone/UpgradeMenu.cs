@@ -441,7 +441,7 @@ namespace LeaveMeAlone
 
                 else
                 {
-
+                    sb.Draw(Button.graybackground, AvailableRooms[x].b.selectRectangle, Color.White);
                     AvailableRooms[x].b.Draw(sb);
                 }
                 
