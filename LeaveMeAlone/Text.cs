@@ -89,33 +89,40 @@ namespace LeaveMeAlone
             {
                 pos = position;
             }
-            if(maxLineWidth != 0)
+            if (maxLineWidth != 0)
             {
-                string[] words = message.Split(' ');
+                string[] blocks = message.Split('\n');
                 StringBuilder sb = new StringBuilder();
-                float lineWidth = 0f;
-                float spaceWidth = font.MeasureString(" ").X;
-
-                foreach (string word in words)
+                foreach (String block in blocks)
                 {
-                    Vector2 size = font.MeasureString(word);
+                    string[] words = block.Split(' ');
+                    
+                    float lineWidth = 0f;
+                    float spaceWidth = font.MeasureString(" ").X;
 
-                    if (lineWidth + size.X < maxLineWidth)
+                    foreach (string word in words)
                     {
-                        sb.Append(word + " ");
-                        lineWidth += size.X + spaceWidth;
+                        Vector2 size = font.MeasureString(word);
+
+                        if (lineWidth + size.X < maxLineWidth)
+                        {
+                            sb.Append(word + " ");
+                            lineWidth += size.X + spaceWidth;
+                        }
+                        else
+                        {
+                            sb.Append("\n" + word + " ");
+                            lineWidth = size.X + spaceWidth;
+                        }
                     }
-                    else
-                    {
-                        sb.Append("\n" + word + " ");
-                        lineWidth = size.X + spaceWidth;
-                    }
+                    sb.Append("\n");
                 }
-
-                message = sb.ToString();
-
+                s.DrawString(font, sb.ToString(), pos, c);
             }
-            s.DrawString(font, message, pos, c);
+            else
+            {
+                s.DrawString(font, message, pos, c);
+            }
         }
         public void Move(Vector2 pos)
         {
