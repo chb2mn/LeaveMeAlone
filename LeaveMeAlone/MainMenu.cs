@@ -119,7 +119,7 @@ namespace LeaveMeAlone
                 {
                     menu_state = MenuState.boss;
                 }
-                if (opening_timer > 360)
+                else if (opening_timer > 360)
                 {
                     opening_timer = 0;
                     line_number++;
