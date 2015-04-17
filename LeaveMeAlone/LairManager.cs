@@ -28,7 +28,7 @@ namespace LeaveMeAlone
         public static int texttimer;
         public static Vector2 towerPosition;
         public static List<Room> LairRooms;
-        private static Texture2D lairBkgd, lairLobby, bossRoom, spikeRoom, unconstructed_room;
+        private static Texture2D lairBkgd, lairLobby, bossRoom, unconstructed_room;
         private static Button skillsBtn, nextwaveBtn, constructionBtn, mainmenuBtn;
         private static MouseState currentMouseState, lastMouseState;
         public static Room UnconstructedRoom;
