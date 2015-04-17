@@ -23,8 +23,8 @@ namespace LeaveMeAlone
         private static Texture2D mastermindTitle;
         private static Texture2D operativeTitle;
         private static MouseState currentMouseState, lastMouseState;
-        public static bool mainMenuOpen;
-        public static bool bossMenuOpen;
+        public enum MenuState { main, opening, boss };
+        public static MenuState menu_state;
         public static bool bruteHover;
         public static bool mastermindHover;
         public static bool operativeHover;
@@ -39,8 +39,7 @@ namespace LeaveMeAlone
         public static void init(bool defeat = true)
         {
             currentMouseState = Mouse.GetState();
-            mainMenuOpen = true;
-            bossMenuOpen = false;
+            menu_state = MenuState.main;
             isNewGame = defeat;
             brute = new MenuBoss(Character.Type.Brute, new Vector2(LeaveMeAlone.WindowX / 2 - 400, LeaveMeAlone.WindowY - 400));
             mastermind = new MenuBoss(Character.Type.Mastermind, new Vector2(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 400));
@@ -72,14 +71,13 @@ namespace LeaveMeAlone
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
-            if (mainMenuOpen)
+            if (menu_state == MenuState.main)
             {
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
                 {
                     if (newGame.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
-                        mainMenuOpen = false;
-                        bossMenuOpen = true;
+                        menu_state = MenuState.boss;
                     }
                     else if (loadGame.Intersects(currentMouseState.X, currentMouseState.Y) && !isNewGame)
                     {
@@ -163,7 +161,7 @@ namespace LeaveMeAlone
         }
         public static void Draw(SpriteBatch Spritebatch)
         {
-            if (mainMenuOpen)
+            if (menu_state == MenuState.main)
             {
                 Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), Color.Black);
                 Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX / 2 - 200, 0, 400, 200), Color.White);
@@ -174,7 +172,7 @@ namespace LeaveMeAlone
                 }
                 quit.Draw(Spritebatch);
             }
-            if (bossMenuOpen)
+            else
             {
                 Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), Color.Black);
                 Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX/2 - 200, 0, 400, 200), Color.White);
