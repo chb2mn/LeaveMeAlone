@@ -648,7 +648,7 @@ namespace LeaveMeAlone
 
         public static void Backstab(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster.attack, 1, caster.level, 50);
+            int damage = Skill.damage(caster.attack/3, 1, caster.level, 50);
             target.health -= damage;
             String str_damage = (-damage).ToString();
             target.damage_text.changeMessage(str_damage);

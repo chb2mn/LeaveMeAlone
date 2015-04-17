@@ -17,6 +17,13 @@ namespace LeaveMeAlone
         private static bool one_last_party = true;
         public static int TowerLevel;
         public static int MaxLevel;
+
+        public static Text TutorialText;
+        public enum TutorialState { Skill, Build1, Build2, Build3, SendWave, None};
+        public static TutorialState tutorial_state;
+        public static Texture2D highlighter;
+        public static Rectangle highlighter_rect;
+
         public static Text InfoText;
         public static int texttimer;
         public static Vector2 towerPosition;
@@ -40,6 +47,9 @@ namespace LeaveMeAlone
             EndOfGame = false;
             TowerLevel = 0;
             MaxLevel = 3;
+            TutorialText = new Text("", new Vector2(200, 25), Text.fonts["6809Chargen-24"], Color.DarkGreen);
+            highlighter = content.Load<Texture2D>("Highlight");
+            highlighter_rect = new Rectangle();
             InfoText = new Text("", new Vector2(LeaveMeAlone.WindowX - 350, LeaveMeAlone.WindowY - 200), Text.fonts["6809Chargen-24"], Color.Black);
             towerPosition = new Vector2(0, 0);
             LairRooms = new List<Room>();
@@ -60,6 +70,45 @@ namespace LeaveMeAlone
             //play the music
             LeaveMeAlone.Battle_Song_Instance.Stop();
             LeaveMeAlone.Menu_Song_Instance.Play();
+            tutorial_state = TutorialState.Skill;
+        }
+
+        public static void HandleTutorial()
+        {
+            Rectangle target_rect = new Rectangle();
+            switch (tutorial_state)
+            {
+                case TutorialState.Skill:
+                    TutorialText.changeMessage("First let's take a look\nat our skill tree!");
+                    target_rect = skillsBtn.rectangle;
+                    break;
+                case TutorialState.Build1:
+                    TutorialText.changeMessage("Now let's build that room\nwe just bought!\nFirst build a level to our tower");
+                    target_rect = constructionBtn.rectangle;
+                    break;
+                case TutorialState.Build2:
+                    TutorialText.changeMessage("Now select the room we want to add to our build");
+                    target_rect = boughtRooms[0].b.rectangle;
+                    break;
+                case TutorialState.Build3:
+                    TutorialText.changeMessage("Finally, select the level of our tower\nfor whichwe want to add that tower");
+                    target_rect = new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (1)), 400, 100);
+                    break;
+                case TutorialState.SendWave:
+                    TutorialText.changeMessage("Now each time we press the start wave\nand the heroes will come to attack!");
+                    target_rect = nextwaveBtn.rectangle;
+                    break;
+                case TutorialState.None:
+                    TutorialText.changeMessage("");
+                    //I know this is bad coding practice
+                    target_rect.X = 2000;
+                    target_rect.Y = 2000;
+                    break;
+            }
+            highlighter_rect.X = target_rect.X - 15;
+            highlighter_rect.Y = target_rect.Y - 15;
+            highlighter_rect.Width = target_rect.Width + 30;
+            highlighter_rect.Height = target_rect.Height + 30;
         }
         public static void LairAttack(Room room, List<Character> party)
         {
@@ -77,6 +126,11 @@ namespace LeaveMeAlone
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
 
+            if (BattleManager.boss.level < 2)
+            {
+                HandleTutorial();
+            }
+
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
                 for (int i = 0; i < TowerLevel; i++)
@@ -93,6 +147,7 @@ namespace LeaveMeAlone
                         }
                         LairRooms[i] = selectedRoomSwapButton.r;
                         selectedRoomSwapButton.used = true;
+                        tutorial_state = TutorialState.SendWave;
                         
                     }
                 }
@@ -153,7 +208,7 @@ namespace LeaveMeAlone
                             LairAttack(LairRooms[i], PartyManager.partyQueue[i]);
                         }
                         Random random = new Random();
-                        int makeParty = random.Next(100) % 4;
+                        int makeParty = 0;//random.Next(100) % 4;
                         if (makeParty != 1)
                         {
                             List<Character> newParty = PartyManager.CreateParty();
@@ -199,11 +254,13 @@ namespace LeaveMeAlone
                         InfoText.changeMessage("Max Lair Height");
                         texttimer = 600;
                     }
+                    tutorial_state = TutorialState.Build2;
                     return LeaveMeAlone.GameState.Lair;
                 }
                 if (mainmenuBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     MainMenu.init(false);
+                    LeaveMeAlone.Menu_Song_Instance.Stop();
                     return LeaveMeAlone.GameState.Main;
                 }
                 //checks if a room button was selected
@@ -221,6 +278,7 @@ namespace LeaveMeAlone
                         selectedRoomSwapButton = r;
                         r.b.selected = true;
                         selected_flag = true;
+                        tutorial_state = TutorialState.Build3;
                     }
                 }
                 //otherwise we unselect any previously selected button
@@ -238,6 +296,9 @@ namespace LeaveMeAlone
             Spritebatch.Draw(lairBkgd, new Rectangle(-500, -200, 2308, 1200), Color.White);
             Spritebatch.Draw(lairLobby, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100), 400, 100), Color.White);
             Spritebatch.Draw(bossRoom, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (TowerLevel + 1)), 400, 100), Color.White);
+
+            
+            
             for (int i = 0; i < TowerLevel; i++)
             {
                 Spritebatch.Draw(LairRooms[i].img, new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (i + 1)), 400, 100), Color.White);
@@ -271,6 +332,11 @@ namespace LeaveMeAlone
             mainmenuBtn.Draw(Spritebatch);
             InfoText.Draw(Spritebatch);
 
+            if (TutorialText.message != "" && BattleManager.boss.level <= 2)
+            {
+                 TutorialText.Draw(Spritebatch);
+                 Spritebatch.Draw(highlighter, highlighter_rect, new Color(Color.LimeGreen, 40));
+            }
         }
 
         internal static void addRoom(UpgradeMenu.ButtonRoom buttonRoom)

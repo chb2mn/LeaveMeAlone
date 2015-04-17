@@ -20,10 +20,14 @@ namespace LeaveMeAlone
         public static List<Skill> boughtSkills = new List<Skill>();
         public static List<Room> boughtRooms = new List<Room>();
 
+        public static Text TutorialText;
+        public enum TutorialState { BuySkill, BuyRoom, Back, None };
+        public static TutorialState tutorial_state;
+
         public static SkillTree skilltree;
         public static Dictionary<string, Text> texts = new Dictionary<string, Text>();
 
-        public static Vector2 baseSkillButtonPos = new Vector2(400, 50);
+        public static Vector2 baseSkillButtonPos = new Vector2(400, 100);
         public static Vector2 baseRoomButtonPos = new Vector2(400, 550);
         public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
         
@@ -112,10 +116,31 @@ namespace LeaveMeAlone
             AvailableRooms[0] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
             AvailableRooms[1] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
         }
+        public static void HandleTutorial()
+        {
+            switch (tutorial_state)
+            {
+                case TutorialState.BuySkill:
+                    TutorialText.changeMessage("Now let's try to buy a basic skill");
+                    break;
+                case TutorialState.BuyRoom:
+                    TutorialText.changeMessage("And let's get a room to go along with it");
+                    break;
+                case TutorialState.Back:
+                    TutorialText.changeMessage("Now let's head back to check out our Lair");
+                    break;
+                case TutorialState.None:
+                    TutorialText.changeMessage("");
+                    break;
+            }
+        }
+
         public static void Init(MenuBoss boss)
         {
             SkillTree.Init(boss.bossType);
-            
+
+            tutorial_state = TutorialState.BuySkill;
+
             selectedBoss = boss;
             skilltree = SkillTree.skilltrees[selectedBoss.bossType];
           
@@ -206,6 +231,7 @@ namespace LeaveMeAlone
 
             next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
+            TutorialText = new Text("", new Vector2(250, 0), Text.fonts["6809Chargen-24"], Color.White);
         }
 
         public static LeaveMeAlone.GameState Update(GameTime g)
@@ -215,6 +241,10 @@ namespace LeaveMeAlone
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             texts["level"].changeMessage("Level: " + BattleManager.boss.level);
 
+            if (BattleManager.boss.level < 2)
+            {
+                HandleTutorial();
+            }
             //things you bought are in black
 
             /*
@@ -270,6 +300,7 @@ namespace LeaveMeAlone
                             LairManager.addRoom(AvailableRooms[x]);
                             boughtRooms.Add(AvailableRooms[x].r);
                             Resources.gold -= AvailableRooms[x].r.cost;
+                            tutorial_state = TutorialState.Back;
                         }
                     }
                 }
@@ -277,6 +308,7 @@ namespace LeaveMeAlone
                 if (next.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
                     BattleManager.bossDefaultPosition();
+                    LairManager.tutorial_state = LairManager.TutorialState.Build1;
                     return LeaveMeAlone.GameState.Lair;
                 }
                 //check if we clicked on a skill
@@ -291,6 +323,7 @@ namespace LeaveMeAlone
                             if(s.cost < Resources.gold)
                             {
                                 BattleManager.boss.addSkill(s);
+                                tutorial_state = TutorialState.BuyRoom;
                                 Resources.gold -= s.cost;
                                 if (s == SkillTree.final_skill[BattleManager.boss.charType])
                                 {
@@ -357,6 +390,11 @@ namespace LeaveMeAlone
         {
             sb.Draw(menuBackground, LeaveMeAlone.BackgroundRect, Color.Black);
             selectedBoss.Draw(sb, Color.White);
+
+            if (BattleManager.boss.level <= 2) 
+            {
+                TutorialText.Draw(sb);
+            }
 
             foreach (Button button in skilltree.SkillButtons.Values)
             {

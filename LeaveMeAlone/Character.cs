@@ -163,7 +163,7 @@ namespace LeaveMeAlone
             max_health = 100;
             health = max_health;
             attack = 50;
-            special_attack = 15;
+            special_attack = 20;
             defense = 50;
             special_defense = 10;
             max_energy = 25;
@@ -177,7 +177,7 @@ namespace LeaveMeAlone
             max_health = 100;
             health = max_health;
             special_attack = 50;
-            attack = 15;
+            attack = 20;
             special_attack = 50;
             defense = 10;
             special_defense = 50;
@@ -189,19 +189,20 @@ namespace LeaveMeAlone
         }
         private void initOperative()
         {
-            level = 10;
+            //level = 10;
             max_health = 100;
             health = max_health;
-            attack = 70;
-            special_attack = 70;
-            defense = 120;
-            special_defense = 120;
+            attack = 34;
+            special_attack = 34;
+            defense = 30;
+            special_defense = 30;
             max_energy = 50;
             manaRechargeRate = 1;
             energy = max_energy;
             gold = 100;
             exp = 0;
-            Resources.gold = 20000;
+            //Resources.gold = 20000;
+            //Resources.exp = 10001;
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
@@ -613,12 +614,13 @@ namespace LeaveMeAlone
                         selected_skill = status;
                     }  
                 }
-                else
-                {
-                    selected_skill = basic_attack;
-                }
+                
             }
 
+            if (selected_skill == null)
+            {
+                selected_skill = basic_attack;
+            }
             //average the boss' defense plus or minus a third
             int boss_defense = (int) (LeaveMeAlone.random.Next(80, 120) * (double)((BattleManager.boss.defense + BattleManager.boss.special_defense) / 2) / LeaveMeAlone.random.Next(80,120));
 
