@@ -72,12 +72,13 @@ namespace LeaveMeAlone
             mastermindTitle = content.Load<Texture2D>("mastermindTitle");
             operativeTitle = content.Load<Texture2D>("operativeTitle");
 
-            opening_monologue.Add(new Text("When I first began my reign as a boss monster\n\n      Everything was so simple.", new Vector2(200,200), Text.fonts["RetroComputer-12"]));
-            opening_monologue.Add(new Text("My knees limber\n\n\n\n\n\n\n                                  The heroes were so scared", new Vector2(300,300), Text.fonts["RetroComputer-12"]));
-            opening_monologue.Add(new Text("But like all things, I've aged...", new Vector2(600, 600), Text.fonts["RetroComputer-12"]));
-            opening_monologue.Add(new Text("It's time to retire, but the heroes...\n\n\n           Well... Grudges never die.", new Vector2(250, 300), Text.fonts["RetroComputer-12"]));
-            opening_monologue.Add(new Text("I need something to keep those heroes away\n\n         A statement piece...", new Vector2(500, 100), Text.fonts["RetroComputer-12"]));
-            opening_monologue.Add(new Text("Something to get these heroes to", new Vector2(250, 250), Text.fonts["RetroComputer-12"]));
+            SpriteFont story_font = Text.fonts["RetroComputer-18"];
+            opening_monologue.Add(new Text("When I first began my reign as a boss monster\n\n      Everything was so simple.", new Vector2(200,200), story_font));
+            opening_monologue.Add(new Text("My knees limber...\n\n\n\n\n\n\n                                  The heroes...\n\n\n\n                                                           They were so scared", new Vector2(100,100), story_font));
+            opening_monologue.Add(new Text("But like all things, I've aged...", new Vector2(450, 600), story_font));
+            opening_monologue.Add(new Text("It's time to retire, but the heroes...\n\n\n           Well... Grudges never die.", new Vector2(250, 300), story_font));
+            opening_monologue.Add(new Text("I need something to keep those heroes away\n\n         A statement piece...", new Vector2(350, 100), story_font));
+            opening_monologue.Add(new Text("Something to get these heroes to", new Vector2(250, 250), story_font));
 
         }
         public static LeaveMeAlone.GameState Update(GameTime gameTime)

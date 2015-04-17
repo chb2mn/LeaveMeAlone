@@ -920,3 +920,9 @@
 /processorParam:TextureFormat=Color
 /build:OpeningLandscape.png
 
+#begin Fonts/RetroComputer-18.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/RetroComputer-18.spritefont
+
