@@ -898,6 +898,17 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/MainMenu.png
 
+#begin hovertextbackground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:hovertextbackground.png
+
 #begin Highlight.png
 /importer:TextureImporter
 /processor:TextureProcessor

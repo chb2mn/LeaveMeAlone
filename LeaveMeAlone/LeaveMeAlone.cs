@@ -116,8 +116,6 @@ namespace LeaveMeAlone
             BattleManager.LoadContent(Content);
             SkillTree.LoadContent(Content);
             LairManager.loadContent(Content);
-            //font = Content.Load<SpriteFont>("coure.fon");
-            // TODO: use this.Content to load your game content here
 
             Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop.wav");
             Menu_Song_Instance = Menu_Song.CreateInstance();
@@ -190,7 +188,7 @@ namespace LeaveMeAlone
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
             //GraphicsDevice.SetRenderTarget(target);

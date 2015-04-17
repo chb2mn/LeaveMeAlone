@@ -24,10 +24,12 @@ namespace LeaveMeAlone
         public static List<Rectangle> heroLoc = new List<Rectangle>();
         public static Point herobase = new Point(75, 120);
 
-        public static Dictionary<Character.Knowledge, bool> Knowledge = new Dictionary<Character.Knowledge,bool>();
+        public static Dictionary<Character.Knowledge, bool> Knowledge = new Dictionary<Character.Knowledge, bool>();
 
-        public static Text hovertext = new Text("", new Vector2(LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Y), Text.fonts["RetroComputer-12"]);
+        public static Text hovertext;
         public static Texture2D hovertextbackground;
+        public static Vector2 hovertextpos;
+        public static Rectangle hovertextRect;
 
         public static Character boss;
         public static Rectangle bossLoc;
@@ -78,7 +80,7 @@ namespace LeaveMeAlone
         private static int targeted_enemy = -1;
         private static Skill selected_skill;
 
-       
+
         //------------Bribe Stuff------------//
         private static Button[] bribe_amounts = new Button[4];
         private static Button total_amount;
@@ -108,6 +110,13 @@ namespace LeaveMeAlone
 
             target_text = new Text("Select Target", new Vector2(100, 100), Text.fonts["RetroComputer-12"]);
 
+            hovertextpos = new Vector2(LeaveMeAlone.BackgroundRect.Width/2 - 200, 15);
+            hovertext = new Text("", new Vector2(hovertextpos.X + 10, hovertextpos.Y + 10), Text.fonts["RetroComputer-12"]);
+            hovertextRect = new Rectangle((int)hovertextpos.X, (int)hovertextpos.Y, 400, 200);
+            //250 x 150
+            hovertextbackground = Content.Load<Texture2D>("hovertextbackground");
+            
+
             basic_buttons[0] = new Button(buttonLocPic, button_basex, button_basey, 250, 50);
             basic_buttons[1] = new Button(buttonLocPic, button_basex + 300, button_basey, 250, 50);
             basic_buttons[2] = new Button(buttonLocPic, button_basex, button_basey + 60, 250, 50);
@@ -126,7 +135,7 @@ namespace LeaveMeAlone
             basic_buttons[3].UpdateText("Bribe");
 
 
-            bossLoc = new Rectangle(LeaveMeAlone.WindowX-300, LeaveMeAlone.WindowY/2 - 150, 200, 200); 
+            bossLoc = new Rectangle(LeaveMeAlone.WindowX - 300, LeaveMeAlone.WindowY / 2 - 150, 200, 200);
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
             boss_energy = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 120));
 
@@ -141,18 +150,20 @@ namespace LeaveMeAlone
             for (int i = 0; i < 4; i++)
             {
                 Text hptext = new Text(msg:"", position:new Vector2(heroLoc[i].Location.X , heroLoc[i].Location.Y + 120));
+
                 hero_hp.Add(hptext);
             }
 
 
-            back_button = new Button(Content.Load<Texture2D>("Back"), LeaveMeAlone.WindowX-250, LeaveMeAlone.WindowY-100, 113, 51);
+            back_button = new Button(Content.Load<Texture2D>("Back"), 10, LeaveMeAlone.WindowY - 100, 113, 51);
 
 
             victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
             defeat_text = new Text("Defeat\nYour friends will be so embarrased about you\nDo bosses even have friends?", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
-            
+
             info_text = new Text("", new Vector2(400, 50), Text.fonts["Arial-24"], Color.Cyan);
+
             info_counter = 240;
 
 
@@ -166,7 +177,7 @@ namespace LeaveMeAlone
             bribe_amounts[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
             for (int i = 0; i < 4; i += 1)
             {
-                bribe_amounts[i].UpdateText((Math.Pow(10,i+1)).ToString());
+                bribe_amounts[i].UpdateText((Math.Pow(10, i + 1)).ToString());
             }
 
             total_amount = new Button(buttonLocPic, button_basex + 300, button_basey - 60, 200, 50);
@@ -176,7 +187,7 @@ namespace LeaveMeAlone
 
         public static void Init()
         {
-            message = new Text("", new Vector2(0,0), Text.fonts["Arial-12"], Color.Black);
+            message = new Text("", new Vector2(0, 0), Text.fonts["Arial-12"], Color.Black);
 
             //Play the Music
             //MediaPlayer.IsRepeatable = true;
@@ -273,7 +284,7 @@ namespace LeaveMeAlone
                         affected.statuses.Remove(status);
                     }
                 }
-                
+
                 //If the effect is not one time, do the effect and increment counter
                 else if (effect_time == status.effect_time && status.effect_time == Status.Effect_Time.After)
                 {
@@ -366,7 +377,7 @@ namespace LeaveMeAlone
             caster.attackAnimation();
 
             //Check if targeted_enemy is within the party size
-            
+
 
 
             if (targeted_enemy >= 0)
@@ -381,7 +392,7 @@ namespace LeaveMeAlone
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
 
-            
+
 
             else if (targeted_enemy == -1)
             {
@@ -410,7 +421,7 @@ namespace LeaveMeAlone
                 {
                     check_cooldown[boss.selected_skills.IndexOf(selected_skill)] += selected_skill.cooldown;
                 }
-                
+
             }
 
             //apply affects for after the attack
@@ -502,7 +513,7 @@ namespace LeaveMeAlone
                 {
                     Console.WriteLine("Removing Enemy: " + i + " At health: " + hero.health);
                     Resources.gold += heroes[i].gold;
-                    Resources.exp += heroes[i].exp;     
+                    Resources.exp += heroes[i].exp;
                     heroes[i] = null;
 
                     //Reward the boss
@@ -568,9 +579,18 @@ namespace LeaveMeAlone
                     break;
             }
         }
-
+        public static bool leftClicked()
+        {
+            return Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click;
+        }
+        public static bool rightClicked()
+        {
+            return Mouse.GetState().RightButton == ButtonState.Pressed && !right_click;
+        }
         public static LeaveMeAlone.GameState Update(GameTime gametime)
         {
+            int selectLocX = Mouse.GetState().X;
+            int selectLocY = Mouse.GetState().Y;
             //Keyboard.GetState();
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -584,42 +604,56 @@ namespace LeaveMeAlone
             switch (state)
             {
                 case State.Basic:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    if (basic_buttons[1].Intersects(selectLocX, selectLocY))
                     {
-                        int selectLocX = Mouse.GetState().X;
-                        int selectLocY = Mouse.GetState().Y;
-                        if (basic_buttons[1].Intersects(selectLocX, selectLocY))
+                        //Go toSkill menu
+                        hovertext.changeMessage("Skills:\nShow them your moves!");
+                        if (leftClicked())
                         {
-                            //Go toSkill menu
                             NewMenu(1);
                         }
-                        else if (basic_buttons[3].Intersects(selectLocX, selectLocY))
+                    }
+                    else if (basic_buttons[3].Intersects(selectLocX, selectLocY))
+                    {
+                        hovertext.changeMessage("Bribe:\nCan't take the heat? Buy off your enemies! Everyone has a price!");
+                        //Go to Bribe menu
+                        if (leftClicked())
                         {
-                            //Go to Bribe menu
                             NewMenu(2);
                         }
-                        else if (basic_buttons[0].Intersects(selectLocX, selectLocY))
+                    }
+                    else if (basic_buttons[0].Intersects(selectLocX, selectLocY))
+                    {
+                        hovertext.changeMessage("Attack:\nPut up your dukes, and show them what you are made of! Use your Attack power");
+                        //TODO: need a way to select basic attack
+                        if (leftClicked())
                         {
-                            //TODO: need a way to select basic attack
                             selected_skill = boss.basic_attack;
 
                             state = State.Target;
                         }
-                        else if (basic_buttons[2].Intersects(selectLocX, selectLocY))
+                    }
+                    else if (basic_buttons[2].Intersects(selectLocX, selectLocY))
+                    {
+                        hovertext.changeMessage("Defend:\nHeal some health and regain energy");
+                        //TODO: need a way to select taunt
+                        if (leftClicked())
                         {
-                            //TODO: need a way to select taunt
                             selected_skill = boss.defend;
                             targeted_enemy = -1; //Don't need this
                             state = State.Attack;
                         }
                     }
+                    else
+                    {
+                        hovertext.changeMessage("");
+                    }
+
                     break;
                 case State.Skills:
                     //Skill Selection
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
                     {
-                        int selectLocX = Mouse.GetState().X;
-                        int selectLocY = Mouse.GetState().Y;
 
                         message.changeMessage(selectLocX + ", " + selectLocY);
                         for (int i = 0; i < 6; i++)
@@ -666,11 +700,9 @@ namespace LeaveMeAlone
                     break;
                 case State.Bribe:
                     //Bribe Stuff
-                    
-                    if (Mouse.GetState().RightButton == ButtonState.Pressed && !right_click)
+
+                    if (rightClicked())
                     {
-                        int selectLocX = Mouse.GetState().X;
-                        int selectLocY = Mouse.GetState().Y;
                         for (int i = 0; i < 4; i++)
                         {
                             if (bribe_amounts[i].Intersects(selectLocX, selectLocY))
@@ -681,15 +713,13 @@ namespace LeaveMeAlone
                             }
                         }
                     }
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    if (leftClicked())
                     {
-                        int selectLocX = Mouse.GetState().X;
-                        int selectLocY = Mouse.GetState().Y;
                         for (int i = 0; i < 4; i++)
                         {
                             if (bribe_amounts[i].Intersects(selectLocX, selectLocY))
                             {
-                                bribe_gold += (int) Math.Pow(10, i+1);
+                                bribe_gold += (int)Math.Pow(10, i + 1);
                                 total_amount.UpdateText("How Much?: " + bribe_gold.ToString());
                                 left_click = true;
                             }
@@ -702,7 +732,7 @@ namespace LeaveMeAlone
                             total_amount.UpdateText("How Much?: 0");
                         }
                     }
-                        //Send bribe target at enemy
+                    //Send bribe target at enemy
                     targeted_enemy = Target();
                     if (targeted_enemy >= 0)
                     {
@@ -738,8 +768,6 @@ namespace LeaveMeAlone
                     }
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
-                        int selectLocX = Mouse.GetState().X;
-                        int selectLocY = Mouse.GetState().Y;
 
                         if (back_button.Intersects(selectLocX, selectLocY))
                         {
@@ -757,8 +785,7 @@ namespace LeaveMeAlone
                 case State.Endgame:
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
                     {
-                        int selectLocX = Mouse.GetState().X;
-                        int selectLocY = Mouse.GetState().Y;
+
                         if (next_button.Intersects(selectLocX, selectLocY))
                         {
                             //Clear the boss's stats
@@ -922,7 +949,7 @@ namespace LeaveMeAlone
                     {
                         if (heroes[i].damage_counter-- >= 0)
                         {
-                            heroes[i].damage_text.Draw(spriteBatch,new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + heroes[i].damage_counter / 3), Color.AntiqueWhite);
+                            heroes[i].damage_text.Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + heroes[i].damage_counter / 3), Color.AntiqueWhite);
                         }
                         else
                         {
@@ -1022,6 +1049,12 @@ namespace LeaveMeAlone
 
 
             message.Draw(spriteBatch);
+
+            if (hovertext.message != "")
+            {
+                spriteBatch.Draw(hovertextbackground, hovertextRect, Color.White);
+                hovertext.Draw(spriteBatch, maxLineWidth: hovertextRect.Width - 10);
+            }
         }
 
         public static void bossDefaultPosition()
@@ -1041,5 +1074,7 @@ namespace LeaveMeAlone
                 }
             }
         }*/
+
+
     }
 }

@@ -79,7 +79,7 @@ namespace LeaveMeAlone
             Console.WriteLine(str);
         }
 
-        public virtual void Draw(SpriteBatch sb,  Vector2 pos = default(Vector2), Color c = default(Color))
+        public virtual void Draw(SpriteBatch s,  Vector2 pos = default(Vector2), Color c = default(Color), float maxLineWidth=0)
         {
             if (c == default(Color))
             {
@@ -89,7 +89,40 @@ namespace LeaveMeAlone
             {
                 pos = position;
             }
-            sb.DrawString(font, message, pos, c);
+            if (maxLineWidth != 0)
+            {
+                string[] blocks = message.Split('\n');
+                StringBuilder sb = new StringBuilder();
+                foreach (String block in blocks)
+                {
+                    string[] words = block.Split(' ');
+                    
+                    float lineWidth = 0f;
+                    float spaceWidth = font.MeasureString(" ").X;
+
+                    foreach (string word in words)
+                    {
+                        Vector2 size = font.MeasureString(word);
+
+                        if (lineWidth + size.X < maxLineWidth)
+                        {
+                            sb.Append(word + " ");
+                            lineWidth += size.X + spaceWidth;
+                        }
+                        else
+                        {
+                            sb.Append("\n" + word + " ");
+                            lineWidth = size.X + spaceWidth;
+                        }
+                    }
+                    sb.Append("\n");
+                }
+                s.DrawString(font, sb.ToString(), pos, c);
+            }
+            else
+            {
+                s.DrawString(font, message, pos, c);
+            }
         }
         public void Move(Vector2 pos)
         {
