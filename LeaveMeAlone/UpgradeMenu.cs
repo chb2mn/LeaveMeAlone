@@ -413,13 +413,16 @@ namespace LeaveMeAlone
             {
                 if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false  && AvailableRooms[x].r.level != -1)
                 {
-                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                    AvailableRooms[x].b.Draw(sb);
+                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.5f);
+                    //sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White*0.5f);
                 }
                 else
                 {
-                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                    
+                    AvailableRooms[x].b.Draw(sb);
                 }
-                AvailableRooms[x].b.Draw(sb);
+                
             }
             next.Draw(sb);
         }
