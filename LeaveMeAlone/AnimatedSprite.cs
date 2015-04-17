@@ -33,6 +33,8 @@ namespace LeaveMeAlone
         private string lastState;
         public int width;
         public int height;
+        public bool is_attacking;
+
         public double FramesPerSecond
         {
             set { timeToUpdate = (1f / value); }
@@ -118,6 +120,7 @@ namespace LeaveMeAlone
         }
         public void idle()
         {
+            is_attacking = false;
             currentState = "idle";
             if (currentState != lastState)
             {
@@ -143,6 +146,7 @@ namespace LeaveMeAlone
         public void attackAnimation()
         {
             midAttack = true;
+            is_attacking = true;
         }
         /*
         public void Draw(SpriteBatch spriteBatch, Color color)

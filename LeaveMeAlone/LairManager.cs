@@ -54,7 +54,7 @@ namespace LeaveMeAlone
             towerPosition = new Vector2(0, 0);
             LairRooms = new List<Room>();
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
-            constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 175, 200, 75);
+            constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 180, 200, 75);
             nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Height - 75, 200, 75);
             mainmenuBtn = new Button(content.Load<Texture2D>("Buttons/MainMenu"), LeaveMeAlone.WindowX - 300, 0, 300, 80);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
@@ -88,14 +88,22 @@ namespace LeaveMeAlone
                     break;
                 case TutorialState.Build2:
                     TutorialText.changeMessage("Now select the room we want to add to our build");
-                    target_rect = boughtRooms[0].b.rectangle;
+                    try
+                    {
+                        target_rect = boughtRooms[0].b.rectangle;
+                    }
+                    catch
+                    {
+                        TutorialText.changeMessage("You haven't bought a room yet!");
+                        target_rect = skillsBtn.rectangle;
+                    }
                     break;
                 case TutorialState.Build3:
                     TutorialText.changeMessage("Finally, select the level of our tower\nfor whichwe want to add that tower");
                     target_rect = new Rectangle((int)(towerPosition.X + LeaveMeAlone.WindowX / 3), (int)(towerPosition.Y + LeaveMeAlone.WindowY - 100 - 100 * (1)), 400, 100);
                     break;
                 case TutorialState.SendWave:
-                    TutorialText.changeMessage("Now each time we press the start wave\nand the heroes will come to attack!");
+                    TutorialText.changeMessage("Now each time we press the NEXT WAVE\nand the heroes will come to attack!");
                     target_rect = nextwaveBtn.rectangle;
                     break;
                 case TutorialState.None:
@@ -332,7 +340,7 @@ namespace LeaveMeAlone
             mainmenuBtn.Draw(Spritebatch);
             InfoText.Draw(Spritebatch);
 
-            if (TutorialText.message != "" && BattleManager.boss.level <= 2)
+            if (TutorialText.message != "" && BattleManager.boss.level < 2)
             {
                  TutorialText.Draw(Spritebatch);
                  Spritebatch.Draw(highlighter, highlighter_rect, new Color(Color.LimeGreen, 40));

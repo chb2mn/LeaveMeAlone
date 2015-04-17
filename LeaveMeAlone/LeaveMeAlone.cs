@@ -38,30 +38,7 @@ namespace LeaveMeAlone
         public static SoundEffect Menu_Song;
         public static SoundEffectInstance Menu_Song_Instance;
         public static SoundEffect Battle_Song;
-        public static SoundEffectInstance Battle_Song_Instance;
-
-
-
-        /*public static void SetPosition(this GameWindow window, Point position)
-        {
-            OpenTK.GameWindow OTKWindow = GetForm(window);
-            if (OTKWindow != null)
-            {
-                OTKWindow.X = position.X;
-                OTKWindow.Y = position.Y;
-            }
-        }
-
-        public static OpenTK.GameWindow GetForm(this GameWindow gameWindow)
-        {
-            Type type = typeof(OpenTKGameWindow);
-            System.Reflection.FieldInfo field = type.GetField("window", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (field != null)
-                return field.GetValue(gameWindow) as OpenTK.GameWindow;
-            return null;
-        }
-        */
-        
+        public static SoundEffectInstance Battle_Song_Instance;        
         
         
         
@@ -153,7 +130,7 @@ namespace LeaveMeAlone
             Main_Song = Content.Load<SoundEffect>("Sounds/LingeringChip.wav");
             Main_Song_Instance = Main_Song.CreateInstance();
             Main_Song_Instance.IsLooped = true;
-            Main_Song_Instance.Volume = .1f;
+            Main_Song_Instance.Volume = .5f;
             //both songs have no duration
             
             EndGameText = new Text("And So,\n\nThrough much perserverence\nand a low interest mortgage\nour boss was finally\n\nLeft Alone.",

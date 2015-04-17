@@ -391,7 +391,7 @@ namespace LeaveMeAlone
             sb.Draw(menuBackground, LeaveMeAlone.BackgroundRect, Color.Black);
             selectedBoss.Draw(sb, Color.White);
 
-            if (BattleManager.boss.level <= 2) 
+            if (BattleManager.boss.level < 2) 
             {
                 TutorialText.Draw(sb);
             }

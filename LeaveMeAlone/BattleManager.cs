@@ -827,11 +827,27 @@ namespace LeaveMeAlone
                 case State.EnemyTurn:
                     //Enemy Turn
                     //Wait to allow the user to see what's happening
+                    if (enemy_turn > 0 && heroes[enemy_turn - 1] != null)
+                    {
+                        if (heroes[enemy_turn - 1].is_attacking)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (boss.is_attacking)
+                        {
+                            break;
+                        }
+                    }
+                    /*
                     if (enemy_attack_delay > 0)
                     {
                         enemy_attack_delay--;
                         break;
                     }
+                    */
                     if (enemy_turn >= heroes.Count())
                     {
                         state = State.Basic;
