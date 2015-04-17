@@ -149,7 +149,7 @@ namespace LeaveMeAlone
 
 
             victory_text = new Text("Victory!\nWe will survive another day!", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
-            defeat_text = new Text("Defeat\nYour friends will be so embarrased with you", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
+            defeat_text = new Text("Defeat\nYour friends will be so embarrased about you\nDo bosses even have friends?", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
             
             info_text = new Text("", new Vector2(400, 50), Text.fonts["Arial-24"], Color.Cyan);

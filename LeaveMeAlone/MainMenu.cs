@@ -56,9 +56,9 @@ namespace LeaveMeAlone
             menuBackground = content.Load<Texture2D>("DummyHero");
             titleCard = content.Load<Texture2D>("TitleCard");
             newGame = new Button(content.Load<Texture2D>("NewGame"), LeaveMeAlone.WindowX / 2 - 100, 275, 200, 75);
-            newGame.selected = true;
+            //newGame.selected = true;
             loadGame = new Button(content.Load<Texture2D>("LoadGame"), LeaveMeAlone.WindowX / 2 - 150, 200, 300, 75);
-            loadGame.selected = true;
+            //loadGame.selected = true;
             quit = new Button(content.Load<Texture2D>("Quit"), LeaveMeAlone.WindowX / 2 - 100, 350, 200, 75);
 
             bruteTitle = content.Load<Texture2D>("bruteTitle");
@@ -82,6 +82,8 @@ namespace LeaveMeAlone
                     }
                     else if (loadGame.Intersects(currentMouseState.X, currentMouseState.Y) && !isNewGame)
                     {
+                        LeaveMeAlone.Main_Song_Instance.Stop();
+                        LeaveMeAlone.Menu_Song_Instance.Play();
                         return LeaveMeAlone.GameState.Lair;
                     }
                     else if (quit.Intersects(currentMouseState.X, currentMouseState.Y))
