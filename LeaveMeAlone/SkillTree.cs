@@ -56,6 +56,14 @@ namespace LeaveMeAlone
         //Brute
         public static Skill ethereal_fist;
         public static Skill blind_charge;
+
+        public static Skill intimidate;
+        public static Skill beat_chest;
+        public static Skill roid_rage;
+        public static Skill break_armor;
+        public static Skill library;
+        public static Skill counter;
+
         public static Skill rub_dirt;
         public static Skill holk_smash;
         public static Skill norris_kick;
@@ -66,6 +74,14 @@ namespace LeaveMeAlone
         public static Skill portal_punch;
         public static Skill flamethrower;
         public static Skill nuclear_waste;
+
+        public static Skill anti_magic_bubble;
+        public static Skill unstable_weapon;
+        public static Skill recombobulator;
+        public static Skill basic_chem_set;
+        public static Skill adv_chem_set;
+        public static Skill exp_chem_set;
+
         public static Skill abomination_form;
         public static Skill summon_igor;
         public static Skill freeze_ray;
@@ -75,6 +91,13 @@ namespace LeaveMeAlone
         public static Skill slash;
         public static Skill shuriken;
         public static Skill backstab;
+
+        public static Skill deadly_weapons;
+        public static Skill espionage;
+        public static Skill double_cross;
+        public static Skill smoke_bomb;
+        public static Skill small_explosives;
+
         public static Skill garrote_watch;
         public static Skill silver_alloy_gun;
         public static Skill exploding_pen;

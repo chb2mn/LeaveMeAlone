@@ -404,7 +404,7 @@ namespace LeaveMeAlone
                     {
                         continue;
                     }
-                    spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
+                    spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20*i), (int)sPosition.Y, 30, 30), Color.White);
                     i++;
                 }
                 lvl_text.Draw(spriteBatch);
@@ -424,7 +424,7 @@ namespace LeaveMeAlone
                     }
                     if (status.img != null)
                     {
-                        spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20 * i, sPosition.Y), Color.White);
+                        spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30 ,30), Color.White);
                     }
                     i++;
                 }

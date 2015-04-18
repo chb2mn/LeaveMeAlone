@@ -22,6 +22,9 @@ namespace LeaveMeAlone
         private static Texture2D bruteTitle;
         private static Texture2D mastermindTitle;
         private static Texture2D operativeTitle;
+        private static Text bruteText;
+        private static Text mastermindText;
+        private static Text operativeText;
         private static MouseState currentMouseState, lastMouseState;
         public enum MenuState { main, opening, boss };
         public static MenuState menu_state;
@@ -69,8 +72,12 @@ namespace LeaveMeAlone
             quit = new Button(content.Load<Texture2D>("Quit"), LeaveMeAlone.WindowX / 2 - 100, 350, 200, 75);
 
             bruteTitle = content.Load<Texture2D>("bruteTitle");
+            bruteText = new Text("High Physical Stats\nLow Special Stats", f: Text.fonts["RetroComputer-12"], c: Color.White);
             mastermindTitle = content.Load<Texture2D>("mastermindTitle");
+            mastermindText = new Text("High Special Stats\nLow Physical Stats", f: Text.fonts["RetroComputer-12"], c: Color.White);
             operativeTitle = content.Load<Texture2D>("operativeTitle");
+            operativeText = new Text("Balanced Stats\nHigh Energy and Good skills", f: Text.fonts["RetroComputer-12"], c: Color.White);
+
 
             SpriteFont story_font = Text.fonts["RetroComputer-18"];
             opening_monologue.Add(new Text("When I first began my reign as a boss monster\n\n      Everything was so simple.", new Vector2(200,200), story_font));
@@ -228,7 +235,6 @@ namespace LeaveMeAlone
                     {
                         Console.WriteLine("it's time");
                     }
-                    Console.WriteLine((Math.Sqrt((double)opening_timer/360) * 255));
                     Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), new Color(Color.Black, (int)(Math.Sqrt((double)opening_timer/360)*255)));
                     Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX / 2 - 200, 0, 400, 200), Color.White);
                 }
@@ -244,14 +250,19 @@ namespace LeaveMeAlone
                 if (bruteHover)
                 {
                     Spritebatch.Draw(bruteTitle, new Rectangle(LeaveMeAlone.WindowX / 2 - 370, LeaveMeAlone.WindowY - 250, 150, 50), Color.White);
+                    bruteText.Draw(Spritebatch, pos: new Vector2(LeaveMeAlone.WindowX / 2 - 370, LeaveMeAlone.WindowY - 200));
                 }
                 if (mastermindHover)
                 {
                     Spritebatch.Draw(mastermindTitle, new Rectangle(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 250, 225, 50), Color.White);
+                                        mastermindText.Draw(Spritebatch, pos: new Vector2(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 200));
+
                 }
                 if (operativeHover)
                 {
                     Spritebatch.Draw(operativeTitle, new Rectangle(LeaveMeAlone.WindowX / 2 + 220, LeaveMeAlone.WindowY - 250, 200, 50), Color.White);
+                    operativeText.Draw(Spritebatch, pos: new Vector2(LeaveMeAlone.WindowX / 2 +220, LeaveMeAlone.WindowY - 200));
+
                 }
             }
         }
