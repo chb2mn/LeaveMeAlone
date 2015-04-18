@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using LeaveMeAlone;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace LeaveMeAlone
 {
@@ -36,6 +37,15 @@ namespace LeaveMeAlone
         public Dictionary<Skill, Button> SkillButtons = new Dictionary<Skill,Button>();
 
         public static Dictionary<Character.Type, Skill> final_skill = new Dictionary<Character.Type, Skill>();
+
+
+        public static SoundEffect fireball;
+        public static SoundEffectInstance fireball_instance;
+
+        public static SoundEffect shield_clank;
+        public static SoundEffectInstance shield_clank_instance;
+
+
 
 
         //>>>>>>>>>>>>>>>>>>>>Skill Declarations<<<<<<<<<<<<//
@@ -107,6 +117,14 @@ namespace LeaveMeAlone
         }
         public static void LoadContent(ContentManager content)
         {
+        //>>>>>>>>>>>>>>>>>>Sound Effect<<<<<<<<<<<<<<<<<<<//
+            fireball = content.Load<SoundEffect>("Sounds/fireball");
+            fireball_instance = fireball.CreateInstance();
+            
+            shield_clank = content.Load<SoundEffect>("Sounds/shield_clank");
+            shield_clank_instance = shield_clank.CreateInstance();
+
+        //>>>>>>>>>>>>>>>>>>Generic Rooms<<<<<<<<<<<<<<<<<<//    
             spike_room_image = content.Load<Texture2D>("Lair/spikeRoom");
             poison_pit_image = content.Load<Texture2D>("Lair/PoisonPit");
             poor_booby_traps_image = content.Load<Texture2D>("Lair/PoisonPit");
@@ -127,8 +145,8 @@ namespace LeaveMeAlone
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
             basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
-            defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
-            enemy_defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Defend", EnemyDefend);
+            defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend, sound: shield_clank_instance);
+            enemy_defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Defend", EnemyDefend, sound: shield_clank_instance);
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             //Brute
@@ -140,17 +158,17 @@ namespace LeaveMeAlone
             holk_smash = new Skill("Holk Smush", 10, 300,    5, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
             norris_kick = new Skill("Norris Kick", 8, 100,      3, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
             bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 7, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
-            raised_by_wolves = new Skill("Raised by wolves", 25, 500, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves);; //destroy one enemy, damage another, raise your own stats
+            raised_by_wolves = new Skill("Raised by wolves", 25, 500, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves); //destroy one enemy, damage another, raise your own stats
             final_skill[Character.Type.Brute] = raised_by_wolves;
 
             //Mastermind
             portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            flamethrower = new Skill("Flamethrower", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-            nuclear_waste = new Skill("Nuclear Waste", 5, 100, 3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, Status.check_poison);
+            flamethrower = new Skill("Flamethrower", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower, sound: fireball_instance);
+            nuclear_waste = new Skill("Nuclear Waste", 5, 100, 3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, _inflicts: Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 500, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 3, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("Freeze Ray", 15, 2500, 10, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, Status.check_stun);
-            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 7, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, Status.check_haste);
+            freeze_ray = new Skill("Freeze Ray", 15, 2500, 10, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, _inflicts: Status.check_stun);
+            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 7, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, _inflicts: Status.check_haste);
             final_skill[Character.Type.Mastermind] = freeze_ray;
 
 
@@ -163,7 +181,7 @@ namespace LeaveMeAlone
             garrote_watch = new Skill("Garrote Watch", 5, 300, 5, 0, Skill.Target.Single, 1, "Kill an enemy below 15% hp", GarroteWatch); //remove at low health
             silver_alloy_gun = new Skill("Silver Alloy Gun", 15, 500, 7, 2, Skill.Target.Single, 1, "Hit and Stun an enemy", SilverAlloyGun); //hit and stun
             exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
-            bladed_shoes = new Skill("Bladed Shoes", 15, 1500, 7, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, Status.check_haste);
+            bladed_shoes = new Skill("Bladed Shoes", 15, 1500, 7, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, _inflicts: Status.check_haste);
             nuclear_warhead = new Skill("Nuclear Warhead", 20, 3000, 10, 3, Skill.Target.All, 1, "Do huge damage to all enemies", NuclearWarhead); // hit all for a lot of damage combo str and spec.
             final_skill[Character.Type.Operative] = nuclear_warhead;
 
@@ -171,11 +189,11 @@ namespace LeaveMeAlone
 
             cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 1, "Heals and ally or self", Cure);
             fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
-            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire);
+            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire, sound: fireball_instance);
             bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 1, "Hit an enemy using physical attack", Bash);
             haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 1, "Speed an ally up so he can hit twice in a row", Haste);
             panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 1, "Cure Self or Ally of all Status effects", Panacea);
-            poison_dagger = new Skill("poison_dagger", 5, 0, 1, 1, Skill.Target.Single, 1, "Do physical damage and give poison", PoisonDagger, Status.check_poison);
+            poison_dagger = new Skill("poison_dagger", 5, 0, 1, 1, Skill.Target.Single, 1, "Do physical damage and give poison", PoisonDagger, _inflicts: Status.check_poison);
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 200, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
             poison_pit = new Room("Poison Pit", 300, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);

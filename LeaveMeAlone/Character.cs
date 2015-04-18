@@ -375,6 +375,10 @@ namespace LeaveMeAlone
             }
             this.energy -= skill.energy;
             skill.runnable(this, target);
+            if (skill.sound != null)
+            {
+                skill.sound.Play();
+            }
         }
 
         public void Update(GameTime gameTime) {

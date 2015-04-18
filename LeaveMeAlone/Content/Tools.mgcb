@@ -937,3 +937,27 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/RetroComputer-18.spritefont
 
+#begin Sounds/fireball.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/fireball.wav
+
+#begin Sounds/grunt_hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/grunt_hit.wav
+
+#begin Sounds/shield_clank.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/shield_clank.wav
+
+#begin Sounds/Victory.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Victory.wav
+

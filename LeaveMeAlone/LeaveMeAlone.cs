@@ -81,7 +81,7 @@ namespace LeaveMeAlone
 
             Credits.Add("Leave Me Alone \n\nA game developed by: \n\n     Christopher Burkhalter\n     Kyle O'Donnell\n     Mitchell Smith");
             Credits.Add("Music (provided by Newgrounds):\n\nBattleSongLoop by Goukison\n~Epic_Loop~ by Catstuffer\nLingering \"Chip\" Puzzle by lacifer\n~Melancholious Victory by Blind-Bane\nVictory is Yours! by ImperfectDisciple");
-            Credits.Add("Sound Effects...Eventually");
+            Credits.Add("Sound Effects provided by:\nhttp://www.freesfx.co.uk");
             Credits.Add("Thank You For Playing!");
 
 
