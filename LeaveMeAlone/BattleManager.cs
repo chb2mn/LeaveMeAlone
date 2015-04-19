@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace LeaveMeAlone
@@ -18,6 +19,8 @@ namespace LeaveMeAlone
 
         public static Text boss_hp;
         public static Text boss_energy;
+
+        public static SoundEffectInstance victory_sound_instance;
 
         public static List<Character> heroes = new List<Character>(4);
         public static List<Text> hero_hp = new List<Text>(4);
@@ -91,6 +94,8 @@ namespace LeaveMeAlone
         public static void LoadContent(ContentManager Content)
         {
 
+            victory_sound_instance = Content.Load<SoundEffect>("Sounds/Victory").CreateInstance();
+            victory_sound_instance.Volume = .2f;
 
             bkgd = Content.Load<Texture2D>("skyscraperBkgd");
 
@@ -376,10 +381,10 @@ namespace LeaveMeAlone
             //Initiate animation
             caster.attackAnimation();
 
+
+
+
             //Check if targeted_enemy is within the party size
-
-
-
             if (targeted_enemy >= 0)
             {
                 //if hero is dead, ignore
@@ -393,18 +398,27 @@ namespace LeaveMeAlone
             }
 
 
-
+            //If there is no target
             else if (targeted_enemy == -1)
             {
                 Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill);
-
             }
+
             //For enemy turns
             else if (targeted_enemy == -2)
             {
                 Apply_Status(caster, Status.Effect_Time.Before);
-                heroes[enemy_turn].cast(selected_skill, boss);
+                //check if the hero is immune
+                if (!((boss.statuses.Contains(Status.check_immune_atk) && selected_skill.type == 0) ||
+                    (boss.statuses.Contains(Status.check_immune_spec) && selected_skill.type == 1)))
+                {
+                    heroes[enemy_turn].cast(selected_skill, boss);
+                }
+                else
+                {
+                    boss.damage_text.changeMessage("Immune!");
+                }
             }
             //if it's the hero's turn
             if (enemy_turn == -1)
@@ -536,6 +550,10 @@ namespace LeaveMeAlone
                 }
                 boss.lvl_text.changeMessage("Lvl: " + boss.level);
                 LeaveMeAlone.Battle_Song_Instance.Stop();
+                if (victory)
+                {
+                    victory_sound_instance.Play();
+                }
                 state = State.Endgame;
             }
         }
@@ -793,6 +811,7 @@ namespace LeaveMeAlone
                             {
                                 if (status.effect_time == Status.Effect_Time.Once && status.reverse_affect != null)
                                 {
+                                    Console.WriteLine(status.name);
                                     status.reverse_affect(boss);
                                 }
                             }

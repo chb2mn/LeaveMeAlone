@@ -182,6 +182,12 @@ namespace LeaveMeAlone
             norris_kick = new Skill("Norris Kick", 8, 100,      3, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
             bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 7, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
             raised_by_wolves = new Skill("Raised by wolves", 25, 500, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves); //destroy one enemy, damage another, raise your own stats
+            intimidate = new Skill("Inimidating Roar", 5, 0, 2, 0, Skill.Target.All, 1, "Reduce oppponents Atk and Special Atk", Intimidate);
+            beat_chest = new Skill("Beat Chest", 5, 0, 2, 0, Skill.Target.Self, 1, "Increase Atk and Special Atk", BeatChest);
+            roid_rage = new Skill("Roid Rage", 5, 0, 3, 0, Skill.Target.Self, 1, "Cut your max hp (for a battle) and raise your attack by 3 stages", RoidRage);
+            break_armor = new Skill("Break Armor", 5, 0, 3, 0, Skill.Target.Single, 1, "Do significant damage and break your opponent's armor", BreakArmor);
+            library = new Skill("What Library???", 5, 0, 4, 0, Skill.Target.Self, 1, "Those nerds can't handle you! You're immune to Special Attack! ", Library);
+            
             final_skill[Character.Type.Brute] = raised_by_wolves;
 
             //Mastermind
@@ -191,7 +197,7 @@ namespace LeaveMeAlone
             abomination_form = new Skill("Abomination Form", 10, 500, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor", 5, 300, 3, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
             freeze_ray = new Skill("Freeze Ray", 15, 2500, 10, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, _inflicts: Status.check_stun);
-            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 7, 3, Skill.Target.Self, 1, "Your shoes go so fast you take 2 turns", SpeedyShoes, _inflicts: Status.check_haste);
+            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 7, 3, Skill.Target.Self, 2, "Your shoes go so fast you take 2 turns", SpeedyShoes, _inflicts: Status.check_haste);
             final_skill[Character.Type.Mastermind] = freeze_ray;
 
 
@@ -200,23 +206,23 @@ namespace LeaveMeAlone
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
             shuriken = new Skill("Shuriken", 10, 300, 1, 0, Skill.Target.All, 1, "It bounces off of all enemies!", FlameThrower);
 
-            backstab = new Skill("Backstab", 10, 300, 1, 2, Skill.Target.Single, 1, "Hit an enemy ignoring defense", Backstab); // hit ignore defense
+            backstab = new Skill("Backstab", 10, 300, 1, 2, Skill.Target.Single, 0, "Hit an enemy ignoring defense", Backstab); // hit ignore defense
             garrote_watch = new Skill("Garrote Watch", 5, 300, 5, 0, Skill.Target.Single, 1, "Kill an enemy below 15% hp", GarroteWatch); //remove at low health
-            silver_alloy_gun = new Skill("Silver Alloy Gun", 15, 500, 7, 2, Skill.Target.Single, 1, "Hit and Stun an enemy", SilverAlloyGun); //hit and stun
+            silver_alloy_gun = new Skill("Silver Alloy Gun", 15, 500, 7, 2, Skill.Target.Single, 0, "Hit and Stun an enemy", SilverAlloyGun); //hit and stun
             exploding_pen = new Skill("Exploding Pen", 5, 300, 5, 1, Skill.Target.Single, 1, "Give them a present! (explodes next turn)", SummonIgor); ;
-            bladed_shoes = new Skill("Bladed Shoes", 15, 1500, 7, 3, Skill.Target.Self, 1, "Your new pointy shoes give you a second attack", SpeedyShoes, _inflicts: Status.check_haste);
+            bladed_shoes = new Skill("Bladed Shoes", 15, 1500, 7, 3, Skill.Target.Self, 2, "Your new pointy shoes give you a second attack", SpeedyShoes, _inflicts: Status.check_haste);
             nuclear_warhead = new Skill("Nuclear Warhead", 20, 3000, 10, 3, Skill.Target.All, 1, "Do huge damage to all enemies", NuclearWarhead); // hit all for a lot of damage combo str and spec.
             final_skill[Character.Type.Operative] = nuclear_warhead;
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
-            cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 1, "Heals and ally or self", Cure);
+            cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 2, "Heals and ally or self", Cure);
             fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
-            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 0, "Mage basic attack, does Sp_Atk damage", Fire, sound: fireball_instance);
-            bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 1, "Hit an enemy using physical attack", Bash);
-            haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 1, "Speed an ally up so he can hit twice in a row", Haste);
-            panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 1, "Cure Self or Ally of all Status effects", Panacea);
-            poison_dagger = new Skill("poison_dagger", 5, 0, 1, 1, Skill.Target.Single, 1, "Do physical damage and give poison", PoisonDagger, _inflicts: Status.check_poison);
+            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 1, "Mage basic attack, does Sp_Atk damage", Fire, sound: fireball_instance);
+            bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 0, "Hit an enemy using physical attack", Bash);
+            haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 2, "Speed an ally up so he can hit twice in a row", Haste);
+            panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 2, "Cure Self or Ally of all Status effects", Panacea);
+            poison_dagger = new Skill("poison_dagger", 5, 0, 1, 1, Skill.Target.Single, 0, "Do physical damage and give poison", PoisonDagger, _inflicts: Status.check_poison);
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 200, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
             poison_pit = new Room("Poison Pit", 300, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
@@ -329,6 +335,12 @@ namespace LeaveMeAlone
             st.addSkill(norris_kick);
             st.addSkill(bloodlust_strike);
             st.addSkill(raised_by_wolves);
+            st.addSkill(intimidate);
+            st.addSkill(beat_chest);
+            st.addSkill(roid_rage);
+            st.addSkill(break_armor);
+            st.addSkill(library);
+
 
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
@@ -496,6 +508,9 @@ namespace LeaveMeAlone
                 caster.special_defense += (5 * 1 + (caster.level / 3));
             }
         }
+
+
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>Mastermind Delegates<<<<<<<<<<<<<<<<<<<<//
         public static void PortalPunch(Character caster, Character target = null)
         {
             int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 100);
@@ -577,7 +592,17 @@ namespace LeaveMeAlone
         {
             caster.statuses.Add(new Status("haste", 3*2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.haste_image, Status.DoNothing));
         }
+        
+        /*
+        public static Skill anti_magic_bubble;
+        public static Skill unstable_weapon;
+        public static Skill recombobulator;
+        public static Skill basic_chem_set;
+        public static Skill adv_chem_set;
+        public static Skill exp_chem_set;
+        */
 
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>>Brute Delegates<<<<<<<<<<<<<<<<<<<<<<<<//
         public static void BlindCharge(Character caster, Character target = null)
         {
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 200);
@@ -663,10 +688,84 @@ namespace LeaveMeAlone
 
             if (caster.statuses.Contains(Status.check_attackplus) == false)
             {
-                caster.statuses.Add(new Status("attack_up", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.RaiseAttack, Status.ReduceAttack));
+                caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+                caster.attack += Status.StageValue(caster.attack, caster.level);
             }
         }
 
+        public static void Intimidate(Character caster, Character target = null) 
+        {
+            for (int i = 0; i < BattleManager.heroes.Count(); i++)
+            {
+                target = BattleManager.heroes[i];
+                if (target == null) { continue; }
+                int damage = Status.StageValue(target.attack, target.level);
+                target.attack -= damage;
+                target.statuses.Add(new Status("atk-", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkminus_image, Status.DoNothing, Status.RaiseAttack));
+
+
+                damage = Status.StageValue(target.special_attack, target.level);
+                target.special_attack -= damage;
+                target.statuses.Add(new Status("spec-", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specminus_image, Status.DoNothing, Status.RaiseSAttack));
+
+            }  
+        }
+
+        public static void BeatChest(Character caster, Character target = null)
+        {
+                target = caster;
+                int damage = Status.StageValue(target.attack, target.level);
+                target.attack += damage;
+                caster.statuses.Add(new Status("atk+", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+
+
+                damage = Status.StageValue(target.special_attack, target.level);
+                target.special_attack += damage;
+                caster.statuses.Add(new Status("spec+", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceSAttack));
+        }
+
+        public static void RoidRage(Character caster, Character target = null)
+        {
+            target = caster;
+            int damage = Status.StageValue(target.attack, target.level);
+            caster.max_health -= Status.StageValue(target.health, target.level*6);
+            caster.statuses.Add(new Status("hp-", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.RaiseHealth));
+            if (caster.max_health < caster.health)
+            {
+                caster.health = caster.max_health;
+            }
+
+            damage = Status.StageValue(target.attack, target.level);
+            target.attack += damage;
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+            damage = Status.StageValue(target.attack, target.level);
+            target.attack += damage;
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+            damage = Status.StageValue(target.attack, target.level);
+            target.attack += damage;
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+        }
+
+        public static void BreakArmor(Character caster, Character target = null)
+        {
+            int damage = Status.StageValue(target.defense, target.level);
+            target.defense -= damage;
+            target.statuses.Add(new Status("def-", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defminus_image, Status.DoNothing, Status.RaiseDefense));
+
+            damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 120);
+            target.health -= damage;
+        }
+
+        public static void Library(Character caster, Character target = null)
+        {
+            caster.statuses.Add(new Status("immune_spec", 2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.immune_spec_image, Status.DoNothing, Status.DoNothing));
+        }
+
+        
+        
+        
+
+        //>>>>>>>>>>>>>>>>>>>>>>>>Operative Delegates<<<<<<<<<<<<<<<<<<<<<<<<//
         public static void GarroteWatch(Character caster, Character target = null)
         {
             if (target.health <= (int) (target.max_health * .15))
@@ -716,6 +815,13 @@ namespace LeaveMeAlone
                 }
             }      
         }
+        /*
+        public static Skill deadly_weapons;
+        public static Skill espionage;
+        public static Skill double_cross;
+        public static Skill smoke_bomb;
+        public static Skill small_explosives;
+         */
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {

@@ -33,6 +33,8 @@ namespace LeaveMeAlone
         public static Status check_abom;
         public static Status check_stun;
         public static Status check_haste;
+        public static Status check_immune_spec;
+        public static Status check_immune_atk;
 
         public static Status check_attackplus;
         public static Status check_attackminus;
@@ -57,6 +59,9 @@ namespace LeaveMeAlone
         public static Texture2D no_image;
         public static Texture2D stun_image;
         public static Texture2D haste_image;
+        public static Texture2D immune_spec_image;
+        public static Texture2D immune_atk_image;
+
 
         public static void LoadContent(ContentManager content)
         {
@@ -75,6 +80,9 @@ namespace LeaveMeAlone
             target_status_image = content.Load<Texture2D>("Target_Status");
             stun_image = content.Load<Texture2D>("Stun_Image");
             haste_image = content.Load<Texture2D>("Haste_Image");
+            immune_atk_image = content.Load<Texture2D>("StatusEffects/ImmuneAtk");
+            immune_spec_image = content.Load<Texture2D>("StatusEffects/ImmuneSpec");
+
 
             if (poison_image == null)
             {
@@ -91,6 +99,8 @@ namespace LeaveMeAlone
             check_abom = new Status("abom", 3, 0, Effect_Time.Once, Type.Other, null, DoNothing, null);
             check_stun = new Status("stun", 3, 0, Effect_Time.Once, Type.Debuff, stun_image, DoNothing, DoNothing);
             check_haste = new Status("haste", 3, 0, Effect_Time.Once, Type.Debuff, haste_image, DoNothing, DoNothing);
+            check_immune_spec = new Status("immune_spec", 3, 0, Effect_Time.Once, Type.Buff, immune_atk_image, DoNothing, DoNothing);
+            check_immune_atk = new Status("immune_atk", 3, 0, Effect_Time.Once, Type.Buff, immune_spec_image, DoNothing, DoNothing);
 
             check_attackplus = new Status("atk+", 3, 0, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);
             check_attackminus = new Status("atk-", 3, 0, Effect_Time.Once, Type.Debuff, atkminus_image, ReduceAttack, RaiseAttack);
@@ -197,6 +207,14 @@ namespace LeaveMeAlone
         /*
          * Basic Status Changes
          */
+        public static void RaiseHealth(Character carrier)
+        {
+            carrier.max_health += StageValue(carrier.max_health, carrier.level*6); //every level will add 15 health to this number
+        }
+        public static void ReduceHealth(Character carrier)
+        {
+            carrier.max_health -= StageValue(carrier.max_health, carrier.level * 6); //every level will add 15 health to this number
+        }
         public static void RaiseAttack(Character carrier)
         {
             //stage value returns the value of a "stage"

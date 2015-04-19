@@ -171,6 +171,13 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
+            level = 10;
+            Resources.gold = 20000;
+            Resources.exp = 10001;
+            for (int i = 0; i < level; i++)
+            {
+                levelUp();
+            }
         }
         private void initMastermind()
         {
@@ -315,7 +322,7 @@ namespace LeaveMeAlone
             if (charType == Type.Brute)
             {
                 var = rng.Next(100);
-                this.max_health += 25;
+                this.max_health += 40;
                 if (var >= 50)
                 {
                     this.max_health += 25;
@@ -329,31 +336,31 @@ namespace LeaveMeAlone
                 }
 
                 var = rng.Next(100);
-                this.attack += 3;
+                this.attack += 4;
                 if (var >= 50)
                 {
                     this.attack += 2;
                 }
 
                 var = rng.Next(100);
-                this.defense += 3;
+                this.defense += 4;
                 if (var >= 50)
                 {
                     this.defense += 2;
                 }
 
                 var = rng.Next(100);
-                this.special_attack += 3;
+                this.special_attack += 2;
                 if (var >= 50)
                 {
-                    this.special_attack += 2;
+                    this.special_attack += 1;
                 }
 
                 var = rng.Next(100);
-                this.special_defense += 3;
+                this.special_defense += 2;
                 if (var >= 50)
                 {
-                    this.special_defense += 2;
+                    this.special_defense += 1;
                 }
             }
             else if (charType == Type.Mastermind)
