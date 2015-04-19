@@ -983,7 +983,7 @@ namespace LeaveMeAlone
                 }
                 catch (NullReferenceException)
                 {
-                    //dead/KO animation
+                    spriteBatch.Draw(Character.Dead, new Rectangle(heroLoc[i].Location.X, heroLoc[i].Location.Y+15, 175, 175), Color.White);//dead/KO animation
                 }
 
             }

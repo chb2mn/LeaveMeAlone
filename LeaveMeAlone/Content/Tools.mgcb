@@ -983,3 +983,14 @@
 /processorParam:TextureFormat=Color
 /build:StatusEffects/ImmuneSpec.png
 
+#begin CharacterSprites/Dead.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:CharacterSprites/Dead.png
+

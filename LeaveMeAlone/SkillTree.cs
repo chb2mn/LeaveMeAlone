@@ -174,19 +174,19 @@ namespace LeaveMeAlone
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             //Brute
 
-
-            ethereal_fist = new Skill("Slash", 5, 0,         1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            blind_charge = new Skill("Blind Charge", 5, 0,   1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-            rub_dirt =       new Skill("Rub Dirt",   4, 100, 3, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
-            holk_smash = new Skill("Holk Smush", 10, 300,    5, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
-            norris_kick = new Skill("Norris Kick", 8, 100,      3, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
+            //------------------------Name---------energy,cost,level,cooldown,target,type
+            ethereal_fist = new Skill("Ethereal Fist", 5, 100, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            blind_charge = new Skill("Blind Charge",   5, 100, 1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
+            intimidate = new Skill("Inimidating Roar", 5, 250, 1, 0, Skill.Target.All, 1, "Reduce oppponents Atk and Special Atk", Intimidate);
+            beat_chest = new Skill("Beat Chest",       5, 500, 2, 0, Skill.Target.Self, 1, "Increase Atk and Special Atk", BeatChest);
+            rub_dirt =       new Skill("Rub Dirt",     4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
+            norris_kick = new Skill("Norris Kick",     8, 100, 3, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
+            break_armor = new Skill("Break Armor",     5, 2500, 3, 0, Skill.Target.Single, 1, "Do significant damage and break your opponent's armor", BreakArmor);
+            holk_smash = new Skill("Holk Smush",       10,4500, 5, 1, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+            library = new Skill("What Library???",     5, 1500, 5, 3, Skill.Target.Self, 1, "Those nerds can't handle you! You're immune to Special Attack!", Library);
             bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 7, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
-            raised_by_wolves = new Skill("Raised by wolves", 25, 500, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves); //destroy one enemy, damage another, raise your own stats
-            intimidate = new Skill("Inimidating Roar", 5, 0, 2, 0, Skill.Target.All, 1, "Reduce oppponents Atk and Special Atk", Intimidate);
-            beat_chest = new Skill("Beat Chest", 5, 0, 2, 0, Skill.Target.Self, 1, "Increase Atk and Special Atk", BeatChest);
-            roid_rage = new Skill("Roid Rage", 5, 0, 3, 0, Skill.Target.Self, 1, "Cut your max hp (for a battle) and raise your attack by 3 stages", RoidRage);
-            break_armor = new Skill("Break Armor", 5, 0, 3, 0, Skill.Target.Single, 1, "Do significant damage and break your opponent's armor", BreakArmor);
-            library = new Skill("What Library???", 5, 0, 4, 0, Skill.Target.Self, 1, "Those nerds can't handle you! You're immune to Special Attack! ", Library);
+            roid_rage = new Skill("Roid Rage",         5, 10000, 7, 0, Skill.Target.Self, 1, "Cut your max hp (for a battle) and raise your attack by 3 stages", RoidRage);
+            raised_by_wolves = new Skill("Raised by wolves", 25, 500, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves); //destroy one enemy, damage another, raise your own stats           
             
             final_skill[Character.Type.Brute] = raised_by_wolves;
 
@@ -216,7 +216,7 @@ namespace LeaveMeAlone
 
             //>>>>>>>>>>>>>>>>>>>>>Hero Skill Instances<<<<<<<<<<<<<<<<<<<//
 
-            cure = new Skill("cure", 5, 0 ,1, 1, Skill.Target.Single, 2, "Heals and ally or self", Cure);
+            cure = new Skill("cure", 20, 0 ,1, 1, Skill.Target.Single, 2, "Heals and ally or self", Cure);
             fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
             magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 1, "Mage basic attack, does Sp_Atk damage", Fire, sound: fireball_instance);
             bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 0, "Hit an enemy using physical attack", Bash);
@@ -262,14 +262,14 @@ namespace LeaveMeAlone
                 int slength = skilltier.Count;
                 int sindex = 0;
 
-                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 30, (int)UpgradeMenu.baseSkillButtonPos.Y + 10 + 75 * kindex), Text.fonts["6809Chargen-12"], Color.White);
+                Text level = new Text(key.ToString(), new Vector2(UpgradeMenu.baseSkillButtonPos.X - 30, (int)UpgradeMenu.baseSkillButtonPos.Y + 10 + 65 * kindex), Text.fonts["6809Chargen-12"], Color.White);
                 Console.WriteLine("Created "+level.message+" at " + level.position.Y);
                 UpgradeMenu.texts.Add(key.ToString(), level);
                 foreach (Skill skill in skilltier)
                 {
                     Console.WriteLine("Creating button for skill "+skill.name);
                     Console.Out.Flush();
-                    Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 225, (int)UpgradeMenu.baseSkillButtonPos.Y + 75 * kindex, 200, 50);
+                    Button b = new Button(Button.buttonPic, (int)UpgradeMenu.baseSkillButtonPos.X + sindex * 225, (int)UpgradeMenu.baseSkillButtonPos.Y + 65 * kindex, 200, 50);
                     b.UpdateText(skill.name);
                     b.text.font = Text.fonts["6809Chargen-12"];
                     SkillButtons[skill] = b;
@@ -735,20 +735,16 @@ namespace LeaveMeAlone
                 caster.health = caster.max_health;
             }
 
-            damage = Status.StageValue(target.attack, target.level);
+            damage = Status.StageValue(target.attack, target.level)*3;
             target.attack += damage;
             caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
-            damage = Status.StageValue(target.attack, target.level);
-            target.attack += damage;
-            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
-            damage = Status.StageValue(target.attack, target.level);
-            target.attack += damage;
-            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceAttack));
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceAttack));
         }
 
         public static void BreakArmor(Character caster, Character target = null)
         {
-            int damage = Status.StageValue(target.defense, target.level);
+            int damage = Status.StageValue(target.defense, target.level)*3;
             target.defense -= damage;
             target.statuses.Add(new Status("def-", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defminus_image, Status.DoNothing, Status.RaiseDefense));
 
@@ -758,7 +754,7 @@ namespace LeaveMeAlone
 
         public static void Library(Character caster, Character target = null)
         {
-            caster.statuses.Add(new Status("immune_spec", 2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.immune_spec_image, Status.DoNothing, Status.DoNothing));
+            caster.statuses.Add(new Status("immune_spec", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.immune_spec_image, Status.DoNothing, Status.DoNothing));
         }
 
         
@@ -825,7 +821,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
-            int heal_pts = caster.special_attack/3;
+            int heal_pts = caster.special_attack/4;
             target.health += heal_pts;
             if (target.health > target.max_health)
             {

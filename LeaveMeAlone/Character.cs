@@ -67,6 +67,7 @@ namespace LeaveMeAlone
         private static Texture2D Mage140;
         private static Texture2D Ranger140, Knight140;
         private static Texture2D mastermind140, operative140, brute140, lairHero70;
+        public static Texture2D Dead;
 
         public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
 
@@ -220,7 +221,7 @@ namespace LeaveMeAlone
             special_attack = 10 + 4 * (level - 1);
             defense = 7 + 3 * (level - 1);
             special_defense = 7 + 3 * (level - 1);
-            max_energy = 35 + 7 * (level - 1);
+            max_energy = 35 + 4 * (level - 1);
             energy = max_energy;
             manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
             gold = 100 + 20 * (level - 1);
@@ -238,7 +239,7 @@ namespace LeaveMeAlone
             special_attack = 25 + 5 * (level - 1);
             defense = 5 + 1 * (level - 1);
             special_defense = 15 + 4 * (level - 1);
-            max_energy = 15 + 7 * (level - 1);
+            max_energy = 15 + 3 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
             gold = 100 + 20 * (level - 1);
@@ -254,7 +255,7 @@ namespace LeaveMeAlone
             special_attack = 5 + 2 * (level - 1);
             defense = 15 + 9 * (level - 1);
             special_defense = 5 + 1 * (level - 1);
-            max_energy = 5 + 3 * (level - 1);
+            max_energy = 5 + 2 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
             gold = 100 + 20 * (level - 1);
@@ -271,6 +272,7 @@ namespace LeaveMeAlone
             mastermind140 = content.Load<Texture2D>("mastermindMenu");
             operative140 = content.Load<Texture2D>("operativeMenu");
             lairHero70 = content.Load<Texture2D>("LairHero70");
+            Dead = content.Load<Texture2D>("CharacterSprites/Dead");
         }
         private void Init()
         {
@@ -510,9 +512,8 @@ namespace LeaveMeAlone
 
                         if (thought > 20)
                         {
-                            if (cure != null)
+                            if (cure != null && this.energy >= 20)
                             {
-                                Console.WriteLine("Cure Selected");
                                 selected_skill = cure;//cure
                                 my_target = i;
                             }
