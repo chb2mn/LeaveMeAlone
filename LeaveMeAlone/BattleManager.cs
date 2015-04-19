@@ -553,6 +553,11 @@ namespace LeaveMeAlone
                 if (victory)
                 {
                     victory_sound_instance.Play();
+                    int next_exp = Resources.NextLevel(boss.level);
+                    int last_exp = Resources.NextLevel(boss.level - 1);
+                    UpgradeMenu.exp_text.changeMessage(Resources.exp.ToString() + "/" + next_exp);
+                    UpgradeMenu.full_exp.Width = (int)(150 * ((double)Resources.exp - (double)last_exp)/next_exp);
+                    Console.WriteLine(next_exp.ToString() +", " + Resources.exp +", " + last_exp);
                 }
                 state = State.Endgame;
             }

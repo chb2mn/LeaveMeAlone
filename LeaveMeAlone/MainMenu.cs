@@ -127,7 +127,7 @@ namespace LeaveMeAlone
                     menu_state = MenuState.boss;
                     
                 }
-                else if (opening_timer > 360)
+                else if (opening_timer > 300)
                 {
                     if(line_number != opening_monologue.Count())
                     { 
@@ -223,7 +223,7 @@ namespace LeaveMeAlone
             }
             else if (menu_state == MenuState.opening)
             {
-                Spritebatch.Draw(opening_scene, new Rectangle(-((line_number*360)+opening_timer)/9, 0, (int)(LeaveMeAlone.WindowX*1.5), LeaveMeAlone.WindowY), Color.White);
+                Spritebatch.Draw(opening_scene, new Rectangle(-((line_number*300)+opening_timer)/9, 0, (int)(LeaveMeAlone.WindowX*1.5), LeaveMeAlone.WindowY), Color.White);
                 
                 if (line_number < opening_monologue.Count())
                 {
@@ -235,7 +235,7 @@ namespace LeaveMeAlone
                     {
                         Console.WriteLine("it's time");
                     }
-                    Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), new Color(Color.Black, (int)(Math.Sqrt((double)opening_timer/360)*255)));
+                    Spritebatch.Draw(menuBackground, new Rectangle(0, 0, LeaveMeAlone.WindowX, LeaveMeAlone.WindowY), new Color(Color.Black, (int)(Math.Sqrt((double)opening_timer/300)*255)));
                     Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX / 2 - 200, 0, 400, 200), Color.White);
                 }
                 skip_intro.Draw(Spritebatch);

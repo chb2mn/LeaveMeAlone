@@ -103,7 +103,7 @@ namespace LeaveMeAlone
             Button.LoadContent(Content);
             MainMenu.loadContent(Content);
             MenuBoss.LoadContent(Content);
-            UpgradeMenu.loadContent(Content);
+            //UpgradeMenu.loadContent(Content);
 
             PartyManager.Init();
             Resources.Init();
@@ -114,6 +114,7 @@ namespace LeaveMeAlone
             Character.load_content(Content);
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);
+            UpgradeMenu.loadContent(Content);
             SkillTree.LoadContent(Content);
             LairManager.loadContent(Content);
 
