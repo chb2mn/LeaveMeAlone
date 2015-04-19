@@ -969,22 +969,6 @@ namespace LeaveMeAlone
                         spriteBatch.Draw(blue, manabars[i], Color.Blue);
 
                     }
-                    if (!heroes[i].damage_text.message.Equals(""))
-                    {
-                        if (heroes[i].damage_counter-- >= 0)
-                        {
-                            heroes[i].damage_text.Draw(spriteBatch, new Vector2(heroLoc[i].Location.X, heroLoc[i].Location.Y - 20 + heroes[i].damage_counter / 3), Color.AntiqueWhite);
-                        }
-                        else
-                        {
-                            heroes[i].damage_counter = 150;
-                            heroes[i].damage_text.changeMessage("");
-                        }
-                    }
-                    else
-                    {
-                        //Console.WriteLine("This is what is there: " + heroes[i].damage_text.message);
-                    }
                 }
                 catch (NullReferenceException)
                 {
@@ -999,7 +983,7 @@ namespace LeaveMeAlone
             boss_energy.Draw(spriteBatch);
             spriteBatch.Draw(green, hpbars[4], Color.Green);
             spriteBatch.Draw(blue, manabars[4], Color.Blue);
-
+            /* Moved to Character
             if (!boss.damage_text.message.Equals(""))
             {
                 if (boss.damage_counter-- >= 0)
@@ -1012,6 +996,7 @@ namespace LeaveMeAlone
                     boss.damage_text.changeMessage("");
                 }
             }
+            */
 
             if (info_counter > 0 && !info_text.message.Equals(""))
             {

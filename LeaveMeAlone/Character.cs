@@ -50,6 +50,7 @@ namespace LeaveMeAlone
         private Skill status = null;
 
         //The text that will display the damage done
+        public List<Text> damage_text_queue = new List<Text>();
         public Text damage_text;
         public int damage_counter;
         public Text debug_text;
@@ -92,7 +93,13 @@ namespace LeaveMeAlone
             defend = SkillTree.defend;
 
             lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
-            damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
+            /*
+            for (int i = 0; i < 4; i++)
+            {
+                damage_text_queue.Add(new Text(position: new Vector2(sPosition.X, sPosition.Y - 20)));
+            }
+            */
+            damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
             damage_counter = 150;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
@@ -139,7 +146,12 @@ namespace LeaveMeAlone
             Init();
 
             lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X+45, sPosition.Y), c: Color.CadetBlue);
-
+            /*
+            for (int i = 0; i < 4; i++)
+            {
+                damage_text_queue.Add(new Text(position: new Vector2(sPosition.X, sPosition.Y - 20)));
+            }
+            */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
             damage_counter = 150;
 
@@ -187,7 +199,7 @@ namespace LeaveMeAlone
             special_attack = 50;
             attack = 20;
             special_attack = 50;
-            defense = 10;
+            defense = 20;
             special_defense = 50;
             max_energy = 35;
             manaRechargeRate = 1;
@@ -317,6 +329,18 @@ namespace LeaveMeAlone
             AddAnimation(12);
         }
 
+        public void PushDamage(int damage)
+        {
+            Text new_text = new Text(msg: (-damage).ToString(), position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
+            damage_text_queue.Add(new_text);
+        }
+        public Text PopDamage()
+        {
+            Text ret_text = damage_text_queue[0];
+            damage_text_queue.RemoveAt(0);
+            return ret_text;
+        }
+
         public void levelUp()
         {
             Random rng = new Random();
@@ -397,7 +421,6 @@ namespace LeaveMeAlone
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            //debug_text.changeMessage("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense);
             if (facingRight)
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
@@ -420,6 +443,9 @@ namespace LeaveMeAlone
                 
                 debug_text.Draw(spriteBatch, oPosition);
 
+
+                
+
             }
             else
             {
@@ -441,6 +467,23 @@ namespace LeaveMeAlone
 
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
                 debug_text.Draw(spriteBatch, sPosition);
+            }
+
+            if (!damage_text.message.Equals(""))
+            {
+                if (damage_counter-- >= 0)
+                {
+                    damage_text.Draw(spriteBatch, new Vector2((int)sPosition.X+25, (int)sPosition.Y - 20 + damage_counter / 3), Color.AntiqueWhite);
+                }
+                else
+                {
+                    damage_counter = 150;
+                    damage_text.changeMessage("");
+                }
+            }
+            else
+            {
+                Console.WriteLine("This is what is there: " + damage_text.message);
             }
         }
 
