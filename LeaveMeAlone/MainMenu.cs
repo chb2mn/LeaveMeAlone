@@ -32,6 +32,7 @@ namespace LeaveMeAlone
         public static int line_number = 0;
         private static Texture2D opening_scene;
         public static List<Text> opening_monologue = new List<Text>();
+        public static Button next_intro;
         public static Button skip_intro;
         public static bool bruteHover;
         public static bool mastermindHover;
@@ -65,8 +66,8 @@ namespace LeaveMeAlone
             newGame = new Button(content.Load<Texture2D>("NewGame"), LeaveMeAlone.WindowX / 2 - 100, 275, 200, 75);
             //newGame.selected = true;
             loadGame = new Button(content.Load<Texture2D>("LoadGame"), LeaveMeAlone.WindowX / 2 - 150, 200, 300, 75);
-            skip_intro = new Button(content.Load<Texture2D>("Next"), LeaveMeAlone.WindowX - 113, LeaveMeAlone.WindowY - 32, 113, 32);
-
+            next_intro = new Button(content.Load<Texture2D>("Next"), LeaveMeAlone.WindowX - 113, LeaveMeAlone.WindowY - 96, 113, 32);
+            skip_intro = new Button(content.Load<Texture2D>("Buttons/Skip"), LeaveMeAlone.WindowX - 113, LeaveMeAlone.WindowY - 32, 113, 32);
             opening_scene = content.Load<Texture2D>("OpeningLandscape");
             //loadGame.selected = true;
             quit = new Button(content.Load<Texture2D>("Quit"), LeaveMeAlone.WindowX / 2 - 100, 350, 200, 75);
@@ -116,10 +117,14 @@ namespace LeaveMeAlone
             {
                 if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
                 {
-                    if (skip_intro.Intersects(currentMouseState.X, currentMouseState.Y)) 
+                    if (next_intro.Intersects(currentMouseState.X, currentMouseState.Y)) 
                     {
                         line_number++;
                         opening_timer = 0;
+                    }
+                    if (skip_intro.Intersects(currentMouseState.X, currentMouseState.Y))
+                    {
+                        line_number = 1 + opening_monologue.Count();
                     }
                 }
                 if (line_number == 1 + opening_monologue.Count())
@@ -239,6 +244,7 @@ namespace LeaveMeAlone
                     Spritebatch.Draw(titleCard, new Rectangle(LeaveMeAlone.WindowX / 2 - 200, 0, 400, 200), Color.White);
                 }
                 skip_intro.Draw(Spritebatch);
+                next_intro.Draw(Spritebatch);
             }
             else
             {
