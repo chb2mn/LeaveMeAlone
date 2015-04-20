@@ -73,7 +73,7 @@ namespace LeaveMeAlone
 
 
         private static int enemy_attack_delay = 60;
-        private static int enemy_turn = -1;
+        public static int enemy_turn = -1;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
 
@@ -875,6 +875,7 @@ namespace LeaveMeAlone
                     */
                     if (enemy_turn >= heroes.Count())
                     {
+                        //pass the turn
                         state = State.Basic;
                         NewMenu(0);
                         enemy_turn = -1;

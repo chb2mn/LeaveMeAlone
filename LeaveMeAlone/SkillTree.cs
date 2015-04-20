@@ -419,11 +419,25 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>Skill Delegates<<<<<<<<<<<<<<<<<<<//
         public static void BasicAttack(Character caster, Character target = null)
         {
-            int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
-            target.health -= damage;
-            String str_damage = (-damage).ToString();
-            //target.damage_text.changeMessage(str_damage);
-            target.PushDamage(str_damage);
+            int crit = LeaveMeAlone.random.Next(100);
+            if (crit < caster.crit_chance && BattleManager.enemy_turn == -1)
+            {
+                int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 200);
+                target.health -= damage;
+                String str_damage = (-damage).ToString();
+                //target.damage_text.changeMessage(str_damage);
+                target.PushDamage("Critical: "+ str_damage);
+
+            }
+            else
+            {
+                int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100); target.health -= damage;
+                String str_damage = (-damage).ToString();
+                //target.damage_text.changeMessage(str_damage);
+                target.PushDamage(str_damage);
+
+            }
+            
         }
         public static void Defend(Character caster, Character target = null)
         {
@@ -691,7 +705,7 @@ namespace LeaveMeAlone
             if (notDead.Count > 0)
             {
                 Character newTarget = notDead[LeaveMeAlone.random.Next(notDead.Count)];
-                int power = 40;
+                int power = 100;
                 int damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
                 newTarget.health -= damage;
                 str_damage = (-damage).ToString();

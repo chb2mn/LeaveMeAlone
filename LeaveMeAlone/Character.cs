@@ -35,6 +35,7 @@ namespace LeaveMeAlone
         public int max_energy;
         public int level;
         public int manaRechargeRate;
+        public int crit_chance;
         //Rewards
         public int gold;
         public int exp;
@@ -57,6 +58,8 @@ namespace LeaveMeAlone
         public Text lvl_text;
         //This is how much damage is expected from any attack done
         public int expected_damage;
+        
+
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -92,6 +95,7 @@ namespace LeaveMeAlone
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
 
+            crit_chance = 0;
             lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
             /*
             for (int i = 0; i < 4; i++)
@@ -100,7 +104,7 @@ namespace LeaveMeAlone
             }
             */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
-            damage_counter = 150;
+            damage_counter = 120;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
@@ -113,6 +117,7 @@ namespace LeaveMeAlone
             this.charType = t;
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
+            crit_chance = 0;
             switch(t)
             {
                 case Type.Ranger:
@@ -153,7 +158,7 @@ namespace LeaveMeAlone
             }
             */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
-            damage_counter = 150;
+            damage_counter = 120;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
 
@@ -185,6 +190,7 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             level = 10;
+            crit_chance = 10;
             Resources.gold = 20000;
             Resources.exp = 10001;
             for (int i = 0; i < level; i++)
@@ -206,6 +212,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
+            crit_chance = 10;
         }
         private void initOperative()
         {
@@ -221,6 +228,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
+            crit_chance = 20;
             //Resources.gold = 20000;
             //Resources.exp = 10001;
         }
@@ -477,7 +485,7 @@ namespace LeaveMeAlone
                 }
                 else
                 {
-                    damage_counter = 150;
+                    damage_counter = 120;
                     
                     if (damage_text_queue.Count() > 0)
                     {
