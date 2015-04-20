@@ -67,16 +67,7 @@ namespace LeaveMeAlone
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
             //Testing rooms
-            UpgradeMenu.boughtRooms.Add(SkillTree.austin_marlin_garage);
-            UpgradeMenu.boughtRooms.Add(SkillTree.interrogation_chamber);
-            UpgradeMenu.boughtRooms.Add(SkillTree.the_gym);
-            UpgradeMenu.boughtRooms.Add(SkillTree.sea_bass_room);
-            UpgradeMenu.boughtRooms.Add(SkillTree.massive_treadmill);
-            UpgradeMenu.boughtRooms.Add(SkillTree.laser_room);
-            UpgradeMenu.boughtRooms.Add(SkillTree.mind_erase_chamber);
             UpgradeMenu.boughtRooms.Add(SkillTree.papparazzi);
-            UpgradeMenu.boughtRooms.Add(SkillTree.puzzle_temple);
-            UpgradeMenu.boughtRooms.Add(SkillTree.retirement_lounge);
             int index = 0;
             foreach (Room r in UpgradeMenu.boughtRooms)
             {

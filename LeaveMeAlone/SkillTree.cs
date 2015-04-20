@@ -1003,7 +1003,7 @@ namespace LeaveMeAlone
             if (heroes.Count() > 1)
             {
                 int random = LeaveMeAlone.random.Next(100);
-                if (random < 25)
+                if (random < 10)
                 {
                     Console.WriteLine("Hero at {0} removed", random % heroes.Count());
                     heroes.RemoveAt(random % heroes.Count());
