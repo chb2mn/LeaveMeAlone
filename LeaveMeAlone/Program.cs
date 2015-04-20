@@ -19,6 +19,7 @@ namespace LeaveMeAlone
         static void Main()
         {
             using (var game = new LeaveMeAlone())
+                
                 game.Run();
         }
     }

@@ -63,6 +63,8 @@ namespace LeaveMeAlone
         public static Texture2D haste_image;
         public static Texture2D immune_spec_image;
         public static Texture2D immune_atk_image;
+        public static Texture2D dazed_image;
+        public static Texture2D confused_image;
 
 
         public static void LoadContent(ContentManager content)
@@ -84,7 +86,8 @@ namespace LeaveMeAlone
             haste_image = content.Load<Texture2D>("Haste_Image");
             immune_atk_image = content.Load<Texture2D>("StatusEffects/ImmuneAtk");
             immune_spec_image = content.Load<Texture2D>("StatusEffects/ImmuneSpec");
-
+            dazed_image = content.Load<Texture2D>("StatusEffects/Dazed");
+            confused_image = content.Load<Texture2D>("StatusEffects/Confused");
 
             if (poison_image == null)
             {
@@ -103,7 +106,7 @@ namespace LeaveMeAlone
             check_haste = new Status("haste", 3, 0, Effect_Time.Once, Type.Debuff, haste_image, DoNothing, DoNothing);
             check_immune_spec = new Status("immune_spec", 3, 0, Effect_Time.Once, Type.Buff, immune_atk_image, DoNothing, DoNothing);
             check_immune_atk = new Status("immune_atk", 3, 0, Effect_Time.Once, Type.Buff, immune_spec_image, DoNothing, DoNothing);
-            check_confused = new Status("confuse", 3, 0, Effect_Time.Before, Type.Debuff, confuse_image, DoNothing, DoNothing);
+            check_confused = new Status("confuse", 3, 0, Effect_Time.Before, Type.Debuff, confused_image, DoNothing, DoNothing);
             check_dazed = new Status("dazed", 3, 0, Effect_Time.Before, Type.Debuff, dazed_image, DoNothing, DoNothing);
 
             check_attackplus = new Status("atk+", 3, 0, Effect_Time.Once, Type.Buff, atkplus_image, RaiseAttack, ReduceAttack);

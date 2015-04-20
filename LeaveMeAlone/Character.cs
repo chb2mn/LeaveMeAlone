@@ -444,6 +444,10 @@ namespace LeaveMeAlone
                     {
                         continue;
                     }
+                    else if (status.img == null)
+                    {
+                        continue;
+                    }
                     spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20*i), (int)sPosition.Y, 30, 30), Color.White);
                     i++;
                 }

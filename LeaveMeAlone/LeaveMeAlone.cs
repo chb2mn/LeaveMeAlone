@@ -114,8 +114,8 @@ namespace LeaveMeAlone
             Character.load_content(Content);
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);
-            UpgradeMenu.loadContent(Content);
             SkillTree.LoadContent(Content);
+            UpgradeMenu.loadContent(Content);
             LairManager.loadContent(Content);
 
             Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop.wav");

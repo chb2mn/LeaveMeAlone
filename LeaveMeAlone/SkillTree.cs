@@ -18,6 +18,9 @@ namespace LeaveMeAlone
         public static Texture2D spike_room_image;
         public static Texture2D poison_pit_image;
         public static Texture2D poor_booby_traps_image;
+        public static Texture2D puzzle_temple_image;
+        public static Texture2D papparazzi_image;
+        public static Texture2D retirement_image;
 
         //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
         public static Texture2D the_gym_image;
@@ -117,6 +120,9 @@ namespace LeaveMeAlone
         public static Room spike_trap;
         public static Room poison_pit;
         public static Room poor_booby_traps;
+        public static Room puzzle_temple;
+        public static Room papparazzi;
+        public static Room retirement_lounge;
 
         //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
         public static Room the_gym;
@@ -151,6 +157,9 @@ namespace LeaveMeAlone
             spike_room_image = content.Load<Texture2D>("Lair/spikeRoom");
             poison_pit_image = content.Load<Texture2D>("Lair/PoisonPit");
             poor_booby_traps_image = content.Load<Texture2D>("Lair/PoisonPit");
+            puzzle_temple_image = content.Load<Texture2D>("Lair/PuzzleTemple");
+            papparazzi_image = content.Load<Texture2D>("Lair/Papparazzi");
+            retirement_image = content.Load<Texture2D>("Lair/RetirementPorch");
 
         //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
             the_gym_image = content.Load<Texture2D>("Lair/PoisonPit");
@@ -159,6 +168,7 @@ namespace LeaveMeAlone
         //>>>>>>>>Mastermind Specific Rooms<<<<<<<<<<<//
             laser_room_image = content.Load<Texture2D>("Lair/LaserRoom");
             mind_erase_chamber_image = content.Load<Texture2D>("Lair/MindErase");
+
 
         //>>>>>>>>Operative Specific Rooms<<<<<<<<<<<<<//
             sea_bass_room_image = content.Load<Texture2D>("Lair/PoisonPit");
@@ -223,10 +233,14 @@ namespace LeaveMeAlone
             haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 2, "Speed an ally up so he can hit twice in a row", Haste);
             panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 2, "Cure Self or Ally of all Status effects", Panacea);
             poison_dagger = new Skill("poison_dagger", 5, 0, 1, 1, Skill.Target.Single, 0, "Do physical damage and give poison", PoisonDagger, _inflicts: Status.check_poison);
+
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 200, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
             poison_pit = new Room("Poison Pit", 300, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
             poor_booby_traps = new Room("Poor Booby Traps", 500, 2, 0, "Temporarily lowers all heroes' stats", PoorTraps, poor_booby_traps_image);
+            puzzle_temple = new Room("Puzzle Temple", 5000, 2, 0, "has a small chance to remove an enemy from a party", PuzzleRoom, puzzle_temple_image);
+            papparazzi = new Room("Papparazzi Tunnel", 2500, 2, 0, "has a chance to inflict with daze (deals half damage)", Papparazzi, papparazzi_image);
+            retirement_lounge = new Room("Retirement Porch", 1250, 2, 0, "Gives the heroes buffs, but increases their rewards", RetirementPorch, retirement_image);
 
             //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
             the_gym = new Room("The Gym", 500, 2, 0, "Lowers attack and special attack by 2 stages", TheGym, the_gym_image);
@@ -235,6 +249,7 @@ namespace LeaveMeAlone
             //>>>>>>>>Mastermind Specific Rooms<<<<<<<<<<<//
             laser_room = new Room("Laser Room", 500, 2, 0, "All heroes except Rangers take damage!", LaserRoom, laser_room_image);
             mind_erase_chamber = new Room("Mind Erase Chamber", 3000, 7, 0, "Stuns all heroes except Mages", MindEraseChamber, mind_erase_chamber_image);
+
 
             //>>>>>>>>Operative Specific Rooms<<<<<<<<<<<<<//
             sea_bass_room = new Room("Tank of Ill-Tempered Sea Bass", 2000, 4, 0, "inflicts twice the poison on all heroes", SeaBassRoom, sea_bass_room_image);
@@ -341,7 +356,9 @@ namespace LeaveMeAlone
             st.addSkill(break_armor);
             st.addSkill(library);
 
-
+            st.addRoom(puzzle_temple);
+            st.addRoom(retirement_lounge);
+            st.addRoom(papparazzi);
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
             st.addRoom(the_gym);
@@ -361,7 +378,10 @@ namespace LeaveMeAlone
             st.addSkill(abomination_form);
             st.addSkill(summon_igor);
             st.addSkill(freeze_ray);
-           
+
+            st.addRoom(puzzle_temple);
+            st.addRoom(retirement_lounge);
+            st.addRoom(papparazzi);
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
             st.addRoom(laser_room);
@@ -384,6 +404,9 @@ namespace LeaveMeAlone
             st.addSkill(nuclear_warhead);
 
 
+            st.addRoom(puzzle_temple);
+            st.addRoom(retirement_lounge);
+            st.addRoom(papparazzi);
             st.addRoom(spike_trap);
             st.addRoom(poison_pit);
             st.addRoom(sea_bass_room);
@@ -982,7 +1005,7 @@ namespace LeaveMeAlone
                 int random = LeaveMeAlone.random.Next(100);
                 if (random < 25)
                 {
-                    Console.WriteLine("Hero at {0} removed", random % hereos.Count());
+                    Console.WriteLine("Hero at {0} removed", random % heroes.Count());
                     heroes.RemoveAt(random % heroes.Count());
                     
                 }
@@ -996,8 +1019,19 @@ namespace LeaveMeAlone
                 int random = LeaveMeAlone.random.Next(100);
                 if (random < 25)
                 {
-                    hero.statuses.Add(new Status("dazed", 3, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.dazed_image, Status.DoNothing, Status.DoNothing);
+                    hero.statuses.Add(new Status("dazed", 2, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.dazed_image, Status.DoNothing, Status.DoNothing));
                 }
+            }
+        }
+
+        public static void RetirementPorch(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                hero.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+                hero.statuses.Add(new Status("def+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense));
+                hero.gold += (int)(hero.gold*1.3);
+                hero.exp += (int)(hero.exp*1.2);
             }
         }
 
@@ -1011,9 +1045,9 @@ namespace LeaveMeAlone
                 hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.specminus_image, Status.DoNothing, Status.RaiseSAttack));
                 //Yes, twice
                 hero.attack -= Status.StageValue(hero.attack, hero.level);
-                hero.statuses.Add(new Status("atk-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.atkminus_image, Status.DoNothing, Status.RaiseAttack));
+                hero.statuses.Add(new Status("atk-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, null, Status.DoNothing, Status.RaiseAttack));
                 hero.special_attack -= Status.StageValue(hero.special_attack, hero.level);
-                hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.specminus_image, Status.DoNothing, Status.RaiseSAttack));
+                hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, null, Status.DoNothing, Status.RaiseSAttack));
             }
         }
         public static void MassiveTreadmill(List<Character> heroes)
@@ -1052,7 +1086,7 @@ namespace LeaveMeAlone
             foreach (Character hero in heroes)
             {
                     hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
-                    hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, null, Status.Poison));
+                    hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
             }
         }
         public static void InterrogationChamber(List<Character> heroes)
@@ -1069,7 +1103,7 @@ namespace LeaveMeAlone
         {
             foreach (Character hero in heroes)
             {
-                hero.health -= (int)(hero.health * .4);
+                hero.health -= (int)(hero.health * .3);
             }
         }
     }

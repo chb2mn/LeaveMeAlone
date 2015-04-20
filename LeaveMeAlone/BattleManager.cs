@@ -72,7 +72,7 @@ namespace LeaveMeAlone
         private static bool right_click = false;
 
 
-        private static int enemy_attack_delay = 60;
+        //private static int enemy_attack_delay = 60;
         public static int enemy_turn = -1;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
@@ -265,14 +265,12 @@ namespace LeaveMeAlone
         public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
         {
             //iterating through the list backwards allows us to properly remove them from the list (it auto-concatenates after every removal)
-            //Console.WriteLine("Applying statuses on Character: " + affected.health);
             for (int i = affected.statuses.Count() - 1; i >= 0; i--)
             {
                 Status status = affected.statuses[i];
                 //If the effect is a one time, increment the counter and move on
                 if (effect_time == Status.Effect_Time.Once && status.effect_time == Status.Effect_Time.Once)
                 {
-                    //Console.WriteLine("Once: "+ status.ToString() + " : " + status.duration_left);
                     //If it's the first time, apply the status affect
                     if (status.duration_left == status.duration)
                     {
@@ -286,7 +284,7 @@ namespace LeaveMeAlone
                         {
                             status.reverse_affect(affected);
                         }
-                        affected.statuses.Remove(status);
+                        affected.statuses.RemoveAt(i);
                     }
                 }
 
@@ -295,10 +293,12 @@ namespace LeaveMeAlone
                 {
                     //Console.WriteLine("After: " + status.ToString() + " : " + status.duration_left);
                     status.affect(affected);
-                    //Whenever the status is triggered, check if the status should be removed                    
+                    //Whenever the status is triggered, check if the status should be removed   
+                    Console.WriteLine(status.duration_left);
+
                     if (status.duration_left-- == 0)
                     {
-                        affected.statuses.Remove(status);
+                        affected.statuses.RemoveAt(i);
                     }
 
                 }
@@ -890,7 +890,7 @@ namespace LeaveMeAlone
                         enemy_turn++;
                         break;
                     }
-                    enemy_attack_delay = 60;
+                    //enemy_attack_delay = 60;
 
                     //AI occurs
                     var pair = enemy.Think();
