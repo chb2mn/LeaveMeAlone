@@ -974,6 +974,33 @@ namespace LeaveMeAlone
                 hero.statuses.Add(new Status("spec-", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.specminus_image, Status.DoNothing, Status.RaiseSDefense));
             }
         }
+
+        public static void PuzzleRoom(List<Character> heroes)
+        {
+            if (heroes.Count() > 1)
+            {
+                int random = LeaveMeAlone.random.Next(100);
+                if (random < 25)
+                {
+                    Console.WriteLine("Hero at {0} removed", random % hereos.Count());
+                    heroes.RemoveAt(random % heroes.Count());
+                    
+                }
+            }
+        }
+
+        public static void Papparazzi(List<Character> heroes)
+        {
+            foreach (Character hero in heroes)
+            {
+                int random = LeaveMeAlone.random.Next(100);
+                if (random < 25)
+                {
+                    hero.statuses.Add(new Status("dazed", 3, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.dazed_image, Status.DoNothing, Status.DoNothing);
+                }
+            }
+        }
+
         public static void TheGym(List<Character> heroes)
         {
             foreach (Character hero in heroes)
@@ -1025,7 +1052,7 @@ namespace LeaveMeAlone
             foreach (Character hero in heroes)
             {
                     hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
-                    hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
+                    hero.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, null, Status.Poison));
             }
         }
         public static void InterrogationChamber(List<Character> heroes)

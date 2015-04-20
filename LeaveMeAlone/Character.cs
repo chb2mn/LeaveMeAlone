@@ -104,7 +104,7 @@ namespace LeaveMeAlone
             }
             */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
-            damage_counter = 120;
+            damage_counter = 100;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
@@ -158,7 +158,7 @@ namespace LeaveMeAlone
             }
             */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
-            damage_counter = 120;
+            damage_counter = 100;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
 
@@ -485,7 +485,7 @@ namespace LeaveMeAlone
                 }
                 else
                 {
-                    damage_counter = 120;
+                    damage_counter = 100;
                     
                     if (damage_text_queue.Count() > 0)
                     {
