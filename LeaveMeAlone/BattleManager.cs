@@ -167,7 +167,7 @@ namespace LeaveMeAlone
             defeat_text = new Text("Defeat\nYour friends will be so embarrased about you\nDo bosses even have friends?", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
 
-            info_text = new Text("", new Vector2(400, 50), Text.fonts["Arial-24"], Color.Cyan);
+            info_text = new Text("", new Vector2(800, 50), Text.fonts["Arial-24"], Color.Cyan);
 
             info_counter = 240;
 
@@ -348,7 +348,15 @@ namespace LeaveMeAlone
             //selected_skill is our skill
             if (caster.statuses.Contains(Status.check_stun))
             {
-                info_text.changeMessage("I'm Stunned!");
+                if (enemy_turn == -2)
+                {
+                    info_text.changeMessage("I'm Stunned!");
+                }
+                else
+                {
+                    info_text.changeMessage("The enemy is Stunned!");
+
+                }
                 Apply_Status(caster, Status.Effect_Time.Before);
                 Apply_Status(caster, Status.Effect_Time.After);
                 Apply_Status(caster, Status.Effect_Time.Once);
@@ -1002,7 +1010,7 @@ namespace LeaveMeAlone
 
             if (info_counter > 0 && !info_text.message.Equals(""))
             {
-                info_text.Draw(spriteBatch, new Vector2(200, 50));
+                info_text.Draw(spriteBatch);
                 info_counter--;
             }
             else
