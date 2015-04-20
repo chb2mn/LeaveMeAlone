@@ -329,9 +329,9 @@ namespace LeaveMeAlone
             AddAnimation(12);
         }
 
-        public void PushDamage(int damage)
+        public void PushDamage(String damage)
         {
-            Text new_text = new Text(msg: (-damage).ToString(), position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
+            Text new_text = new Text(msg: damage, position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
             damage_text_queue.Add(new_text);
         }
         public Text PopDamage()
@@ -478,12 +478,21 @@ namespace LeaveMeAlone
                 else
                 {
                     damage_counter = 150;
-                    damage_text.changeMessage("");
+                    
+                    if (damage_text_queue.Count() > 0)
+                    {
+                        damage_text = PopDamage();
+                    }
+                    
+                    else
+                    {
+                        damage_text.changeMessage("");
+                    }
                 }
             }
-            else
+            else if(damage_text_queue.Count() > 0)
             {
-                Console.WriteLine("This is what is there: " + damage_text.message);
+                damage_text = PopDamage();
             }
         }
 

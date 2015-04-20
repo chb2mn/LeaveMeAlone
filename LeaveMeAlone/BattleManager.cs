@@ -417,7 +417,8 @@ namespace LeaveMeAlone
                 }
                 else
                 {
-                    boss.damage_text.changeMessage("Immune!");
+                    //boss.damage_text.changeMessage("Immune!");
+                    boss.PushDamage("Immune!");
                 }
             }
             //if it's the hero's turn

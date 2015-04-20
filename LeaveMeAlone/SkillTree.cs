@@ -422,11 +422,14 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
         }
         public static void Defend(Character caster, Character target = null)
         {
-            caster.health += (int)(((double)caster.max_health) * .2);
+            int damage = (int)(((double)caster.max_health) * .2);
+            caster.health += damage;
+            caster.PushDamage(damage.ToString());
             caster.energy += 10;
             if (caster.health > caster.max_health)
             {
@@ -516,7 +519,8 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
         }
         public static void FlameThrower(Character caster, Character target = null)
         {
@@ -529,7 +533,8 @@ namespace LeaveMeAlone
                     int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
-                    target.damage_text.changeMessage(str_damage);
+                    //target.damage_text.changeMessage(str_damage);
+                    target.PushDamage(str_damage);
                 }
                 catch (ArgumentOutOfRangeException)
                 {
@@ -541,7 +546,8 @@ namespace LeaveMeAlone
         {
             int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
             target.health -= damage;
-            target.damage_text.changeMessage((-damage).ToString());
+            //target.damage_text.changeMessage((-damage).ToString());
+            target.PushDamage((-damage).ToString());
 
             //Status this_poison = new Status("poison", 3, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison);
             //If the status already exists, increase its duration
@@ -608,7 +614,8 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 200);
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
             
             caster.statuses.Add(new Status("stun", 2, 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
         }
@@ -618,7 +625,8 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 75 + (caster.max_health-caster.health));
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
         }
         public static void NorrisKick(Character caster, Character target = null)
         {
@@ -626,7 +634,8 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
             //number of not-killed character
             List<Character> notDead = new List<Character>();
             foreach(Character h in BattleManager.heroes)
@@ -644,7 +653,8 @@ namespace LeaveMeAlone
                 damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
                 newTarget.health -= damage;
                 str_damage = (-damage).ToString();
-                newTarget.damage_text.changeMessage(str_damage);
+                //newTarget.damage_text.changeMessage(str_damage);
+                newTarget.PushDamage(str_damage);
             }
 
         }
@@ -654,16 +664,19 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
 
             caster.health += damage;
             str_damage = "+"+(Math.Abs(damage)).ToString();
-            caster.damage_text.changeMessage(str_damage);
+            //caster.damage_text.changeMessage(str_damage);
+            caster.PushDamage(str_damage);
         }
         public static void RaisedByWolves(Character caster, Character target = null)
         {
             String str_damage = (-target.health).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
             target.health = 0;
 
             List<Character> notDead = new List<Character>();
@@ -682,7 +695,8 @@ namespace LeaveMeAlone
                 int damage = Skill.damage(caster, newTarget, Skill.Attack.Attack, Skill.Defense.Defense, power);
                 newTarget.health -= damage;
                 str_damage = (-damage).ToString();
-                newTarget.damage_text.changeMessage(str_damage);
+                //newTarget.damage_text.changeMessage(str_damage);
+                target.PushDamage(str_damage);
             }
 
 
@@ -779,7 +793,8 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
 
             target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(2,5), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
         }
@@ -789,7 +804,8 @@ namespace LeaveMeAlone
             int damage = Skill.damage(caster.attack/3, 1, caster.level, 50);
             target.health -= damage;
             String str_damage = (-damage).ToString();
-            target.damage_text.changeMessage(str_damage);
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
         }
 
         public static void NuclearWarhead(Character caster, Character target = null)
@@ -803,7 +819,9 @@ namespace LeaveMeAlone
                     int damage = Skill.damage(caster.attack + caster.special_attack, target.special_defense, caster.level, 250);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
-                    target.damage_text.changeMessage(str_damage);
+                    //target.damage_text.changeMessage(str_damage);
+                    target.PushDamage(str_damage);
+
                 }
                 catch (ArgumentOutOfRangeException)
                 {
@@ -834,7 +852,8 @@ namespace LeaveMeAlone
                 int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 100);
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
-                target.damage_text.changeMessage(str_damage);
+                //target.damage_text.changeMessage(str_damage);
+                target.PushDamage(str_damage);
                 caster.Learn(damage, Character.Knowledge.Weak_SDef);
             }
         }
@@ -844,7 +863,9 @@ namespace LeaveMeAlone
                 int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 150);
                 target.health -= damage;
                 String str_damage = (-damage).ToString();
-                target.damage_text.changeMessage(str_damage);
+                //target.damage_text.changeMessage(str_damage);
+                target.PushDamage(str_damage);
+
                 caster.Learn(damage, Character.Knowledge.Weak_Def);
 
             }
@@ -853,7 +874,9 @@ namespace LeaveMeAlone
         {
             int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
             target.health -= damage;
-            target.damage_text.changeMessage((-damage).ToString());
+            //target.damage_text.changeMessage((-damage).ToString());
+            target.PushDamage((-damage).ToString());
+
 
             //Status this_poison = new Status("poison", 3, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison);
             //If the status already exists, increase its duration
