@@ -173,7 +173,7 @@ namespace LeaveMeAlone
             int damage = (int)(carrier.max_health * .1);
             carrier.health -= damage;
             //carrier.damage_text.changeMessage((-damage).ToString());
-            carrier.PushDamage((-damage).ToString());
+            carrier.PushDamage("Poison: " + (-damage).ToString());
         }
         public static void Beserk(Character carrier)
         {

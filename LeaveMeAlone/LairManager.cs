@@ -29,7 +29,8 @@ namespace LeaveMeAlone
         public static Vector2 towerPosition;
         public static List<Room> LairRooms;
         private static Texture2D lairBkgd, lairLobby, bossRoom, unconstructed_room;
-        private static Button skillsBtn, nextwaveBtn, constructionBtn, mainmenuBtn;
+        private static Button skillsBtn, constructionBtn, mainmenuBtn, grindwaveBtn;
+        public static Button nextwaveBtn;
         private static MouseState currentMouseState, lastMouseState;
         public static Room UnconstructedRoom;
         public static List<UpgradeMenu.ButtonRoom> boughtRooms = new List<UpgradeMenu.ButtonRoom>();
@@ -39,6 +40,7 @@ namespace LeaveMeAlone
         public static  int topOffset = 150;
         public static int topScaling = 80;
         public static bool selected_flag = false;
+        public static bool BossBattle = false;
         //Took out the parameters on these next two functions as 
         //they are likely going to want to hit every room in the lair?
         public static void loadContent(ContentManager content)
@@ -56,6 +58,7 @@ namespace LeaveMeAlone
             skillsBtn = new Button(content.Load<Texture2D>("skillsBtn"), LeaveMeAlone.WindowX - 200, 100, 200, 75);
             constructionBtn = new Button(content.Load<Texture2D>("constructionBtn"), LeaveMeAlone.WindowX - 200, 180, 200, 75);
             nextwaveBtn = new Button(content.Load<Texture2D>("nextwaveBtn"), LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Height - 75, 200, 75);
+            grindwaveBtn = new Button(content.Load<Texture2D>("Buttons/GrindBtn"), LeaveMeAlone.BackgroundRect.X, LeaveMeAlone.BackgroundRect.Height - 75, 200, 75);
             mainmenuBtn = new Button(content.Load<Texture2D>("Buttons/MainMenu"), LeaveMeAlone.WindowX - 300, 0, 300, 80);
             lairBkgd = content.Load<Texture2D>("lairBkgd");
             lairLobby = content.Load<Texture2D>("lairLobby");
@@ -71,6 +74,11 @@ namespace LeaveMeAlone
             LeaveMeAlone.Battle_Song_Instance.Stop();
             LeaveMeAlone.Menu_Song_Instance.Play();
             tutorial_state = TutorialState.Skill;
+            if (EndOfGame)
+            {
+                nextwaveBtn.rectangle.X = LeaveMeAlone.BackgroundRect.X;
+                nextwaveBtn.rectangle.Y = LeaveMeAlone.BackgroundRect.Height - 200;
+            }
         }
 
         public static void HandleTutorial()
@@ -159,13 +167,22 @@ namespace LeaveMeAlone
                         
                     }
                 }
+                if ((EndOfGame && grindwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y)))
+                {
+                    BattleManager.Init();
+                    List<Character> newParty = PartyManager.CreateParty();
+                    BattleManager.heroes = newParty;
+                    return LeaveMeAlone.GameState.Battle;
+                }
                 //next wave
                 if (nextwaveBtn.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
+                    BossBattle = false;
                     if (EndOfGame)
                     {
                         
                         InfoText.changeMessage("PEASANTS!\nOUT OF THE WAY!\nHE'S OURS");
+                        //create the last party
                         if (one_last_party)
                         {
                             for (int i = 0; i <= PartyManager.partyQueue.Count(); i++)
@@ -184,20 +201,21 @@ namespace LeaveMeAlone
                             one_last_party = false;
 
                         }
+                        //push nothing else
                         else
                         {
 
                             if (PartyManager.popParty())
                             {
                                 BattleManager.Init();
-
+                                //Re-Add the party in case the player loses
                                 List<Character> FinalParty = new List<Character>();
                                 FinalParty.Add(new Character(Character.Type.Knight, 14, new Vector2(sideOffset + sideScaling, topOffset)));
                                 FinalParty.Add(new Character(Character.Type.Ranger, 14, new Vector2(sideOffset, topOffset + topScaling * 1)));
                                 FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset + sideScaling, topOffset + topScaling * 2)));
                                 FinalParty.Add(new Character(Character.Type.Mage, 14, new Vector2(sideOffset, topOffset + topScaling * 3)));
                                 PartyManager.partyQueue.Add(FinalParty);
-                               
+                                BossBattle = true;
                                 return LeaveMeAlone.GameState.Battle;
                             }
                             else
@@ -209,6 +227,7 @@ namespace LeaveMeAlone
                         }
 
                     }
+                        //Normally push a party
                     else
                     {
                         for (int i = 0; i < TowerLevel; i++)
@@ -335,6 +354,10 @@ namespace LeaveMeAlone
                 count++;
             }
             nextwaveBtn.Draw(Spritebatch);
+            if (EndOfGame)
+            {
+                grindwaveBtn.Draw(Spritebatch);
+            }
             skillsBtn.Draw(Spritebatch);
             constructionBtn.Draw(Spritebatch);
             mainmenuBtn.Draw(Spritebatch);

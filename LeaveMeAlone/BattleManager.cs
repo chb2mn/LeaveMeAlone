@@ -824,7 +824,7 @@ namespace LeaveMeAlone
                             boss.statuses.Clear();
                             if (victory)
                             {
-                                if (LairManager.EndOfGame)
+                                if (LairManager.EndOfGame && LairManager.BossBattle)
                                 {
                                     return LeaveMeAlone.GameState.Credits;
                                 }

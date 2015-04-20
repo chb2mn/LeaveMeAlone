@@ -339,6 +339,8 @@ namespace LeaveMeAlone
                                 if (s == SkillTree.final_skill[BattleManager.boss.charType])
                                 {
                                     LairManager.EndOfGame = true;
+                                    LairManager.nextwaveBtn.rectangle.X = LeaveMeAlone.BackgroundRect.X;
+                                    LairManager.nextwaveBtn.rectangle.Y = LeaveMeAlone.BackgroundRect.Height - 200;
                                 }
                                 //Console.WriteLine(BattleManager.boss.skills.Count);
                             }
