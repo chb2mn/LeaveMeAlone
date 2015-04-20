@@ -172,7 +172,8 @@ namespace LeaveMeAlone
         {
             int damage = (int)(carrier.max_health * .1);
             carrier.health -= damage;
-            carrier.damage_text.changeMessage((-damage).ToString());
+            //carrier.damage_text.changeMessage((-damage).ToString());
+            carrier.PushDamage((-damage).ToString());
         }
         public static void Beserk(Character carrier)
         {
@@ -194,7 +195,8 @@ namespace LeaveMeAlone
         {
             int damage = Skill.damage(this.power, carrier.special_defense, carrier.level, 120);
             carrier.health -= damage;
-            carrier.damage_text.changeMessage((-damage).ToString());
+            //carrier.damage_text.changeMessage((-damage).ToString());
+            carrier.PushDamage("Igor: " + (-damage).ToString());
         }
 
         public void Stun(Character carrier)
