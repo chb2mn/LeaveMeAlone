@@ -67,7 +67,7 @@ namespace LeaveMeAlone
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
             //Testing rooms
-            UpgradeMenu.boughtRooms.Add(SkillTree.papparazzi);
+            //UpgradeMenu.boughtRooms.Add(SkillTree.papparazzi);
 
 
             /*

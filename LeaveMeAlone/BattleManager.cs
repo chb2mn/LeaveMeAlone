@@ -718,7 +718,7 @@ namespace LeaveMeAlone
                                         //check cooldown
                                         if (check_cooldown[i] > 0)
                                         {
-                                            info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
+                                            info_text.changeMessage("Can't use skill,\nwait for cooldown:" + check_cooldown[i]);
                                             continue;
                                         }
                                         //check mana_cost
@@ -729,11 +729,27 @@ namespace LeaveMeAlone
                                         }
                                         if (selected_skill.target == Skill.Target.Single)
                                         {
-                                            state = State.Target;
-                                        }
-                                        else
-                                        {
-                                            state = State.Attack;
+                                            selected_skill = boss.selected_skills[i];
+                                            //check cooldown
+                                            if (check_cooldown[i] > 0)
+                                            {
+                                                info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
+                                                continue;
+                                            }
+                                            //check mana_cost
+                                            if (selected_skill.energy > boss.energy)
+                                            {
+                                                info_text.changeMessage("Not Enough Energy!");
+                                                continue;
+                                            }
+                                            if (selected_skill.target == Skill.Target.Single)
+                                            {
+                                                state = State.Target;
+                                            }
+                                            else
+                                            {
+                                                state = State.Attack;
+                                            }
                                         }
                                     }
                                     catch

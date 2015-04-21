@@ -184,7 +184,7 @@ namespace LeaveMeAlone
 
             hovertextpos = new Vector2(30, 150);
             hovertext = new Text("", new Vector2(hovertextpos.X + 10, hovertextpos.Y + 10), Text.fonts["RetroComputer-12"]);
-            hovertextRect = new Rectangle((int)hovertextpos.X, (int)hovertextpos.Y, 300, 400);
+            hovertextRect = new Rectangle((int)hovertextpos.X, (int)hovertextpos.Y, 500, 600);
             //250 x 150
             hovertextbackground = BattleManager.hovertextbackground;
 
