@@ -139,6 +139,14 @@ namespace LeaveMeAlone
             basic_buttons[2].UpdateText("Defend");
             basic_buttons[3].UpdateText("Bribe");
 
+            foreach(Button b in basic_buttons)
+            {
+                b.text.font = Text.fonts["RetroComputer-12"];
+            }
+            foreach (Button b in skill_buttons)
+            {
+                b.text.font = Text.fonts["RetroComputer-12"];
+            }
 
             bossLoc = new Rectangle(LeaveMeAlone.WindowX - 300, LeaveMeAlone.WindowY / 2 - 150, 200, 200);
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
@@ -823,6 +831,7 @@ namespace LeaveMeAlone
                     break;
                 case State.Attack:
                     //Attacking
+                    hovertext.message = "";
                     Attack(boss);
                     updateHealth();
                     
