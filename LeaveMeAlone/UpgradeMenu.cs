@@ -57,6 +57,7 @@ namespace LeaveMeAlone
         public static SoundEffectInstance buyingSound;
         public static SoundEffectInstance swappingSound;
 
+        public static Vector2 measurements;
 
         public class ButtonSkill
         {
@@ -279,9 +280,20 @@ namespace LeaveMeAlone
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
+            int xpos = currentMouseState.X;
+            int ypos = currentMouseState.Y;
+
+
+            /*
+            hovertextRect.X = currentMouseState.X;
+            hovertextRect.Y = currentMouseState.Y;
+            hovertextpos.X = hovertextRect.X + 10;
+            hovertextpos.Y = hovertextRect.Y + 10;
+             * */
+
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             texts["level"].changeMessage("Level: " + BattleManager.boss.level);
-
+            
             if (Mouse.GetState().LeftButton == ButtonState.Released)
             {
                 left_click = false;
@@ -463,6 +475,24 @@ namespace LeaveMeAlone
                     Console.WriteLine("unselected");
                 }
             }
+            
+            measurements = hovertext.getMeasurements(hovertextRect.Width - 15);
+            if (xpos + hovertextRect.Width > LeaveMeAlone.WindowX)
+            {
+                hovertextRect.X = LeaveMeAlone.WindowX - 20;
+            }
+            else
+            {
+                hovertextRect.X = currentMouseState.X - 20;
+            }
+            if (ypos + measurements.Y > LeaveMeAlone.WindowY)
+            {
+                hovertextRect.Y = LeaveMeAlone.WindowY - (int)measurements.Y - 20;
+            }
+            else
+            {
+                hovertextRect.Y = currentMouseState.Y - 20;
+            }
             return LeaveMeAlone.GameState.Upgrade;
         }
         public static void updateSelectedSkills()
@@ -543,7 +573,11 @@ namespace LeaveMeAlone
 
             if (hovertext.message != "")
             {
-                sb.Draw(hovertextbackground, hovertextRect, Color.White);
+                
+                Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+
+                hovertext.position = new Vector2(hovertextRect.X + 10, hovertextRect.Y + 10);
+                sb.Draw(hovertextbackground, scaledHoverTextRect, Color.White);
                 hovertext.Draw(sb, maxLineWidth: hovertextRect.Width - 15);
             }
 

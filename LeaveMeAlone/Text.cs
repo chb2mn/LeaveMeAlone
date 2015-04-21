@@ -11,29 +11,29 @@ namespace LeaveMeAlone
 {
     public class Text
     {
-        public static Dictionary<string, SpriteFont> fonts = new Dictionary<string,SpriteFont>();
+        public static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
         public SpriteFont font;
         public Color color;
         public Vector2 position;
         public string message;
-        
+
 
         public static Color DEFAULT_COLOR = Color.Black;
 
         public Text(string msg = "", Vector2 position = default(Vector2), SpriteFont f = default(SpriteFont), Color c = default(Color))
         {
             message = msg;
-            if(f == default(SpriteFont))
+            if (f == default(SpriteFont))
             {
                 f = fonts["Arial-12"];
             }
             font = f;
-            if(c == default(Color))
+            if (c == default(Color))
             {
                 c = DEFAULT_COLOR;
             }
             color = c;
-            if(position == default(Vector2))
+            if (position == default(Vector2))
             {
                 position = new Vector2(0, 0);
             }
@@ -41,7 +41,7 @@ namespace LeaveMeAlone
         }
 
 
-        public void changeMessage(string msg) 
+        public void changeMessage(string msg)
         {
             message = msg;
         }
@@ -61,7 +61,7 @@ namespace LeaveMeAlone
 
             loadFont("RetroComputer-12", content);
             loadFont("RetroComputer-24", content);*/
-            
+
             DirectoryInfo dir = new DirectoryInfo(content.RootDirectory + @"\Fonts");
             if (!dir.Exists)
                 throw new DirectoryNotFoundException();
@@ -71,15 +71,48 @@ namespace LeaveMeAlone
             string str = "";
             foreach (FileInfo file in files)
             {
-                 str = str + ", " + file.Name;
+                str = str + ", " + file.Name;
                 string key = Path.GetFileNameWithoutExtension(file.Name);
                 Console.WriteLine(key);
                 fonts[key] = content.Load<SpriteFont>(@"Fonts\" + key);
             }
             Console.WriteLine(str);
         }
+        public string updateString(float maxLineWidth)
+        {
+            string[] blocks = message.Split('\n');
+            StringBuilder sb = new StringBuilder();
+            foreach (String block in blocks)
+            {
+                string[] words = block.Split(' ');
 
-        public virtual void Draw(SpriteBatch s,  Vector2 pos = default(Vector2), Color c = default(Color), float maxLineWidth=0)
+                float lineWidth = 0f;
+                float spaceWidth = font.MeasureString(" ").X;
+
+                foreach (string word in words)
+                {
+                    Vector2 size = font.MeasureString(word);
+
+                    if (lineWidth + size.X < maxLineWidth)
+                    {
+                        sb.Append(word + " ");
+                        lineWidth += size.X + spaceWidth;
+                    }
+                    else
+                    {
+                        sb.Append("\n" + word + " ");
+                        lineWidth = size.X + spaceWidth;
+                    }
+                }
+                sb.Append("\n");
+            }
+            return sb.ToString();
+        }
+        public Vector2 getMeasurements(float maxLineWidth)
+        {
+            return font.MeasureString(updateString(maxLineWidth));
+        }
+        public virtual void Draw(SpriteBatch s, Vector2 pos = default(Vector2), Color c = default(Color), float maxLineWidth = 0)
         {
             if (c == default(Color))
             {
@@ -91,33 +124,7 @@ namespace LeaveMeAlone
             }
             if (maxLineWidth != 0)
             {
-                string[] blocks = message.Split('\n');
-                StringBuilder sb = new StringBuilder();
-                foreach (String block in blocks)
-                {
-                    string[] words = block.Split(' ');
-                    
-                    float lineWidth = 0f;
-                    float spaceWidth = font.MeasureString(" ").X;
-
-                    foreach (string word in words)
-                    {
-                        Vector2 size = font.MeasureString(word);
-
-                        if (lineWidth + size.X < maxLineWidth)
-                        {
-                            sb.Append(word + " ");
-                            lineWidth += size.X + spaceWidth;
-                        }
-                        else
-                        {
-                            sb.Append("\n" + word + " ");
-                            lineWidth = size.X + spaceWidth;
-                        }
-                    }
-                    sb.Append("\n");
-                }
-                s.DrawString(font, sb.ToString(), pos, c);
+                s.DrawString(font, updateString(maxLineWidth), pos, c);
             }
             else
             {
@@ -136,6 +143,6 @@ namespace LeaveMeAlone
                 sb.DrawString(font, message, new Vector2(x, y), color);
             }
         }*/
-        
+
     }
 }

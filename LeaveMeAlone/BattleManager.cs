@@ -628,6 +628,7 @@ namespace LeaveMeAlone
         {
             int selectLocX = Mouse.GetState().X;
             int selectLocY = Mouse.GetState().Y;
+
             //Keyboard.GetState();
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -1083,7 +1084,14 @@ namespace LeaveMeAlone
 
             if (hovertext.message != "")
             {
-                spriteBatch.Draw(hovertextbackground, hovertextRect, Color.White);
+                Vector2 measurements = hovertext.getMeasurements(hovertextRect.Width - 15);
+                //Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+                Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+
+                spriteBatch.Draw(hovertextbackground, scaledHoverTextRect, Color.White);
+
+
+                //Offset(10, 10);
                 hovertext.Draw(spriteBatch, maxLineWidth: hovertextRect.Width - 10);
             }
         }
