@@ -477,21 +477,21 @@ namespace LeaveMeAlone
             }
             
             measurements = hovertext.getMeasurements(hovertextRect.Width - 15);
-            if (xpos + hovertextRect.Width > LeaveMeAlone.WindowX)
+            if (xpos + hovertextRect.Width > LeaveMeAlone.WindowX -20)
             {
-                hovertextRect.X = LeaveMeAlone.WindowX - 20;
+                hovertextRect.X = LeaveMeAlone.WindowX - hovertextRect.Width - 20;
             }
             else
             {
-                hovertextRect.X = currentMouseState.X - 20;
+                hovertextRect.X = currentMouseState.X + 10;
             }
-            if (ypos + measurements.Y > LeaveMeAlone.WindowY)
+            if (ypos + measurements.Y > LeaveMeAlone.WindowY - 20)
             {
                 hovertextRect.Y = LeaveMeAlone.WindowY - (int)measurements.Y - 20;
             }
             else
             {
-                hovertextRect.Y = currentMouseState.Y - 20;
+                hovertextRect.Y = currentMouseState.Y + 10;
             }
             return LeaveMeAlone.GameState.Upgrade;
         }
