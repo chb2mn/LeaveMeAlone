@@ -635,9 +635,57 @@ namespace LeaveMeAlone
         {
             caster.statuses.Add(new Status("haste", 3*2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.haste_image, Status.DoNothing));
         }
-        
+
+        public static void AntimaterialBubble(Character caster, Character target = null)
+        {
+            caster.statuses.Add(new Status("immune_atk", 3, 0, Status.Effect_Time.Before, Status.Type.Buff, Status.immune_atk_image, Status.DoNothing, Status.DoNothing));
+        }
+
+        public static void UnstableWeapon(Character caster, Character target = null)
+        {
+            target = caster;
+            int damage = Status.StageValue(target.special_attack, target.level);
+            caster.max_health -= Status.StageValue(target.health, target.level * 4);
+            caster.statuses.Add(new Status("hp-", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.RaiseHealth));
+            if (caster.max_health < caster.health)
+            {
+                caster.health = caster.max_health;
+            }
+
+            damage = Status.StageValue(target.attack, target.level) * 3;
+            target.attack += damage;
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceSAttack));
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSAttack));
+            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSAttack));
+        }
+
+        public static void Recombobulator(Character caster, Character target = null)
+        {
+            List<int> target_stats = new List<int>();
+            int type; //The type of hero we will produce
+            type = LeaveMeAlone.random.Next(3);
+            int level; //The relative change of level we will give the hero
+            level = target.level + LeaveMeAlone.random.Next(3) - 2; //33% of gain level 33% chance of nothing 33% chance of losing levels
+            Vector2 target_vector = target.sPosition;
+            target = PartyManager.CreateHero(type, level, target_vector);
+        }
+
+        public static void BasicChem(Character caster, Character target = null)
+        {
+
+        }
+
+        public static void AdvChem(Character caster, Character target = null)
+        {
+
+        }
+
+        public static void ExpChem(Character caster, Character target = null)
+        {
+
+        }
         /*
-        public static Skill anti_magic_bubble;
+        public static Skill antimaterial_bubble;
         public static Skill unstable_weapon;
         public static Skill recombobulator;
         public static Skill basic_chem_set;
