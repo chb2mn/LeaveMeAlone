@@ -185,41 +185,41 @@ namespace LeaveMeAlone
             //Brute
 
             //------------------------Name---------energy,cost,level,cooldown,target,type
-            ethereal_fist = new Skill("Ethereal Fist", 5, 100, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            blind_charge = new Skill("Blind Charge",   5, 100, 1, 0, Skill.Target.Single, 1, "Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
-            intimidate = new Skill("Inimidating Roar", 5, 250, 1, 0, Skill.Target.All, 1, "Reduce oppponents Atk and Special Atk", Intimidate);
-            beat_chest = new Skill("Beat Chest",       5, 500, 2, 0, Skill.Target.Self, 1, "Increase Atk and Special Atk", BeatChest);
+            ethereal_fist = new Skill("Ethereal Fist", 5, 100, 1, 0, Skill.Target.Single, 1, "Change your fist into a magical force. Does Sp.Atk. Dmg", PortalPunch);
+            blind_charge = new Skill("Blind Charge",   5, 100, 1, 0, Skill.Target.Single, 1, "Heroes can't handle him. Does a lot of Atk Damage, but stuns you", BlindCharge); // damage a lot, but stun myself
+            intimidate = new Skill("Inimidating Roar", 5, 250, 1, 0, Skill.Target.All, 1, "Send a shout that penetrates their very soul. Reduce oppponents Atk and Special Atk", Intimidate);
+            beat_chest = new Skill("Beat Chest",       5, 500, 2, 0, Skill.Target.Self, 1, "Physical Trainers hate you. Increase Atk and Special Atk with one easy step.", BeatChest);
             rub_dirt =       new Skill("Rub Dirt",     4, 100, 2, 1, Skill.Target.Single, 1, "Rub some dirt in it, dealing damaged based on missing health", RubDirt); //damage in proportion to health
-            norris_kick = new Skill("Norris Kick",     8, 100, 3, 1, Skill.Target.Single, 1, "Kick an enemy so hard they hit another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
-            break_armor = new Skill("Break Armor",     5, 2500, 3, 0, Skill.Target.Single, 1, "Do significant damage and break your opponent's armor", BreakArmor);
-            holk_smash = new Skill("Holk Smush",       10,4500, 5, 1, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower);
+            norris_kick = new Skill("Norris Kick",     8, 100, 3, 1, Skill.Target.Single, 1, "Kick an enemy so hard they slam into another enemy randomly", NorrisKick); //damage in proportion to health //damage one a lot and another a little
+            break_armor = new Skill("Eviscerate Armor",     5, 2500, 3, 1, Skill.Target.Single, 1, "Do significant damage and break your opponent's armor", BreakArmor);
+            holk_smash = new Skill("Holk Smush",       10,4500, 5, 1, Skill.Target.All, 1, "With your Zeta radiation infusing your cells with extra power, smash all the enemies", HolkSmush);
             library = new Skill("What Library???",     5, 1500, 5, 3, Skill.Target.Self, 1, "Those nerds can't handle you! You're immune to Special Attack!", Library);
-            bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 7, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
-            roid_rage = new Skill("Roid Rage",         5, 10000, 7, 0, Skill.Target.Self, 1, "Cut your max hp (for a battle) and raise your attack by 3 stages", RoidRage);
-            raised_by_wolves = new Skill("Raised by wolves", 25, 15000, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves); //destroy one enemy, damage another, raise your own stats           
+            bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 7, 2, Skill.Target.Single, 1, "Attack and steal the puny hero's lifeforce for yourself", BloodlustStrike);  //vampiric
+            roid_rage = new Skill("Roid Rage",         5, 10000, 7, 0, Skill.Target.Self, 1, "Pop a few pills, Cut your max hp (for a battle) and raise your attack by 3 stages", RoidRage);
+            raised_by_wolves = new Skill("Raised by wolves", 25, 15000, 10, 4, Skill.Target.Single, 1, "When you were young, the hero's village lay you out on your lonesome. You learned from the wolves on how to survive. Your pack has come to return the favor and protect you until death. THIS is the statement piece you have been finally looking for. Picking this will trigger the end game. Effect: Kill an enemy, damage another, increase attack by 1 stage", RaisedByWolves); //destroy one enemy, damage another, raise your own stats           
             
             final_skill[Character.Type.Brute] = raised_by_wolves;
 
             //Mastermind
-            portal_punch = new Skill("Portal Punch",    1,  0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            flamethrower = new Skill("Flamethrower",    10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower, sound: fireball_instance);
-            nuclear_waste = new Skill("Nuclear Waste",  5,  100, 2, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, _inflicts: Status.check_poison);
-            abomination_form = new Skill("Abomination Form", 10, 500, 2, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
-            summon_igor = new Skill("Summon Igor",      5,  300, 3, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("Freeze Ray",        15, 15000, 10, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, _inflicts: Status.check_stun);
-            speedy_shoes = new Skill("Speedy Shoes",    15, 1500, 7, 3, Skill.Target.Self, 2, "Your shoes go so fast you take 2 turns", SpeedyShoes, _inflicts: Status.check_haste);
+            portal_punch = new Skill("Portal Punch",    1,  0, 1, 0, Skill.Target.Single, 1, "One of your first inventions! This will allow you to punch past bulky opponent's defenses. Does Sp.Atk. Dmg", PortalPunch);
+            flamethrower = new Skill("Flamethrower",    10, 300, 1, 0, Skill.Target.All, 1, "What a classic!! Light it up and burn all of your enemies!", FlameThrower, sound: fireball_instance);
+            nuclear_waste = new Skill("Nuclear Waste",  5,  100, 2, 0, Skill.Target.Single, 1, "You've created a new strand of quick-acting poison! Infect an enemy with poision and do damage over time", NuclearWaste, _inflicts: Status.check_poison);
+            abomination_form = new Skill("Abomination Form", 10, 500, 2, 3, Skill.Target.All, 1, "Your biological tamperings have allowed you to turn into a hulking warrior! But all of your inventions are now less effecive Swap Atk and Sp. Atk", AbominationForm);
+            summon_igor = new Skill("Summon Igor",      5,  300, 3, 1, Skill.Target.Single, 1, "Summon your faithful minion to prod away the heroes, but he's always slacking behind. Does damage one turn later", SummonIgor);
+            freeze_ray = new Skill("Freeze Ray",        15, 15000, 10, 1, Skill.Target.All, 1, "Lost in your drawers from your early years of masterminding, you find the copy of a blueprint that your mother ripped to shreds. \"This is childish nonsense\" she would scold. Well we'll show her...This ray freezes all enemies and will finally keep those pesky plumbers-I mean- heroes at bay. Picking this will trigger the end game.", FreezeRay, _inflicts: Status.check_stun);
+            speedy_shoes = new Skill("Speedy Shoes",    15, 1500, 7, 3, Skill.Target.Self, 2, "Gotta get speedy! Your new shoes go so fast you take 2 turns in the time it takes the heroes to go once!", SpeedyShoes, _inflicts: Status.check_haste);
             final_skill[Character.Type.Mastermind] = freeze_ray;
 
-            antimaterial_bubble = new Skill("Anti-Material Bubble", 15, 7500, 7, 3, Skill.Target.Self, 2, "Make yourself immune to all physical attacks", AntimaterialBubble);
-            unstable_weapon = new Skill("Unstable Weapon", 15, 5000, 5, 3, Skill.Target.Single, 1, "25% chance to heal enemy, 75% to deal damage", UnstableWeapon);
-            recombobulator = new Skill("Recombobulator", 20, 5000, 5, 5, Skill.Target.Single, 1, "Confuse a single target!", Recombobulator);
-            basic_chem_set = new Skill("Basic Chemistry Set", 5, 300, 1, 1, Skill.Target.Self, 2, "Increase a random Physical and Special stat by 1 stage", BasicChem);
-            adv_chem_set = new Skill("Advanced Chemistry Set", 7, 1500, 3, 1, Skill.Target.Self, 2, "Increase 3 random stats by 1 stage", AdvChem);
-            exp_chem_set = new Skill("Expert Chemistry Set", 15, 7500, 7, 2, Skill.Target.Self, 2, "Increase a random Physical or Special stat by 3 stages", ExpChem);
+            antimaterial_bubble = new Skill("Anti-Material Bubble", 15, 7500, 7, 3, Skill.Target.Self, 2, "The bullies at school could never get past this bubble. Although it did make them call you bubble boy until college...Make yourself immune to all physical attacks", AntimaterialBubble);
+            unstable_weapon = new Skill("Unstable Weapon", 15, 5000, 5, 3, Skill.Target.Single, 1, "Testing is for losers. You made this and you can test it later! Does damage to enemy....probably", UnstableWeapon);
+            recombobulator = new Skill("Recombobulator", 20, 5000, 5, 5, Skill.Target.Single, 1, "Wait...what was I saying? Who are you?", Recombobulator);
+            basic_chem_set = new Skill("Basic Chemistry Set", 5, 300, 1, 1, Skill.Target.Self, 2, "For my 3rd Birthday: Increase a random Physical and Special stat by 1 stage", BasicChem);
+            adv_chem_set = new Skill("Advanced Chemistry Set", 7, 1500, 3, 1, Skill.Target.Self, 2, "40 weeks of allowance for this! Increase 3 random stats by 1 stage", AdvChem);
+            exp_chem_set = new Skill("Expert Chemistry Set", 15, 7500, 7, 2, Skill.Target.Self, 2, "My Bar Mitzvah Present: Increase a random Physical or Special stat by 3 stages. L'Chaim!", ExpChem);
 
             //Operative
-            slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            shuriken = new Skill("Shuriken", 10, 300, 1, 0, Skill.Target.All, 1, "It bounces off of all enemies!", FlameThrower);
+            slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Pull out your switch blade. They'll never see you coming. Does Sp.Atk. Dmg", PortalPunch);
+            shuriken = new Skill("Bladed Tophat", 10, 300, 1, 0, Skill.Target.All, 1, "This is odd... hmm... tossing this will", FlameThrower);
 
             backstab = new Skill("Backstab", 10, 300, 1, 2, Skill.Target.Single, 0, "Hit an enemy ignoring defense", Backstab); // hit ignore defense
             garrote_watch = new Skill("Garrote Watch", 5, 300, 5, 0, Skill.Target.Single, 1, "Kill an enemy below 15% hp", GarroteWatch); //remove at low health
@@ -579,7 +579,7 @@ namespace LeaveMeAlone
                 {
                     target = BattleManager.heroes[i];
                     if (target == null) { continue; }
-                    int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
+                    int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 50);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
                     //target.damage_text.changeMessage(str_damage);
@@ -923,6 +923,26 @@ namespace LeaveMeAlone
             }
         }
 
+        public static void HolkSmush(Character caster, Character target = null)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    target = BattleManager.heroes[i];
+                    if (target == null) { continue; }
+                    int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 70);
+                    target.health -= damage;
+                    String str_damage = (-damage).ToString();
+                    //target.damage_text.changeMessage(str_damage);
+                    target.PushDamage(str_damage);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+
+                }
+            }       
+        }
         public static void Intimidate(Character caster, Character target = null) 
         {
             for (int i = 0; i < BattleManager.heroes.Count(); i++)
