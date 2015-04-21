@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.Audio;
 
 namespace LeaveMeAlone
 {
@@ -52,6 +53,10 @@ namespace LeaveMeAlone
         public static Texture2D hovertextbackground;
         public static Vector2 hovertextpos;
         public static Rectangle hovertextRect;
+
+        public static SoundEffectInstance buyingSound;
+        public static SoundEffectInstance swappingSound;
+
 
         public class ButtonSkill
         {
@@ -152,6 +157,7 @@ namespace LeaveMeAlone
         {
             SkillTree.Init(boss.bossType);
 
+            
             tutorial_state = TutorialState.BuySkill;
 
             selectedBoss = boss;
@@ -256,6 +262,10 @@ namespace LeaveMeAlone
             next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
             TutorialText = new Text("", new Vector2(375, 0), Text.fonts["6809Chargen-24"], Color.White);
+
+            buyingSound = content.Load<SoundEffect>("Sounds/cash-register").CreateInstance();
+            buyingSound.Volume = .2f;
+            swappingSound = content.Load<SoundEffect>("Sounds/swap_sound").CreateInstance();
         }
         public static bool leftClicked()
         {
@@ -370,11 +380,11 @@ namespace LeaveMeAlone
                         if(AvailableRooms[x].r.cost < Resources.gold)
                         {
                             BattleManager.boss.selected_rooms.Add(AvailableRooms[x].r);
-            
                             LairManager.addRoom(AvailableRooms[x]);
                             boughtRooms.Add(AvailableRooms[x].r);
                             Resources.gold -= AvailableRooms[x].r.cost;
                             tutorial_state = TutorialState.Back;
+                            buyingSound.Play();
                         }
                     }
                 }
@@ -397,6 +407,7 @@ namespace LeaveMeAlone
                             if(s.cost < Resources.gold)
                             {
                                 BattleManager.boss.addSkill(s);
+                                buyingSound.Play();
                                 tutorial_state = TutorialState.BuyRoom;
                                 Resources.gold -= s.cost;
                                 if (s == SkillTree.final_skill[BattleManager.boss.charType])
@@ -415,6 +426,7 @@ namespace LeaveMeAlone
                             {
                                 int index = BattleManager.boss.selected_skills.IndexOf(selectedSkillSwapButton.s);
                                 BattleManager.boss.selected_skills[index] = s;
+                                swappingSound.Play();
                                 Console.WriteLine("swapped");
                             }
                         }

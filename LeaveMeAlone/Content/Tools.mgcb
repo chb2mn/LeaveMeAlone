@@ -1093,3 +1093,15 @@
 /processorParam:TextureFormat=Color
 /build:gray.png
 
+#begin Sounds/cash-register.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/cash-register.wav
+
+#begin Sounds/swap_sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/swap_sound.wav
+
