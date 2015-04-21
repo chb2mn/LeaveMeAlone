@@ -139,6 +139,14 @@ namespace LeaveMeAlone
             basic_buttons[2].UpdateText("Defend");
             basic_buttons[3].UpdateText("Bribe");
 
+            foreach(Button b in basic_buttons)
+            {
+                b.text.font = Text.fonts["RetroComputer-12"];
+            }
+            foreach (Button b in skill_buttons)
+            {
+                b.text.font = Text.fonts["RetroComputer-12"];
+            }
 
             bossLoc = new Rectangle(LeaveMeAlone.WindowX - 300, LeaveMeAlone.WindowY / 2 - 150, 200, 200);
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
@@ -628,6 +636,7 @@ namespace LeaveMeAlone
         {
             int selectLocX = Mouse.GetState().X;
             int selectLocY = Mouse.GetState().Y;
+
             //Keyboard.GetState();
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -689,51 +698,74 @@ namespace LeaveMeAlone
                     break;
                 case State.Skills:
                     //Skill Selection
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
-                    {
+                    //if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    //{
 
                         message.changeMessage(selectLocX + ", " + selectLocY);
                         for (int i = 0; i < 6; i++)
                         {
                             if (skill_buttons[i].Intersects(selectLocX, selectLocY))
                             {
-                                try
+                                if (i < boss.selected_skills.Count)
                                 {
-                                    selected_skill = boss.selected_skills[i];
-                                    //check cooldown
-                                    if (check_cooldown[i] > 0)
-                                    {
-                                        info_text.changeMessage("Can't use skill,\nwait for cooldown:" + check_cooldown[i]);
-                                        continue;
-                                    }
-                                    //check mana_cost
-                                    if (selected_skill.energy > boss.energy)
-                                    {
-                                        info_text.changeMessage("Not Enough Energy!");
-                                        continue;
-                                    }
-                                    if (selected_skill.target == Skill.Target.Single)
-                                    {
-                                        state = State.Target;
-                                    }
-                                    else
-                                    {
-                                        state = State.Attack;
-                                    }
+                                    hovertext.changeMessage(skill_buttons[i].text.message + ":\n" + boss.selected_skills[i].description);
                                 }
-                                catch
+                                if (leftClicked())
                                 {
+                                    try
+                                    {
+                                        selected_skill = boss.selected_skills[i];
+                                        //check cooldown
+                                        if (check_cooldown[i] > 0)
+                                        {
+                                            info_text.changeMessage("Can't use skill,\nwait for cooldown:" + check_cooldown[i]);
+                                            continue;
+                                        }
+                                        //check mana_cost
+                                        if (selected_skill.energy > boss.energy)
+                                        {
+                                            info_text.changeMessage("Not Enough Energy!");
+                                            continue;
+                                        }
+                                        if (selected_skill.target == Skill.Target.Single)
+                                        {
+                                            selected_skill = boss.selected_skills[i];
+                                            //check cooldown
+                                            if (check_cooldown[i] > 0)
+                                            {
+                                                info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
+                                                continue;
+                                            }
+                                            //check mana_cost
+                                            if (selected_skill.energy > boss.energy)
+                                            {
+                                                info_text.changeMessage("Not Enough Energy!");
+                                                continue;
+                                            }
+                                            if (selected_skill.target == Skill.Target.Single)
+                                            {
+                                                state = State.Target;
+                                            }
+                                            else
+                                            {
+                                                state = State.Attack;
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
 
+                                    }
                                 }
                             }
                         }
-                        if (back_button.Intersects(selectLocX, selectLocY))
+                        if (back_button.Intersects(selectLocX, selectLocY) && leftClicked())
                         {
                             NewMenu(0);
                             state = 0;
                         }
 
-                    }
+                    //}
                     break;
                 case State.Bribe:
                     //Bribe Stuff
@@ -815,6 +847,7 @@ namespace LeaveMeAlone
                     break;
                 case State.Attack:
                     //Attacking
+                    hovertext.message = "";
                     Attack(boss);
                     updateHealth();
                     
@@ -1076,7 +1109,14 @@ namespace LeaveMeAlone
 
             if (hovertext.message != "")
             {
-                spriteBatch.Draw(hovertextbackground, hovertextRect, Color.White);
+                Vector2 measurements = hovertext.getMeasurements(hovertextRect.Width - 15);
+                //Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+                Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+
+                spriteBatch.Draw(hovertextbackground, scaledHoverTextRect, Color.White);
+
+
+                //Offset(10, 10);
                 hovertext.Draw(spriteBatch, maxLineWidth: hovertextRect.Width - 10);
             }
         }

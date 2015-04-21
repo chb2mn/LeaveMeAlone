@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.Audio;
 
 namespace LeaveMeAlone
 {
@@ -36,7 +37,9 @@ namespace LeaveMeAlone
         public static Vector2 baseSkillButtonPos = new Vector2(400, 100);
         public static Vector2 baseRoomButtonPos = new Vector2(400, 550);
         public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
-        
+
+        public static bool left_click = false;
+        public static bool right_click = false;
 
         public static Skill skill_from_skilltree_to_swap;
 
@@ -45,6 +48,16 @@ namespace LeaveMeAlone
         //public static ;
         public static ButtonSkill selectedSkillSwapButton;
         public static Room Nothing;
+
+        public static Text hovertext;
+        public static Texture2D hovertextbackground;
+        public static Vector2 hovertextpos;
+        public static Rectangle hovertextRect;
+
+        public static SoundEffectInstance buyingSound;
+        public static SoundEffectInstance swappingSound;
+
+        public static Vector2 measurements;
 
         public class ButtonSkill
         {
@@ -145,6 +158,7 @@ namespace LeaveMeAlone
         {
             SkillTree.Init(boss.bossType);
 
+            
             tutorial_state = TutorialState.BuySkill;
 
             selectedBoss = boss;
@@ -168,9 +182,15 @@ namespace LeaveMeAlone
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
+            hovertextpos = new Vector2(30, 150);
+            hovertext = new Text("", new Vector2(hovertextpos.X + 10, hovertextpos.Y + 10), Text.fonts["RetroComputer-12"]);
+            hovertextRect = new Rectangle((int)hovertextpos.X, (int)hovertextpos.Y, 500, 600);
+            //250 x 150
+            hovertextbackground = BattleManager.hovertextbackground;
+
             texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 0), Text.fonts["6809Chargen-24"], Color.White);
             texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
-            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 150), Text.fonts["6809Chargen-24"], Color.White);
+            texts["selectedskills"] =   new Text("Selected Skills",         hovertextpos, Text.fonts["6809Chargen-24"], Color.White);
             texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X + 100, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
@@ -243,41 +263,50 @@ namespace LeaveMeAlone
             next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
             TutorialText = new Text("", new Vector2(375, 0), Text.fonts["6809Chargen-24"], Color.White);
-        }
 
+            buyingSound = content.Load<SoundEffect>("Sounds/cash-register").CreateInstance();
+            buyingSound.Volume = .2f;
+            swappingSound = content.Load<SoundEffect>("Sounds/swap_sound").CreateInstance();
+        }
+        public static bool leftClicked()
+        {
+            return Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click;
+        }
+        public static bool rightClicked()
+        {
+            return Mouse.GetState().RightButton == ButtonState.Pressed && !right_click;
+        }
         public static LeaveMeAlone.GameState Update(GameTime g)
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
+            int xpos = currentMouseState.X;
+            int ypos = currentMouseState.Y;
+
+
+            /*
+            hovertextRect.X = currentMouseState.X;
+            hovertextRect.Y = currentMouseState.Y;
+            hovertextpos.X = hovertextRect.X + 10;
+            hovertextpos.Y = hovertextRect.Y + 10;
+             * */
+
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             texts["level"].changeMessage("Level: " + BattleManager.boss.level);
+            
+            if (Mouse.GetState().LeftButton == ButtonState.Released)
+            {
+                left_click = false;
+            }
+            if (Mouse.GetState().RightButton == ButtonState.Released)
+            {
+                right_click = false;
+            }
 
             if (BattleManager.boss.level < 2)
             {
                 HandleTutorial();
             }
-            //things you bought are in black
-
-            /*
-            for (int x = 0; x < AvailableRooms.Length; x++)
-            {
-                if (AvailableRooms[x].r != null)
-                {
-                    var r = AvailableRooms[x].r;
-                    if(BattleManager.boss.selected_rooms.Contains(r) == true)
-                    {
-                        AvailableRooms[x].b.text.color = Color.Black;
-                    }
-                    else if (r.cost > Resources.gold)
-                    {
-                        AvailableRooms[x].b.text.color = Color.Red;
-                    }
-                    else
-                    {
-                        AvailableRooms[x].b.text.color = Color.Blue;
-                    }
-                }
-            }*/
 
             foreach(Skill s in BattleManager.boss.skills)
             {
@@ -296,6 +325,62 @@ namespace LeaveMeAlone
                 }
             }
 
+            bool hovered = false;
+            foreach (Skill s in skilltree.SkillButtons.Keys)
+            {
+                
+                if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    hovertext.changeMessage(s.name + ":\n" + s.description);
+                    hovered = true;
+                }
+            }
+
+            //perfect place for polymophism Chris
+            hovered = false;
+            foreach (Skill s in skilltree.SkillButtons.Keys)
+            {
+
+                if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(s.name + ":");
+                    if(BattleManager.boss.skills.Contains(s))
+                    {
+                        sb.Append(" (bought)");
+                    }
+                    else
+                    {
+                        sb.Append(" (Cost: " + s.cost + ")");
+                    }
+                    sb.Append("\n" + s.description);
+                    hovertext.changeMessage(sb.ToString());
+                    hovered = true;
+                }
+            }
+            foreach (ButtonRoom r in AvailableRooms)
+            {
+                if(r.b.Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(r.r.name + ":");
+                    if (boughtRooms.Contains(r.r))
+                    {
+                        sb.Append(" (bought)");
+                    }
+                    else
+                    {
+                        sb.Append(" (Cost: " + r.r.cost + ")");
+                    }
+                    sb.Append("\n" + r.r.description);
+                    hovertext.changeMessage(sb.ToString());
+                    hovered = true;
+                }
+            }
+            if(hovered == false)
+            {
+                hovertext.changeMessage("");
+            }
             selectedBoss.Update(g);
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
@@ -307,11 +392,11 @@ namespace LeaveMeAlone
                         if(AvailableRooms[x].r.cost < Resources.gold)
                         {
                             BattleManager.boss.selected_rooms.Add(AvailableRooms[x].r);
-            
                             LairManager.addRoom(AvailableRooms[x]);
                             boughtRooms.Add(AvailableRooms[x].r);
                             Resources.gold -= AvailableRooms[x].r.cost;
                             tutorial_state = TutorialState.Back;
+                            buyingSound.Play();
                         }
                     }
                 }
@@ -334,6 +419,7 @@ namespace LeaveMeAlone
                             if(s.cost < Resources.gold)
                             {
                                 BattleManager.boss.addSkill(s);
+                                buyingSound.Play();
                                 tutorial_state = TutorialState.BuyRoom;
                                 Resources.gold -= s.cost;
                                 if (s == SkillTree.final_skill[BattleManager.boss.charType])
@@ -352,6 +438,7 @@ namespace LeaveMeAlone
                             {
                                 int index = BattleManager.boss.selected_skills.IndexOf(selectedSkillSwapButton.s);
                                 BattleManager.boss.selected_skills[index] = s;
+                                swappingSound.Play();
                                 Console.WriteLine("swapped");
                             }
                         }
@@ -387,6 +474,24 @@ namespace LeaveMeAlone
 
                     Console.WriteLine("unselected");
                 }
+            }
+            
+            measurements = hovertext.getMeasurements(hovertextRect.Width - 15);
+            if (xpos + hovertextRect.Width > LeaveMeAlone.WindowX -20)
+            {
+                hovertextRect.X = LeaveMeAlone.WindowX - hovertextRect.Width - 20;
+            }
+            else
+            {
+                hovertextRect.X = currentMouseState.X + 10;
+            }
+            if (ypos + measurements.Y > LeaveMeAlone.WindowY - 20)
+            {
+                hovertextRect.Y = LeaveMeAlone.WindowY - (int)measurements.Y - 20;
+            }
+            else
+            {
+                hovertextRect.Y = currentMouseState.Y + 10;
             }
             return LeaveMeAlone.GameState.Upgrade;
         }
@@ -442,27 +547,40 @@ namespace LeaveMeAlone
             }
             for (int x = 0; x < AvailableRooms.Length; x++)
             {
-                if (BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].r.level != -1 && AvailableRooms[x].r.cost > Resources.gold)
+                if (BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].r.level != -1)
                 {
-                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
-                    AvailableRooms[x].b.Draw(sb);
-                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                    if(AvailableRooms[x].r.cost > Resources.gold)
+                    {
+                        sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                        AvailableRooms[x].b.Draw(sb);
+                        sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                    }
+                    else
+                    {
+                        sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                        AvailableRooms[x].b.Draw(sb);
+                        sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                        //sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White*0.5f);
+                    }
                 }
-                if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false  && AvailableRooms[x].r.level != -1)
-                {
-                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White);
-                    AvailableRooms[x].b.Draw(sb);
-                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
-                    //sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White*0.5f);
-                }
-
                 else
                 {
-
+                    sb.Draw(Button.graybackground, AvailableRooms[x].b.selectRectangle, Color.White);
                     AvailableRooms[x].b.Draw(sb);
                 }
                 
             }
+
+            if (hovertext.message != "")
+            {
+                
+                Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+
+                hovertext.position = new Vector2(hovertextRect.X + 10, hovertextRect.Y + 10);
+                sb.Draw(hovertextbackground, scaledHoverTextRect, Color.White);
+                hovertext.Draw(sb, maxLineWidth: hovertextRect.Width - 15);
+            }
+
             next.Draw(sb);
         }
 

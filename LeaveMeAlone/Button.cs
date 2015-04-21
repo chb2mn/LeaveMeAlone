@@ -20,6 +20,7 @@ namespace LeaveMeAlone
         public static Texture2D greenbackground;
         public static Texture2D redbackground;
         public static Texture2D bluebackground;
+        public static Texture2D graybackground;
         public bool selected = false;
         public bool notBought = false;
         public Button(Texture2D pic, int x, int y, int width, int height)
@@ -35,6 +36,7 @@ namespace LeaveMeAlone
             greenbackground = c.Load<Texture2D>("green");
             redbackground = c.Load<Texture2D>("red");
             bluebackground = c.Load<Texture2D>("blue");
+            graybackground = c.Load<Texture2D>("gray");
         }
         public void Draw(SpriteBatch sb, bool faded = false)
         {
