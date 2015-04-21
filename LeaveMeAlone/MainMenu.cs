@@ -29,6 +29,7 @@ namespace LeaveMeAlone
         public enum MenuState { main, opening, boss };
         public static MenuState menu_state;
         private static int opening_timer = 0;
+        private static int landscape_timer = 0;
         public static int line_number = 0;
         private static Texture2D opening_scene;
         public static List<Text> opening_monologue = new List<Text>();
@@ -228,8 +229,8 @@ namespace LeaveMeAlone
             }
             else if (menu_state == MenuState.opening)
             {
-                Spritebatch.Draw(opening_scene, new Rectangle(-((line_number*300)+opening_timer)/9, 0, (int)(LeaveMeAlone.WindowX*1.5), LeaveMeAlone.WindowY), Color.White);
-                
+                Spritebatch.Draw(opening_scene, new Rectangle(-(landscape_timer)/5, 0, (int)(LeaveMeAlone.WindowX*1.5), LeaveMeAlone.WindowY), Color.White);
+                landscape_timer++;
                 if (line_number < opening_monologue.Count())
                 {
                     opening_monologue[line_number].Draw(Spritebatch);
