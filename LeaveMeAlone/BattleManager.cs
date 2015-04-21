@@ -697,7 +697,10 @@ namespace LeaveMeAlone
                         {
                             if (skill_buttons[i].Intersects(selectLocX, selectLocY))
                             {
-                                hovertext.changeMessage(skill_buttons[i].text.message+":\n"+boss.selected_skills[i].description);
+                                if (i < boss.selected_skills.Count)
+                                {
+                                    hovertext.changeMessage(skill_buttons[i].text.message + ":\n" + boss.selected_skills[i].description);
+                                }
                                 if (leftClicked())
                                 {
                                     try
