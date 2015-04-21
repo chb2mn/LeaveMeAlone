@@ -689,51 +689,55 @@ namespace LeaveMeAlone
                     break;
                 case State.Skills:
                     //Skill Selection
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
-                    {
+                    //if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    //{
 
                         message.changeMessage(selectLocX + ", " + selectLocY);
                         for (int i = 0; i < 6; i++)
                         {
                             if (skill_buttons[i].Intersects(selectLocX, selectLocY))
                             {
-                                try
+                                hovertext.changeMessage(skill_buttons[i].text.message+":\n"+boss.selected_skills[i].description);
+                                if (leftClicked())
                                 {
-                                    selected_skill = boss.selected_skills[i];
-                                    //check cooldown
-                                    if (check_cooldown[i] > 0)
+                                    try
                                     {
-                                        info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
-                                        continue;
+                                        selected_skill = boss.selected_skills[i];
+                                        //check cooldown
+                                        if (check_cooldown[i] > 0)
+                                        {
+                                            info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
+                                            continue;
+                                        }
+                                        //check mana_cost
+                                        if (selected_skill.energy > boss.energy)
+                                        {
+                                            info_text.changeMessage("Not Enough Energy!");
+                                            continue;
+                                        }
+                                        if (selected_skill.target == Skill.Target.Single)
+                                        {
+                                            state = State.Target;
+                                        }
+                                        else
+                                        {
+                                            state = State.Attack;
+                                        }
                                     }
-                                    //check mana_cost
-                                    if (selected_skill.energy > boss.energy)
+                                    catch
                                     {
-                                        info_text.changeMessage("Not Enough Energy!");
-                                        continue;
-                                    }
-                                    if (selected_skill.target == Skill.Target.Single)
-                                    {
-                                        state = State.Target;
-                                    }
-                                    else
-                                    {
-                                        state = State.Attack;
-                                    }
-                                }
-                                catch
-                                {
 
+                                    }
                                 }
                             }
                         }
-                        if (back_button.Intersects(selectLocX, selectLocY))
+                        if (back_button.Intersects(selectLocX, selectLocY) && leftClicked())
                         {
                             NewMenu(0);
                             state = 0;
                         }
 
-                    }
+                    //}
                     break;
                 case State.Bribe:
                     //Bribe Stuff
