@@ -517,20 +517,22 @@ namespace LeaveMeAlone
             }
             for (int x = 0; x < AvailableRooms.Length; x++)
             {
-                if (BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].r.level != -1 && AvailableRooms[x].r.cost > Resources.gold)
+                if (BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false && AvailableRooms[x].r.level != -1)
                 {
-                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
-                    AvailableRooms[x].b.Draw(sb);
-                    sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                    if(AvailableRooms[x].r.cost > Resources.gold)
+                    {
+                        sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                        AvailableRooms[x].b.Draw(sb);
+                        sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                    }
+                    else
+                    {
+                        sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White);
+                        AvailableRooms[x].b.Draw(sb);
+                        sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
+                        //sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White*0.5f);
+                    }
                 }
-                if(BattleManager.boss.selected_rooms.Contains(AvailableRooms[x].r) == false  && AvailableRooms[x].r.level != -1)
-                {
-                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White);
-                    AvailableRooms[x].b.Draw(sb);
-                    sb.Draw(Button.bluebackground, AvailableRooms[x].b.selectRectangle, Color.White * 0.2f);
-                    //sb.Draw(Button.redbackground, AvailableRooms[x].b.selectRectangle, Color.White*0.5f);
-                }
-
                 else
                 {
                     sb.Draw(Button.graybackground, AvailableRooms[x].b.selectRectangle, Color.White);
