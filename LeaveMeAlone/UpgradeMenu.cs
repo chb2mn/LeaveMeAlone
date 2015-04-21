@@ -313,12 +313,26 @@ namespace LeaveMeAlone
                     hovered = true;
                 }
             }
+
+            //perfect place for polymophism Chris
+            hovered = false;
             foreach (Skill s in skilltree.SkillButtons.Keys)
             {
 
                 if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
                 {
-                    hovertext.changeMessage(s.name + ":\n" + s.description);
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(s.name + ":");
+                    if(BattleManager.boss.skills.Contains(s))
+                    {
+                        sb.Append(" (bought)");
+                    }
+                    else
+                    {
+                        sb.Append(" (Cost: " + s.cost + ")");
+                    }
+                    sb.Append("\n" + s.description);
+                    hovertext.changeMessage(sb.ToString());
                     hovered = true;
                 }
             }
@@ -326,7 +340,18 @@ namespace LeaveMeAlone
             {
                 if(r.b.Intersects(currentMouseState.X, currentMouseState.Y))
                 {
-                    hovertext.changeMessage(r.r.name + ":\n" + r.r.description);
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(r.r.name + ":");
+                    if (boughtRooms.Contains(r.r))
+                    {
+                        sb.Append(" (bought)");
+                    }
+                    else
+                    {
+                        sb.Append(" (Cost: " + r.r.cost + ")");
+                    }
+                    sb.Append("\n" + r.r.description);
+                    hovertext.changeMessage(sb.ToString());
                     hovered = true;
                 }
             }
@@ -505,7 +530,7 @@ namespace LeaveMeAlone
             if (hovertext.message != "")
             {
                 sb.Draw(hovertextbackground, hovertextRect, Color.White);
-                hovertext.Draw(sb, maxLineWidth: hovertextRect.Width - 10);
+                hovertext.Draw(sb, maxLineWidth: hovertextRect.Width - 15);
             }
 
             next.Draw(sb);
