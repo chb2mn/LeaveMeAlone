@@ -261,7 +261,7 @@ namespace LeaveMeAlone
                 if (mastermindHover)
                 {
                     Spritebatch.Draw(mastermindTitle, new Rectangle(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 250, 225, 50), Color.White);
-                                        mastermindText.Draw(Spritebatch, pos: new Vector2(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 200));
+                    mastermindText.Draw(Spritebatch, pos: new Vector2(LeaveMeAlone.WindowX / 2 - 100, LeaveMeAlone.WindowY - 200));
 
                 }
                 if (operativeHover)

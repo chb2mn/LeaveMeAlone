@@ -78,7 +78,7 @@ namespace LeaveMeAlone
         public static Skill flamethrower;
         public static Skill nuclear_waste;
 
-        public static Skill anti_magic_bubble;
+        public static Skill antimaterial_bubble;
         public static Skill unstable_weapon;
         public static Skill recombobulator;
         public static Skill basic_chem_set;
@@ -196,21 +196,26 @@ namespace LeaveMeAlone
             library = new Skill("What Library???",     5, 1500, 5, 3, Skill.Target.Self, 1, "Those nerds can't handle you! You're immune to Special Attack!", Library);
             bloodlust_strike = new Skill("Bloodlust Strike", 10, 300, 7, 2, Skill.Target.Single, 1, "Attack and steal lifeforce for yourself", BloodlustStrike);  //vampiric
             roid_rage = new Skill("Roid Rage",         5, 10000, 7, 0, Skill.Target.Self, 1, "Cut your max hp (for a battle) and raise your attack by 3 stages", RoidRage);
-            raised_by_wolves = new Skill("Raised by wolves", 25, 500, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves); //destroy one enemy, damage another, raise your own stats           
+            raised_by_wolves = new Skill("Raised by wolves", 25, 15000, 10, 4, Skill.Target.Single, 1, "Kill an enemy, damage another, buff self", RaisedByWolves); //destroy one enemy, damage another, raise your own stats           
             
             final_skill[Character.Type.Brute] = raised_by_wolves;
 
             //Mastermind
-            portal_punch = new Skill("Portal Punch", 1, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
-            flamethrower = new Skill("Flamethrower", 10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower, sound: fireball_instance);
-            nuclear_waste = new Skill("Nuclear Waste", 5, 100, 3, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, _inflicts: Status.check_poison);
-            abomination_form = new Skill("Abomination Form", 10, 500, 5, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
-            summon_igor = new Skill("Summon Igor", 5, 300, 3, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
-            freeze_ray = new Skill("Freeze Ray", 15, 2500, 10, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, _inflicts: Status.check_stun);
-            speedy_shoes = new Skill("Speedy Shoes", 15, 1500, 7, 3, Skill.Target.Self, 2, "Your shoes go so fast you take 2 turns", SpeedyShoes, _inflicts: Status.check_haste);
+            portal_punch = new Skill("Portal Punch",    1,  0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
+            flamethrower = new Skill("Flamethrower",    10, 300, 1, 0, Skill.Target.All, 1, "Burn all of your enemies!", FlameThrower, sound: fireball_instance);
+            nuclear_waste = new Skill("Nuclear Waste",  5,  100, 2, 0, Skill.Target.Single, 1, "Infect an enemy with poision", NuclearWaste, _inflicts: Status.check_poison);
+            abomination_form = new Skill("Abomination Form", 10, 500, 2, 3, Skill.Target.All, 1, "Science Gone Astray! Swap Atk and Sp. Atk", AbominationForm);
+            summon_igor = new Skill("Summon Igor",      5,  300, 3, 1, Skill.Target.Single, 1, "Summon your minion to prod away the heroes", SummonIgor);
+            freeze_ray = new Skill("Freeze Ray",        15, 15000, 10, 1, Skill.Target.All, 1, "Freeze all enemies", FreezeRay, _inflicts: Status.check_stun);
+            speedy_shoes = new Skill("Speedy Shoes",    15, 1500, 7, 3, Skill.Target.Self, 2, "Your shoes go so fast you take 2 turns", SpeedyShoes, _inflicts: Status.check_haste);
             final_skill[Character.Type.Mastermind] = freeze_ray;
 
-
+            antimaterial_bubble = new Skill("Anti-Material Bubble", 15, 7500, 7, 3, Skill.Target.Self, 2, "Make yourself immune to all physical attacks", AntimaterialBubble);
+            unstable_weapon = new Skill("Unstable Weapon", 15, 5000, 5, 3, Skill.Target.Single, 1, "25% chance to heal enemy, 75% to deal damage", UnstableWeapon);
+            recombobulator = new Skill("Recombobulator", 20, 5000, 5, 5, Skill.Target.Single, 1, "Confuse a single target!", Recombobulator);
+            basic_chem_set = new Skill("Basic Chemistry Set", 5, 300, 1, 1, Skill.Target.Self, 2, "Increase a random Physical and Special stat by 1 stage", BasicChem);
+            adv_chem_set = new Skill("Advanced Chemistry Set", 7, 1500, 3, 1, Skill.Target.Self, 2, "Increase 3 random stats by 1 stage", AdvChem);
+            exp_chem_set = new Skill("Expert Chemistry Set", 15, 7500, 7, 2, Skill.Target.Self, 2, "Increase a random Physical or Special stat by 3 stages", ExpChem);
 
             //Operative
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Does Sp.Atk. Dmg", PortalPunch);
@@ -378,6 +383,13 @@ namespace LeaveMeAlone
             st.addSkill(abomination_form);
             st.addSkill(summon_igor);
             st.addSkill(freeze_ray);
+
+            st.addSkill(recombobulator);
+            st.addSkill(basic_chem_set);
+            st.addSkill(antimaterial_bubble);
+            st.addSkill(unstable_weapon);
+            st.addSkill(adv_chem_set);
+            st.addSkill(exp_chem_set);
 
             st.addRoom(puzzle_temple);
             st.addRoom(retirement_lounge);
@@ -583,7 +595,6 @@ namespace LeaveMeAlone
         {
             int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
             target.health -= damage;
-            //target.damage_text.changeMessage((-damage).ToString());
             target.PushDamage((-damage).ToString());
 
             //Status this_poison = new Status("poison", 3, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison);
@@ -643,45 +654,165 @@ namespace LeaveMeAlone
 
         public static void UnstableWeapon(Character caster, Character target = null)
         {
-            target = caster;
-            int damage = Status.StageValue(target.special_attack, target.level);
-            caster.max_health -= Status.StageValue(target.health, target.level * 4);
-            caster.statuses.Add(new Status("hp-", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.RaiseHealth));
-            if (caster.max_health < caster.health)
+            int rand;
+            rand = LeaveMeAlone.random.Next(4);
+            //1-in-4 chance of healing the enemy
+            int damage;
+            if (rand == 0)
             {
-                caster.health = caster.max_health;
+                damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 50);
+                target.health += damage;
+                target.PushDamage("Healed: " + (damage).ToString());
             }
-
-            damage = Status.StageValue(target.attack, target.level) * 3;
-            target.attack += damage;
-            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceSAttack));
-            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSAttack));
-            caster.statuses.Add(new Status("atk+", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSAttack));
+            else
+            {
+                damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 175);
+                target.health -= damage;
+                target.PushDamage((-damage).ToString());
+            }
         }
 
         public static void Recombobulator(Character caster, Character target = null)
         {
+            target.statuses.Add(new Status("confuse", 2, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.confused_image, Status.DoNothing, Status.DoNothing));
+            
+            /*
+             * Doesn't work
+             * 
+            //Recreates a new hero of similar level
             List<int> target_stats = new List<int>();
             int type; //The type of hero we will produce
             type = LeaveMeAlone.random.Next(3);
             int level; //The relative change of level we will give the hero
-            level = target.level + LeaveMeAlone.random.Next(3) - 2; //33% of gain level 33% chance of nothing 33% chance of losing levels
+            level = target.level + LeaveMeAlone.random.Next(4) - 3; //25% of gain level 25% chance of nothing 50% chance of losing levels
             Vector2 target_vector = target.sPosition;
-            target = PartyManager.CreateHero(type, level, target_vector);
+            Character new_hero = PartyManager.CreateHero(type, level, target_vector);
+            Console.WriteLine("Hero of type {0}", new_hero.charType);
+            target = new_hero;
+            */
         }
 
         public static void BasicChem(Character caster, Character target = null)
         {
+            //Gain 1 stage in something physical and 1 stage in something special
+            String message = "";
+            int rand;
+            //Add a physical stage
+            rand = LeaveMeAlone.random.Next(2);
+            if (rand == 0)
+            {
+                message += "Atk+ ";
+                caster.attack += Status.StageValue(caster.attack, caster.level);
+                caster.statuses.Add(new Status("atk+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+            }
+            else
+            {
+                message += "Def+ ";
+                caster.defense += Status.StageValue(caster.defense, caster.level);
+                caster.statuses.Add(new Status("def+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense));
+            }
+            //Add a special stage
+            rand = LeaveMeAlone.random.Next(2);
+            if (rand == 0)
+            {
+                message += "SpecAtk+";
+                caster.special_attack += Status.StageValue(caster.special_attack, caster.level);
 
+                caster.statuses.Add(new Status("spec+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceSAttack));
+            }
+            else
+            {
+                message += "SpecDef+";
+                caster.special_defense += Status.StageValue(caster.special_defense, caster.level);
+                caster.statuses.Add(new Status("specdef+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specdefplus_image, Status.DoNothing, Status.ReduceSDefense));
+            }
+
+            caster.PushDamage(message);
         }
 
         public static void AdvChem(Character caster, Character target = null)
         {
-
+            //Gain 2 stage in something physical and 2 stage in something special
+            String message = "";
+            int rand;
+            for (int i = 0; i < 3; i++)
+            {
+                rand = LeaveMeAlone.random.Next(4);
+                if (rand == 0)
+                {
+                    message += "Atk+ ";
+                    caster.attack += Status.StageValue(caster.attack, caster.level);
+                    caster.statuses.Add(new Status("atk+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+                }
+                else if (rand == 1)
+                {
+                    message += "Def+ ";
+                    caster.defense += Status.StageValue(caster.defense, caster.level);
+                    caster.statuses.Add(new Status("def+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense));
+                }
+                else if (rand == 2)
+                {
+                    message += "Spec+ ";
+                    caster.special_attack += Status.StageValue(caster.special_attack, caster.level);
+                    caster.statuses.Add(new Status("spec+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceDefense));
+                }
+                else if (rand == 3)
+                {
+                    message += "SpecDef+ ";
+                    caster.special_defense += Status.StageValue(caster.special_defense, caster.level);
+                    caster.statuses.Add(new Status("specdef+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specdefplus_image, Status.DoNothing, Status.ReduceDefense));
+                }
+            }
+            caster.PushDamage(message);
         }
 
         public static void ExpChem(Character caster, Character target = null)
         {
+            //Gain 3 stage in something physical and 3 stage in something special
+            String message = "";
+            int rand;
+            rand = LeaveMeAlone.random.Next(4);
+            if (rand == 0)
+            {
+                message += "Atk+ ";
+                caster.attack += Status.StageValue(caster.attack, caster.level);
+                caster.statuses.Add(new Status("atk+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+                caster.attack += Status.StageValue(caster.attack, caster.level);
+                caster.statuses.Add(new Status("atk+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceAttack));
+                caster.attack += Status.StageValue(caster.attack, caster.level);
+                caster.statuses.Add(new Status("atk+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceAttack));
+            }
+            else if (rand == 1)
+            {
+                message += "Def+ ";
+                caster.defense += Status.StageValue(caster.defense, caster.level);
+                caster.statuses.Add(new Status("def+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defplus_image, Status.DoNothing, Status.ReduceDefense));
+                caster.defense += Status.StageValue(caster.defense, caster.level);
+                caster.statuses.Add(new Status("def+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceDefense));
+                caster.defense += Status.StageValue(caster.defense, caster.level);
+                caster.statuses.Add(new Status("def+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceDefense));
+            }
+            else if (rand == 2)
+            {
+                message += "Spec+ ";
+                caster.special_attack += Status.StageValue(caster.special_attack, caster.level);
+                caster.statuses.Add(new Status("spec+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceSAttack));
+                caster.special_attack += Status.StageValue(caster.special_attack, caster.level);
+                caster.statuses.Add(new Status("spec+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSAttack));
+                caster.special_attack += Status.StageValue(caster.special_attack, caster.level);
+                caster.statuses.Add(new Status("spec+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSAttack));
+            }
+            else if (rand == 3)
+            {
+                message += "SpecDef+ ";
+                caster.special_defense += Status.StageValue(caster.special_defense, caster.level);
+                caster.statuses.Add(new Status("specdef+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specdefplus_image, Status.DoNothing, Status.ReduceSDefense));
+                caster.special_defense += Status.StageValue(caster.special_defense, caster.level);
+                caster.statuses.Add(new Status("specdef+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSDefense));
+                caster.special_defense += Status.StageValue(caster.special_defense, caster.level);
+                caster.statuses.Add(new Status("specdef+", 100, 0, Status.Effect_Time.Once, Status.Type.Buff, null, Status.DoNothing, Status.ReduceSDefense));
+            }
+            caster.PushDamage(message);
 
         }
         /*
@@ -994,7 +1125,7 @@ namespace LeaveMeAlone
             {
                 if (target.statuses[i].type == Status.Type.Debuff)
                 {
-                    target.statuses.Remove(target.statuses[i]);
+                    target.statuses.RemoveAt(i);
                 }
             }
         }

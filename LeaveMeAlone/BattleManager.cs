@@ -703,7 +703,7 @@ namespace LeaveMeAlone
                                     //check cooldown
                                     if (check_cooldown[i] > 0)
                                     {
-                                        info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
+                                        info_text.changeMessage("Can't use skill,\nwait for cooldown:" + check_cooldown[i]);
                                         continue;
                                     }
                                     //check mana_cost

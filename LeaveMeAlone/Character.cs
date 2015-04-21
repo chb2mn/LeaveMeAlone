@@ -189,14 +189,16 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
-            level = 10;
+            level = 1;
             crit_chance = 10;
-            Resources.gold = 20000;
+            /*
+            Resources.gold = 200000;
             Resources.exp = 10001;
             for (int i = 0; i < level; i++)
             {
                 levelUp();
             }
+             */
         }
         private void initMastermind()
         {
@@ -213,6 +215,13 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 10;
+            Resources.gold = 200000;
+            Resources.exp = 10000;
+            level = 10;
+            for (int i = 0; i < level; i++)
+            {
+                levelUp();
+            }
         }
         private void initOperative()
         {
@@ -399,7 +408,47 @@ namespace LeaveMeAlone
             }
             else if (charType == Type.Mastermind)
             {
+                var = rng.Next(100);
+                this.max_health += 40;
+                if (var >= 50)
+                {
+                    this.max_health += 15;
+                }
 
+                var = rng.Next(100);
+                this.max_energy += 8;
+                if (var >= 50)
+                {
+                    this.max_energy += 8;
+                }
+
+                var = rng.Next(100);
+                this.special_attack += 4;
+                if (var >= 50)
+                {
+                    this.special_attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.special_defense += 4;
+                if (var >= 50)
+                {
+                    this.special_defense += 2;
+                }
+
+                var = rng.Next(100);
+                this.attack += 2;
+                if (var >= 50)
+                {
+                    this.attack += 1;
+                }
+
+                var = rng.Next(100);
+                this.defense += 2;
+                if (var >= 50)
+                {
+                    this.defense += 1;
+                }
             }
             else if (charType == Type.Operative)
             {
@@ -729,7 +778,6 @@ namespace LeaveMeAlone
                 expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)special_attack / boss_defense) * 100));
             }
             Console.WriteLine("Expected: " + expected_damage);
-            Console.WriteLine("Data: {0}, {1}, {2}", level, attack, boss_defense);
             damage_text.changeMessage(selected_skill.name);
             //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
             return new KeyValuePair<Skill, int>(selected_skill, my_target);
