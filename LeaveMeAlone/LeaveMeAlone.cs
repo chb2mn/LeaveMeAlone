@@ -81,7 +81,7 @@ namespace LeaveMeAlone
 
             Credits.Add("Leave Me Alone \n\nA game developed by: \n\n     Christopher Burkhalter\n     Kyle O'Donnell\n     Mitchell Smith");
             Credits.Add("Music (provided by Newgrounds):\n\nBattleSongLoop by Goukison\n~Epic_Loop~ by Catstuffer\nLingering \"Chip\" Puzzle by lacifer\n~Melancholious Victory by Blind-Bane\nVictory is Yours! by ImperfectDisciple");
-            Credits.Add("Sound Effects...Eventually");
+            Credits.Add("Sound Effects provided by:\nhttp://www.freesfx.co.uk");
             Credits.Add("Thank You For Playing!");
 
 
@@ -103,7 +103,7 @@ namespace LeaveMeAlone
             Button.LoadContent(Content);
             MainMenu.loadContent(Content);
             MenuBoss.LoadContent(Content);
-            UpgradeMenu.loadContent(Content);
+            //UpgradeMenu.loadContent(Content);
 
             PartyManager.Init();
             Resources.Init();
@@ -115,6 +115,7 @@ namespace LeaveMeAlone
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);
             SkillTree.LoadContent(Content);
+            UpgradeMenu.loadContent(Content);
             LairManager.loadContent(Content);
 
             Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop.wav");

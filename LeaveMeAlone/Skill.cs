@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Audio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace LeaveMeAlone
         public string description;
         public Target target;
         public Run runnable;
+        public SoundEffectInstance sound;
 
         public enum Target { Self, Single, All }
         public enum Attack { Attack,  SpecialAttack }
@@ -29,7 +31,8 @@ namespace LeaveMeAlone
 
         // example way to make a skill
         // Skill s = new Skill("test", 1, 100, 1, 0, Target.Self, 0, "My first skill", new Skill.Run(function_name));
-        public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run, Status _inflicts = null)
+
+        public Skill(string name, int energy, int cost, int level, int cooldown, Target t, int type, string description, Skill.Run run, SoundEffectInstance sound = default(SoundEffectInstance), Status _inflicts = default(Status))
         {
             this.id = total;
             total++;
@@ -42,7 +45,16 @@ namespace LeaveMeAlone
             this.type = type;
             this.description = description;
             this.runnable = run;
+            if (_inflicts == default(Status))
+            {
+                _inflicts = null;
+            }
             this.inflicts = _inflicts;
+            if (sound == default(SoundEffectInstance))
+            {
+                sound = null; //add some default sound
+            }
+            this.sound = sound;
         }
         
         public static int damage(Character caster, Character target, Attack type_attack, Defense type_defense, int power, double modifier=1)

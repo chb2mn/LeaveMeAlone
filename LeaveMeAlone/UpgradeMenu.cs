@@ -14,6 +14,12 @@ namespace LeaveMeAlone
     {
         private static Texture2D menuBackground;
         public static Texture2D nothing_img { get; set; }
+
+        public static Texture2D empty_exp;
+        public static Rectangle full_exp;
+        public static Text exp_text;
+        public static Texture2D green;
+
         private static Button next;
         private static MouseState currentMouseState, lastMouseState;
         public static MenuBoss selectedBoss;
@@ -162,8 +168,8 @@ namespace LeaveMeAlone
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
-            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
-            texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 100), Text.fonts["6809Chargen-24"], Color.White);
+            texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 0), Text.fonts["6809Chargen-24"], Color.White);
+            texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 150), Text.fonts["6809Chargen-24"], Color.White);
             texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X + 100, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
@@ -229,9 +235,14 @@ namespace LeaveMeAlone
         {
             menuBackground = content.Load<Texture2D>("DummyHero");
 
+            green = content.Load<Texture2D>("green");
+            empty_exp = content.Load<Texture2D>("Exp");
+            full_exp = new Rectangle(150,100, 0, 40);
+            exp_text = new Text(0+"/"+500, new Vector2(155, 100), f: Text.fonts["Arial-24"], c: Color.Azure);
+
             next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
-            TutorialText = new Text("", new Vector2(250, 0), Text.fonts["6809Chargen-24"], Color.White);
+            TutorialText = new Text("", new Vector2(375, 0), Text.fonts["6809Chargen-24"], Color.White);
         }
 
         public static LeaveMeAlone.GameState Update(GameTime g)
@@ -328,6 +339,8 @@ namespace LeaveMeAlone
                                 if (s == SkillTree.final_skill[BattleManager.boss.charType])
                                 {
                                     LairManager.EndOfGame = true;
+                                    LairManager.nextwaveBtn.rectangle.X = LeaveMeAlone.BackgroundRect.X;
+                                    LairManager.nextwaveBtn.rectangle.Y = LeaveMeAlone.BackgroundRect.Height - 200;
                                 }
                                 //Console.WriteLine(BattleManager.boss.skills.Count);
                             }
@@ -395,6 +408,10 @@ namespace LeaveMeAlone
             {
                 TutorialText.Draw(sb);
             }
+
+            sb.Draw(green, full_exp, Color.Green);
+            sb.Draw(empty_exp, new Vector2(150, 100), Color.White);
+            exp_text.Draw(sb, c: Color.Azure);
 
             foreach (Button button in skilltree.SkillButtons.Values)
             {

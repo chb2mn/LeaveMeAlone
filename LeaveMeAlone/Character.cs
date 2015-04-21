@@ -35,6 +35,7 @@ namespace LeaveMeAlone
         public int max_energy;
         public int level;
         public int manaRechargeRate;
+        public int crit_chance;
         //Rewards
         public int gold;
         public int exp;
@@ -50,12 +51,15 @@ namespace LeaveMeAlone
         private Skill status = null;
 
         //The text that will display the damage done
+        public List<Text> damage_text_queue = new List<Text>();
         public Text damage_text;
         public int damage_counter;
         public Text debug_text;
         public Text lvl_text;
         //This is how much damage is expected from any attack done
         public int expected_damage;
+        
+
 
         public Texture2D sprite;
         public int spriteIndex;
@@ -67,6 +71,7 @@ namespace LeaveMeAlone
         private static Texture2D Mage140;
         private static Texture2D Ranger140, Knight140;
         private static Texture2D mastermind140, operative140, brute140, lairHero70;
+        public static Texture2D Dead;
 
         public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
 
@@ -90,9 +95,16 @@ namespace LeaveMeAlone
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
 
+            crit_chance = 0;
             lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
-            damage_text = new Text(position:new Vector2(sPosition.X, sPosition.Y-20));
-            damage_counter = 150;
+            /*
+            for (int i = 0; i < 4; i++)
+            {
+                damage_text_queue.Add(new Text(position: new Vector2(sPosition.X, sPosition.Y - 20)));
+            }
+            */
+            damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
+            damage_counter = 100;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
@@ -105,6 +117,7 @@ namespace LeaveMeAlone
             this.charType = t;
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
+            crit_chance = 0;
             switch(t)
             {
                 case Type.Ranger:
@@ -138,9 +151,14 @@ namespace LeaveMeAlone
             Init();
 
             lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X+45, sPosition.Y), c: Color.CadetBlue);
-
+            /*
+            for (int i = 0; i < 4; i++)
+            {
+                damage_text_queue.Add(new Text(position: new Vector2(sPosition.X, sPosition.Y - 20)));
+            }
+            */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
-            damage_counter = 150;
+            damage_counter = 100;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
 
@@ -171,6 +189,14 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
+            level = 10;
+            crit_chance = 10;
+            Resources.gold = 20000;
+            Resources.exp = 10001;
+            for (int i = 0; i < level; i++)
+            {
+                levelUp();
+            }
         }
         private void initMastermind()
         {
@@ -179,13 +205,14 @@ namespace LeaveMeAlone
             special_attack = 50;
             attack = 20;
             special_attack = 50;
-            defense = 10;
+            defense = 20;
             special_defense = 50;
             max_energy = 35;
             manaRechargeRate = 1;
             energy = max_energy;
             gold = 100;
             exp = 0;
+            crit_chance = 10;
         }
         private void initOperative()
         {
@@ -201,6 +228,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
+            crit_chance = 20;
             //Resources.gold = 20000;
             //Resources.exp = 10001;
         }
@@ -213,7 +241,7 @@ namespace LeaveMeAlone
             special_attack = 10 + 4 * (level - 1);
             defense = 7 + 3 * (level - 1);
             special_defense = 7 + 3 * (level - 1);
-            max_energy = 35 + 7 * (level - 1);
+            max_energy = 35 + 4 * (level - 1);
             energy = max_energy;
             manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
             gold = 100 + 20 * (level - 1);
@@ -231,7 +259,7 @@ namespace LeaveMeAlone
             special_attack = 25 + 5 * (level - 1);
             defense = 5 + 1 * (level - 1);
             special_defense = 15 + 4 * (level - 1);
-            max_energy = 15 + 7 * (level - 1);
+            max_energy = 15 + 3 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
             gold = 100 + 20 * (level - 1);
@@ -247,7 +275,7 @@ namespace LeaveMeAlone
             special_attack = 5 + 2 * (level - 1);
             defense = 15 + 9 * (level - 1);
             special_defense = 5 + 1 * (level - 1);
-            max_energy = 5 + 3 * (level - 1);
+            max_energy = 5 + 2 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
             gold = 100 + 20 * (level - 1);
@@ -264,6 +292,7 @@ namespace LeaveMeAlone
             mastermind140 = content.Load<Texture2D>("mastermindMenu");
             operative140 = content.Load<Texture2D>("operativeMenu");
             lairHero70 = content.Load<Texture2D>("LairHero70");
+            Dead = content.Load<Texture2D>("CharacterSprites/Dead");
         }
         private void Init()
         {
@@ -308,6 +337,18 @@ namespace LeaveMeAlone
             AddAnimation(12);
         }
 
+        public void PushDamage(String damage)
+        {
+            Text new_text = new Text(msg: damage, position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
+            damage_text_queue.Add(new_text);
+        }
+        public Text PopDamage()
+        {
+            Text ret_text = damage_text_queue[0];
+            damage_text_queue.RemoveAt(0);
+            return ret_text;
+        }
+
         public void levelUp()
         {
             Random rng = new Random();
@@ -315,7 +356,7 @@ namespace LeaveMeAlone
             if (charType == Type.Brute)
             {
                 var = rng.Next(100);
-                this.max_health += 25;
+                this.max_health += 40;
                 if (var >= 50)
                 {
                     this.max_health += 25;
@@ -329,31 +370,31 @@ namespace LeaveMeAlone
                 }
 
                 var = rng.Next(100);
-                this.attack += 3;
+                this.attack += 4;
                 if (var >= 50)
                 {
                     this.attack += 2;
                 }
 
                 var = rng.Next(100);
-                this.defense += 3;
+                this.defense += 4;
                 if (var >= 50)
                 {
                     this.defense += 2;
                 }
 
                 var = rng.Next(100);
-                this.special_attack += 3;
+                this.special_attack += 2;
                 if (var >= 50)
                 {
-                    this.special_attack += 2;
+                    this.special_attack += 1;
                 }
 
                 var = rng.Next(100);
-                this.special_defense += 3;
+                this.special_defense += 2;
                 if (var >= 50)
                 {
-                    this.special_defense += 2;
+                    this.special_defense += 1;
                 }
             }
             else if (charType == Type.Mastermind)
@@ -374,7 +415,31 @@ namespace LeaveMeAlone
                 return;
             }
             this.energy -= skill.energy;
+
+            if (statuses.Contains(Status.check_confused))
+            {
+                Character new_target = null;
+                int heroes_alive = BattleManager.heroes.Count();
+                while (new_target == null){
+                    int rand = LeaveMeAlone.random.Next(heroes_alive + 1);
+                    //If this number is equal, then we target the heroes
+                    if (rand == heroes_alive)
+                    {
+                        new_target = BattleManager.boss;
+                    }
+                    else
+                    {
+                        new_target = BattleManager.heroes[rand];
+                    }
+                }
+                target = new_target;
+            }
+
             skill.runnable(this, target);
+            if (skill.sound != null)
+            {
+                skill.sound.Play();
+            }
         }
 
         public void Update(GameTime gameTime) {
@@ -384,7 +449,6 @@ namespace LeaveMeAlone
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            //debug_text.changeMessage("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense);
             if (facingRight)
             {
                 Vector2 oPosition = new Vector2(sPosition.X + 5, sPosition.Y);
@@ -400,12 +464,19 @@ namespace LeaveMeAlone
                     {
                         continue;
                     }
-                    spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20*i, sPosition.Y), Color.White);
+                    else if (status.img == null)
+                    {
+                        continue;
+                    }
+                    spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20*i), (int)sPosition.Y, 30, 30), Color.White);
                     i++;
                 }
                 lvl_text.Draw(spriteBatch);
                 
                 debug_text.Draw(spriteBatch, oPosition);
+
+
+                
 
             }
             else
@@ -420,7 +491,7 @@ namespace LeaveMeAlone
                     }
                     if (status.img != null)
                     {
-                        spriteBatch.Draw(status.img, new Vector2(sPosition.X + 20 * i, sPosition.Y), Color.White);
+                        spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30 ,30), Color.White);
                     }
                     i++;
                 }
@@ -428,6 +499,32 @@ namespace LeaveMeAlone
 
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
                 debug_text.Draw(spriteBatch, sPosition);
+            }
+
+            if (!damage_text.message.Equals(""))
+            {
+                if (damage_counter-- >= 0)
+                {
+                    damage_text.Draw(spriteBatch, new Vector2((int)sPosition.X+25, (int)sPosition.Y - 20 + damage_counter / 3), Color.AntiqueWhite);
+                }
+                else
+                {
+                    damage_counter = 100;
+                    
+                    if (damage_text_queue.Count() > 0)
+                    {
+                        damage_text = PopDamage();
+                    }
+                    
+                    else
+                    {
+                        damage_text.changeMessage("");
+                    }
+                }
+            }
+            else if(damage_text_queue.Count() > 0)
+            {
+                damage_text = PopDamage();
             }
         }
 
@@ -499,9 +596,8 @@ namespace LeaveMeAlone
 
                         if (thought > 20)
                         {
-                            if (cure != null)
+                            if (cure != null && this.energy >= 20)
                             {
-                                Console.WriteLine("Cure Selected");
                                 selected_skill = cure;//cure
                                 my_target = i;
                             }
