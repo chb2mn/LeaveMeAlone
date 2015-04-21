@@ -415,6 +415,26 @@ namespace LeaveMeAlone
                 return;
             }
             this.energy -= skill.energy;
+
+            if (statuses.Contains(Status.check_confused))
+            {
+                Character new_target = null;
+                int heroes_alive = BattleManager.heroes.Count();
+                while (new_target == null){
+                    int rand = LeaveMeAlone.random.Next(heroes_alive + 1);
+                    //If this number is equal, then we target the heroes
+                    if (rand == heroes_alive)
+                    {
+                        new_target = BattleManager.boss;
+                    }
+                    else
+                    {
+                        new_target = BattleManager.heroes[rand];
+                    }
+                }
+                target = new_target;
+            }
+
             skill.runnable(this, target);
             if (skill.sound != null)
             {

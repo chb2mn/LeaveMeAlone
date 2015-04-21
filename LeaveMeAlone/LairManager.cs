@@ -68,14 +68,20 @@ namespace LeaveMeAlone
 
             //Testing rooms
             UpgradeMenu.boughtRooms.Add(SkillTree.papparazzi);
-            int index = 0;
+
+
+            /*
+             * This can be used to debug rooms
+             * 
+             *             int index = 0;
+
             foreach (Room r in UpgradeMenu.boughtRooms)
             {
                 
-                addRoom(new UpgradeMenu.ButtonRoom(new Button(r.img, (int)UpgradeMenu.baseRoomButtonPos.X + 250 * index, (int)UpgradeMenu.baseRoomButtonPos.Y, 200, 50), r));
                 index++;
                 //Console.WriteLine(r.name);
             }
+             */
 
         }
 

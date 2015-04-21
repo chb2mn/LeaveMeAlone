@@ -262,6 +262,7 @@ namespace LeaveMeAlone
             my_amount.UpdateText("My Total: " + Resources.gold.ToString());
         }
 
+
         public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
         {
             //iterating through the list backwards allows us to properly remove them from the list (it auto-concatenates after every removal)
@@ -294,13 +295,23 @@ namespace LeaveMeAlone
                     //Console.WriteLine("After: " + status.ToString() + " : " + status.duration_left);
                     status.affect(affected);
                     //Whenever the status is triggered, check if the status should be removed   
-                    Console.WriteLine(status.duration_left);
 
                     if (status.duration_left-- == 0)
                     {
                         affected.statuses.RemoveAt(i);
                     }
 
+                }
+
+                else if (effect_time == status.effect_time && status.effect_time == Status.Effect_Time.Before)
+                {
+                    status.affect(affected);
+                    //Whenever the status is triggered, check if the status should be removed   
+
+                    if (status.duration_left-- == 0)
+                    {
+                        affected.statuses.RemoveAt(i);
+                    }
                 }
 
             }
@@ -391,17 +402,11 @@ namespace LeaveMeAlone
 
 
 
+            Apply_Status(caster, Status.Effect_Time.Before);
 
             //Check if targeted_enemy is within the party size
             if (targeted_enemy >= 0)
             {
-                //if hero is dead, ignore
-                if (heroes[targeted_enemy] == null)
-                {
-                    state = State.Target;
-                    return;
-                }
-                Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
 
@@ -409,14 +414,14 @@ namespace LeaveMeAlone
             //If there is no target
             else if (targeted_enemy == -1)
             {
-                Apply_Status(caster, Status.Effect_Time.Before);
+                //Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill);
             }
 
             //For enemy turns
             else if (targeted_enemy == -2)
             {
-                Apply_Status(caster, Status.Effect_Time.Before);
+                //Apply_Status(caster, Status.Effect_Time.Before);
                 //check if the hero is immune
                 if (!((boss.statuses.Contains(Status.check_immune_atk) && selected_skill.type == 0) ||
                     (boss.statuses.Contains(Status.check_immune_spec) && selected_skill.type == 1)))
