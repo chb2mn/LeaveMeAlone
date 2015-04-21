@@ -36,7 +36,9 @@ namespace LeaveMeAlone
         public static Vector2 baseSkillButtonPos = new Vector2(400, 100);
         public static Vector2 baseRoomButtonPos = new Vector2(400, 550);
         public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
-        
+
+        public static bool left_click = false;
+        public static bool right_click = false;
 
         public static Skill skill_from_skilltree_to_swap;
 
@@ -45,6 +47,11 @@ namespace LeaveMeAlone
         //public static ;
         public static ButtonSkill selectedSkillSwapButton;
         public static Room Nothing;
+
+        public static Text hovertext;
+        public static Texture2D hovertextbackground;
+        public static Vector2 hovertextpos;
+        public static Rectangle hovertextRect;
 
         public class ButtonSkill
         {
@@ -168,9 +175,15 @@ namespace LeaveMeAlone
                 SelectedSkills[x].b.UpdateText("NONE");
             }
 
+            hovertextpos = new Vector2(30, 150);
+            hovertext = new Text("", new Vector2(hovertextpos.X + 10, hovertextpos.Y + 10), Text.fonts["RetroComputer-12"]);
+            hovertextRect = new Rectangle((int)hovertextpos.X, (int)hovertextpos.Y, 300, 400);
+            //250 x 150
+            hovertextbackground = BattleManager.hovertextbackground;
+
             texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 0), Text.fonts["6809Chargen-24"], Color.White);
             texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
-            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(30, 150), Text.fonts["6809Chargen-24"], Color.White);
+            texts["selectedskills"] =   new Text("Selected Skills",         hovertextpos, Text.fonts["6809Chargen-24"], Color.White);
             texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X + 100, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
@@ -244,7 +257,14 @@ namespace LeaveMeAlone
             nothing_img = content.Load<Texture2D>("nothing");
             TutorialText = new Text("", new Vector2(375, 0), Text.fonts["6809Chargen-24"], Color.White);
         }
-
+        public static bool leftClicked()
+        {
+            return Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click;
+        }
+        public static bool rightClicked()
+        {
+            return Mouse.GetState().RightButton == ButtonState.Pressed && !right_click;
+        }
         public static LeaveMeAlone.GameState Update(GameTime g)
         {
             lastMouseState = currentMouseState;
@@ -252,32 +272,19 @@ namespace LeaveMeAlone
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             texts["level"].changeMessage("Level: " + BattleManager.boss.level);
 
+            if (Mouse.GetState().LeftButton == ButtonState.Released)
+            {
+                left_click = false;
+            }
+            if (Mouse.GetState().RightButton == ButtonState.Released)
+            {
+                right_click = false;
+            }
+
             if (BattleManager.boss.level < 2)
             {
                 HandleTutorial();
             }
-            //things you bought are in black
-
-            /*
-            for (int x = 0; x < AvailableRooms.Length; x++)
-            {
-                if (AvailableRooms[x].r != null)
-                {
-                    var r = AvailableRooms[x].r;
-                    if(BattleManager.boss.selected_rooms.Contains(r) == true)
-                    {
-                        AvailableRooms[x].b.text.color = Color.Black;
-                    }
-                    else if (r.cost > Resources.gold)
-                    {
-                        AvailableRooms[x].b.text.color = Color.Red;
-                    }
-                    else
-                    {
-                        AvailableRooms[x].b.text.color = Color.Blue;
-                    }
-                }
-            }*/
 
             foreach(Skill s in BattleManager.boss.skills)
             {
@@ -296,6 +303,37 @@ namespace LeaveMeAlone
                 }
             }
 
+            bool hovered = false;
+            foreach (Skill s in skilltree.SkillButtons.Keys)
+            {
+                
+                if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    hovertext.changeMessage(s.name + ":\n" + s.description);
+                    hovered = true;
+                }
+            }
+            foreach (Skill s in skilltree.SkillButtons.Keys)
+            {
+
+                if (skilltree.SkillButtons[s].Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    hovertext.changeMessage(s.name + ":\n" + s.description);
+                    hovered = true;
+                }
+            }
+            foreach (ButtonRoom r in AvailableRooms)
+            {
+                if(r.b.Intersects(currentMouseState.X, currentMouseState.Y))
+                {
+                    hovertext.changeMessage(r.r.name + ":\n" + r.r.description);
+                    hovered = true;
+                }
+            }
+            if(hovered == false)
+            {
+                hovertext.changeMessage("");
+            }
             selectedBoss.Update(g);
             if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
             {
@@ -463,6 +501,13 @@ namespace LeaveMeAlone
                 }
                 
             }
+
+            if (hovertext.message != "")
+            {
+                sb.Draw(hovertextbackground, hovertextRect, Color.White);
+                hovertext.Draw(sb, maxLineWidth: hovertextRect.Width - 10);
+            }
+
             next.Draw(sb);
         }
 
