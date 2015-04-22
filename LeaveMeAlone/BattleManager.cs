@@ -727,31 +727,17 @@ namespace LeaveMeAlone
                                             info_text.changeMessage("Not Enough Energy!");
                                             continue;
                                         }
+ 
                                         if (selected_skill.target == Skill.Target.Single)
                                         {
-                                            selected_skill = boss.selected_skills[i];
-                                            //check cooldown
-                                            if (check_cooldown[i] > 0)
-                                            {
-                                                info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
-                                                continue;
-                                            }
-                                            //check mana_cost
-                                            if (selected_skill.energy > boss.energy)
-                                            {
-                                                info_text.changeMessage("Not Enough Energy!");
-                                                continue;
-                                            }
-                                            if (selected_skill.target == Skill.Target.Single)
-                                            {
-                                                state = State.Target;
-                                            }
-                                            else
-                                            {
-                                                state = State.Attack;
-                                            }
+                                            state = State.Target;
+                                        }
+                                        else
+                                        {
+                                            state = State.Attack;
                                         }
                                     }
+
                                     catch
                                     {
 

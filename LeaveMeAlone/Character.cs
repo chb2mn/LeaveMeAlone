@@ -240,7 +240,7 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 20;
-
+            
             Resources.gold = 200000;
             Resources.exp = 10000;
             level = 10;
@@ -248,6 +248,7 @@ namespace LeaveMeAlone
             {
                 levelUp();
             }
+             
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()

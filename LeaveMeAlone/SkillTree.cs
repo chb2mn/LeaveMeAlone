@@ -637,6 +637,7 @@ namespace LeaveMeAlone
             else
             {
                 target.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
+
             }
         }
         public static void AbominationForm(Character caster, Character target = null)
@@ -1117,11 +1118,14 @@ namespace LeaveMeAlone
         {
             foreach (Character hero in BattleManager.heroes)
             {
-                int rand;
-                rand = LeaveMeAlone.random.Next(100);
-                if (rand < 65)
+                if (hero != null)
                 {
-                    hero.statuses.Add(new Status("poison", 2, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison, Status.DoNothing));
+                    int rand;
+                    rand = LeaveMeAlone.random.Next(100);
+                    if (rand < 65)
+                    {
+                        hero.statuses.Add(new Status("poison", 2, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison, Status.DoNothing));
+                    }
                 }
             }
         }
@@ -1134,10 +1138,13 @@ namespace LeaveMeAlone
             int rand;
             foreach (Character hero in BattleManager.heroes)
             {
-                rand = LeaveMeAlone.random.Next(100);
-                if (rand < 60)
+                if (hero != null)
                 {
-                    hero.statuses.Add(new Status("confuse", 1, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.confused_image, Status.DoNothing, Status.DoNothing));
+                    rand = LeaveMeAlone.random.Next(100);
+                    if (rand < 60)
+                    {
+                        hero.statuses.Add(new Status("confuse", 1, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.confused_image, Status.DoNothing, Status.DoNothing));
+                    }
                 }
             }
         }
@@ -1149,21 +1156,21 @@ namespace LeaveMeAlone
                 int damage;
                 if (rand < 25)
                 {
-                    damage = Skill.damage(caster.attack, target.defense, caster.level, 25);
+                    damage = Skill.damage(caster.attack, hero.defense, caster.level, 25);
 
                 }
                 else if (rand < 75)
                 {
-                    damage = Skill.damage(caster.attack, target.defense, caster.level, 75);
+                    damage = Skill.damage(caster.attack, hero.defense, caster.level, 75);
                 }
                 else
                 {
-                    damage = Skill.damage(caster.attack, target.defense, caster.level, 125);
+                    damage = Skill.damage(caster.attack, hero.defense, caster.level, 125);
                 }
-                target.health -= damage;
+                hero.health -= damage;
                 String str_damage = (-damage).ToString();
                 //target.damage_text.changeMessage(str_damage);
-                target.PushDamage(str_damage);
+                hero.PushDamage(str_damage);
             }  
         }
         
