@@ -34,6 +34,9 @@ namespace LeaveMeAlone
         public int width;
         public int height;
         public bool is_attacking;
+        public enum SkillState { none, attack, defend, magefire, cure };
+        public SkillState skillState;
+        public AnimatedEffect currentEffect;
 
         public double FramesPerSecond
         {
@@ -65,41 +68,56 @@ namespace LeaveMeAlone
 
         public void FrameUpdate(GameTime gameTime)
         {
-
-            //Adds time that has elapsed since our last draw
             timeElapsed += gameTime.ElapsedGameTime.TotalSeconds;
-            if (midAttack && offset <= 50)
+            if (skillState == SkillState.attack)
             {
-                walk();
-                offset += 1;
-                if (facingRight)
+                if (midAttack && offset <= 50)
                 {
-                    sPosition.X++;
+                    walk();
+                    offset += 1;
+                    if (facingRight)
+                    {
+                        sPosition.X++;
+                    }
+                    if (!facingRight)
+                    {
+                        sPosition.X--;
+                    }
                 }
-                if (!facingRight)
+                else if (midAttack && offset > 50)
                 {
-                    sPosition.X--;
+                    midAttack = false;
+                }
+                if (!midAttack && offset != 0)
+                {
+                    offset -= 1;
+                    if (facingRight)
+                    {
+                        sPosition.X--;
+                    }
+                    if (!facingRight)
+                    {
+                        sPosition.X++;
+                    }
+                }
+                else if (!midAttack && offset == 0 && LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Battle)
+                {
+                    idle();
                 }
             }
-            else if (midAttack && offset > 50)
+            if (skillState != SkillState.attack)
             {
-                midAttack = false;
-            }
-            if (!midAttack && offset != 0)
-            {
-                offset -= 1;
-                if (facingRight)
+                if (midAttack && offset <= 50)
                 {
-                    sPosition.X--;
+                    offset += 1;
                 }
-                if (!facingRight)
+                else if (midAttack && offset > 50)
                 {
-                    sPosition.X++;
+                    offset = 0;
+                    midAttack = false;
+                    is_attacking = false;
                 }
-            }
-            else if (!midAttack && offset == 0 && LeaveMeAlone.gamestate == LeaveMeAlone.GameState.Battle)
-            {
-                idle();
+
             }
             //We need to change our image if our timeElapsed is greater than our timeToUpdate(calculated by our framerate)
             if (timeElapsed > timeToUpdate)

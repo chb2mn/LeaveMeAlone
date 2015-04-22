@@ -366,7 +366,7 @@ namespace LeaveMeAlone
             if (TutorialText.message != "" && BattleManager.boss.level < 2)
             {
                  TutorialText.Draw(Spritebatch);
-                 Spritebatch.Draw(highlighter, highlighter_rect, new Color(Color.LimeGreen, 40));
+                 Spritebatch.Draw(highlighter, highlighter_rect, new Color(Color.LimeGreen, 150));
             }
         }
 
