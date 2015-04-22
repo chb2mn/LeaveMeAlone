@@ -868,7 +868,7 @@ namespace LeaveMeAlone
                                 victory = false;
                                 UpgradeMenu.rerollRooms();
                                 LairManager.Init();
-                                return LeaveMeAlone.GameState.Lair;
+                                return LeaveMeAlone.GameState.Upgrade;
                             }
                             else if (defeat)
                             {
