@@ -248,14 +248,14 @@ namespace LeaveMeAlone
                 Room r = validRooms[LeaveMeAlone.random.Next(validRooms.Count)];
                 validRooms.Remove(r);
                 var roombutton = AvailableRooms[index];
-                AvailableRooms[index] = new ButtonRoom(new Button(r.img, (int)baseRoomButtonPos.X + 250 * index, (int)baseRoomButtonPos.Y, 200, 50), r);
+                AvailableRooms[index] = new ButtonRoom(new Button(r.img, (int)baseRoomButtonPos.X + 300 * index, (int)baseRoomButtonPos.Y, 200, 50), r);
                 AvailableRooms[index].b.text.font = Text.fonts["RetroComputer-12"];
                 AvailableRooms[index].b.text.position = new Vector2(roombutton.b.rectangle.X, roombutton.b.rectangle.Y + roombutton.b.rectangle.Height + 5);
                 AvailableRooms[index].b.text.color = Color.White;
             }
             for (; index < 2; index++)
             {
-                AvailableRooms[index] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 250 * index, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
+                AvailableRooms[index] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 300 * index, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
             }
         }
         public static void loadContent(ContentManager content)
@@ -267,7 +267,7 @@ namespace LeaveMeAlone
             full_exp = new Rectangle(150,100, 0, 40);
             exp_text = new Text(0+"/"+500, new Vector2(155, 100), f: Text.fonts["Arial-24"], c: Color.Azure);
 
-            next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
+            next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-180, LeaveMeAlone.BackgroundRect.Height-110, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
             TutorialText = new Text("", new Vector2(375, 0), Text.fonts["RetroComputer-18"], Color.White);
 
@@ -388,7 +388,8 @@ namespace LeaveMeAlone
                 hovertext.changeMessage("");
             }
             selectedBoss.Update(g);
-            if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
+            //if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
+            if(leftClicked())
             {
                 //check if a room was clicked on
                 for (int x = 0; x < AvailableRooms.Length; x++)

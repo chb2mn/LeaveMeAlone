@@ -1152,7 +1152,11 @@ namespace LeaveMeAlone
         {
             foreach (Character hero in BattleManager.heroes)
             {
-                int rand = LeaveMeAlone.random.Next();
+                if (hero == null)
+                {
+                    continue;
+                }
+                int rand = LeaveMeAlone.random.Next(100);
                 int damage;
                 if (rand < 25)
                 {

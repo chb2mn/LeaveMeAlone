@@ -127,12 +127,12 @@ namespace LeaveMeAlone
             basic_buttons[2] = new Button(buttonLocPic, button_basex, button_basey + 60, 250, 50);
             basic_buttons[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
 
-            skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 200, 50);
-            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey + 60, 200, 50);
-            skill_buttons[2] = new Button(buttonLocPic, button_basex + 140, button_basey, 200, 50);
-            skill_buttons[3] = new Button(buttonLocPic, button_basex + 140, button_basey + 60, 200, 50);
-            skill_buttons[4] = new Button(buttonLocPic, button_basex + 350, button_basey, 200, 50);
-            skill_buttons[5] = new Button(buttonLocPic, button_basex + 350, button_basey + 60, 200, 50);
+            skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 225, 50);
+            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey + 60, 225, 50);
+            skill_buttons[2] = new Button(buttonLocPic, button_basex + 160, button_basey, 225, 50);
+            skill_buttons[3] = new Button(buttonLocPic, button_basex + 160, button_basey + 60, 225, 50);
+            skill_buttons[4] = new Button(buttonLocPic, button_basex + 400, button_basey, 225, 50);
+            skill_buttons[5] = new Button(buttonLocPic, button_basex + 400, button_basey + 60, 225, 50);
 
             basic_buttons[0].UpdateText("Attack");
             basic_buttons[1].UpdateText("Skills");
@@ -839,7 +839,8 @@ namespace LeaveMeAlone
                     
                     break;
                 case State.Endgame:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    //if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    if (UpgradeMenu.leftClicked())
                     {
 
                         if (next_button.Intersects(selectLocX, selectLocY))
@@ -867,6 +868,7 @@ namespace LeaveMeAlone
                                 //heroLoc.Clear();
                                 victory = false;
                                 UpgradeMenu.rerollRooms();
+                                UpgradeMenu.left_click = false;
                                 LairManager.Init();
                                 return LeaveMeAlone.GameState.Upgrade;
                             }
