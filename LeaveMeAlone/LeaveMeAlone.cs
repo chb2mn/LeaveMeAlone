@@ -24,8 +24,9 @@ namespace LeaveMeAlone
         //Character boss;
         public enum GameState { Main, Upgrade, Lair, Battle, Quit, Credits };
         public static GameState gamestate = GameState.Main;
-        public static int seed = 1000;
-        public static Random random = new Random(seed);
+        //public static int seed = 1001;
+        //public static Random random = new Random(seed);
+        public static Random random = new Random();
         public static Rectangle BackgroundRect;
 
         public static Text EndGameText;
@@ -115,8 +116,8 @@ namespace LeaveMeAlone
             AnimatedEffect.LoadContent(Content);
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);
-            UpgradeMenu.loadContent(Content);
             SkillTree.LoadContent(Content);
+            UpgradeMenu.loadContent(Content);
             LairManager.loadContent(Content);
 
             Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop.wav");

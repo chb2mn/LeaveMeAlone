@@ -104,7 +104,7 @@ namespace LeaveMeAlone
             }
             */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20));
-            damage_counter = 120;
+            damage_counter = 100;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "satk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y));
 
@@ -158,7 +158,7 @@ namespace LeaveMeAlone
             }
             */
             damage_text = new Text(position: new Vector2(sPosition.X, sPosition.Y - 20), f: Text.fonts["Arial-24"]);
-            damage_counter = 120;
+            damage_counter = 100;
 
             debug_text = new Text("atk: " + attack + " def: " + defense + "\nsatk: " + special_attack + " sdef: " + special_defense, new Vector2(sPosition.Y - 100, sPosition.Y), Text.fonts["RetroComputer-12"]);
 
@@ -189,14 +189,16 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
-            level = 10;
+            //level = 1;
             crit_chance = 10;
-            Resources.gold = 20000;
+            /*
+            Resources.gold = 200000;
             Resources.exp = 10001;
             for (int i = 0; i < level; i++)
             {
                 levelUp();
             }
+             */
         }
         private void initMastermind()
         {
@@ -213,6 +215,15 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 10;
+            /*
+            Resources.gold = 200000;
+            Resources.exp = 10000;
+            level = 10;
+            for (int i = 0; i < level; i++)
+            {
+                levelUp();
+            }
+             * */
         }
         private void initOperative()
         {
@@ -229,8 +240,16 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 20;
-            //Resources.gold = 20000;
-            //Resources.exp = 10001;
+            /*
+            Resources.gold = 200000;
+            Resources.exp = 10000;
+            level = 10;
+            for (int i = 0; i < level; i++)
+            {
+                levelUp();
+            }
+             * */
+             
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
@@ -399,11 +418,91 @@ namespace LeaveMeAlone
             }
             else if (charType == Type.Mastermind)
             {
+                var = rng.Next(100);
+                this.max_health += 40;
+                if (var >= 50)
+                {
+                    this.max_health += 15;
+                }
 
+                var = rng.Next(100);
+                this.max_energy += 8;
+                if (var >= 50)
+                {
+                    this.max_energy += 8;
+                }
+
+                var = rng.Next(100);
+                this.special_attack += 4;
+                if (var >= 50)
+                {
+                    this.special_attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.special_defense += 4;
+                if (var >= 50)
+                {
+                    this.special_defense += 2;
+                }
+
+                var = rng.Next(100);
+                this.attack += 2;
+                if (var >= 50)
+                {
+                    this.attack += 1;
+                }
+
+                var = rng.Next(100);
+                this.defense += 2;
+                if (var >= 50)
+                {
+                    this.defense += 1;
+                }
             }
             else if (charType == Type.Operative)
             {
+                var = rng.Next(100);
+                this.max_health += 40;
+                if (var >= 50)
+                {
+                    this.max_health += 10;
+                }
 
+                var = rng.Next(100);
+                this.max_energy += 10;
+                if (var >= 50)
+                {
+                    this.max_energy += 5;
+                }
+
+                var = rng.Next(100);
+                this.special_attack += 3;
+                if (var >= 50)
+                {
+                    this.special_attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.special_defense += 3;
+                if (var >= 50)
+                {
+                    this.special_defense += 2;
+                }
+
+                var = rng.Next(100);
+                this.attack += 3;
+                if (var >= 50)
+                {
+                    this.attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.defense += 3;
+                if (var >= 50)
+                {
+                    this.defense += 2;
+                }
             }
         }
         public void cast(Skill skill, Character target = null)
@@ -447,6 +546,26 @@ namespace LeaveMeAlone
                 return;
             }
             this.energy -= skill.energy;
+
+            if (statuses.Contains(Status.check_confused))
+            {
+                Character new_target = null;
+                int heroes_alive = BattleManager.heroes.Count();
+                while (new_target == null){
+                    int rand = LeaveMeAlone.random.Next(heroes_alive + 1);
+                    //If this number is equal, then we target the heroes
+                    if (rand == heroes_alive)
+                    {
+                        new_target = BattleManager.boss;
+                    }
+                    else
+                    {
+                        new_target = BattleManager.heroes[rand];
+                    }
+                }
+                target = new_target;
+            }
+
             skill.runnable(this, target);
             if (skill.sound != null)
             {
@@ -476,6 +595,10 @@ namespace LeaveMeAlone
                 foreach (Status status in this.statuses)
                 {
                     if (status == null) 
+                    {
+                        continue;
+                    }
+                    else if (status.img == null)
                     {
                         continue;
                     }
@@ -520,7 +643,7 @@ namespace LeaveMeAlone
                 }
                 else
                 {
-                    damage_counter = 120;
+                    damage_counter = 100;
                     
                     if (damage_text_queue.Count() > 0)
                     {
@@ -741,7 +864,6 @@ namespace LeaveMeAlone
                 expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)special_attack / boss_defense) * 100));
             }
             Console.WriteLine("Expected: " + expected_damage);
-            Console.WriteLine("Data: {0}, {1}, {2}", level, attack, boss_defense);
             damage_text.changeMessage(selected_skill.name);
             //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
             return new KeyValuePair<Skill, int>(selected_skill, my_target);

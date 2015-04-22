@@ -66,6 +66,23 @@ namespace LeaveMeAlone
             unconstructed_room = content.Load<Texture2D>("unconstructed_room");
             UnconstructedRoom = new Room("Unconstructed Room", 0, 0, 0, "A new blank space to construct a room.", null, unconstructed_room); 
 
+            //Testing rooms
+            //UpgradeMenu.boughtRooms.Add(SkillTree.papparazzi);
+
+
+            /*
+             * This can be used to debug rooms
+             * 
+             *             int index = 0;
+
+            foreach (Room r in UpgradeMenu.boughtRooms)
+            {
+                
+                index++;
+                //Console.WriteLine(r.name);
+            }
+             */
+
         }
 
         public static void Init()
@@ -86,16 +103,12 @@ namespace LeaveMeAlone
             Rectangle target_rect = new Rectangle();
             switch (tutorial_state)
             {
-                case TutorialState.Skill:
-                    TutorialText.changeMessage("First let's take a look\nat our skill tree!");
-                    target_rect = skillsBtn.rectangle;
-                    break;
                 case TutorialState.Build1:
                     TutorialText.changeMessage("Now let's build that room\nwe just bought!\nFirst build a level to our tower");
                     target_rect = constructionBtn.rectangle;
                     break;
                 case TutorialState.Build2:
-                    TutorialText.changeMessage("Now select the room we want to add to our build");
+                    TutorialText.changeMessage("Now select the room we want to add to our tower");
                     try
                     {
                         target_rect = boughtRooms[0].b.rectangle;
@@ -254,7 +267,7 @@ namespace LeaveMeAlone
                         else
                         {
                             //Should have some sort of interface on screen
-                            InfoText.changeMessage("No party!\n      Take a breather.");
+                            InfoText.changeMessage("Here they come\n      I can feel them.");
                             return LeaveMeAlone.GameState.Lair;
                         }
                     }

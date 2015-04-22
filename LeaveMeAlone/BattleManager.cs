@@ -72,7 +72,7 @@ namespace LeaveMeAlone
         private static bool right_click = false;
 
 
-        private static int enemy_attack_delay = 60;
+        //private static int enemy_attack_delay = 60;
         public static int enemy_turn = -1;
         private enum State { Basic, Skills, Bribe, Target, Attack, Endgame, EnemyTurn }
         private static State state;
@@ -127,18 +127,26 @@ namespace LeaveMeAlone
             basic_buttons[2] = new Button(buttonLocPic, button_basex, button_basey + 60, 250, 50);
             basic_buttons[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
 
-            skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 200, 50);
-            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey + 60, 200, 50);
-            skill_buttons[2] = new Button(buttonLocPic, button_basex + 140, button_basey, 200, 50);
-            skill_buttons[3] = new Button(buttonLocPic, button_basex + 140, button_basey + 60, 200, 50);
-            skill_buttons[4] = new Button(buttonLocPic, button_basex + 350, button_basey, 200, 50);
-            skill_buttons[5] = new Button(buttonLocPic, button_basex + 350, button_basey + 60, 200, 50);
+            skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 225, 50);
+            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey + 60, 225, 50);
+            skill_buttons[2] = new Button(buttonLocPic, button_basex + 160, button_basey, 225, 50);
+            skill_buttons[3] = new Button(buttonLocPic, button_basex + 160, button_basey + 60, 225, 50);
+            skill_buttons[4] = new Button(buttonLocPic, button_basex + 400, button_basey, 225, 50);
+            skill_buttons[5] = new Button(buttonLocPic, button_basex + 400, button_basey + 60, 225, 50);
 
             basic_buttons[0].UpdateText("Attack");
             basic_buttons[1].UpdateText("Skills");
             basic_buttons[2].UpdateText("Defend");
             basic_buttons[3].UpdateText("Bribe");
 
+            foreach(Button b in basic_buttons)
+            {
+                b.text.font = Text.fonts["RetroComputer-12"];
+            }
+            foreach (Button b in skill_buttons)
+            {
+                b.text.font = Text.fonts["RetroComputer-12"];
+            }
 
             bossLoc = new Rectangle(LeaveMeAlone.WindowX - 300, LeaveMeAlone.WindowY / 2 - 150, 200, 200);
             boss_hp = new Text("", new Vector2(bossLoc.X, bossLoc.Y + 100));
@@ -167,7 +175,7 @@ namespace LeaveMeAlone
             defeat_text = new Text("Defeat\nYour friends will be so embarrased about you\nDo bosses even have friends?", new Vector2(300, 50), Text.fonts["6809Chargen-24"]);
 
 
-            info_text = new Text("", new Vector2(400, 50), Text.fonts["Arial-24"], Color.Cyan);
+            info_text = new Text("", new Vector2(800, 50), Text.fonts["Arial-24"], Color.Cyan);
 
             info_counter = 240;
 
@@ -262,17 +270,16 @@ namespace LeaveMeAlone
             my_amount.UpdateText("My Total: " + Resources.gold.ToString());
         }
 
+
         public static void Apply_Status(Character affected, Status.Effect_Time effect_time)
         {
             //iterating through the list backwards allows us to properly remove them from the list (it auto-concatenates after every removal)
-            //Console.WriteLine("Applying statuses on Character: " + affected.health);
             for (int i = affected.statuses.Count() - 1; i >= 0; i--)
             {
                 Status status = affected.statuses[i];
                 //If the effect is a one time, increment the counter and move on
                 if (effect_time == Status.Effect_Time.Once && status.effect_time == Status.Effect_Time.Once)
                 {
-                    //Console.WriteLine("Once: "+ status.ToString() + " : " + status.duration_left);
                     //If it's the first time, apply the status affect
                     if (status.duration_left == status.duration)
                     {
@@ -286,7 +293,7 @@ namespace LeaveMeAlone
                         {
                             status.reverse_affect(affected);
                         }
-                        affected.statuses.Remove(status);
+                        affected.statuses.RemoveAt(i);
                     }
                 }
 
@@ -295,12 +302,24 @@ namespace LeaveMeAlone
                 {
                     //Console.WriteLine("After: " + status.ToString() + " : " + status.duration_left);
                     status.affect(affected);
-                    //Whenever the status is triggered, check if the status should be removed                    
+                    //Whenever the status is triggered, check if the status should be removed   
+
                     if (status.duration_left-- == 0)
                     {
-                        affected.statuses.Remove(status);
+                        affected.statuses.RemoveAt(i);
                     }
 
+                }
+
+                else if (effect_time == status.effect_time && status.effect_time == Status.Effect_Time.Before)
+                {
+                    status.affect(affected);
+                    //Whenever the status is triggered, check if the status should be removed   
+
+                    if (status.duration_left-- == 0)
+                    {
+                        affected.statuses.RemoveAt(i);
+                    }
                 }
 
             }
@@ -348,7 +367,15 @@ namespace LeaveMeAlone
             //selected_skill is our skill
             if (caster.statuses.Contains(Status.check_stun))
             {
-                info_text.changeMessage("I'm Stunned!");
+                if (enemy_turn == -2)
+                {
+                    info_text.changeMessage("I'm Stunned!");
+                }
+                else
+                {
+                    info_text.changeMessage("The enemy is Stunned!");
+
+                }
                 Apply_Status(caster, Status.Effect_Time.Before);
                 Apply_Status(caster, Status.Effect_Time.After);
                 Apply_Status(caster, Status.Effect_Time.Once);
@@ -383,17 +410,11 @@ namespace LeaveMeAlone
 
 
 
+            Apply_Status(caster, Status.Effect_Time.Before);
 
             //Check if targeted_enemy is within the party size
             if (targeted_enemy >= 0)
             {
-                //if hero is dead, ignore
-                if (heroes[targeted_enemy] == null)
-                {
-                    state = State.Target;
-                    return;
-                }
-                Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill, heroes[targeted_enemy]);
             }
 
@@ -401,14 +422,14 @@ namespace LeaveMeAlone
             //If there is no target
             else if (targeted_enemy == -1)
             {
-                Apply_Status(caster, Status.Effect_Time.Before);
+                //Apply_Status(caster, Status.Effect_Time.Before);
                 caster.cast(selected_skill);
             }
 
             //For enemy turns
             else if (targeted_enemy == -2)
             {
-                Apply_Status(caster, Status.Effect_Time.Before);
+                //Apply_Status(caster, Status.Effect_Time.Before);
                 //check if the hero is immune
                 if (!((boss.statuses.Contains(Status.check_immune_atk) && selected_skill.type == 0) ||
                     (boss.statuses.Contains(Status.check_immune_spec) && selected_skill.type == 1)))
@@ -615,6 +636,7 @@ namespace LeaveMeAlone
         {
             int selectLocX = Mouse.GetState().X;
             int selectLocY = Mouse.GetState().Y;
+
             //Keyboard.GetState();
             //If the mouse is released we can continue taking new input
             if (Mouse.GetState().LeftButton == ButtonState.Released)
@@ -676,51 +698,60 @@ namespace LeaveMeAlone
                     break;
                 case State.Skills:
                     //Skill Selection
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
-                    {
+                    //if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    //{
 
                         message.changeMessage(selectLocX + ", " + selectLocY);
                         for (int i = 0; i < 6; i++)
                         {
                             if (skill_buttons[i].Intersects(selectLocX, selectLocY))
                             {
-                                try
+                                if (i < boss.selected_skills.Count)
                                 {
-                                    selected_skill = boss.selected_skills[i];
-                                    //check cooldown
-                                    if (check_cooldown[i] > 0)
-                                    {
-                                        info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
-                                        continue;
-                                    }
-                                    //check mana_cost
-                                    if (selected_skill.energy > boss.energy)
-                                    {
-                                        info_text.changeMessage("Not Enough Energy!");
-                                        continue;
-                                    }
-                                    if (selected_skill.target == Skill.Target.Single)
-                                    {
-                                        state = State.Target;
-                                    }
-                                    else
-                                    {
-                                        state = State.Attack;
-                                    }
+                                    hovertext.changeMessage(skill_buttons[i].text.message + ":\n" + boss.selected_skills[i].description);
                                 }
-                                catch
+                                if (leftClicked())
                                 {
+                                    try
+                                    {
+                                        selected_skill = boss.selected_skills[i];
+                                        //check cooldown
+                                        if (check_cooldown[i] > 0)
+                                        {
+                                            info_text.changeMessage("Can't use skill,\nwait for cooldown:" + check_cooldown[i]);
+                                            continue;
+                                        }
+                                        //check mana_cost
+                                        if (selected_skill.energy > boss.energy)
+                                        {
+                                            info_text.changeMessage("Not Enough Energy!");
+                                            continue;
+                                        }
+ 
+                                        if (selected_skill.target == Skill.Target.Single)
+                                        {
+                                            state = State.Target;
+                                        }
+                                        else
+                                        {
+                                            state = State.Attack;
+                                        }
+                                    }
 
+                                    catch
+                                    {
+
+                                    }
                                 }
                             }
                         }
-                        if (back_button.Intersects(selectLocX, selectLocY))
+                        if (back_button.Intersects(selectLocX, selectLocY) && leftClicked())
                         {
                             NewMenu(0);
                             state = 0;
                         }
 
-                    }
+                    //}
                     break;
                 case State.Bribe:
                     //Bribe Stuff
@@ -802,12 +833,14 @@ namespace LeaveMeAlone
                     break;
                 case State.Attack:
                     //Attacking
+                    hovertext.message = "";
                     Attack(boss);
                     updateHealth();
                     
                     break;
                 case State.Endgame:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    //if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    if (UpgradeMenu.leftClicked())
                     {
 
                         if (next_button.Intersects(selectLocX, selectLocY))
@@ -835,8 +868,9 @@ namespace LeaveMeAlone
                                 //heroLoc.Clear();
                                 victory = false;
                                 UpgradeMenu.rerollRooms();
+                                UpgradeMenu.left_click = false;
                                 LairManager.Init();
-                                return LeaveMeAlone.GameState.Lair;
+                                return LeaveMeAlone.GameState.Upgrade;
                             }
                             else if (defeat)
                             {
@@ -890,7 +924,7 @@ namespace LeaveMeAlone
                         enemy_turn++;
                         break;
                     }
-                    enemy_attack_delay = 60;
+                    //enemy_attack_delay = 60;
 
                     //AI occurs
                     var pair = enemy.Think();
@@ -1028,7 +1062,7 @@ namespace LeaveMeAlone
 
             if (info_counter > 0 && !info_text.message.Equals(""))
             {
-                info_text.Draw(spriteBatch, new Vector2(200, 50));
+                info_text.Draw(spriteBatch);
                 info_counter--;
             }
             else
@@ -1089,7 +1123,14 @@ namespace LeaveMeAlone
 
             if (hovertext.message != "")
             {
-                spriteBatch.Draw(hovertextbackground, hovertextRect, Color.White);
+                Vector2 measurements = hovertext.getMeasurements(hovertextRect.Width - 15);
+                //Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+                Rectangle scaledHoverTextRect = new Rectangle(hovertextRect.X, hovertextRect.Y, hovertextRect.Width, (int)measurements.Y);
+
+                spriteBatch.Draw(hovertextbackground, scaledHoverTextRect, Color.White);
+
+
+                //Offset(10, 10);
                 hovertext.Draw(spriteBatch, maxLineWidth: hovertextRect.Width - 10);
             }
         }
