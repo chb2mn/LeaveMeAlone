@@ -92,7 +92,7 @@ namespace LeaveMeAlone
                 int level = BattleManager.boss.level + (4 - num); //LeaveMeAlone.random.Next(3) +
                 if (BattleManager.boss.level > 4)
                 {
-                    level += LeaveMeAlone.random(3);
+                    level += LeaveMeAlone.random.Next(3);
                 }
                 int xpos = LairManager.sideOffset + LairManager.sideScaling * ((x + 1)% 2);
                 int ypos = LairManager.topOffset + LairManager.topScaling * x;

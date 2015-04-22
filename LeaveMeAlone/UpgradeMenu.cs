@@ -30,6 +30,7 @@ namespace LeaveMeAlone
         public static Text TutorialText;
         public enum TutorialState { BuySkill, BuyRoom, Back, None };
         public static TutorialState tutorial_state;
+        public static Rectangle highlighter_rect;
 
         public static SkillTree skilltree;
         public static Dictionary<string, Text> texts = new Dictionary<string, Text>();
@@ -137,21 +138,27 @@ namespace LeaveMeAlone
         }
         public static void HandleTutorial()
         {
+            Rectangle target_rect = new Rectangle();
             switch (tutorial_state)
             {
                 case TutorialState.BuySkill:
-                    TutorialText.changeMessage("Now let's try to buy a basic skill");
+                    TutorialText.changeMessage("To fight heroes we need to buy a basic skill");
+                    target_rect = new Rectangle((int)baseSkillButtonPos.X - 10, (int)baseSkillButtonPos.Y - 10, 220, 70);
                     break;
                 case TutorialState.BuyRoom:
                     TutorialText.changeMessage("And let's get a room to go along with it");
+                    target_rect = new Rectangle((int)baseRoomButtonPos.X - 10, (int)baseRoomButtonPos.Y - 10, 220, 70);
+
                     break;
                 case TutorialState.Back:
-                    TutorialText.changeMessage("Now let's head back to check out our Lair");
+                    TutorialText.changeMessage("Now let's go and check out our Lair");
+                    target_rect = new Rectangle(next.rectangle.X-10, next.rectangle.Y-10, next.rectangle.Width + 20, next.rectangle.Height + 20);
                     break;
                 case TutorialState.None:
                     TutorialText.changeMessage("");
                     break;
             }
+            highlighter_rect = target_rect;
         }
 
         public static void Init(MenuBoss boss)
@@ -262,7 +269,7 @@ namespace LeaveMeAlone
 
             next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
-            TutorialText = new Text("", new Vector2(375, 0), Text.fonts["6809Chargen-24"], Color.White);
+            TutorialText = new Text("", new Vector2(375, 0), Text.fonts["RetroComputer-18"], Color.White);
 
             buyingSound = content.Load<SoundEffect>("Sounds/cash-register").CreateInstance();
             buyingSound.Volume = .2f;
@@ -282,7 +289,6 @@ namespace LeaveMeAlone
             currentMouseState = Mouse.GetState();
             int xpos = currentMouseState.X;
             int ypos = currentMouseState.Y;
-
 
             /*
             hovertextRect.X = currentMouseState.X;
@@ -582,6 +588,11 @@ namespace LeaveMeAlone
             }
 
             next.Draw(sb);
+
+            if (BattleManager.boss.level < 2)
+            {
+                sb.Draw(green, highlighter_rect, new Color(Color.LimeGreen, 40)); 
+            }
         }
 
 
