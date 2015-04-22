@@ -302,16 +302,6 @@ namespace LeaveMeAlone
             int xpos = currentMouseState.X;
             int ypos = currentMouseState.Y;
 
-<<<<<<< HEAD
-=======
-            /*
-            hovertextRect.X = currentMouseState.X;
-            hovertextRect.Y = currentMouseState.Y;
-            hovertextpos.X = hovertextRect.X + 10;
-            hovertextpos.Y = hovertextRect.Y + 10;
-             * */
->>>>>>> b552bed2a96ca31ceb530b61b8c01976c90a29ab
-
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             texts["level"].changeMessage("Level: " + BattleManager.boss.level);
             
