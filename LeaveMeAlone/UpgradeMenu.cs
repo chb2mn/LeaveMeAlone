@@ -133,7 +133,7 @@ namespace LeaveMeAlone
         public static void zeroAvailableRooms()
         {
             AvailableRooms[0] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
-            AvailableRooms[1] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
+            AvailableRooms[1] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 300, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
         }
         public static void HandleTutorial()
         {
