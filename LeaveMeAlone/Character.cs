@@ -507,6 +507,38 @@ namespace LeaveMeAlone
         }
         public void cast(Skill skill, Character target = null)
         {
+            skillState = SkillState.none;
+            currentEffect = null;
+            if ((skill == basic_attack) && (charType != Type.Mage))
+            {
+                skillState = SkillState.attack;
+            }
+            if (skill == basic_attack && charType == Type.Mage)
+            {
+                Vector2 oPosition = new Vector2(sPosition.X + 60, sPosition.Y + 25);
+                currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.magefire, true);
+                skillState = SkillState.magefire;
+            }
+            if (skill == cure)
+            {
+                Vector2 oPosition = new Vector2(target.sPosition.X + 40, target.sPosition.Y + 100);
+                currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.cure, true);
+                skillState = SkillState.cure;
+            }
+            if (skill == defend)
+            {
+                Vector2 oPosition = sPosition;
+                if (charType == Type.Brute || charType == Type.Mastermind || charType == Type.Operative)
+                {
+                    oPosition = new Vector2(sPosition.X + 30, sPosition.Y + 40);
+                }
+                else
+                {
+                    oPosition = new Vector2(sPosition.X + 100, sPosition.Y + 40);
+                }
+                currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.defend, true);
+                skillState = SkillState.defend;
+            }
             if (skill.energy > this.energy)
             {
                 Console.WriteLine("Character doesn't have enough energy");
@@ -542,7 +574,10 @@ namespace LeaveMeAlone
         }
 
         public void Update(GameTime gameTime) {
-            
+            if (currentEffect != null)
+            {
+                currentEffect.FrameUpdate(gameTime);
+            }
             FrameUpdate(gameTime);
         }
 
@@ -625,6 +660,7 @@ namespace LeaveMeAlone
             {
                 damage_text = PopDamage();
             }
+
         }
 
         public void Learn(int real_damage, Character.Knowledge idea)
