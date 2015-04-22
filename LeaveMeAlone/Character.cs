@@ -23,8 +23,9 @@ namespace LeaveMeAlone
         public List<Room> selected_rooms = new List<Room>();
         public List<Status> statuses = new List<Status>();
 
-        public enum Knowledge {Weak_Def, Weak_SDef, Str_Atk, Str_SAtk};
+        public enum Knowledge { Weak_Def, Weak_SDef, Str_Atk, Str_SAtk };
 
+        //>>Stats<<
         public int max_health;
         public int health;
         public int attack;
@@ -58,7 +59,7 @@ namespace LeaveMeAlone
         public Text lvl_text;
         //This is how much damage is expected from any attack done
         public int expected_damage;
-        
+
 
 
         public Texture2D sprite;
@@ -73,7 +74,7 @@ namespace LeaveMeAlone
         private static Texture2D mastermind140, operative140, brute140, lairHero70;
         public static Texture2D Dead;
 
-        public enum Type{Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero};
+        public enum Type { Ranger, Mage, Knight, Brute, Mastermind, Operative, LairHero };
 
         public const int MAX_SKILLS = 6;
 
@@ -96,7 +97,7 @@ namespace LeaveMeAlone
             defend = SkillTree.defend;
 
             crit_chance = 0;
-            lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
+            lvl_text = new Text("Lvl: " + level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
             /*
             for (int i = 0; i < 4; i++)
             {
@@ -118,7 +119,7 @@ namespace LeaveMeAlone
             basic_attack = SkillTree.basic_attack;
             defend = SkillTree.defend;
             crit_chance = 0;
-            switch(t)
+            switch (t)
             {
                 case Type.Ranger:
                     initRanger();
@@ -150,7 +151,7 @@ namespace LeaveMeAlone
             }
             Init();
 
-            lvl_text = new Text("Lvl: "+level.ToString(), new Vector2(sPosition.X+45, sPosition.Y), c: Color.CadetBlue);
+            lvl_text = new Text("Lvl: " + level.ToString(), new Vector2(sPosition.X + 45, sPosition.Y), c: Color.CadetBlue);
             /*
             for (int i = 0; i < 4; i++)
             {
@@ -168,7 +169,7 @@ namespace LeaveMeAlone
         public void addSkill(Skill s)
         {
             skills.Add(s);
-            if(selected_skills.Count < MAX_SKILLS)
+            if (selected_skills.Count < MAX_SKILLS)
             {
                 selected_skills.Add(s);
             }
@@ -244,7 +245,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
         {
-            max_health = 25 + 5 * (level-1);
+            max_health = 25 + 5 * (level - 1);
             health = max_health;
             attack = 10 + 4 * (level - 1);
             special_attack = 10 + 4 * (level - 1);
@@ -469,7 +470,8 @@ namespace LeaveMeAlone
             {
                 Character new_target = null;
                 int heroes_alive = BattleManager.heroes.Count();
-                while (new_target == null){
+                while (new_target == null)
+                {
                     int rand = LeaveMeAlone.random.Next(heroes_alive + 1);
                     //If this number is equal, then we target the heroes
                     if (rand == heroes_alive)
@@ -491,8 +493,9 @@ namespace LeaveMeAlone
             }
         }
 
-        public void Update(GameTime gameTime) {
-            
+        public void Update(GameTime gameTime)
+        {
+
             FrameUpdate(gameTime);
         }
 
@@ -509,7 +512,7 @@ namespace LeaveMeAlone
                 int i = 0;
                 foreach (Status status in this.statuses)
                 {
-                    if (status == null) 
+                    if (status == null)
                     {
                         continue;
                     }
@@ -517,15 +520,15 @@ namespace LeaveMeAlone
                     {
                         continue;
                     }
-                    spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20*i), (int)sPosition.Y, 30, 30), Color.White);
+                    spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30, 30), Color.White);
                     i++;
                 }
                 lvl_text.Draw(spriteBatch);
-                
+
                 debug_text.Draw(spriteBatch, oPosition);
 
 
-                
+
 
             }
             else
@@ -540,7 +543,7 @@ namespace LeaveMeAlone
                     }
                     if (status.img != null)
                     {
-                        spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30 ,30), Color.White);
+                        spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30, 30), Color.White);
                     }
                     i++;
                 }
@@ -554,24 +557,24 @@ namespace LeaveMeAlone
             {
                 if (damage_counter-- >= 0)
                 {
-                    damage_text.Draw(spriteBatch, new Vector2((int)sPosition.X+25, (int)sPosition.Y - 20 + damage_counter / 3), Color.AntiqueWhite);
+                    damage_text.Draw(spriteBatch, new Vector2((int)sPosition.X + 25, (int)sPosition.Y - 20 + damage_counter / 3), Color.AntiqueWhite);
                 }
                 else
                 {
                     damage_counter = 100;
-                    
+
                     if (damage_text_queue.Count() > 0)
                     {
                         damage_text = PopDamage();
                     }
-                    
+
                     else
                     {
                         damage_text.changeMessage("");
                     }
                 }
             }
-            else if(damage_text_queue.Count() > 0)
+            else if (damage_text_queue.Count() > 0)
             {
                 damage_text = PopDamage();
             }
@@ -580,7 +583,7 @@ namespace LeaveMeAlone
         public void Learn(int real_damage, Character.Knowledge idea)
         {
             //if it was effective of an attack
-            if (real_damage >= 1.1*(double)expected_damage)
+            if (real_damage >= 1.1 * (double)expected_damage)
             {
                 BattleManager.Knowledge[idea] = true;
             }
@@ -600,20 +603,21 @@ namespace LeaveMeAlone
             bool str_used = true;
             int thought = random.Next(100);
 
-            foreach ( KeyValuePair<Character.Knowledge, bool> kvp in BattleManager.Knowledge)
+            foreach (KeyValuePair<Character.Knowledge, bool> kvp in BattleManager.Knowledge)
             {
                 Console.WriteLine("Knowledge = {0}, Value = {1}", kvp.Key, kvp.Value);
             }
 
             //They don't help each other
             int[] normal_health = new int[4];
-            for(int i = 0; i < BattleManager.heroes.Count(); i++)
+            for (int i = 0; i < BattleManager.heroes.Count(); i++)
             {
                 if (BattleManager.heroes[i] != null)
                 {
-                    normal_health[i] = BattleManager.heroes[i].health*100/BattleManager.heroes[i].max_health;
+                    normal_health[i] = BattleManager.heroes[i].health * 100 / BattleManager.heroes[i].max_health;
                 }
-                else{
+                else
+                {
                     normal_health[i] = 100000;
                 }
             }
@@ -673,7 +677,7 @@ namespace LeaveMeAlone
                     //If we know there is a weakness and we are smart enough to make the move
                     thought = random.Next(100);
 
-                    if (BattleManager.Knowledge[Knowledge.Weak_Def] && thought > 100-(40+5*level))
+                    if (BattleManager.Knowledge[Knowledge.Weak_Def] && thought > 100 - (40 + 5 * level))
                     {
                         //Use strong physical skill
                         if (strong_attack != null)
@@ -718,7 +722,7 @@ namespace LeaveMeAlone
             }
             else
             {
-                if (health*100/max_health < 40)
+                if (health * 100 / max_health < 40)
                 {
                     thought = random.Next(100);
                     //I need health!
@@ -757,9 +761,9 @@ namespace LeaveMeAlone
                     else if (status != null)
                     {
                         selected_skill = status;
-                    }  
+                    }
                 }
-                
+
             }
 
             if (selected_skill == null)
@@ -767,20 +771,40 @@ namespace LeaveMeAlone
                 selected_skill = basic_attack;
             }
             //average the boss' defense plus or minus a third
-            int boss_defense = (int) (LeaveMeAlone.random.Next(80, 120) * (double)((BattleManager.boss.defense + BattleManager.boss.special_defense) / 2) / LeaveMeAlone.random.Next(80,120));
+            int boss_defense = (int)(LeaveMeAlone.random.Next(80, 120) * (double)((BattleManager.boss.defense + BattleManager.boss.special_defense) / 2) / LeaveMeAlone.random.Next(80, 120));
 
             if (str_used)
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)attack / boss_defense) * 100));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2 + (double)attack / boss_defense) * 100));
             }
             else
             {
-                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2+(double)special_attack / boss_defense) * 100));
+                expected_damage = (int)(((2.0 * (double)level + 10.0) / 250.0 * (2 + (double)special_attack / boss_defense) * 100));
             }
             Console.WriteLine("Expected: " + expected_damage);
             damage_text.changeMessage(selected_skill.name);
             //Console.WriteLine("selected_skill: " + selected_skill.name + " expected damage: " + expected_damage);
             return new KeyValuePair<Skill, int>(selected_skill, my_target);
+        }
+
+        internal string StatsToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            
+            sb.Append("health: "+this.max_health);
+            sb.Append("\n");
+            sb.Append("energy: "+this.max_energy);
+            sb.Append("\n");
+            sb.Append("attack: "+this.attack);
+            sb.Append("\n");
+            sb.Append("defense: "+this.defense);
+            sb.Append("\n");
+            sb.Append("special attack: "+this.special_attack);
+            sb.Append("\n");
+            sb.Append("special defense: "+this.special_defense);
+
+
+            return sb.ToString();
         }
     }
 }
