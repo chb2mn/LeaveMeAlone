@@ -106,7 +106,7 @@ namespace LeaveMeAlone
                     {
                         LeaveMeAlone.Main_Song_Instance.Stop();
                         LeaveMeAlone.Menu_Song_Instance.Play();
-                        return LeaveMeAlone.GameState.Lair;
+                        return LeaveMeAlone.GameState.Upgrade;
                     }
                     else if (quit.Intersects(currentMouseState.X, currentMouseState.Y))
                     {
@@ -207,7 +207,7 @@ namespace LeaveMeAlone
                         UpgradeMenu.Init(current);
                         LairManager.Init();
                         //return LeaveMeAlone.GameState.Upgrade;
-                        return LeaveMeAlone.GameState.Lair;
+                        return LeaveMeAlone.GameState.Upgrade;
                     }
                 }
                 canFinish = true;

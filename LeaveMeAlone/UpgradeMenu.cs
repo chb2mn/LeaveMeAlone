@@ -30,6 +30,7 @@ namespace LeaveMeAlone
         public static Text TutorialText;
         public enum TutorialState { BuySkill, BuyRoom, Back, None };
         public static TutorialState tutorial_state;
+        public static Rectangle highlighter_rect;
 
         public static SkillTree skilltree;
         public static Dictionary<string, Text> texts = new Dictionary<string, Text>();
@@ -138,25 +139,31 @@ namespace LeaveMeAlone
         public static void zeroAvailableRooms()
         {
             AvailableRooms[0] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
-            AvailableRooms[1] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 250, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
+            AvailableRooms[1] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 300, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
         }
         public static void HandleTutorial()
         {
+            Rectangle target_rect = new Rectangle();
             switch (tutorial_state)
             {
                 case TutorialState.BuySkill:
-                    TutorialText.changeMessage("Now let's try to buy a basic skill");
+                    TutorialText.changeMessage("To fight heroes we need to buy a basic skill");
+                    target_rect = new Rectangle((int)baseSkillButtonPos.X - 10, (int)baseSkillButtonPos.Y - 10, 220, 70);
                     break;
                 case TutorialState.BuyRoom:
                     TutorialText.changeMessage("And let's get a room to go along with it");
+                    target_rect = new Rectangle((int)baseRoomButtonPos.X - 10, (int)baseRoomButtonPos.Y - 10, 220, 70);
+
                     break;
                 case TutorialState.Back:
-                    TutorialText.changeMessage("Now let's head back to check out our Lair");
+                    TutorialText.changeMessage("Now let's go and check out our Lair");
+                    target_rect = new Rectangle(next.rectangle.X-10, next.rectangle.Y-10, next.rectangle.Width + 20, next.rectangle.Height + 20);
                     break;
                 case TutorialState.None:
                     TutorialText.changeMessage("");
                     break;
             }
+            highlighter_rect = target_rect;
         }
 
         public static void Init(MenuBoss boss)
@@ -253,14 +260,14 @@ namespace LeaveMeAlone
                 Room r = validRooms[LeaveMeAlone.random.Next(validRooms.Count)];
                 validRooms.Remove(r);
                 var roombutton = AvailableRooms[index];
-                AvailableRooms[index] = new ButtonRoom(new Button(r.img, (int)baseRoomButtonPos.X + 250 * index, (int)baseRoomButtonPos.Y, 200, 50), r);
+                AvailableRooms[index] = new ButtonRoom(new Button(r.img, (int)baseRoomButtonPos.X + 300 * index, (int)baseRoomButtonPos.Y, 200, 50), r);
                 AvailableRooms[index].b.text.font = Text.fonts["RetroComputer-12"];
                 AvailableRooms[index].b.text.position = new Vector2(roombutton.b.rectangle.X, roombutton.b.rectangle.Y + roombutton.b.rectangle.Height + 5);
                 AvailableRooms[index].b.text.color = Color.White;
             }
             for (; index < 2; index++)
             {
-                AvailableRooms[index] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 250 * index, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
+                AvailableRooms[index] = new ButtonRoom(new Button(nothing_img, (int)baseRoomButtonPos.X + 300 * index, (int)baseRoomButtonPos.Y, 200, 50), makeNothing());
             }
         }
         public static void loadContent(ContentManager content)
@@ -272,9 +279,9 @@ namespace LeaveMeAlone
             full_exp = new Rectangle(150,100, 0, 40);
             exp_text = new Text(0+"/"+500, new Vector2(155, 100), f: Text.fonts["Arial-24"], c: Color.Azure);
 
-            next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-120, LeaveMeAlone.BackgroundRect.Height-50, 113, 32);
+            next = new Button(content.Load<Texture2D>("next"), LeaveMeAlone.BackgroundRect.Width-180, LeaveMeAlone.BackgroundRect.Height-110, 113, 32);
             nothing_img = content.Load<Texture2D>("nothing");
-            TutorialText = new Text("", new Vector2(375, 0), Text.fonts["6809Chargen-24"], Color.White);
+            TutorialText = new Text("", new Vector2(375, 0), Text.fonts["RetroComputer-18"], Color.White);
 
             buyingSound = content.Load<SoundEffect>("Sounds/cash-register").CreateInstance();
             buyingSound.Volume = .2f;
@@ -295,6 +302,15 @@ namespace LeaveMeAlone
             int xpos = currentMouseState.X;
             int ypos = currentMouseState.Y;
 
+<<<<<<< HEAD
+=======
+            /*
+            hovertextRect.X = currentMouseState.X;
+            hovertextRect.Y = currentMouseState.Y;
+            hovertextpos.X = hovertextRect.X + 10;
+            hovertextpos.Y = hovertextRect.Y + 10;
+             * */
+>>>>>>> b552bed2a96ca31ceb530b61b8c01976c90a29ab
 
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             texts["level"].changeMessage("Level: " + BattleManager.boss.level);
@@ -400,7 +416,8 @@ namespace LeaveMeAlone
                 hovertext.changeMessage("");
             }
             selectedBoss.Update(g);
-            if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
+            //if (lastMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released)
+            if(leftClicked())
             {
                 //check if a room was clicked on
                 for (int x = 0; x < AvailableRooms.Length; x++)
@@ -608,6 +625,11 @@ namespace LeaveMeAlone
             }
 
             next.Draw(sb);
+
+            if (BattleManager.boss.level < 2)
+            {
+                sb.Draw(green, highlighter_rect, new Color(Color.LimeGreen, 40)); 
+            }
         }
 
 

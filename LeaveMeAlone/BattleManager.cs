@@ -127,12 +127,12 @@ namespace LeaveMeAlone
             basic_buttons[2] = new Button(buttonLocPic, button_basex, button_basey + 60, 250, 50);
             basic_buttons[3] = new Button(buttonLocPic, button_basex + 300, button_basey + 60, 250, 50);
 
-            skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 200, 50);
-            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey + 60, 200, 50);
-            skill_buttons[2] = new Button(buttonLocPic, button_basex + 140, button_basey, 200, 50);
-            skill_buttons[3] = new Button(buttonLocPic, button_basex + 140, button_basey + 60, 200, 50);
-            skill_buttons[4] = new Button(buttonLocPic, button_basex + 350, button_basey, 200, 50);
-            skill_buttons[5] = new Button(buttonLocPic, button_basex + 350, button_basey + 60, 200, 50);
+            skill_buttons[0] = new Button(buttonLocPic, button_basex - 75, button_basey, 225, 50);
+            skill_buttons[1] = new Button(buttonLocPic, button_basex - 75, button_basey + 60, 225, 50);
+            skill_buttons[2] = new Button(buttonLocPic, button_basex + 160, button_basey, 225, 50);
+            skill_buttons[3] = new Button(buttonLocPic, button_basex + 160, button_basey + 60, 225, 50);
+            skill_buttons[4] = new Button(buttonLocPic, button_basex + 400, button_basey, 225, 50);
+            skill_buttons[5] = new Button(buttonLocPic, button_basex + 400, button_basey + 60, 225, 50);
 
             basic_buttons[0].UpdateText("Attack");
             basic_buttons[1].UpdateText("Skills");
@@ -727,31 +727,17 @@ namespace LeaveMeAlone
                                             info_text.changeMessage("Not Enough Energy!");
                                             continue;
                                         }
+ 
                                         if (selected_skill.target == Skill.Target.Single)
                                         {
-                                            selected_skill = boss.selected_skills[i];
-                                            //check cooldown
-                                            if (check_cooldown[i] > 0)
-                                            {
-                                                info_text.changeMessage("Can't use skill, wait for cooldown:" + check_cooldown[i]);
-                                                continue;
-                                            }
-                                            //check mana_cost
-                                            if (selected_skill.energy > boss.energy)
-                                            {
-                                                info_text.changeMessage("Not Enough Energy!");
-                                                continue;
-                                            }
-                                            if (selected_skill.target == Skill.Target.Single)
-                                            {
-                                                state = State.Target;
-                                            }
-                                            else
-                                            {
-                                                state = State.Attack;
-                                            }
+                                            state = State.Target;
+                                        }
+                                        else
+                                        {
+                                            state = State.Attack;
                                         }
                                     }
+
                                     catch
                                     {
 
@@ -853,7 +839,8 @@ namespace LeaveMeAlone
                     
                     break;
                 case State.Endgame:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    //if (Mouse.GetState().LeftButton == ButtonState.Pressed && !left_click)
+                    if (UpgradeMenu.leftClicked())
                     {
 
                         if (next_button.Intersects(selectLocX, selectLocY))
@@ -881,8 +868,9 @@ namespace LeaveMeAlone
                                 //heroLoc.Clear();
                                 victory = false;
                                 UpgradeMenu.rerollRooms();
+                                UpgradeMenu.left_click = false;
                                 LairManager.Init();
-                                return LeaveMeAlone.GameState.Lair;
+                                return LeaveMeAlone.GameState.Upgrade;
                             }
                             else if (defeat)
                             {

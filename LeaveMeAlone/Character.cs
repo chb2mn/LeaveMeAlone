@@ -190,7 +190,7 @@ namespace LeaveMeAlone
             energy = max_energy;
             gold = 100;
             exp = 0;
-            level = 1;
+            //level = 1;
             crit_chance = 10;
             /*
             Resources.gold = 200000;
@@ -216,6 +216,7 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 10;
+            /*
             Resources.gold = 200000;
             Resources.exp = 10000;
             level = 10;
@@ -223,6 +224,7 @@ namespace LeaveMeAlone
             {
                 levelUp();
             }
+             * */
         }
         private void initOperative()
         {
@@ -239,8 +241,16 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 20;
-            //Resources.gold = 20000;
-            //Resources.exp = 10001;
+            /*
+            Resources.gold = 200000;
+            Resources.exp = 10000;
+            level = 10;
+            for (int i = 0; i < level; i++)
+            {
+                levelUp();
+            }
+             * */
+             
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
         private void initRanger()
@@ -453,7 +463,47 @@ namespace LeaveMeAlone
             }
             else if (charType == Type.Operative)
             {
+                var = rng.Next(100);
+                this.max_health += 40;
+                if (var >= 50)
+                {
+                    this.max_health += 10;
+                }
 
+                var = rng.Next(100);
+                this.max_energy += 10;
+                if (var >= 50)
+                {
+                    this.max_energy += 5;
+                }
+
+                var = rng.Next(100);
+                this.special_attack += 3;
+                if (var >= 50)
+                {
+                    this.special_attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.special_defense += 3;
+                if (var >= 50)
+                {
+                    this.special_defense += 2;
+                }
+
+                var = rng.Next(100);
+                this.attack += 3;
+                if (var >= 50)
+                {
+                    this.attack += 2;
+                }
+
+                var = rng.Next(100);
+                this.defense += 3;
+                if (var >= 50)
+                {
+                    this.defense += 2;
+                }
             }
         }
         public void cast(Skill skill, Character target = null)
