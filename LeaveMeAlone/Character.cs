@@ -602,7 +602,7 @@ namespace LeaveMeAlone
                 int i = 0;
                 foreach (Status status in this.statuses)
                 {
-                    if (status == null) 
+                    if (status == null)
                     {
                         continue;
                     }
@@ -610,23 +610,23 @@ namespace LeaveMeAlone
                     {
                         continue;
                     }
-                    spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20*i), (int)sPosition.Y, 30, 30), Color.White);
+                    spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30, 30), Color.White);
                     i++;
                 }
                 lvl_text.Draw(spriteBatch);
-                
+
                 debug_text.Draw(spriteBatch, oPosition);
 
 
-                
+
 
             }
             else
             {
                 if (in_lair)
                 {
-                    Rectangle lair_rect = new Rectangle ((int)(LairManager.towerPosition.X + LeaveMeAlone.WindowX / 3) + 250, (int)(LairManager.towerPosition.Y + LeaveMeAlone.WindowY - 80 - 100 * (LairManager.TowerLevel + 1)), 100, 70);
-                    
+                    Rectangle lair_rect = new Rectangle((int)(LairManager.towerPosition.X + LeaveMeAlone.WindowX / 3) + 250, (int)(LairManager.towerPosition.Y + LeaveMeAlone.WindowY - 80 - 100 * (LairManager.TowerLevel + 1)), 100, 70);
+
                     spriteBatch.Draw(sTexture, lair_rect, sRectangles[frameIndex], color);
                 }
                 else
@@ -642,14 +642,17 @@ namespace LeaveMeAlone
                     }
                     if (status.img != null)
                     {
-                        spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30 ,30), Color.White);
+                        spriteBatch.Draw(status.img, new Rectangle((int)(sPosition.X + 20 * i), (int)sPosition.Y, 30, 30), Color.White);
                     }
                     i++;
                 }
                 lvl_text.Draw(spriteBatch);
 
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
-                debug_text.Draw(spriteBatch, sPosition);
+                if (!in_lair)
+                {
+                    debug_text.Draw(spriteBatch, sPosition);
+                }
             }
 
             if (!damage_text.message.Equals(""))
