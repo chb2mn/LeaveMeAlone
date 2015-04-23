@@ -360,6 +360,7 @@ namespace LeaveMeAlone
                     newChar.Draw(Spritebatch, Color.White);
                 }
             }
+            BattleManager.boss.Draw(Spritebatch, Color.White, true);
             int count = 0;
             foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
             {

@@ -589,7 +589,7 @@ namespace LeaveMeAlone
             FrameUpdate(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color color)
+        public void Draw(SpriteBatch spriteBatch, Color color, bool in_lair = false)
         {
             if (facingRight)
             {
@@ -623,7 +623,16 @@ namespace LeaveMeAlone
             }
             else
             {
-                spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+                if (in_lair)
+                {
+                    Rectangle lair_rect = new Rectangle ((int)(LairManager.towerPosition.X + LeaveMeAlone.WindowX / 3) + 250, (int)(LairManager.towerPosition.Y + LeaveMeAlone.WindowY - 80 - 100 * (LairManager.TowerLevel + 1)), 100, 70);
+                    
+                    spriteBatch.Draw(sTexture, lair_rect, sRectangles[frameIndex], color);
+                }
+                else
+                {
+                    spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+                }
                 int i = 0;
                 foreach (Status status in this.statuses)
                 {
