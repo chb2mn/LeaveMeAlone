@@ -252,7 +252,7 @@ namespace LeaveMeAlone
             //>>>>>>>>>>>>>>>>>>>Room Instances<<<<<<<<<<<<<<<<<<<<<//
             spike_trap = new Room("Spike Trap", 200, 1, 0, "Does damage to hero relative to their defense", SpikeTrap, spike_room_image);
             poison_pit = new Room("Poison Pit", 300, 1, 0, "Has 50% chance of infecting each hero with poison", PoisonPit, poison_pit_image);
-            poor_booby_traps = new Room("Poor Booby Traps", 500, 2, 0, "Temporarily lowers all heroes' stats", PoorTraps, poor_booby_traps_image);
+            poor_booby_traps = new Room("Poor Booby Traps", 500, 2, 0, "They were 80% off! Temporarily lowers all heroes' stats", PoorTraps, poor_booby_traps_image);
             puzzle_temple = new Room("Puzzle Temple", 5000, 2, 0, "has a small chance to remove an enemy from a party", PuzzleRoom, puzzle_temple_image);
             papparazzi = new Room("Papparazzi Tunnel", 2500, 2, 0, "has a chance to inflict with confusion (attacks random character)", Papparazzi, papparazzi_image);
             retirement_lounge = new Room("Retirement Porch", 1250, 2, 0, "Gives the heroes buffs, but increases their rewards", RetirementPorch, retirement_image);
