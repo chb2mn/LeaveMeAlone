@@ -241,14 +241,15 @@ namespace LeaveMeAlone
             exp = 0;
             crit_chance = 20;
             /*
-            Resources.gold = 200000;
-            Resources.exp = 10000;
-            level = 10;
+            Resources.gold = 20000;
+            Resources.exp = 12000;
+            level = 7;
             for (int i = 0; i < level; i++)
             {
                 levelUp();
             }
-             * */
+             */
+            
              
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
