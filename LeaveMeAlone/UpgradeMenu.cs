@@ -592,7 +592,7 @@ namespace LeaveMeAlone
 
             if (BattleManager.boss.level < 2)
             {
-                sb.Draw(green, highlighter_rect, new Color(Color.LimeGreen, 40)); 
+                sb.Draw(green, highlighter_rect, new Color(Color.LimeGreen, 120)); 
             }
         }
 

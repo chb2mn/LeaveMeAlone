@@ -24,6 +24,8 @@ namespace LeaveMeAlone
 
         public static List<Character> heroes = new List<Character>(4);
         public static List<Text> hero_hp = new List<Text>(4);
+        public static Text[] death_damage = new Text[4];
+        public static int[] death_damage_counter = new int[4];
         public static List<Rectangle> heroLoc = new List<Rectangle>();
         public static Point herobase = new Point(75, 120);
 
@@ -165,6 +167,7 @@ namespace LeaveMeAlone
                 Text hptext = new Text(msg:"", position:new Vector2(heroLoc[i].Location.X , heroLoc[i].Location.Y + 120));
 
                 hero_hp.Add(hptext);
+                death_damage[i] = new Text("", f: Text.fonts["Arial-24"], c: Color.Gray);
             }
 
 
@@ -232,6 +235,7 @@ namespace LeaveMeAlone
                 manabar.Width = 100;
                 manabar.Height = 10;
                 manabars[i] = manabar;
+                death_damage_counter[i] = 0;
             }
             Rectangle boss_hpbar = hpbars[4];
             boss_hpbar.X = bossLoc.X;
@@ -550,7 +554,17 @@ namespace LeaveMeAlone
                     Console.WriteLine("Removing Enemy: " + i + " At health: " + hero.health);
                     Resources.gold += heroes[i].gold;
                     Resources.exp += heroes[i].exp;
+                    //transfer the damage done to dying hero to the battlemanager's holder for that
+                    string deathtrail = "";
+                    Text tail = heroes[i].PopDamage();
+                    while (tail != null)
+                    {
+                        deathtrail += tail.message + "\n";
+                        tail = heroes[i].PopDamage();
+                    }
+                    death_damage[i].changeMessage(deathtrail);
                     heroes[i] = null;
+                    death_damage_counter[i] = 90;
 
                     //Reward the boss
                 }
@@ -1036,6 +1050,11 @@ namespace LeaveMeAlone
                 if (heroes[i] == null)
                 {
                     spriteBatch.Draw(Character.Dead, new Rectangle(heroLoc[i].Location.X, heroLoc[i].Location.Y + 15, 175, 175), Color.White);//dead/KO animation
+                    if (death_damage_counter[i] > 0)
+                    {
+                        death_damage[i].Draw(spriteBatch, new Vector2((int)heroLoc[i].Location.X + 25, (int)heroLoc[i].Location.Y + 15 + death_damage_counter[i] / 3), Color.AntiqueWhite);
+                        death_damage_counter[i]--;
+                    }
                 }
             }
             for (int i = 0; i < heroes.Count(); i++)

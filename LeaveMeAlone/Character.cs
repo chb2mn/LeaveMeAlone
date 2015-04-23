@@ -363,9 +363,16 @@ namespace LeaveMeAlone
         }
         public Text PopDamage()
         {
-            Text ret_text = damage_text_queue[0];
-            damage_text_queue.RemoveAt(0);
-            return ret_text;
+            if (damage_text_queue.Count() > 0)
+            {
+                Text ret_text = damage_text_queue[0];
+                damage_text_queue.RemoveAt(0);
+                return ret_text;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void levelUp()
