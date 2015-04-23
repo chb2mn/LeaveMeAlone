@@ -161,9 +161,6 @@
     <Content Include="Content\lairBkgd.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Lair\SeaBassRoom.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\LoadGame.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -398,12 +395,14 @@
     <None Include="Content\Lair\Papparazzi.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Lair\PoorBoobyTraps.xnb" />
     <None Include="Content\Lair\PuzzleTemple.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Lair\RetirementPorch.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Lair\SeaBassRoom.xnb" />
     <None Include="Content\OpeningLandscape.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
