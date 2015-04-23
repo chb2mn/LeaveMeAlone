@@ -618,7 +618,7 @@ namespace LeaveMeAlone
                 }
                 lvl_text.Draw(spriteBatch);
 
-                debug_text.Draw(spriteBatch, oPosition);
+                //debug_text.Draw(spriteBatch, oPosition);
 
 
 
@@ -652,7 +652,7 @@ namespace LeaveMeAlone
                 lvl_text.Draw(spriteBatch);
 
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
-                debug_text.Draw(spriteBatch, sPosition);
+                //debug_text.Draw(spriteBatch, sPosition);
             }
 
             if (!damage_text.message.Equals(""))

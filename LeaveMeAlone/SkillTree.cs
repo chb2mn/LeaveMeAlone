@@ -156,14 +156,14 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>Generic Rooms<<<<<<<<<<<<<<<<<<//    
             spike_room_image = content.Load<Texture2D>("Lair/spikeRoom");
             poison_pit_image = content.Load<Texture2D>("Lair/PoisonPit");
-            poor_booby_traps_image = content.Load<Texture2D>("Lair/PoisonPit");
+            poor_booby_traps_image = content.Load<Texture2D>("Lair/PoorBoobyTraps");
             puzzle_temple_image = content.Load<Texture2D>("Lair/PuzzleTemple");
             papparazzi_image = content.Load<Texture2D>("Lair/Papparazzi");
             retirement_image = content.Load<Texture2D>("Lair/RetirementPorch");
 
         //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
-            the_gym_image = content.Load<Texture2D>("Lair/PoisonPit");
-            massive_treadmill_image = content.Load<Texture2D>("Lair/PoisonPit");
+            the_gym_image = content.Load<Texture2D>("Lair/TheGym"); //
+            massive_treadmill_image = content.Load<Texture2D>("Lair/MassiveTreadmill"); //
 
         //>>>>>>>>Mastermind Specific Rooms<<<<<<<<<<<//
             laser_room_image = content.Load<Texture2D>("Lair/LaserRoom");
@@ -171,9 +171,9 @@ namespace LeaveMeAlone
 
 
         //>>>>>>>>Operative Specific Rooms<<<<<<<<<<<<<//
-            sea_bass_room_image = content.Load<Texture2D>("Lair/PoisonPit");
+            sea_bass_room_image = content.Load<Texture2D>("Lair/SeaBassRoom");
             interrogation_chamber_image = content.Load<Texture2D>("Lair/InterrogationChamber");
-            austin_marlin_garage_image = content.Load<Texture2D>("Lair/PoisonPit");
+            austin_marlin_garage_image = content.Load<Texture2D>("Lair/AustinMarlinGarage"); //
             //buttonPic = content.Load<Texture2D>("buttonbase");
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//

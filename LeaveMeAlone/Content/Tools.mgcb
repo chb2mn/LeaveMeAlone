@@ -1105,7 +1105,6 @@
 /processorParam:Quality=Best
 /build:Sounds/swap_sound.wav
 
-
 #begin Lair/PoorBoobyTraps.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1128,7 +1127,6 @@
 /processorParam:TextureFormat=Color
 /build:CharacterSprites/Dead2.png
 
-
 #begin Lair/SeaBassRoom.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1140,4 +1138,36 @@
 /processorParam:TextureFormat=Color
 /build:Lair/SeaBassRoom.png
 
+#begin Lair/AustinMarlinGarage.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Lair/AustinMarlinGarage.png
+
+#begin Lair/MassiveTreadmill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Lair/MassiveTreadmill.png
+
+#begin Lair/TheGym.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Lair/TheGym.png
 
