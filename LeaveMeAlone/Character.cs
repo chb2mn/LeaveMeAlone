@@ -263,7 +263,7 @@ namespace LeaveMeAlone
             max_energy = 35 + 4 * (level - 1);
             energy = max_energy;
             manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
-            gold = 100 + 20 * (level - 1);
+            gold = 100 + 80 * (level - 1);
             exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             strong_attack = SkillTree.bash;
@@ -281,7 +281,7 @@ namespace LeaveMeAlone
             max_energy = 15 + 3 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
-            gold = 100 + 20 * (level - 1);
+            gold = 100 + 80 * (level - 1);
             exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             basic_attack = SkillTree.magefire;
@@ -297,7 +297,7 @@ namespace LeaveMeAlone
             max_energy = 5 + 2 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
-            gold = 100 + 20 * (level - 1);
+            gold = 100 + 80 * (level - 1);
             exp = 100 + 100 * (level - 1);
             strong_attack = SkillTree.bash;
         }
