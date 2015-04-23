@@ -312,7 +312,7 @@ namespace LeaveMeAlone
             mastermind140 = content.Load<Texture2D>("mastermindMenu");
             operative140 = content.Load<Texture2D>("operativeMenu");
             lairHero70 = content.Load<Texture2D>("LairHero70");
-            Dead = content.Load<Texture2D>("CharacterSprites/Dead");
+            Dead = content.Load<Texture2D>("CharacterSprites/Dead2");
         }
         private void Init()
         {
