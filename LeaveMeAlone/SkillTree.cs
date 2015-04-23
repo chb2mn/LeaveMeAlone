@@ -608,7 +608,7 @@ namespace LeaveMeAlone
                 {
                     target = BattleManager.heroes[i];
                     if (target == null) { continue; }
-                    int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 50);
+                    int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 80);
                     target.health -= damage;
                     String str_damage = (-damage).ToString();
                     //target.damage_text.changeMessage(str_damage);
@@ -1372,7 +1372,7 @@ namespace LeaveMeAlone
             {
                 if (hero.charType != Character.Type.Ranger)
                 {
-                    hero.health -= 20;
+                    hero.health -= 15;
                 }
             }
         }

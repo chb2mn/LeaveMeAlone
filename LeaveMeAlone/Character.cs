@@ -618,18 +618,25 @@ namespace LeaveMeAlone
                 }
                 lvl_text.Draw(spriteBatch);
 
+<<<<<<< HEAD
                 //debug_text.Draw(spriteBatch, oPosition);
 
 
 
+=======
+                debug_text.Draw(spriteBatch, oPosition);
+
+
+
+>>>>>>> b91a9f0a6af618c2c0b25efe02098e2d6fa64e3c
 
             }
             else
             {
                 if (in_lair)
                 {
-                    Rectangle lair_rect = new Rectangle ((int)(LairManager.towerPosition.X + LeaveMeAlone.WindowX / 3) + 250, (int)(LairManager.towerPosition.Y + LeaveMeAlone.WindowY - 80 - 100 * (LairManager.TowerLevel + 1)), 100, 70);
-                    
+                    Rectangle lair_rect = new Rectangle((int)(LairManager.towerPosition.X + LeaveMeAlone.WindowX / 3) + 250, (int)(LairManager.towerPosition.Y + LeaveMeAlone.WindowY - 80 - 100 * (LairManager.TowerLevel + 1)), 100, 70);
+
                     spriteBatch.Draw(sTexture, lair_rect, sRectangles[frameIndex], color);
                 }
                 else
@@ -652,7 +659,14 @@ namespace LeaveMeAlone
                 lvl_text.Draw(spriteBatch);
 
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
+<<<<<<< HEAD
                 //debug_text.Draw(spriteBatch, sPosition);
+=======
+                if (!in_lair)
+                {
+                    debug_text.Draw(spriteBatch, sPosition);
+                }
+>>>>>>> b91a9f0a6af618c2c0b25efe02098e2d6fa64e3c
             }
 
             if (!damage_text.message.Equals(""))
