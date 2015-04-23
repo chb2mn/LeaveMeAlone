@@ -242,14 +242,15 @@ namespace LeaveMeAlone
             exp = 0;
             crit_chance = 20;
             /*
-            Resources.gold = 200000;
-            Resources.exp = 10000;
-            level = 10;
+            Resources.gold = 20000;
+            Resources.exp = 12000;
+            level = 7;
             for (int i = 0; i < level; i++)
             {
                 levelUp();
             }
-             * */
+             */
+            
              
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
@@ -264,7 +265,7 @@ namespace LeaveMeAlone
             max_energy = 35 + 4 * (level - 1);
             energy = max_energy;
             manaRechargeRate = (int)(1 + .2 * (double)(level - 1));
-            gold = 100 + 20 * (level - 1);
+            gold = 100 + 80 * (level - 1);
             exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             strong_attack = SkillTree.bash;
@@ -282,7 +283,7 @@ namespace LeaveMeAlone
             max_energy = 15 + 3 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .4 * (double)level);
-            gold = 100 + 20 * (level - 1);
+            gold = 100 + 80 * (level - 1);
             exp = 100 + 100 * (level - 1);
             cure = SkillTree.cure;
             basic_attack = SkillTree.magefire;
@@ -298,7 +299,7 @@ namespace LeaveMeAlone
             max_energy = 5 + 2 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
-            gold = 100 + 20 * (level - 1);
+            gold = 100 + 80 * (level - 1);
             exp = 100 + 100 * (level - 1);
             strong_attack = SkillTree.bash;
         }
@@ -312,7 +313,7 @@ namespace LeaveMeAlone
             mastermind140 = content.Load<Texture2D>("mastermindMenu");
             operative140 = content.Load<Texture2D>("operativeMenu");
             lairHero70 = content.Load<Texture2D>("LairHero70");
-            Dead = content.Load<Texture2D>("CharacterSprites/Dead");
+            Dead = content.Load<Texture2D>("CharacterSprites/Dead2");
         }
         private void Init()
         {
@@ -364,9 +365,16 @@ namespace LeaveMeAlone
         }
         public Text PopDamage()
         {
-            Text ret_text = damage_text_queue[0];
-            damage_text_queue.RemoveAt(0);
-            return ret_text;
+            if (damage_text_queue.Count() > 0)
+            {
+                Text ret_text = damage_text_queue[0];
+                damage_text_queue.RemoveAt(0);
+                return ret_text;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void levelUp()
@@ -508,6 +516,38 @@ namespace LeaveMeAlone
         }
         public void cast(Skill skill, Character target = null)
         {
+            skillState = SkillState.none;
+            currentEffect = null;
+            if ((skill == basic_attack) && (charType != Type.Mage))
+            {
+                skillState = SkillState.attack;
+            }
+            if (skill == basic_attack && charType == Type.Mage)
+            {
+                Vector2 oPosition = new Vector2(sPosition.X + 60, sPosition.Y + 25);
+                currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.magefire, true);
+                skillState = SkillState.magefire;
+            }
+            if (skill == cure)
+            {
+                Vector2 oPosition = new Vector2(target.sPosition.X + 40, target.sPosition.Y + 100);
+                currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.cure, true);
+                skillState = SkillState.cure;
+            }
+            if (skill == defend)
+            {
+                Vector2 oPosition = sPosition;
+                if (charType == Type.Brute || charType == Type.Mastermind || charType == Type.Operative)
+                {
+                    oPosition = new Vector2(sPosition.X + 30, sPosition.Y + 40);
+                }
+                else
+                {
+                    oPosition = new Vector2(sPosition.X + 100, sPosition.Y + 40);
+                }
+                currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.defend, true);
+                skillState = SkillState.defend;
+            }
             if (skill.energy > this.energy)
             {
                 Console.WriteLine("Character doesn't have enough energy");
@@ -543,13 +583,16 @@ namespace LeaveMeAlone
             }
         }
 
-        public void Update(GameTime gameTime)
-        {
 
+        public void Update(GameTime gameTime) {
+            if (currentEffect != null)
+            {
+                currentEffect.FrameUpdate(gameTime);
+            }
             FrameUpdate(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color color)
+        public void Draw(SpriteBatch spriteBatch, Color color, bool in_lair = false)
         {
             if (facingRight)
             {
@@ -583,7 +626,16 @@ namespace LeaveMeAlone
             }
             else
             {
-                spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+                if (in_lair)
+                {
+                    Rectangle lair_rect = new Rectangle ((int)(LairManager.towerPosition.X + LeaveMeAlone.WindowX / 3) + 250, (int)(LairManager.towerPosition.Y + LeaveMeAlone.WindowY - 80 - 100 * (LairManager.TowerLevel + 1)), 100, 70);
+                    
+                    spriteBatch.Draw(sTexture, lair_rect, sRectangles[frameIndex], color);
+                }
+                else
+                {
+                    spriteBatch.Draw(sTexture, sPosition, sRectangles[frameIndex], color);
+                }
                 int i = 0;
                 foreach (Status status in this.statuses)
                 {
@@ -628,6 +680,7 @@ namespace LeaveMeAlone
             {
                 damage_text = PopDamage();
             }
+
         }
 
         public void Learn(int real_damage, Character.Knowledge idea)

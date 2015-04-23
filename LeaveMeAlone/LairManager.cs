@@ -360,6 +360,7 @@ namespace LeaveMeAlone
                     newChar.Draw(Spritebatch, Color.White);
                 }
             }
+            BattleManager.boss.Draw(Spritebatch, Color.White, true);
             int count = 0;
             foreach (UpgradeMenu.ButtonRoom r in boughtRooms)
             {
@@ -379,7 +380,7 @@ namespace LeaveMeAlone
             if (TutorialText.message != "" && BattleManager.boss.level < 2)
             {
                  TutorialText.Draw(Spritebatch);
-                 Spritebatch.Draw(highlighter, highlighter_rect, new Color(Color.LimeGreen, 40));
+                 Spritebatch.Draw(highlighter, highlighter_rect, new Color(Color.LimeGreen, 120));
             }
         }
 

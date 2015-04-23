@@ -39,8 +39,8 @@ namespace LeaveMeAlone
         public static SoundEffect Menu_Song;
         public static SoundEffectInstance Menu_Song_Instance;
         public static SoundEffect Battle_Song;
-        public static SoundEffectInstance Battle_Song_Instance;        
-        
+        public static SoundEffectInstance Battle_Song_Instance;       
+     
         
         
         public LeaveMeAlone()
@@ -113,6 +113,7 @@ namespace LeaveMeAlone
 
 
             Character.load_content(Content);
+            AnimatedEffect.LoadContent(Content);
             Status.LoadContent(Content);
             BattleManager.LoadContent(Content);
             SkillTree.LoadContent(Content);
@@ -191,7 +192,7 @@ namespace LeaveMeAlone
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
             //RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 800, 480);
             //GraphicsDevice.SetRenderTarget(target);
 
