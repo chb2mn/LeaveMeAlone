@@ -675,7 +675,7 @@ namespace LeaveMeAlone
                     }
                     else if (basic_buttons[3].Intersects(selectLocX, selectLocY))
                     {
-                        hovertext.changeMessage("Bribe:\nCan't take the heat? Buy off your enemies! Everyone has a price!");
+                        hovertext.changeMessage("Bribe:\nCan't take the heat? Buy off your enemies! Everyone has a price! Don't worry, he'll replace himself with a corpse and nobody will know any better");
                         //Go to Bribe menu
                         if (leftClicked())
                         {
