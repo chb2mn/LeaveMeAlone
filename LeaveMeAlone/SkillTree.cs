@@ -201,10 +201,10 @@ namespace LeaveMeAlone
             final_skill[Character.Type.Brute] = raised_by_wolves;
 
             //Mastermind
-            portal_punch = new Skill("Portal Punch",    1,  0, 1, 0, Skill.Target.Single, 1, "One of your first inventions! This will allow you to punch past bulky opponent's defenses. Does Sp.Atk. Dmg", PortalPunch);
+            portal_punch = new Skill("Portal Punch",    1,  0, 1, 0, Skill.Target.Single, 1, "One of your first inventions! This will allow you to punch past bulky opponent's defenses. Does Sp.Atk. damae", PortalPunch);
             flamethrower = new Skill("Flamethrower",    10, 300, 1, 0, Skill.Target.All, 1, "What a classic!! Light it up and burn all of your enemies!", FlameThrower, sound: fireball_instance);
             nuclear_waste = new Skill("Nuclear Waste",  5,  100, 2, 0, Skill.Target.Single, 1, "You've created a new strand of quick-acting poison! Infect an enemy with poision and do damage over time", NuclearWaste, _inflicts: Status.check_poison);
-            abomination_form = new Skill("Abomination Form", 10, 500, 2, 3, Skill.Target.All, 1, "Your biological tamperings have allowed you to turn into a hulking warrior! But all of your inventions are now less effecive Swap Atk and Sp. Atk", AbominationForm);
+            abomination_form = new Skill("Abomination Form", 10, 500, 2, 3, Skill.Target.All, 1, "Your biological tamperings have allowed you to turn into a hulking warrior! But all of your inventions are now less effective. Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor",      5,  300, 3, 1, Skill.Target.Single, 1, "Summon your faithful minion to prod away the heroes, but he's always slacking behind. Does damage one turn later", SummonIgor);
             freeze_ray = new Skill("Freeze Ray",        15, 10000, 10, 1, Skill.Target.All, 1, "Lost in your drawers from your early years of masterminding, you find the copy of a blueprint that your mother ripped to shreds. \"This is childish nonsense will get you nowhere\" she would scold.\n\nWell we'll show her...This ray freezes all enemies and will finally keep those pesky plumbers-I mean- heroes at bay. Picking this will trigger the end game.", FreezeRay, _inflicts: Status.check_stun);
             speedy_shoes = new Skill("Speedy Shoes",    15, 1500, 7, 3, Skill.Target.Self, 2, "Gotta get speedy! Your new shoes go so fast you take 2 turns in the time it takes the heroes to go once!", SpeedyShoes, _inflicts: Status.check_haste);

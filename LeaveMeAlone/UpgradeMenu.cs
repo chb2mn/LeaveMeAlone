@@ -538,7 +538,7 @@ namespace LeaveMeAlone
             {
                 TutorialText.Draw(sb);
             }
-
+            next.Draw(sb);
             sb.Draw(green, full_exp, Color.Green);
             sb.Draw(empty_exp, new Vector2(150, 100), Color.White);
             exp_text.Draw(sb, c: Color.Azure);
@@ -614,7 +614,7 @@ namespace LeaveMeAlone
                 statsText.Draw(sb);
             }
 
-            next.Draw(sb);
+
 
             if (BattleManager.boss.level < 2)
             {
