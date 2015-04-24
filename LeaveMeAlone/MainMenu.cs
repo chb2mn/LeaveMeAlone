@@ -204,8 +204,18 @@ namespace LeaveMeAlone
                         
                         LeaveMeAlone.Main_Song_Instance.Stop();
 
+                        UpgradeMenu.boughtRooms.Clear();
+                        Resources.gold = 1000;
+                        Resources.exp = 0;
                         UpgradeMenu.Init(current);
                         LairManager.Init();
+                        PartyManager.Init();
+                        LairManager.EndOfGame = false;
+                        LairManager.TowerLevel = 0;
+                        LairManager.MaxLevel = 3;
+                        LairManager.LairRooms = new List<Room>();
+                        LairManager.boughtRooms = new List<UpgradeMenu.ButtonRoom>();
+
                         //return LeaveMeAlone.GameState.Upgrade;
                         return LeaveMeAlone.GameState.Upgrade;
                     }

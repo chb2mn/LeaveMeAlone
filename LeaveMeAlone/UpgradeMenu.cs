@@ -234,7 +234,14 @@ namespace LeaveMeAlone
                     break;
                 }
                 List<Room> rooms = skilltree.room_tiers[key];
+                foreach (Room r in rooms){
+                    Console.WriteLine(r.name);
+                }
                 validRooms.AddRange(rooms);
+            }
+            foreach (Room r in boughtRooms)
+            {
+                Console.WriteLine("Bought: " +r.name);
             }
             //get rooms not already bought
             List<Room> roomlist = new List<Room>();
@@ -497,7 +504,6 @@ namespace LeaveMeAlone
                     }
                     selectedSkillSwapButton = new ButtonSkill();;
 
-                    Console.WriteLine("unselected");
                 }
             }
             

@@ -301,6 +301,7 @@ namespace LeaveMeAlone
                 {
                     MainMenu.init(false);
                     LeaveMeAlone.Menu_Song_Instance.Stop();
+                    //UpgradeMenu.boughtRooms.Clear();
                     return LeaveMeAlone.GameState.Main;
                 }
                 //checks if a room button was selected
