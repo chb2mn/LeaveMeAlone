@@ -384,6 +384,7 @@ namespace LeaveMeAlone
                     {
                         sb.Append(" (Cost: " + s.cost + ")");
                     }
+                    sb.Append("\nMana Cost: " + s.energy + "\nCooldown: " + s.cooldown + "\n");
                     sb.Append("\n" + s.description);
                     hovertext.changeMessage(sb.ToString());
                     hovered = true;

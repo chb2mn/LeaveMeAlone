@@ -722,7 +722,9 @@ namespace LeaveMeAlone
                             {
                                 if (i < boss.selected_skills.Count)
                                 {
-                                    hovertext.changeMessage(skill_buttons[i].text.message + ":\n" + boss.selected_skills[i].description);
+                                    hovertext.changeMessage(skill_buttons[i].text.message + ":\nMana Cost: "
+                                        + boss.selected_skills[i].energy + "\nCooldown: " + boss.selected_skills[i].cooldown + "\n" +
+                                        boss.selected_skills[i].description);
                                 }
                                 if (leftClicked())
                                 {
