@@ -169,6 +169,7 @@ namespace LeaveMeAlone
         public static void PlaySound(SoundEffect s)
         {
             SoundEffectInstance sinstance = s.CreateInstance();
+            sinstance.Volume = .9f;
             sinstance.Play();
         }
         public static void LoadContent(ContentManager content)
@@ -225,8 +226,8 @@ namespace LeaveMeAlone
 
             //>>>>>>>>>>>>>>>>>>>>Skill Instances<<<<<<<<<<<<<<<<<<<//
             basic_attack = new Skill("Attack", 0, 0, 1, 0, Skill.Target.Single, 0, "Basic Attack", BasicAttack);
-            defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend, sound: shield_clank_instance);
-            enemy_defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Defend", EnemyDefend, sound: shield_clank_instance);
+            defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Heal yourself!", Defend);
+            enemy_defend = new Skill("Defend", 0, 0, 1, 1, Skill.Target.Self, 0, "Defend", EnemyDefend);
             
             //>>>>>>>>>>>>>>>>>>>>Boss Skill Instances<<<<<<<<<<<<<<<<<<<<//
             //Brute
@@ -249,7 +250,7 @@ namespace LeaveMeAlone
 
             //Mastermind
             portal_punch = new Skill("Portal Punch",    1,  0, 1, 0, Skill.Target.Single, 1, "One of your first inventions! This will allow you to punch past bulky opponent's defenses. Does Sp.Atk. damae", PortalPunch);
-            flamethrower = new Skill("Flamethrower",    10, 300, 1, 0, Skill.Target.All, 1, "What a classic!! Light it up and burn all of your enemies!", FlameThrower, sound: fireball_instance);
+            flamethrower = new Skill("Flamethrower",    10, 300, 1, 0, Skill.Target.All, 1, "What a classic!! Light it up and burn all of your enemies!", FlameThrower);
             nuclear_waste = new Skill("Nuclear Waste",  5,  100, 2, 0, Skill.Target.Single, 1, "You've created a new strand of quick-acting poison! Infect an enemy with poision and do damage over time", NuclearWaste, _inflicts: Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 500, 2, 3, Skill.Target.All, 1, "Your biological tamperings have allowed you to turn into a hulking warrior! But all of your inventions are now less effective. Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor",      5,  300, 3, 1, Skill.Target.Single, 1, "Summon your faithful minion to prod away the heroes, but he's always slacking behind. Does damage one turn later", SummonIgor);
@@ -290,7 +291,7 @@ namespace LeaveMeAlone
 
             cure = new Skill("cure", 20, 0 ,1, 1, Skill.Target.Single, 2, "Heals and ally or self", Cure);
             fire = new Skill("fire", 5, 0, 1, 1, Skill.Target.Single, 1, "Burn an enemy", Fire);
-            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 1, "Mage basic attack, does Sp_Atk damage", Fire, sound: fireball_instance);
+            magefire = new Skill("magefire", 0, 0, 0, 0, Skill.Target.Single, 1, "Mage basic attack, does Sp_Atk damage", Fire);
             bash = new Skill("bash", 5, 0 ,1, 1, Skill.Target.Single, 0, "Hit an enemy using physical attack", Bash);
             haste = new Skill("haste", 15, 0, 5, 3, Skill.Target.Single, 2, "Speed an ally up so he can hit twice in a row", Haste);
             panacea = new Skill("panacea", 10, 0, 3, 0, Skill.Target.Single, 2, "Cure Self or Ally of all Status effects", Panacea);
@@ -553,6 +554,7 @@ namespace LeaveMeAlone
         }
         public static void Defend(Character caster, Character target = null)
         {
+            PlaySound(shield_clank);
             int damage = (int)(((double)caster.max_health) * .2);
             caster.health += damage;
             caster.PushDamage(damage.ToString());
@@ -597,6 +599,7 @@ namespace LeaveMeAlone
         }
         public static void EnemyDefend(Character caster, Character target = null)
         {
+            PlaySound(shield_clank);
             caster.health += (int)(((double)caster.max_health) * .05);
             caster.energy += 10;
             if (caster.health > caster.max_health)
@@ -651,6 +654,7 @@ namespace LeaveMeAlone
         }
         public static void FlameThrower(Character caster, Character target = null)
         {
+            PlaySound(fireball);
             for (int i = 0; i < 4; i++)
             {
                 try
@@ -1282,6 +1286,7 @@ namespace LeaveMeAlone
                 //target.damage_text.changeMessage(str_damage);
                 target.PushDamage(str_damage);
                 caster.Learn(damage, Character.Knowledge.Weak_SDef);
+                PlaySound(fireball);
             }
         }
         public static void Bash(Character caster, Character target = null)

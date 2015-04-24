@@ -192,14 +192,15 @@ namespace LeaveMeAlone
             exp = 0;
             //level = 1;
             crit_chance = 10;
-            /*
+            
             Resources.gold = 200000;
-            Resources.exp = 10001;
+            Resources.exp = 50000;
+            level = 10;
             for (int i = 0; i < level; i++)
             {
                 levelUp();
             }
-             */
+            
         }
         private void initMastermind()
         {
@@ -216,15 +217,15 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 10;
-            /*
+            
             Resources.gold = 200000;
-            Resources.exp = 10000;
+            Resources.exp = 50000;
             level = 10;
             for (int i = 0; i < level; i++)
             {
                 levelUp();
             }
-             * */
+            
         }
         private void initOperative()
         {
@@ -241,15 +242,14 @@ namespace LeaveMeAlone
             gold = 100;
             exp = 0;
             crit_chance = 20;
-            /*
+            
             Resources.gold = 20000;
-            Resources.exp = 12000;
-            level = 7;
+            Resources.exp = 50000;
+            level = 10;
             for (int i = 0; i < level; i++)
             {
                 levelUp();
             }
-             */
             
              
         }
@@ -577,10 +577,6 @@ namespace LeaveMeAlone
             }
 
             skill.runnable(this, target);
-            if (skill.sound != null)
-            {
-                skill.sound.Play();
-            }
         }
 
 

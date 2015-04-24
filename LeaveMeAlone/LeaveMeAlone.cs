@@ -133,7 +133,7 @@ namespace LeaveMeAlone
             Main_Song = Content.Load<SoundEffect>("Sounds/LingeringChip.wav");
             Main_Song_Instance = Main_Song.CreateInstance();
             Main_Song_Instance.IsLooped = true;
-            Main_Song_Instance.Volume = .5f;
+            Main_Song_Instance.Volume = .3f;
             //both songs have no duration
             
             EndGameText = new Text("And So,\n\nThrough much perserverence\nand a low interest mortgage\nour boss was finally\n\nLeft Alone.",
