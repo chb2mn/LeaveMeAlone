@@ -371,13 +371,13 @@ namespace LeaveMeAlone
             //selected_skill is our skill
             if (caster.statuses.Contains(Status.check_stun))
             {
-                if (enemy_turn == -2)
+                if (enemy_turn == -1)
                 {
                     info_text.changeMessage("I'm Stunned!");
                 }
                 else
                 {
-                    info_text.changeMessage("The enemy is Stunned!");
+                    info_text.changeMessage("The Enemy is Stunned!");
 
                 }
                 Apply_Status(caster, Status.Effect_Time.Before);
