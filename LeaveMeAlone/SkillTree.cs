@@ -45,6 +45,27 @@ namespace LeaveMeAlone
         public static SoundEffect fireball;
         public static SoundEffectInstance fireball_instance;
 
+        public static SoundEffect cure_sound;
+        public static SoundEffect battle_cry;
+        public static SoundEffect battle_cry_hit;
+        public static SoundEffect bomb_sound;
+        public static SoundEffect chem_set;
+        public static SoundEffect chuckle;
+        public static SoundEffect freeze_ray_sound;
+        public static SoundEffect arrow_flying;
+        public static SoundEffect portal_punch_sound;
+        public static SoundEffect garrote;
+        public static SoundEffect small_explosives_sound;
+        public static SoundEffect slash_sound;
+        public static SoundEffect smoke_bomb_sound;
+        public static SoundEffect wolves_sound;
+        public static SoundEffect spinning_blade_sound;
+        public static SoundEffect gadget1;
+        public static SoundEffect gadget2;
+        public static SoundEffect grunt_hit;
+        public static SoundEffect two_grunts_hit;
+        public static SoundEffect gun;
+
         public static SoundEffect shield_clank;
         public static SoundEffectInstance shield_clank_instance;
 
@@ -144,6 +165,12 @@ namespace LeaveMeAlone
             room_tiers = new Dictionary<int, List<Room>>();
 
         }
+
+        public static void PlaySound(SoundEffect s)
+        {
+            SoundEffectInstance sinstance = s.CreateInstance();
+            sinstance.Play();
+        }
         public static void LoadContent(ContentManager content)
         {
         //>>>>>>>>>>>>>>>>>>Sound Effect<<<<<<<<<<<<<<<<<<<//
@@ -152,6 +179,26 @@ namespace LeaveMeAlone
             
             shield_clank = content.Load<SoundEffect>("Sounds/shield_clank");
             shield_clank_instance = shield_clank.CreateInstance();
+            cure_sound = content.Load<SoundEffect>("Sounds/cure_sound2");
+            battle_cry = content.Load<SoundEffect>("Sounds/battle_cry");
+            battle_cry_hit = content.Load<SoundEffect>("Sounds/battle_cry_hit");
+            bomb_sound = content.Load<SoundEffect>("Sounds/Bomb");
+            chem_set = content.Load<SoundEffect>("Sounds/chem_set");
+            chuckle = content.Load<SoundEffect>("Sounds/chuckle");
+            freeze_ray_sound = content.Load<SoundEffect>("Sounds/freeze_ray");
+            arrow_flying = content.Load<SoundEffect>("Sounds/arrow_flying");
+            portal_punch_sound = content.Load<SoundEffect>("Sounds/portal_punch");
+            garrote = content.Load<SoundEffect>("Sounds/garrote");
+            small_explosives_sound = content.Load<SoundEffect>("Sounds/small_explosives");
+            slash_sound = content.Load<SoundEffect>("Sounds/slash");
+            smoke_bomb_sound = content.Load<SoundEffect>("Sounds/smoke_bomb");
+            wolves_sound = content.Load<SoundEffect>("Sounds/Wolves");
+            spinning_blade_sound = content.Load<SoundEffect>("Sounds/spinning_blade");
+            gadget1 = content.Load<SoundEffect>("Sounds/gadget1");
+            gadget2 = content.Load<SoundEffect>("Sounds/gadget2");
+            grunt_hit = content.Load<SoundEffect>("Sounds/grunt_hit");
+            two_grunts_hit = content.Load<SoundEffect>("Sounds/2_grunts_hit");
+            gun = content.Load<SoundEffect>("Sounds/gunish");
 
         //>>>>>>>>>>>>>>>>>>Generic Rooms<<<<<<<<<<<<<<<<<<//    
             spike_room_image = content.Load<Texture2D>("Lair/spikeRoom");
@@ -501,6 +548,7 @@ namespace LeaveMeAlone
                 target.PushDamage(str_damage);
 
             }
+            PlaySound(slash_sound);
             
         }
         public static void Defend(Character caster, Character target = null)
@@ -599,6 +647,7 @@ namespace LeaveMeAlone
             String str_damage = (-damage).ToString();
             //target.damage_text.changeMessage(str_damage);
             target.PushDamage(str_damage);
+            PlaySound(portal_punch_sound);
         }
         public static void FlameThrower(Character caster, Character target = null)
         {
@@ -639,6 +688,7 @@ namespace LeaveMeAlone
                 target.statuses.Add(new Status("poison", 3, 0, Status.Effect_Time.After, Status.Type.Debuff, Status.poison_image, Status.Poison));
 
             }
+            PlaySound(chem_set);
         }
         public static void AbominationForm(Character caster, Character target = null)
         {
@@ -656,11 +706,13 @@ namespace LeaveMeAlone
             {
                 caster.statuses.Add(new Status("abom", 999, 0, Status.Effect_Time.Once, Status.Type.Other, null, Status.DoNothing, Status.rev_Abom));
             }
+            PlaySound(battle_cry);
         }
         public static void SummonIgor(Character caster, Character target = null)
         {
             //No need to check if it's already there based on the nature of the skill
             //There is a hack here where I use an already instantiated Status to get the delegate function for Summoning Igor
+            PlaySound(chuckle);
             Status igor_target = new Status("Igor", 2, caster.special_attack, Status.Effect_Time.Once, Status.Type.Other, Status.target_status_image, Status.DoNothing, null);
             igor_target.reverse_affect = igor_target.rev_Igor;
             target.statuses.Add(igor_target);
@@ -671,15 +723,18 @@ namespace LeaveMeAlone
             {
                 a_target.statuses.Add(new Status("stun", LeaveMeAlone.random.Next(2,5), 0, Status.Effect_Time.Once, Status.Type.Debuff, Status.stun_image, Status.DoNothing));
             }
+            PlaySound(freeze_ray_sound);
         }
         public static void SpeedyShoes(Character caster, Character target = null)
         {
             caster.statuses.Add(new Status("haste", 3*2, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.haste_image, Status.DoNothing));
+            PlaySound(gadget1);
         }
 
         public static void AntimaterialBubble(Character caster, Character target = null)
         {
             caster.statuses.Add(new Status("immune_atk", 3, 0, Status.Effect_Time.Before, Status.Type.Buff, Status.immune_atk_image, Status.DoNothing, Status.DoNothing));
+            PlaySound(gadget2);
         }
 
         public static void UnstableWeapon(Character caster, Character target = null)
@@ -700,12 +755,13 @@ namespace LeaveMeAlone
                 target.health -= damage;
                 target.PushDamage((-damage).ToString());
             }
+            PlaySound(gadget2);
         }
 
         public static void Recombobulator(Character caster, Character target = null)
         {
             target.statuses.Add(new Status("confuse", 2, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.confused_image, Status.DoNothing, Status.DoNothing));
-            
+            PlaySound(gadget1);
             /*
              * Doesn't work
              * 
@@ -724,9 +780,13 @@ namespace LeaveMeAlone
 
         public static void BasicChem(Character caster, Character target = null)
         {
+            PlaySound(chem_set);
+            
             //Gain 1 stage in something physical and 1 stage in something special
+            
             String message = "";
             int rand;
+            
             //Add a physical stage
             rand = LeaveMeAlone.random.Next(2);
             if (rand == 0)
@@ -762,6 +822,7 @@ namespace LeaveMeAlone
 
         public static void AdvChem(Character caster, Character target = null)
         {
+            PlaySound(chem_set);
             //Gain 2 stage in something physical and 2 stage in something special
             String message = "";
             int rand;
@@ -798,6 +859,7 @@ namespace LeaveMeAlone
 
         public static void ExpChem(Character caster, Character target = null)
         {
+            PlaySound(chem_set);
             //Gain 3 stage in something physical and 3 stage in something special
             String message = "";
             int rand;
@@ -857,6 +919,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>Brute Delegates<<<<<<<<<<<<<<<<<<<<<<<<//
         public static void BlindCharge(Character caster, Character target = null)
         {
+            PlaySound(battle_cry_hit);
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 200);
             target.health -= damage;
             String str_damage = (-damage).ToString();
@@ -868,6 +931,7 @@ namespace LeaveMeAlone
 
         public static void RubDirt(Character caster, Character target = null)
         {
+            PlaySound(grunt_hit);
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 75 + (caster.max_health-caster.health));
             target.health -= damage;
             String str_damage = (-damage).ToString();
@@ -876,6 +940,7 @@ namespace LeaveMeAlone
         }
         public static void NorrisKick(Character caster, Character target = null)
         {
+            PlaySound(two_grunts_hit);
             int power = 100;
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
             target.health -= damage;
@@ -906,6 +971,7 @@ namespace LeaveMeAlone
         }
         public static void BloodlustStrike(Character caster, Character target = null)
         {
+            PlaySound(battle_cry_hit);
             int power = 100;
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, power);
             target.health -= damage;
@@ -920,6 +986,7 @@ namespace LeaveMeAlone
         }
         public static void RaisedByWolves(Character caster, Character target = null)
         {
+            PlaySound(wolves_sound);
             String str_damage = (-target.health).ToString();
             //target.damage_text.changeMessage(str_damage);
             target.PushDamage(str_damage);
@@ -955,6 +1022,7 @@ namespace LeaveMeAlone
 
         public static void HolkSmush(Character caster, Character target = null)
         {
+            PlaySound(battle_cry_hit);
             for (int i = 0; i < 4; i++)
             {
                 try
@@ -975,6 +1043,7 @@ namespace LeaveMeAlone
         }
         public static void Intimidate(Character caster, Character target = null) 
         {
+            PlaySound(battle_cry);
             for (int i = 0; i < BattleManager.heroes.Count(); i++)
             {
                 target = BattleManager.heroes[i];
@@ -993,19 +1062,21 @@ namespace LeaveMeAlone
 
         public static void BeatChest(Character caster, Character target = null)
         {
-                target = caster;
-                int damage = Status.StageValue(target.attack, target.level);
-                target.attack += damage;
-                caster.statuses.Add(new Status("atk+", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
+            PlaySound(battle_cry);    
+            target = caster;
+            int damage = Status.StageValue(target.attack, target.level);
+            target.attack += damage;
+            caster.statuses.Add(new Status("atk+", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.atkplus_image, Status.DoNothing, Status.ReduceAttack));
 
 
-                damage = Status.StageValue(target.special_attack, target.level);
-                target.special_attack += damage;
-                caster.statuses.Add(new Status("spec+", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceSAttack));
+            damage = Status.StageValue(target.special_attack, target.level);
+            target.special_attack += damage;
+            caster.statuses.Add(new Status("spec+", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.specplus_image, Status.DoNothing, Status.ReduceSAttack));
         }
 
         public static void RoidRage(Character caster, Character target = null)
         {
+            PlaySound(battle_cry);
             target = caster;
             int damage = Status.StageValue(target.attack, target.level);
             caster.max_health -= Status.StageValue(target.health, target.level*6);
@@ -1024,6 +1095,8 @@ namespace LeaveMeAlone
 
         public static void BreakArmor(Character caster, Character target = null)
         {
+            PlaySound(battle_cry);
+            PlaySound(slash_sound);
             int damage = Status.StageValue(target.defense, target.level)*3;
             target.defense -= damage;
             target.statuses.Add(new Status("def-", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defminus_image, Status.DoNothing, Status.RaiseDefense));
@@ -1034,8 +1107,10 @@ namespace LeaveMeAlone
 
         public static void Library(Character caster, Character target = null)
         {
+            PlaySound(chuckle);
             caster.statuses.Add(new Status("immune_spec", 3, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.immune_spec_image, Status.DoNothing, Status.DoNothing));
         }
+
 
         
         
@@ -1044,6 +1119,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>>>>>>>>Operative Delegates<<<<<<<<<<<<<<<<<<<<<<<<//
         public static void GarroteWatch(Character caster, Character target = null)
         {
+            PlaySound(garrote);
             if (target.health <= (int) (target.max_health * .15))
             {
                 target.health -= target.health; //kill them
@@ -1056,6 +1132,7 @@ namespace LeaveMeAlone
 
         public static void SilverAlloyGun(Character caster, Character target = null)
         {
+            PlaySound(gun);
             int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 100);
             target.health -= damage;
             String str_damage = (-damage).ToString();
@@ -1067,6 +1144,7 @@ namespace LeaveMeAlone
 
         public static void Backstab(Character caster, Character target = null)
         {
+            PlaySound(grunt_hit);
             int damage = Skill.damage(caster.attack/3, 1, caster.level, 50);
             target.health -= damage;
             String str_damage = (-damage).ToString();
@@ -1076,6 +1154,7 @@ namespace LeaveMeAlone
 
         public static void NuclearWarhead(Character caster, Character target = null)
         {
+            PlaySound(bomb_sound);
             for (int i = 0; i < 4; i++)
             {
                 try
@@ -1097,6 +1176,7 @@ namespace LeaveMeAlone
         }
         public static void DeadlyWeapons(Character caster, Character target = null)
         {
+            PlaySound(slash_sound);
             int rand;
             rand = LeaveMeAlone.random.Next(100);
             int damage;
@@ -1116,6 +1196,7 @@ namespace LeaveMeAlone
         }
         public static void Espionage(Character caster, Character target = null)
         {
+            PlaySound(chuckle);
             foreach (Character hero in BattleManager.heroes)
             {
                 if (hero != null)
@@ -1131,10 +1212,12 @@ namespace LeaveMeAlone
         }
         public static void DoubleCross(Character caster, Character target = null)
         {
+            PlaySound(chuckle);
             target.statuses.Add(new Status("confuse", 4, 0, Status.Effect_Time.Before, Status.Type.Debuff, Status.confused_image, Status.DoNothing, Status.DoNothing));
         }
         public static void SmokeBomb(Character caster, Character target = null)
         {
+            PlaySound(smoke_bomb_sound);
             int rand;
             foreach (Character hero in BattleManager.heroes)
             {
@@ -1150,6 +1233,7 @@ namespace LeaveMeAlone
         }
         public static void SmallExplosives(Character caster, Character target = null)
         {
+            PlaySound(small_explosives_sound);
             foreach (Character hero in BattleManager.heroes)
             {
                 if (hero == null)
@@ -1181,6 +1265,7 @@ namespace LeaveMeAlone
         //>>>>>>>>>>>>>>>>>Hero Skill Delegates<<<<<<<<<<<<<<<<<//
         public static void Cure(Character caster, Character target = null)
         {
+            PlaySound(cure_sound);
             int heal_pts = caster.special_attack/4;
             target.health += heal_pts;
             if (target.health > target.max_health)
@@ -1201,6 +1286,7 @@ namespace LeaveMeAlone
         }
         public static void Bash(Character caster, Character target = null)
         {
+            PlaySound(grunt_hit);
             {
                 int damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 150);
                 target.health -= damage;
@@ -1214,6 +1300,7 @@ namespace LeaveMeAlone
         }
         public static void PoisonDagger(Character caster, Character target = null)
         {
+            PlaySound(slash_sound);
             int damage = Skill.damage(caster, target, Skill.Attack.SpecialAttack, Skill.Defense.SpecialDefense, 40);
             target.health -= damage;
             //target.damage_text.changeMessage((-damage).ToString());
@@ -1247,6 +1334,7 @@ namespace LeaveMeAlone
         }
         public static void Panacea(Character caster, Character target = null)
         {
+            PlaySound(cure_sound);
             for (int i = target.statuses.Count() - 1; i >= 0; i--)
             {
                 if (target.statuses[i].type == Status.Type.Debuff)
