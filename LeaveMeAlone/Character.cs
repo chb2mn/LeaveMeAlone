@@ -193,6 +193,7 @@ namespace LeaveMeAlone
             //level = 1;
             crit_chance = 10;
             
+            /*
             Resources.gold = 200000;
             Resources.exp = 50000;
             level = 10;
@@ -200,7 +201,7 @@ namespace LeaveMeAlone
             {
                 levelUp();
             }
-            
+            */
         }
         private void initMastermind()
         {
@@ -218,6 +219,7 @@ namespace LeaveMeAlone
             exp = 0;
             crit_chance = 10;
             
+            /*
             Resources.gold = 200000;
             Resources.exp = 50000;
             level = 10;
@@ -225,7 +227,7 @@ namespace LeaveMeAlone
             {
                 levelUp();
             }
-            
+            */
         }
         private void initOperative()
         {
@@ -243,6 +245,7 @@ namespace LeaveMeAlone
             exp = 0;
             crit_chance = 20;
             
+            /*
             Resources.gold = 200000;
             Resources.exp = 50000;
             level = 10;
@@ -250,7 +253,7 @@ namespace LeaveMeAlone
             {
                 levelUp();
             }
-            
+            */
              
         }
         //>>>>>>>>>>>>>>>>>Hero Stats<<<<<<<<<<<<<<<<<<<
@@ -384,10 +387,10 @@ namespace LeaveMeAlone
             if (charType == Type.Brute)
             {
                 var = rng.Next(100);
-                this.max_health += 40;
+                this.max_health += 35;
                 if (var >= 50)
                 {
-                    this.max_health += 25;
+                    this.max_health += 20;
                 }
 
                 var = rng.Next(100);
@@ -428,7 +431,7 @@ namespace LeaveMeAlone
             else if (charType == Type.Mastermind)
             {
                 var = rng.Next(100);
-                this.max_health += 40;
+                this.max_health += 30;
                 if (var >= 50)
                 {
                     this.max_health += 15;
@@ -472,7 +475,7 @@ namespace LeaveMeAlone
             else if (charType == Type.Operative)
             {
                 var = rng.Next(100);
-                this.max_health += 40;
+                this.max_health += 35;
                 if (var >= 50)
                 {
                     this.max_health += 10;
