@@ -243,7 +243,7 @@ namespace LeaveMeAlone
             exp = 0;
             crit_chance = 20;
             
-            Resources.gold = 20000;
+            Resources.gold = 200000;
             Resources.exp = 50000;
             level = 10;
             for (int i = 0; i < level; i++)

@@ -30,7 +30,7 @@ namespace LeaveMeAlone
         public static Rectangle BackgroundRect;
 
         public static Text EndGameText;
-        private static int CreditTimer = 480;
+        private static int CreditTimer = 400;
         private static int slide = 0;
         private static List<String> Credits = new List<String>();
 
@@ -82,7 +82,7 @@ namespace LeaveMeAlone
 
             Credits.Add("Leave Me Alone \n\nA game developed by: \n\n     Christopher Burkhalter\n     Kyle O'Donnell\n     Mitchell Smith");
             Credits.Add("Music (provided by Newgrounds):\n\nBattleSongLoop by Goukison\n~Epic_Loop~ by Catstuffer\nLingering \"Chip\" Puzzle by lacifer\n~Melancholious Victory by Blind-Bane\nVictory is Yours! by ImperfectDisciple");
-            Credits.Add("Sound Effects provided by:\nhttp://www.freesfx.co.uk");
+            Credits.Add("Sound Effects provided by:\n\nhttp://www.freesfx.co.uk\nMitchell and Chris");
             Credits.Add("Thank You For Playing!");
 
 
@@ -222,7 +222,7 @@ namespace LeaveMeAlone
                     else
                     {
                         EndGameText.changeMessage(Credits[slide]);
-                        CreditTimer = 480;
+                        CreditTimer = 400;
                         slide++;
                     }
                     break;

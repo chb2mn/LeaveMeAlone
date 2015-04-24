@@ -278,7 +278,7 @@ namespace LeaveMeAlone
             exploding_pen = new Skill("Exploding Pen", 5, 1500, 3, 2, Skill.Target.Single, 1, "Give them a present, complimentary with body bags. (explodes next turn)", SummonIgor); ;
 
             smoke_bomb = new Skill("Smoke Bomb", 20, 6000, 5, 2, Skill.Target.All, 0, "Encasing the entire field in smoke, nobody know who to hit anymore. They'll swing and swing. All enemies have a chance to be inflicted with confusion", SmokeBomb);
-            garrote_watch = new Skill("Garrote Watch", 5, 3000, 5, 0, Skill.Target.Single, 1, "The enemy is weak and dazed. Get behind them and finish the job. Kill an enemy below 15% hp", GarroteWatch); //remove at low health
+            garrote_watch = new Skill("Garrote Watch", 5, 3000, 5, 0, Skill.Target.Single, 1, "The enemy is weak and dazed. Get behind them and finish the job. Kill an enemy below 25% hp", GarroteWatch); //remove at low health
 
             small_explosives = new Skill("Small Explosives", 10, 4000, 7, 2, Skill.Target.All, 0, "You've manages to line their half of the battlefield with explosives doing random amounts of damage to all enemies", SmallExplosives);
             bladed_shoes = new Skill("Bladed Shoes", 15, 7000, 7, 4, Skill.Target.Self, 2, "You like to fight dirty, but you always get stuck in airport security lines. Your new pointy shoes give you a second attack", SpeedyShoes, _inflicts: Status.check_haste);
@@ -654,7 +654,14 @@ namespace LeaveMeAlone
         }
         public static void FlameThrower(Character caster, Character target = null)
         {
-            PlaySound(fireball);
+            if (BattleManager.boss.charType == Character.Type.Mastermind)
+            {
+                PlaySound(fireball);
+            }
+            else
+            {
+                PlaySound(spinning_blade_sound);
+            }
             for (int i = 0; i < 4; i++)
             {
                 try
@@ -1133,13 +1140,13 @@ namespace LeaveMeAlone
         public static void GarroteWatch(Character caster, Character target = null)
         {
             PlaySound(garrote);
-            if (target.health <= (int) (target.max_health * .15))
+            if (target.health <= (int) (target.max_health * .25))
             {
                 target.health -= target.health; //kill them
             }
             else
             {
-                target.health -= (int) (target.max_health * .1);
+                target.health -= (int) (target.max_health * .15);
             }
         }
 
