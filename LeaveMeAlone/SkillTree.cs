@@ -250,7 +250,7 @@ namespace LeaveMeAlone
 
             //Mastermind
             portal_punch = new Skill("Portal Punch",    1,  0, 1, 0, Skill.Target.Single, 1, "One of your first inventions! This will allow you to punch past bulky opponent's defenses. Does Sp.Atk. damae", PortalPunch);
-            flamethrower = new Skill("Flamethrower",    10, 300, 1, 0, Skill.Target.All, 1, "What a classic!! Light it up and burn all of your enemies!", FlameThrower);
+            flamethrower = new Skill("Flamethrower",    10, 300, 1, 1, Skill.Target.All, 1, "What a classic!! Light it up and burn all of your enemies!", FlameThrower);
             nuclear_waste = new Skill("Nuclear Waste",  5,  100, 2, 0, Skill.Target.Single, 1, "You've created a new strand of quick-acting poison! Infect an enemy with poision and do damage over time", NuclearWaste, _inflicts: Status.check_poison);
             abomination_form = new Skill("Abomination Form", 10, 500, 2, 3, Skill.Target.All, 1, "Your biological tamperings have allowed you to turn into a hulking warrior! But all of your inventions are now less effective. Swap Atk and Sp. Atk", AbominationForm);
             summon_igor = new Skill("Summon Igor",      5,  300, 3, 1, Skill.Target.Single, 1, "Summon your faithful minion to prod away the heroes, but he's always slacking behind. Does damage one turn later", SummonIgor);
@@ -267,7 +267,7 @@ namespace LeaveMeAlone
 
             //Operative
             slash = new Skill("Slash", 5, 0, 1, 0, Skill.Target.Single, 1, "Pull out your switch blade. They'll never see you coming. Does Sp.Atk. Dmg", PortalPunch);
-            shuriken = new Skill("Bladed Tophat", 10, 300, 1, 0, Skill.Target.All, 1, "This is odd... hmm... tossing this will curve around and hit all enemy", FlameThrower);
+            shuriken = new Skill("Bladed Tophat", 10, 300, 1, 1, Skill.Target.All, 1, "This is odd... hmm... tossing this will curve around and hit all enemy", FlameThrower);
             deadly_weapons = new Skill("Deadly Weapons", 5, 300, 1, 1, Skill.Target.Single, 0, "You have been trained in the finesse of hand-to-hand combat. 50% crit rate", DeadlyWeapons);
 
             backstab = new Skill("Backstab", 10, 800, 2, 2, Skill.Target.Single, 0, "Betrayal. Such an easy concept. stab an enemy ignoring defense", Backstab); // hit ignore defense

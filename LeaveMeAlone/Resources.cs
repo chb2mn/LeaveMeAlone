@@ -97,7 +97,7 @@ namespace LeaveMeAlone
         {
             int this_level = 1;
             int exp_bar = 500;
-            int inc = 4000;
+            int inc = 5000;
             while (experience >= exp_bar && this_level < 5)
             {                
                 exp_bar += exp_bar;
@@ -110,7 +110,7 @@ namespace LeaveMeAlone
 
                 if (this_level % 2 == 0)
                 {
-                    inc += 2000;
+                    inc += 3000;
                 }
             }
             return this_level;

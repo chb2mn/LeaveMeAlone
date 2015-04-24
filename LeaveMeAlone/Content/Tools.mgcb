@@ -1171,3 +1171,129 @@
 /processorParam:TextureFormat=Color
 /build:Lair/TheGym.png
 
+#begin Sounds/2_grunts_hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/2_grunts_hit.wav
+
+#begin Sounds/arrow_flying.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/arrow_flying.wav
+
+#begin Sounds/battle_cry.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/battle_cry.wav
+
+#begin Sounds/battle_cry_hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/battle_cry_hit.wav
+
+#begin Sounds/Bomb.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Bomb.wav
+
+#begin Sounds/chem_set.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/chem_set.wav
+
+#begin Sounds/chuckle.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/chuckle.wav
+
+#begin Sounds/cure_sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/cure_sound.wav
+
+#begin Sounds/cure_sound2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/cure_sound2.wav
+
+#begin Sounds/fireball-old1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/fireball-old1.wav
+
+#begin Sounds/freeze_ray.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/freeze_ray.wav
+
+#begin Sounds/gadget1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/gadget1.wav
+
+#begin Sounds/gadget2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/gadget2.wav
+
+#begin Sounds/garrote.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/garrote.wav
+
+#begin Sounds/gunish.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/gunish.wav
+
+#begin Sounds/portal_punch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/portal_punch.wav
+
+#begin Sounds/slash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/slash.wav
+
+#begin Sounds/small_explosives.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/small_explosives.wav
+
+#begin Sounds/smoke_bomb.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/smoke_bomb.wav
+
+#begin Sounds/spinning_blade.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/spinning_blade.wav
+
+#begin Sounds/Wolves.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Wolves.wav
+

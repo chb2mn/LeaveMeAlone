@@ -121,17 +121,17 @@ namespace LeaveMeAlone
             UpgradeMenu.loadContent(Content);
             LairManager.loadContent(Content);
 
-            Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop.wav");
+            Menu_Song = Content.Load<SoundEffect>("Sounds/Epic_Loop");
             Menu_Song_Instance = Menu_Song.CreateInstance();
             Menu_Song_Instance.IsLooped = true;
             Menu_Song_Instance.Volume = .1f;
 
-            Battle_Song = Content.Load<SoundEffect>("Sounds/VGameTune.wav");
+            Battle_Song = Content.Load<SoundEffect>("Sounds/VGameTune");
             Battle_Song_Instance = Battle_Song.CreateInstance();
             Battle_Song_Instance.IsLooped = true;
             Battle_Song_Instance.Volume = .1f;
 
-            Main_Song = Content.Load<SoundEffect>("Sounds/LingeringChip.wav");
+            Main_Song = Content.Load<SoundEffect>("Sounds/LingeringChip");
             Main_Song_Instance = Main_Song.CreateInstance();
             Main_Song_Instance.IsLooped = true;
             Main_Song_Instance.Volume = .3f;
