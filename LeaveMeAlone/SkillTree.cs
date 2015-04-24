@@ -1101,12 +1101,21 @@ namespace LeaveMeAlone
         {
             PlaySound(battle_cry);
             PlaySound(slash_sound);
-            int damage = Status.StageValue(target.defense, target.level)*3;
+            //recalculate the stage every time
+            int damage = Status.StageValue(target.defense, target.level);
+            target.defense -= damage;
+            damage = Status.StageValue(target.defense, target.level);
+            target.defense -= damage;
+            damage = Status.StageValue(target.defense, target.level);
             target.defense -= damage;
             target.statuses.Add(new Status("def-", 10, 0, Status.Effect_Time.Once, Status.Type.Buff, Status.defminus_image, Status.DoNothing, Status.RaiseDefense));
 
             damage = Skill.damage(caster, target, Skill.Attack.Attack, Skill.Defense.Defense, 120);
+            Console.WriteLine(target.defense);
             target.health -= damage;
+            String str_damage = (-damage).ToString();
+            //target.damage_text.changeMessage(str_damage);
+            target.PushDamage(str_damage);
         }
 
         public static void Library(Character caster, Character target = null)
