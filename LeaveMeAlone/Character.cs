@@ -387,10 +387,10 @@ namespace LeaveMeAlone
             if (charType == Type.Brute)
             {
                 var = rng.Next(100);
-                this.max_health += 35;
+                this.max_health += 20;
                 if (var >= 50)
                 {
-                    this.max_health += 20;
+                    this.max_health += 15;
                 }
 
                 var = rng.Next(100);
@@ -431,7 +431,7 @@ namespace LeaveMeAlone
             else if (charType == Type.Mastermind)
             {
                 var = rng.Next(100);
-                this.max_health += 30;
+                this.max_health += 20;
                 if (var >= 50)
                 {
                     this.max_health += 15;
@@ -475,10 +475,10 @@ namespace LeaveMeAlone
             else if (charType == Type.Operative)
             {
                 var = rng.Next(100);
-                this.max_health += 35;
+                this.max_health += 25;
                 if (var >= 50)
                 {
-                    this.max_health += 10;
+                    this.max_health += 15;
                 }
 
                 var = rng.Next(100);
