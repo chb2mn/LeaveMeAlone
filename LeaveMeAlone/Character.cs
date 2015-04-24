@@ -278,7 +278,7 @@ namespace LeaveMeAlone
             health = max_health;
             attack = 5 + 2 * (level - 1);
             special_attack = 25 + 5 * (level - 1);
-            defense = 5 + 1 * (level - 1);
+            defense = 5 + 2 * (level - 1);
             special_defense = 15 + 4 * (level - 1);
             max_energy = 15 + 3 * (level - 1);
             energy = max_energy;
@@ -295,7 +295,7 @@ namespace LeaveMeAlone
             attack = 25 + 5 * (level - 1);
             special_attack = 5 + 2 * (level - 1);
             defense = 15 + 9 * (level - 1);
-            special_defense = 5 + 1 * (level - 1);
+            special_defense = 5 + 2 * (level - 1);
             max_energy = 5 + 2 * (level - 1);
             energy = max_energy;
             manaRechargeRate = 1 + (int)(1 + .3 * (double)(level - 1));
