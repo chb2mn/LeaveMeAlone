@@ -162,9 +162,6 @@
     <Content Include="Content\lairBkgd.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Lair\SeaBassRoom.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\LoadGame.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -400,7 +397,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Lair\PoisonPit.xnb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Ranger140.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -409,7 +406,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Lair\spikeRoom.xnb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\gray.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -417,24 +414,39 @@
     <None Include="Content\Highlight.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Lair\InterrogationChamber.xnb">
+    <Content Include="Content\Lair\AustinMarlinGarage.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\Lair\LaserRoom.xnb">
+    </Content>
+    <Content Include="Content\Lair\InterrogationChamber.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\Lair\MindErase.xnb">
+    </Content>
+    <Content Include="Content\Lair\LaserRoom.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\Lair\Papparazzi.xnb">
+    </Content>
+    <Content Include="Content\Lair\MassiveTreadmill.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\Lair\PuzzleTemple.xnb">
+    </Content>
+    <Content Include="Content\Lair\MindErase.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\Lair\RetirementPorch.xnb">
+    </Content>
+    <Content Include="Content\Lair\Papparazzi.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Include="Content\Lair\PoorBoobyTraps.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Lair\PuzzleTemple.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Lair\RetirementPorch.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Lair\SeaBassRoom.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Lair\TheGym.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Content\OpeningLandscape.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

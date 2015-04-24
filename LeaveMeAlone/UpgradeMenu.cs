@@ -37,7 +37,7 @@ namespace LeaveMeAlone
 
         public static Vector2 baseSkillButtonPos = new Vector2(400, 100);
         public static Vector2 baseRoomButtonPos = new Vector2(400, 550);
-        public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 200);
+        public static Vector2 baseSelectedSkillButtonPos = new Vector2(30, 250);
 
         public static bool left_click = false;
         public static bool right_click = false;
@@ -59,6 +59,11 @@ namespace LeaveMeAlone
         public static SoundEffectInstance swappingSound;
 
         public static Vector2 measurements;
+
+        public static Text statsTitle;
+        public static Rectangle statsTitleRect;
+        public static Text statsText;
+        public static Rectangle statsTextRect;
 
         public class ButtonSkill
         {
@@ -195,9 +200,16 @@ namespace LeaveMeAlone
             //250 x 150
             hovertextbackground = BattleManager.hovertextbackground;
 
+            Vector2 statspos = new Vector2(30, boss.sTexture.Height + 10);
+            statsTitle = new Text("Stats", statspos, Text.fonts["RetroComputer-18"]);
+            statsTitleRect = new Rectangle((int)statspos.X - 10, (int)statspos.Y - 5, (int)statsTitle.getMeasurements(300).X + 10, (int)statsTitle.font.MeasureString(statsTitle.message).Y + 15);
+            statsText = new Text(BattleManager.boss.StatsToString(), new Vector2(statspos.X, statspos.Y - 70), Text.fonts["RetroComputer-12"]);;
+            statsTextRect = new Rectangle((int)statsText.position.X, (int)statsText.position.Y - 100, (int)statsText.getMeasurements(300).X + 10, (int)statsText.getMeasurements(300).Y + 10);
+            statsText.changeMessage("");
+
             texts["gold"] =             new Text("Gold: " + Resources.gold, new Vector2(150, 0), Text.fonts["6809Chargen-24"], Color.White);
             texts["level"] =            new Text("Level: " + BattleManager.boss.level, new Vector2(150, 50), Text.fonts["6809Chargen-24"], Color.White);
-            texts["selectedskills"] =   new Text("Selected Skills",         hovertextpos, Text.fonts["6809Chargen-24"], Color.White);
+            texts["selectedskills"] =   new Text("Selected Skills",         new Vector2(baseSelectedSkillButtonPos.X, baseSelectedSkillButtonPos.Y - Text.fonts["6809Chargen-24"].MeasureString("Selected Skills").Y - 10), Text.fonts["6809Chargen-24"], Color.White);
             texts["skilltext"] =        new Text("Skills",                  new Vector2(baseSkillButtonPos.X + 100, baseSkillButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
             texts["roomtext"] =         new Text("Rooms",                   new Vector2(baseRoomButtonPos.X, baseRoomButtonPos.Y - 50), Text.fonts["6809Chargen-24"], Color.White);
         }
@@ -290,13 +302,6 @@ namespace LeaveMeAlone
             int xpos = currentMouseState.X;
             int ypos = currentMouseState.Y;
 
-            /*
-            hovertextRect.X = currentMouseState.X;
-            hovertextRect.Y = currentMouseState.Y;
-            hovertextpos.X = hovertextRect.X + 10;
-            hovertextpos.Y = hovertextRect.Y + 10;
-             * */
-
             texts["gold"].changeMessage("Gold: " + Resources.gold);
             texts["level"].changeMessage("Level: " + BattleManager.boss.level);
             
@@ -340,6 +345,19 @@ namespace LeaveMeAlone
                     hovertext.changeMessage(s.name + ":\n" + s.description);
                     hovered = true;
                 }
+            }
+            //Hover over Stats button
+            if(statsTitleRect.Contains(currentMouseState.X, currentMouseState.Y))
+            {
+                statsText.changeMessage(BattleManager.boss.StatsToString());
+                Vector2 statmeasurements = statsText.getMeasurements(300);
+                statsText.position = new Vector2(statsTitle.position.X, statsTitleRect.Y + statsTitleRect.Height + 10);
+                Console.WriteLine("statspos" + statsText.position.ToString());
+                statsTextRect = new Rectangle((int)statsText.position.X - 10, (int)statsText.position.Y - 10, 300, (int)statmeasurements.Y + 10);
+            }
+            else
+            {
+                statsText.changeMessage("");
             }
 
             //perfect place for polymophism Chris
@@ -520,7 +538,7 @@ namespace LeaveMeAlone
             {
                 TutorialText.Draw(sb);
             }
-
+            next.Draw(sb);
             sb.Draw(green, full_exp, Color.Green);
             sb.Draw(empty_exp, new Vector2(150, 100), Color.White);
             exp_text.Draw(sb, c: Color.Azure);
@@ -588,7 +606,15 @@ namespace LeaveMeAlone
                 hovertext.Draw(sb, maxLineWidth: hovertextRect.Width - 15);
             }
 
-            next.Draw(sb);
+            sb.Draw(hovertextbackground, statsTitleRect, Color.White);
+            statsTitle.Draw(sb);
+            if(statsText.message != "")
+            {
+                sb.Draw(hovertextbackground, statsTextRect, Color.White);
+                statsText.Draw(sb);
+            }
+
+
 
             if (BattleManager.boss.level < 2)
             {
