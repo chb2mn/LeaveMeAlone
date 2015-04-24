@@ -618,17 +618,10 @@ namespace LeaveMeAlone
                 }
                 lvl_text.Draw(spriteBatch);
 
-<<<<<<< HEAD
                 //debug_text.Draw(spriteBatch, oPosition);
 
 
 
-=======
-                debug_text.Draw(spriteBatch, oPosition);
-
-
-
->>>>>>> b91a9f0a6af618c2c0b25efe02098e2d6fa64e3c
 
             }
             else
@@ -659,14 +652,12 @@ namespace LeaveMeAlone
                 lvl_text.Draw(spriteBatch);
 
                 //Vector2 oPosition = new Vector2(sPosition.X - 50, sPosition.Y);
-<<<<<<< HEAD
-                //debug_text.Draw(spriteBatch, sPosition);
-=======
+
                 if (!in_lair)
                 {
-                    debug_text.Draw(spriteBatch, sPosition);
+                    //debug_text.Draw(spriteBatch, sPosition);
                 }
->>>>>>> b91a9f0a6af618c2c0b25efe02098e2d6fa64e3c
+
             }
 
             if (!damage_text.message.Equals(""))
