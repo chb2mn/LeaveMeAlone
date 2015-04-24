@@ -29,8 +29,8 @@ namespace LeaveMeAlone
         public int width;
         public int height;
         private int xVel, yVel;
-        public static Texture2D magefire, cure, defend;
-        public enum EffectType{magefire, cure, defend};
+        public static Texture2D magefire, cure, defend, poison_dagger, poison_dagger2, portal_punch, flamethrower, tophat;
+        public enum EffectType{magefire, cure, defend, poison_dagger, portal_punch, flamethrower, tophat};
         public EffectType effectType;
 
         public double FramesPerSecond
@@ -63,6 +63,33 @@ namespace LeaveMeAlone
                 startFrame = 0;
                 endFrame = 38;
             }
+            if (effectType == EffectType.poison_dagger)
+            {
+                if (sPosition.Y > 300)
+                {
+                    sTexture = poison_dagger2;
+                }
+                else
+                {
+                    sTexture = poison_dagger;
+                }
+                AddAnimation(1);
+            }
+            if (effectType == EffectType.portal_punch)
+            {
+                sTexture = portal_punch;
+                AddAnimation(1);
+            }
+            if (effectType == EffectType.flamethrower)
+            {
+                sTexture = flamethrower;
+                AddAnimation(1);
+            }
+            if (effectType == EffectType.tophat)
+            {
+                sTexture = tophat;
+                AddAnimation(1);
+            }
         }
 
         public static void LoadContent(ContentManager content)
@@ -70,6 +97,11 @@ namespace LeaveMeAlone
             magefire = content.Load<Texture2D>("magefire");
             cure = content.Load<Texture2D>("sigil");
             defend = content.Load<Texture2D>("shield");
+            poison_dagger = content.Load<Texture2D>("poisondagger");
+            poison_dagger2 = content.Load<Texture2D>("poisondagger2");
+            portal_punch = content.Load<Texture2D>("portalpunch");
+            flamethrower = content.Load<Texture2D>("magefire2");
+            tophat = content.Load<Texture2D>("tophat");
         }
 
         public void AddAnimation(int frames)
@@ -91,7 +123,7 @@ namespace LeaveMeAlone
 
         public void FrameUpdate(GameTime gameTime)
         {
-            if (effectType == EffectType.magefire)
+            if (effectType == EffectType.magefire || effectType == EffectType.poison_dagger || effectType == EffectType.portal_punch || effectType == EffectType.flamethrower || effectType == EffectType.tophat)
             {
                 if (xVel == 0)
                 {
