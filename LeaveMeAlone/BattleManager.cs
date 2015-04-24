@@ -992,10 +992,6 @@ namespace LeaveMeAlone
 
             //Draw Boss
             boss.Draw(spriteBatch, Color.White);
-            if (boss.currentEffect != null)
-            {
-                boss.currentEffect.Draw(spriteBatch, Color.White);
-            }
             boss_hp.Draw(spriteBatch);
             boss_energy.Draw(spriteBatch);
             spriteBatch.Draw(green, hpbars[4], Color.Green);
@@ -1151,6 +1147,32 @@ namespace LeaveMeAlone
 
                 //Offset(10, 10);
                 hovertext.Draw(spriteBatch, maxLineWidth: hovertextRect.Width - 10);
+            }
+            if (boss.currentEffect != null)
+            {
+                if (boss.currentEffect.effectType == AnimatedEffect.EffectType.flamethrower || boss.currentEffect.effectType == AnimatedEffect.EffectType.tophat)
+                {
+                    if (boss.currentEffect != null)
+                    {
+                        boss.currentEffect.Draw(spriteBatch, Color.White);
+                    }
+                    if (boss.secondEffect != null)
+                    {
+                        boss.secondEffect.Draw(spriteBatch, Color.White);
+                    }
+                    if (boss.thirdEffect != null)
+                    {
+                        boss.thirdEffect.Draw(spriteBatch, Color.White);
+                    }
+                    if (boss.fourthEffect != null)
+                    {
+                        boss.fourthEffect.Draw(spriteBatch, Color.White);
+                    }
+                }
+                else
+                {
+                    boss.currentEffect.Draw(spriteBatch, Color.White);
+                }
             }
         }
 
