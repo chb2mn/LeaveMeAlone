@@ -207,7 +207,7 @@ namespace LeaveMeAlone
             poor_booby_traps_image = content.Load<Texture2D>("Lair/PoorBoobyTraps");
             puzzle_temple_image = content.Load<Texture2D>("Lair/PuzzleTemple");
             papparazzi_image = content.Load<Texture2D>("Lair/Papparazzi");
-            retirement_image = content.Load<Texture2D>("Lair/RetirementPorch");
+            retirement_image = content.Load<Texture2D>("RetirementHome");
 
         //>>>>>>>>>>>>Brute Specific Rooms<<<<<<<<<<<<//
             the_gym_image = content.Load<Texture2D>("Lair/TheGym"); //

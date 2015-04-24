@@ -34,9 +34,12 @@ namespace LeaveMeAlone
         public int width;
         public int height;
         public bool is_attacking;
-        public enum SkillState { none, attack, defend, magefire, cure };
+        public enum SkillState { none, attack, defend, magefire, cure, poison_dagger, flamethrower};
         public SkillState skillState;
         public AnimatedEffect currentEffect;
+        public AnimatedEffect secondEffect;
+        public AnimatedEffect thirdEffect;
+        public AnimatedEffect fourthEffect;
 
         public double FramesPerSecond
         {

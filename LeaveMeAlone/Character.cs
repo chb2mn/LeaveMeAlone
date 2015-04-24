@@ -518,7 +518,7 @@ namespace LeaveMeAlone
         {
             skillState = SkillState.none;
             currentEffect = null;
-            if ((skill == basic_attack) && (charType != Type.Mage))
+            if ((skill == basic_attack || skill == strong_attack) && (charType != Type.Mage))
             {
                 skillState = SkillState.attack;
             }
@@ -547,6 +547,53 @@ namespace LeaveMeAlone
                 }
                 currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.defend, true);
                 skillState = SkillState.defend;
+            }
+            if (skill == status)
+            {
+                Vector2 oPosition = new Vector2(sPosition.X + 60, sPosition.Y + 25);
+                currentEffect = new AnimatedEffect(oPosition, BattleManager.boss.sPosition, AnimatedEffect.EffectType.poison_dagger, true);
+                skillState = SkillState.poison_dagger;
+            }
+            if (skill == SkillTree.portal_punch || skill == SkillTree.ethereal_fist)
+            {
+                Vector2 nPosition = new Vector2(sPosition.X + 60, sPosition.Y + 25);
+                Vector2 oPosition = new Vector2(target.sPosition.X, target.sPosition.Y);
+                currentEffect = new AnimatedEffect(nPosition, oPosition, AnimatedEffect.EffectType.portal_punch, true);
+                skillState = SkillState.poison_dagger;
+            }
+            if (skill == SkillTree.flamethrower || skill == SkillTree.shuriken)
+            {
+                AnimatedEffect.EffectType eff = AnimatedEffect.EffectType.flamethrower;
+                if (skill == SkillTree.shuriken)
+                {
+                    eff = AnimatedEffect.EffectType.tophat;
+                }
+                Vector2 nPosition = new Vector2(sPosition.X + 60, sPosition.Y + 25);
+                Vector2 oPosition = new Vector2(0,0);
+                for (int i = 0; i < BattleManager.heroes.Count(); i++)
+                {
+                    if (BattleManager.heroes[i] != null)
+                    {
+                        oPosition = new Vector2(BattleManager.heroes[i].sPosition.X, BattleManager.heroes[i].sPosition.Y);
+                        if (i == 0)
+                        {
+                            currentEffect = new AnimatedEffect(nPosition, oPosition, eff, true);
+                        }
+                        if (i == 1)
+                        {
+                            secondEffect = new AnimatedEffect(nPosition, oPosition, eff, true);
+                        }
+                        if (i == 2)
+                        {
+                            thirdEffect = new AnimatedEffect(nPosition, oPosition, eff, true);
+                        }
+                        if (i == 3)
+                        {
+                            fourthEffect = new AnimatedEffect(nPosition, oPosition, eff, true);
+                        }
+                    }
+                }
+                skillState = SkillState.flamethrower;
             }
             if (skill.energy > this.energy)
             {
@@ -584,6 +631,18 @@ namespace LeaveMeAlone
             if (currentEffect != null)
             {
                 currentEffect.FrameUpdate(gameTime);
+            }
+            if (secondEffect != null)
+            {
+                secondEffect.FrameUpdate(gameTime);
+            }
+            if (thirdEffect != null)
+            {
+                thirdEffect.FrameUpdate(gameTime);
+            }
+            if (fourthEffect != null)
+            {
+                fourthEffect.FrameUpdate(gameTime);
             }
             FrameUpdate(gameTime);
         }
